@@ -67,7 +67,7 @@ httpServer.on('listening', function()
 config.pins.forEach(function(pin)
 {
   var dir = null;
-  if (pin.io == "out") dir = gpio.DIR_OUR;
+  if (pin.io == "out") dir = gpio.DIR_OUT;
   else if (pin.io == "in") dir = gpio.DIR_IN;
 
   if (dir != null)
