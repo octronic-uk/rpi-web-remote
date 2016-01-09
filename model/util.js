@@ -1,4 +1,4 @@
-var Constants = require('./Constants');
+var Constants = require('./constants');
 
 // HTTP Helpers
 

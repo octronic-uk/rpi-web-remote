@@ -5,8 +5,8 @@ var bodyParser = require('body-parser');
 var express    = require('express');
 var http       = require('http');
 var logger     = require('morgan');
-var util       = require('./Util')
-var constants      = require('./Constants')
+var util       = require('./util')
+var constants      = require('./constants')
 var config     = require('../config.json');
 
 var port       = config.http_port;
@@ -64,6 +64,7 @@ httpServer.on('listening', function()
   console.log('Listening on ' + bind);
 });
 
+// Initialise pins
 config.pins.forEach(function(pin)
 {
   var dir = null;
@@ -102,7 +103,7 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
     }
     else
     {
-      pinStates["pin"+pin] = val;
+      config.pins.["pin"+pin] = val;
       util.sendHttpOK(res);
     }
 	});
@@ -117,9 +118,9 @@ app.get("/api/gpio/:pin/state", jsonParser, function(req,res)
   var pin = req.params.pin;
   var data = false;
 
-  if (pinStates[PIN+pin])
+  if (config.pins[PIN+pin])
   {
-    data = pinStates[PIN+pin];
+    data = config.pins[PIN+pin];
   }
 
   util.sendHttpJson(res,{value: data});
@@ -128,15 +129,23 @@ app.get("/api/gpio/:pin/state", jsonParser, function(req,res)
 app.get("/api/gpio/:pin", jsonParser, function(req,res)
 {
   var pin = req.params.pin;
-  gpio.read(pin, function(err, value)
+
+  if (config.pins[PIN+pin].io == "in")
   {
-  	if (err)
+    gpio.read(pin, function(err, value)
     {
-      util.sendHttpError(res,"error reading pin "+pin);
-  	}
-    else
-    {
-      util.sendHttpJson(res,{value: value});
-    }
-  });
+    	if (err)
+      {
+        util.sendHttpError(res,"error reading pin "+pin);
+    	}
+      else
+      {
+        util.sendHttpJson(res,{value: value});
+      }
+    });
+  }
+  else
+  {
+    util.sendHttpNotFound(res);
+  }
 });

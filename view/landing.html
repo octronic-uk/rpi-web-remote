@@ -4,7 +4,7 @@
       <h4>
         {{pin.name}}
         <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled({{pin.num}})" ng-model="gpioVals.pin{{pin.num}}" checklist-value="gpio_{{pin.num}}" id="gpio_{{pin.num}}">
+          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(pin.num)" ng-model="gpioVals['pin'+pin.num]" checklist-value="gpio_{{pin.num}}" id="gpio_{{pin.num}}">
           <label for="gpio_{{pin.num}}"></label>
         </div>
       </h4>
