@@ -1,9 +1,9 @@
 # IoT RaspberryPI GPIO
-This is simple project exposes a web interace that allows remote users to modify the states of the GPIO pins provided by the RaspberryPI.
+This simple project allows users to remotely monitor and modify the states of the RaspberryPI's GPIO pins through a web interface.
 
 ## Hardware Architecture
-- Raspberry Pi (written on model b) running Raspbian
-- Mobile device with web browser
+- Raspberry Pi (written on model b) running Raspbian.
+- A device with web browser.
 
 ## Software Achitecture
 - Raspbian
@@ -30,7 +30,10 @@ This is simple project exposes a web interace that allows remote users to modify
    export PATH=${PATH}:/path/to/node-v5.4.0-linux-armv61/bin
    ```
    Save `~/.profile` and quit your editor.
-6. Reload your profile by executing `$ . ~/.profile`
+6. Reload your profile by executing 
+   ```
+   $ . ~/.profile
+   ```
 7. Test node and npm with 
    ```
   $ npm --version
