@@ -108,7 +108,7 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
 	});
 });
 
-app.get("/app/gpio/list",jsonParser,function(req,res){
+app.get("/api/gpio/list",jsonParser,function(req,res){
   util.sendHttpJson(res,config.pins);
 });
 
