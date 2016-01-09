@@ -12,7 +12,13 @@ This is simple project exposes a web interace that allows remote users to modify
 - Angular
 - UI-Bootstrap
 
-# Configuring Pins
+## Software Configuration
+1. Download Raspbian Jessie Lite https://www.raspberrypi.org/downloads/raspbian/ and write it to an SD caard with the instructions given.
+2. run $ sudo apt-get and $ sudo apt-get ugrade to update the system.
+3. Download the latest (or your preferred) version of node from https://nodejs.org/dist/v5.4.0/node-v5.4.0-linux-armv6l.tar.gz
+4. Unpack node by running $ tar xvf node-v5.4.0-linux-armv6l.tar.gz
+
+## Configuring Pins
 To come shortly
 
 ## Usage
