@@ -6,17 +6,16 @@ var express    = require('express');
 var http       = require('http');
 var logger     = require('morgan');
 var util       = require('./Util')
-var Const      = require('./Constants')
+var constants      = require('./Constants')
+var config     = require('../config.json');
 
-var port       = Const.PORT;
+var port       = constants.PORT;
 var app        = express();
 var jsonParser = bodyParser.json();
 var rawParser  = bodyParser.raw();
 var httpServer = http.createServer(app);
 
-var gpioPins  = [7,11,12,13,15,16,18,22];
 var PIN       = "pin";
-var pinStates = {};
 
 app.use(logger('dev'));
 
@@ -45,11 +44,11 @@ httpServer.on('error', function(error)
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
-      process.exit(Const.APP_EXIT_ERROR);
+      process.exit(constants.APP_EXIT_ERROR);
       break;
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
-      process.exit(Const.APP_EXIT_ERROR);
+      process.exit(constants.APP_EXIT_ERROR);
       break;
     default:
       throw error;
@@ -65,14 +64,27 @@ httpServer.on('listening', function()
   console.log('Listening on ' + bind);
 });
 
-gpioPins.forEach(function(pin)
+config.pins.forEach(function(pin)
 {
-  gpio.setup(pin,gpio.DIR_OUT,function()
+  var dir = null;
+  if (pin.io == "out") dir = gpio.DIR_OUR;
+  else if (pin.io == "in") dir = gpio.DIR_IN;
+
+  if (dir != null)
   {
-    gpio.write(pin, 0, function(err) {
-      pinStates["pin"+pin] = false;
+  gpio.setup(pin.num, dir,function()
+  {
+    gpio.write(pin, pin.state, function(err)
+    {
+      console.log("set pin",pin.num,"to",pin.state);
     });
   });
+  }
+  else
+  {
+    console.log("Error pin",pin,num,"has no direction defined");
+    process.exit(constants.APP_EXIT_ERROR);
+  }
 });
 
 app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
