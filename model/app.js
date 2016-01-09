@@ -6,7 +6,7 @@ var express    = require('express');
 var http       = require('http');
 var logger     = require('morgan');
 var util       = require('./util')
-var constants      = require('./constants')
+var constants  = require('./constants')
 var config     = require('../config.json');
 
 var port       = config.http_port;
@@ -15,7 +15,7 @@ var jsonParser = bodyParser.json();
 var rawParser  = bodyParser.raw();
 var httpServer = http.createServer(app);
 
-var PIN       = "pin";
+var PIN        = "pin";
 
 app.use(logger('dev'));
 
@@ -73,13 +73,13 @@ config.pins.forEach(function(pin)
 
   if (dir != null)
   {
-  gpio.setup(pin.num, dir,function()
-  {
-    gpio.write(pin, pin.state, function(err)
+    gpio.setup(pin.num, dir,function()
     {
-      console.log("set pin",pin.num,"to",pin.state);
+      gpio.write(pin, pin.state, function(err)
+      {
+        console.log("set pin",pin.num,"to",pin.state);
+      });
     });
-  });
   }
   else
   {
@@ -104,23 +104,25 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
     else
     {
       config.pins["pin"+pin] = val;
+      console.log("Updated",pin,"to",config.pins["pin"+pin]);
       util.sendHttpOK(res);
     }
 	});
 });
 
-app.get("/api/gpio/list",jsonParser,function(req,res){
+app.get("/api/gpio/list",jsonParser,function(req,res)
+{
   util.sendHttpJson(res,config.pins);
 });
 
 app.get("/api/gpio/:pin/state", jsonParser, function(req,res)
 {
   var pin = req.params.pin;
-  var data = false;
+  var data = 0;
 
   if (config.pins[PIN+pin])
   {
-    data = config.pins[PIN+pin];
+    data = config.pins[PIN+pin].state;
   }
 
   util.sendHttpJson(res,{value: data});
