@@ -103,8 +103,14 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
     }
     else
     {
-      config.pins["pin"+pin] = val;
-      console.log("Updated",pin,"to",config.pins["pin"+pin]);
+      getPin(pin,function(pinObj)
+      {
+        if (pinObj)
+        {
+          pinObj.state = val;
+        }
+      });
+
       util.sendHttpOK(res);
     }
 	});
@@ -120,34 +126,59 @@ app.get("/api/gpio/:pin/state", jsonParser, function(req,res)
   var pin = req.params.pin;
   var data = 0;
 
-  if (config.pins[PIN+pin])
+  getPin(pin,function(pinObj)
   {
-    data = config.pins[PIN+pin].state;
-  }
+    if (pinObj)
+    {
+      data = pinObj.state;
+    }
 
-  util.sendHttpJson(res,{value: data});
+    util.sendHttpJson(res,{value: data});
+  });
 });
 
 app.get("/api/gpio/:pin", jsonParser, function(req,res)
 {
   var pin = req.params.pin;
 
-  if (config.pins[PIN+pin].io == "in")
+  getPin(pin, function(pinObj)
   {
-    gpio.read(pin, function(err, value)
+    if (pinObj)
     {
-    	if (err)
+      if (pinObj.io == "in")
       {
-        util.sendHttpError(res,"error reading pin "+pin);
-    	}
+        gpio.read(pin, function(err, value)
+        {
+        	if (err)
+          {
+            util.sendHttpError(res,"error reading pin "+pin);
+        	}
+          else
+          {
+            util.sendHttpJson(res,{value: value});
+          }
+        });
+      }
       else
       {
-        util.sendHttpJson(res,{value: value});
+        util.sendHttpNotFound(res);
       }
-    });
-  }
-  else
-  {
-    util.sendHttpNotFound(res);
-  }
+    }
+    else
+    {
+      util.sendHttpNotFound(res);
+    }
+  });
 });
+
+var getPin = function(pin,callback)
+{
+  for (i = 0; i < config.pins.length; i++)
+  {
+    if (config.pins[i].num == pin)
+    {
+      callback(pin);
+      break;
+    }
+  }
+}
