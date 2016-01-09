@@ -7,7 +7,6 @@ constants =
 	HTTP_ERROR: 500,
 	HTTP_UNAUTHORISED: 401,
 	APP_EXIT_ERROR: 1,
-	PORT: 80,
 };
 
 module.exports = constants;

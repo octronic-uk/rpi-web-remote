@@ -9,7 +9,7 @@ var util       = require('./Util')
 var constants      = require('./Constants')
 var config     = require('../config.json');
 
-var port       = constants.PORT;
+var port       = config.http_port;
 var app        = express();
 var jsonParser = bodyParser.json();
 var rawParser  = bodyParser.raw();
@@ -108,6 +108,10 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
 	});
 });
 
+app.get("/app/gpio/list",jsonParser,function(req,res){
+  util.sendHttpJson(res,config.pins);
+});
+
 app.get("/api/gpio/:pin/state", jsonParser, function(req,res)
 {
   var pin = req.params.pin;
@@ -119,7 +123,7 @@ app.get("/api/gpio/:pin/state", jsonParser, function(req,res)
   }
 
   util.sendHttpJson(res,{value: data});
-}
+});
 
 app.get("/api/gpio/:pin", jsonParser, function(req,res)
 {
