@@ -2,7 +2,7 @@
   "http_port": 80,
   "pins": [
     {
-      "name": "GPIO 7",
+      "name": "Orange LED",
       "num": 7,
       "io": "out",
       "state": 0
