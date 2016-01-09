@@ -11,7 +11,7 @@ PiApp.controller('Landing',
 				{
 					$scope.pinList = list;
 				});
-		}
+		});
 
 		$scope.gpioToggled = function(pin)
 		{
