@@ -14,43 +14,58 @@ This simple project allows users to remotely monitor and modify the states of th
 
 ## Setup Environment
 1. Download Raspbian Jessie Lite from https://www.raspberrypi.org/downloads/raspbian/ install using the standard procedure.
-2. Run apt-get to update the system.
+
+2. Power up your RaspberryPI and complete the first configuration.
+
+3. Run apt-get to update the system.
 
     ```
     $ sudo apt-get update 
     $ sudo apt-get ugrade
     ``` 
-3. Download the latest (or your preferred) version of node-js from https://nodejs.org/dist/v5.4.0/node-v5.4.0-linux-armv6l.tar.gz
-4. Unpack node by running
+4. Download the latest (or your preferred) version of linux-armv6l node-js from https://nodejs.org/dist/
+
+5. Unpack node by running
 
     ```
-    $ tar xvf node-v5.4.0-linux-armv6l.tar.gz
+    $ tar xvf node-vX.X.X-linux-armv6l.tar.gz
     ```
-5. Add the `node-v5.4.0-linux-armv61/bin` directory where you installed node to your `PATH` environment variable by modifying `~/.profile`.
+
+6. Add the `node-vX.X.X-linux-armv61/bin` extracted directory to your `PATH` environment variable by modifying `~/.profile` and adding the following line to the end.
 
     ```
-    export PATH=${PATH}:/path/to/node-v5.4.0-linux-armv61/bin
+    export PATH=${PATH}:/path/to/node-vX.X.X-linux-armv61/bin
     ```
-6. Save `~/.profile` and quit your editor.
-7. Reload your profile by executing 
+7. Save `~/.profile` and quit your editor.
+
+8. Reload your profile by executing 
     
     ```
     $ . ~/.profile
     ```
-8. Test node and npm with 
+
+9. Test node and npm with 
 
     ```
     $ npm --version
     $ node --version
     ```
-
-## Configuring Pins
-To come shortly
-
+    
 ## Usage
-```
-$ git clone https://github.com/BashEdThomps/IoT-RaspberryPI.git
-$ cd IoT-RaspberryPI
-$ npm install -d
-$ npm start
-```
+1. Clone the repo onto your device
+
+    ```
+    $ git clone https://github.com/BashEdThomps/IoT-RaspberryPI.git
+    $ cd IoT-RaspberryPI
+    $ npm install -d
+    ```
+2. Configure your pins
+    
+    ```
+    Coming soon
+    ```
+3. Run the application.
+
+    ```
+    $ npm start
+    ```
