@@ -12,7 +12,7 @@ PiApp.controller('Landing',
 			$scope.pinList = list;
 			list.forEach(function(pin)
 			{
-				$state.gpioVals["pin"+pin.num] = pin.state;
+				$scope.gpioVals["pin"+pin.num] = pin.state;
 			});
 		});
 
