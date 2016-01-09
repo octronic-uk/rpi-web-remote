@@ -10,6 +10,10 @@ PiApp.controller('Landing',
 		$scope.getGpioList(function(list)
 		{
 			$scope.pinList = list;
+			list.forEach(function(pin)
+			{
+				$state.gpioVals["pin"+pin.num] = pin.state;
+			});
 		});
 
 		$scope.gpioToggled = function(pin)
