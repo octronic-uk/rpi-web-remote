@@ -177,7 +177,7 @@ var getPin = function(pin,callback)
   {
     if (config.pins[i].num == pin)
     {
-      callback(pin);
+      callback(config.pins[i]);
       break;
     }
   }
