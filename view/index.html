@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="PiApp">
+<head>
+  <!-- AnguarUI/BS Libraries -->
+  <script src="angular.js"></script>
+  <script src="angular-cookies.js"></script>
+  <script src="angular-ui-router.min.js"></script>
+  <script src="ui-bootstrap-tpls.min.js"></script>
+  <!-- / -->
+  <script src="piapp.js"></script>
+  <script src="landing.js"></script>
+  <script src="configuration.js"></script>
+  <!-- Stylesheets -->
+  <link href="css/slate.bootstrap.min.css" rel="stylesheet">
+  <link href="css/checkboxes.css" rel="stylesheet">
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>RaspberryPI</title>
+</head>
+<body ng-controller="PiApp">
+  <!-- Navbar -->
+  <nav class="navbar navbar-default  navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">RaspberryPI</a>
+      </div>
+      <div>
+        <!-- Left Nav -->
+        <ul class="nav navbar-nav">
+
+        </ul>
+        <!-- Right Nav -->
+        <ul class="nav navbar-nav navbar-right">
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Page Content -->
+  <div ui-view></div>
+</body>
+</html>

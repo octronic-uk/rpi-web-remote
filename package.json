@@ -1,0 +1,23 @@
+{
+  "name": "node-template",
+  "version": "1.0.0",
+  "description": "Node template project for RPI",
+  "main": "model/app.js",
+  "scripts": {
+    "start": "nodemon model/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ash Thompson",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "angular": "^1.4.8",
+    "angular-cookies": "^1.4.8",
+    "angular-ui-bootstrap": "^0.14.3",
+    "angular-ui-router": "^1.0.0-alpha0",
+    "body-parser": "^1.14.2",
+    "bootstrap": "^3.3.6",
+    "express": "^4.13.3",
+    "morgan": "^1.6.1",
+    "rpi-gpio": "^0.7.0"
+  }
+}

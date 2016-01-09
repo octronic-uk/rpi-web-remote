@@ -1,0 +1,31 @@
+#!/bin/bash
+
+HOST="192.168.0.31"
+BASE="/opt/rpi_app"
+ARCHIVE="rpi_app_`date +%Y-%m-%d-%H-%M-%S`.tar.bz2"
+DEP_DIR="deploy"
+ARCH_DIR="archives"
+
+
+echo --- Creating Archive $ARCHIVE
+cd ..
+git archive master | bzip2 >$ARCHIVE
+
+echo --- Uploading $ARCHIVE to $HOST:$BASE/$DEP_DIR
+ssh root@$HOST mkdir -p $BASE/$ARCH_DIR
+scp $ARCHIVE root@$HOST:$BASE/$ARCH_DIR
+
+echo --- Removing existing deployment
+ssh root@$HOST rm -rf $BASE/$DEP_DIR
+ssh root@$HOST mkdir -p $BASE/$DEP_DIR
+
+echo --- Extracting new package
+ssh root@$HOST tar xvfj $BASE/$ARCH_DIR/$ARCHIVE -C $BASE/$DEP_DIR
+
+echo --- Installing NPM Packages
+ssh root@$HOST "cd $BASE/$DEP_DIR && npm install -d"
+
+echo --- Removing tmp archive $ARCHIVE
+rm $ARCHIVE
+
+echo --- Done!
