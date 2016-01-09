@@ -5,14 +5,11 @@ PiApp.controller('Landing',
     $controller('PiApp', {$scope: $scope});
 		$scope.gpioVals = {};
 
-		$scope.$on('$stateChangeSuccess', function()
+		console.log("Getting GPIO list from API");
+
+		$state.getGpioList(function(list)
 		{
-			console.log("Getting GPIO list from API");
-			
-			$state.getGpioList(function(list)
-			{
-				$scope.pinList = list;
-			});
+			$scope.pinList = list;
 		});
 
 		$scope.gpioToggled = function(pin)
