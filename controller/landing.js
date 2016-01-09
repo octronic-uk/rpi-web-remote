@@ -5,6 +5,14 @@ PiApp.controller('Landing',
     $controller('PiApp', {$scope: $scope});
 		$scope.gpioVals = {};
 
+		$scope.$on('$stateChangeSuccess', function()
+		{
+				$state.getGpioList(function(list)
+				{
+					$scope.pinList = list;
+				});
+		}
+
 		$scope.gpioToggled = function(pin)
 		{
 			var val = $scope.gpioVals["pin"+pin];
@@ -14,7 +22,8 @@ PiApp.controller('Landing',
 					{
 						console.log("Success setting pin",pin,"to",val);
 					}
-					else {
+					else
+					{
 						console.log("Error setting pin",pin,"to",val);
 					}
 			});

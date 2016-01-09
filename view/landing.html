@@ -1,74 +1,11 @@
 <div class="container-fluid">
   <ul class="list-group">
-    <li class="list-group-item">
+    <li ng-repeat="pin in pinList" class="list-group-item">
       <h4>
-        GPIO 7
+        {{pin.name}}
         <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(7)" ng-model="gpioVals.pin7" checklist-value="gpio_7" id="gpio_7">
-          <label for="gpio_7"></label>
-        </div>
-      </h4>
-    </li>
-    <li class="list-group-item">
-      <h4>
-        GPIO 11
-        <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(11)" ng-model="gpioVals.pin11" checklist-value="gpio_11" id="gpio_11">
-          <label for="gpio_11"></label>
-        </div>
-      </h4>
-    </li>
-    <li class="list-group-item">
-      <h4>
-        GPIO 12
-        <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(12)" ng-model="gpioVals.pin12" checklist-value="gpio_12" id="gpio_12">
-          <label for="gpio_12"></label>
-        </div>
-      </h4>
-    </li>
-    <li class="list-group-item">
-      <h4>
-        GPIO 13
-        <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(13)" ng-model="gpioVals.pin4" checklist-value="gpio_13" id="gpio_13">
-          <label for="gpio_13"></label>
-        </div>
-      </h4>
-    </li>
-    <li class="list-group-item">
-      <h4>
-        GPIO 15
-        <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(15)" ng-model="gpioVals.pin15" checklist-value="gpio_15" id="gpio_15">
-          <label for="gpio_15"></label>
-        </div>
-      </h4>
-    </li>
-    <li class="list-group-item">
-      <h4>
-        GPIO 16
-        <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(16)" ng-model="gpioVals.pin16" checklist-value="gpio_16" id="gpio_16">
-          <label for="gpio_16"></label>
-        </div>
-      </h4>
-    </li>
-    <li class="list-group-item">
-      <h4>
-        GPIO 18
-        <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(18)" ng-model="gpioVals.pin18" checklist-value="gpio_18" id="gpio_18">
-          <label for="gpio_18"></label>
-        </div>
-      </h4>
-    </li>
-    <li class="list-group-item">
-      <h4>
-        GPIO 22
-        <div class="slideThree pull-right">
-          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled(22)" ng-model="gpioVals.pin22" checklist-value="gpio_22" id="gpio_22">
-          <label for="gpio_22"></label>
+          <input type="checkbox" name="gpio_toggle" ng-change="gpioToggled({{pin.num}})" ng-model="gpioVals.pin{{pin.num}}" checklist-value="gpio_{{pin.num}}" id="gpio_{{pin.num}}">
+          <label for="gpio_{{pin.num}}"></label>
         </div>
       </h4>
     </li>

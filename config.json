@@ -2,41 +2,48 @@
   "http_port": 80,
   "pins": [
     {
+      "name": "GPIO 7",
       "num": 7,
       "io": "out",
       "state": 0
     },
     {
+      "name": "GPIO 11",
       "num": 11,
       "io": "out",
       "state": 0
     },
     {
+      "name": "GPIO 12",
       "num": 12,
       "io": "out",
       "state": 0
     },
     {
+      "name": "GPIO 13",
       "num": 13,
       "io": "out",
       "state": 0
     },
     {
+      "name": "GPIO 15",
       "num": 15,
       "io": "out",
       "state": 0
     },
     {
+      "name": "GPIO 16",
       "num": 16,
       "io": "out",
       "state": 0
     },
     {
+      "name": "GPIO 18",
       "num": 18,
       "io": "out",
       "state": 0
     },
-    {
+    {"name": "GPIO 22",
       "num": 22,
       "io": "out",
       "state": 0

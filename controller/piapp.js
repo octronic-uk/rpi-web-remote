@@ -36,5 +36,19 @@ PiApp.controller('PiApp',
 				callback(null);
 			});
 		}
+
+		$scope.getGpioList = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/list"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		}
   }
 ]);
