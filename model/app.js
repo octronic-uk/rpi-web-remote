@@ -95,7 +95,7 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
 
   console.log("Setting output",pin,"to value",val);
 
-  gpio.write(pin, val, function(err)
+  gpio.write(pin, Boolean(val), function(err)
   {
     if (err)
     {
