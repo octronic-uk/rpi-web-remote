@@ -82,7 +82,7 @@ config.pins.forEach(function(pin)
   }
   else
   {
-    console.log("Error pin",pin,num,"has no direction defined");
+    console.log("Error pin",pin.num,"has no direction defined");
     process.exit(constants.APP_EXIT_ERROR);
   }
 });

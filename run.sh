@@ -1,4 +1,4 @@
 #!/bin/bash
 
-npm install -d
+npm install -d --unsafe-perm
 npm start
