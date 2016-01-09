@@ -13,15 +13,23 @@ This is simple project exposes a web interace that allows remote users to modify
 - UI-Bootstrap
 
 ## Software Configuration
-1. Download Raspbian Jessie Lite https://www.raspberrypi.org/downloads/raspbian/ install using the standard procedure.
-2. run $ sudo apt-get update and $ sudo apt-get ugrade to update the system.
+1. Download Raspbian Jessie Lite `https://www.raspberrypi.org/downloads/raspbian/` install using the standard procedure.
+2. Run
+   `$ sudo apt-get update` 
+   `$ sudo apt-get ugrade` 
+   To update the system.
 3. Download the latest (or your preferred) version of node from https://nodejs.org/dist/v5.4.0/node-v5.4.0-linux-armv6l.tar.gz
-4. Unpack node by running $ tar xvf node-v5.4.0-linux-armv6l.tar.gz
-5. Add node-v5.4.0-linux-armv61/bin to your PATH by modifying ~/.profile
-5.1 Add the line export PATH=${PATH}:/path/to/node-v5.4.0-linux-armv61/bin
-5.2 Save and quit your editor.
-5.3 Reload your profile by executing $ . ~/.profile
-6 Test node and npm with $ npm --version and $ node --version
+4. Unpack node by running 
+   `$ tar xvf node-v5.4.0-linux-armv6l.tar.gz`
+5. Add `node-v5.4.0-linux-armv61/bin` to your `PATH` by modifying `~/.profile`
+   Add the line 
+   `export PATH=${PATH}:/path/to/node-v5.4.0-linux-armv61/bin`
+   Save and quit your editor.
+6. Reload your profile by executing `$ . ~/.profile`
+7. Test node and npm with 
+   `$ npm --version` 
+   and 
+   `$ node --version`
 
 ## Configuring Pins
 To come shortly
