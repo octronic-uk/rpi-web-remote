@@ -4,6 +4,7 @@ This is simple project exposes a web interace that allows remote users to modify
 ## Hardware Architecture
 - Raspberry Pi Model B - network connected
 - Mobile device with web browser
+
 ## Software Achitecture
 - Raspbian
 - Node
