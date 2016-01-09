@@ -11,3 +11,12 @@ This is simple project exposes a web interace that allows remote users to modify
 - Express
 - Angular
 - UI-Bootstrap
+
+# Configuring Pins
+To come shortly
+
+## Usage
+1. $ git clone https://github.com/BashEdThomps/IoT-RaspberryPI.git
+2. $ cd IoT-RaspberryPI
+3. $ npm install -d
+4. $ npm start
