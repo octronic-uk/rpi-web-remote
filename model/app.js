@@ -103,7 +103,7 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
     }
     else
     {
-      config.pins.["pin"+pin] = val;
+      config.pins["pin"+pin] = val;
       util.sendHttpOK(res);
     }
 	});
