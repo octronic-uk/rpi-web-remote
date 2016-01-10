@@ -67,13 +67,9 @@ httpServer.on('listening', function()
 // Initialise pins
 config.pins.forEach(function(pin)
 {
-  var dir = null;
-  if (pin.io == "out") dir = gpio.DIR_OUT;
-  else if (pin.io == "in") dir = gpio.DIR_IN;
-
-  if (dir != null)
+  if (pin.io == "out")
   {
-    gpio.setup(pin.num, dir,function()
+    gpio.setup(pin.num, gpio.DIR_OUT,function()
     {
       gpio.write(pin, pin.state, function(err)
       {
@@ -81,12 +77,18 @@ config.pins.forEach(function(pin)
       });
     });
   }
-  else
+  else if (pin.io == "in")
   {
-    console.log("Error pin",pin.num,"has no direction defined");
-    process.exit(constants.APP_EXIT_ERROR);
+    gpio.setup(pin.num, gpio.DIR_IN, gpio.EDGE_BOTH);
   }
 });
+
+gpio.on('change', function(channel, value)
+{
+  // Emmit to listeners here
+  console.log('Channel ' + channel + ' value is now ' + value);
+});
+
 
 app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
 {

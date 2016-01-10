@@ -4,7 +4,7 @@
       <h4>{{pin.name}}
       <!-- Output -->
       <span ng-show="pin.io == 'out'" class="pull-right">
-        <button ng-show="pin.state == 0" ng-click="gpioSet(pin.num,1)" class="pull-right btn btn-lg">
+        <button ng-show="pin.state == 0" ng-click="gpioSet(pin.num,1)" class="pull-right btn btn-danger btn-lg">
           <span class="glyphicon glyphicon-off"></span>
         </button>
         <button ng-show="pin.state == 1" ng-click="gpioSet(pin.num,0)" class="pull-right btn btn-success btn-lg">
