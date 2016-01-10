@@ -53,10 +53,11 @@ This simple project allows users to remotely monitor and modify the states of th
     $ sudo apt-get install git
     ```
     
-11. Install PM2 globally
+11. Install PM2 globally and instruct it to run at boot.
 
     ```
     $ sudo npm install -g pm2
+    $ sudo pm2 startup ubuntu
     ```
     
 12. Clone the repo onto your device
