@@ -76,3 +76,13 @@ input[type=checkbox] {
 .slideThree input[type=checkbox]:checked + label {
 	left: 50px;
 }
+
+css:
+
+.navbar-header {
+	float: left;
+	padding: 15px;
+	text-align: center;
+	width: 100%;
+}
+.navbar-brand {float:none;}
