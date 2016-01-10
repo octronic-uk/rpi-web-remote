@@ -133,4 +133,14 @@ This guide starts from scratch. Please begin where appropriate for you!
     $ ./install
     ```
 
-    This will install all node dependencies and configure PM2 to start the application at boot time.
+    This will install all node dependencies and configure PM2 to start the application at boot.
+
+17. Restart your RaspberryPI. PM2 will automatically start the application.
+
+18. Use a browser to navigate to your RaspberryPI on the port specified in your configuration.
+
+     ```
+     http://192.168.0.31:80
+     ```
+
+19. Control your device :)
