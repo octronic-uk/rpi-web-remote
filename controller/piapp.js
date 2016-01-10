@@ -9,14 +9,6 @@ PiApp.controller('PiApp',
 	['$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
 	function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
-		$scope.$on('$stateChangeSuccess',function()
-		{
-			$scope.getDeviceNameApi(function(name)
-			{
-				$scope.deviceName = name;
-			});
-		});
-		
 		$scope.setGpioPinApi = function(pin, value, callback)
 		{
 			$http({
@@ -85,5 +77,9 @@ PiApp.controller('PiApp',
 		  }
 		}
 
+		$scope.getDeviceNameApi(function(name)
+		{
+			$scope.deviceName = name;
+		});
   }
 ]);
