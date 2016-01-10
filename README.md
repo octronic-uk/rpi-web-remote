@@ -8,6 +8,7 @@ This simple project allows users to remotely monitor and modify the states of th
 ## Software Achitecture
 - Raspbian
 - Node
+- PM2
 - Express
 - Angular
 - UI-Bootstrap
@@ -31,19 +32,15 @@ This simple project allows users to remotely monitor and modify the states of th
     $ tar xvf node-vX.X.X-linux-armv6l.tar.gz
     ```
 
-6. Add the `node-vX.X.X-linux-armv61/bin` extracted directory to your `PATH` environment variable by modifying `~/.profile` and adding the following line to the end.
+6. Add the `node-vX.X.X-linux-armv61/bin` extracted directory to your `PATH` environment variable by modifying `/etc/profile` and adding the following line to the end.
 
     ```
     export PATH=${PATH}:/path/to/node-vX.X.X-linux-armv61/bin
     ```
-7. Save `~/.profile` and quit your editor.
+7. Save `/etc/profile` and quit your editor.
 
-8. Reload your profile by executing 
+8. Reboot to reload your environment 
     
-    ```
-    $ . ~/.profile
-    ```
-
 9. Test node and npm with 
 
     ```
@@ -51,20 +48,34 @@ This simple project allows users to remotely monitor and modify the states of th
     $ node --version
     ```
     
-## Usage
-1. Clone the repo onto your device
+10. Install git to clone repositories
+    ```
+    $ sudo apt-get install git
+    ```
+    
+11. Install PM2 globally
+
+    ```
+    $ sudo npm install -g pm2
+    ```
+    
+12. Clone the repo onto your device
 
     ```
     $ git clone https://github.com/BashEdThomps/IoT-RaspberryPI.git
-    $ cd IoT-RaspberryPI
-    $ npm install -d
     ```
-2. Configure your pins
     
+13. Navigate to the repository and install
+    ```
+    $ cd IoT-RaspberryPI
+    $ ./install
+    ```
+    
+13. Configure your pins
     ```
     Coming soon
     ```
-3. Run the application.
+14. Run the application.
 
     ```
     $ npm start
