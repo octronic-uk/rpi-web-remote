@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="PiApp">
+<html lang="en" ng-app="PiApp" ng-controller="PiApp">
 <head>
   <!-- AnguarUI/BS Libraries -->
   <script src="angular.js"></script>
@@ -20,13 +20,13 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="apple-touch-icon" href="/favicon.png">
-  <title>RaspberryPI</title>
+  <title>{{deviceName}}</title>
 </head>
-<body ng-controller="PiApp">
+<body>
   <!-- Navbar -->
   <nav class="navbar navbar-default" role="navigation">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">RaspberryPI</a>
+        <a class="navbar-brand" href="#">{{deviceName}}</a>
       </div>
         <!-- Left Nav -->
         <ul class="nav navbar-nav">

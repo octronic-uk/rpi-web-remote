@@ -40,7 +40,7 @@ This simple project allows users to remotely monitor and modify the states of th
 7. Save `/etc/profile` and quit your editor.
 
 8. Also add this directory to your sudo's path by modifying the path variable through visudo
-    
+
     ```
     $ sudo visudo
     ```
@@ -78,26 +78,42 @@ This simple project allows users to remotely monitor and modify the states of th
     $ cd IoT-RaspberryPI
     ```
 
-15. Configure your pins by editing the `config.json` file
+15. Configure the application by editing the `config.json` file. This file holds
+   the device name, port and pin configuration.
 
     ```
     $ vi config.json
     ```
 
-    This file holds the application's configuration JSON object. The `pins`
-    array defines the list of pins that will be available to the user.
+    15.1 The devices name is set by the `devie_name` variable.
 
-    ```
-    "pins": [
-      {
-        "name": "Hall Light", // Human readable name
-        "num": 7,             // Pin number
-        "io": "out",          // Direction; "in" or "out"
-        "state": 0            // Initial state 0 or 1 (output only)
-      },
-      ...
-    ];
-    ```
+        ```
+        ...
+        "device_name": "Lounge Lights",
+        ...
+        ```
+
+    15.2 The application's HTTP server will listen on the port specified by `http_port`.
+
+        ```
+        ...
+        "http_port": 80,
+        ...
+        ```
+
+    15.3 The `pins` array defines the list of pins that will be available to the user.
+
+        ```
+        "pins": [
+          {
+            "name": "Hall Light", // Human readable name
+            "num": 7,             // Pin number
+            "io": "out",          // Direction; "in" or "out"
+            "state": 0            // Initial state 0 or 1 (output only)
+          },
+          ...
+        ];
+        ```
 
 16. Install the application.
 

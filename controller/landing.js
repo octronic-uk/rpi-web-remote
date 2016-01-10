@@ -11,6 +11,11 @@ PiApp.controller('Landing',
 			$scope.pinList = list;
 		});
 
+		$scope.getDeviceNameApi(function(name)
+		{
+			$scope.deviceName = name;
+		});
+
 		$scope.gpioSet = function(pinNum, state)
 		{
 			$scope.setGpioPinApi(pinNum,state,function(success)

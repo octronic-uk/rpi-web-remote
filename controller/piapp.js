@@ -51,6 +51,20 @@ PiApp.controller('PiApp',
 			});
 		}
 
+		$scope.getDeviceNameApi = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).name);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		}
+
 		$scope.getPin = function(pins,i,callback)
 		{
 		  for (j = 0; j < pins.length; j++)

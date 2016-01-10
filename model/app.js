@@ -171,6 +171,11 @@ app.get("/api/gpio/:pin", jsonParser, function(req,res)
   });
 });
 
+app.get('/api/device', jsonParser, function(req,res)
+{
+  util.sendHttpJson(res, {name: config.device_name});
+});
+
 var getPin = function(pin,callback)
 {
   for (i = 0; i < config.pins.length; i++)
