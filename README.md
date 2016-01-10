@@ -39,40 +39,46 @@ This simple project allows users to remotely monitor and modify the states of th
     ```
 7. Save `/etc/profile` and quit your editor.
 
-8. Reboot to reload your environment
+8. Also add this directory to your sudo's path by modifying the path variable through visudo
+    
+    ```
+    $ sudo visudo
+    ```
 
-9. Test node and npm with
+9. Reboot to reload your environment
+
+10. Test node and npm with
 
     ```
     $ npm --version
     $ node --version
     ```
 
-10. Install git to clone repositories
+11. Install git to clone repositories
     ```
     $ sudo apt-get install git
     ```
 
-11. Install PM2 globally and instruct it to run at boot.
+12. Install PM2 globally and instruct it to run at boot.
 
     ```
     $ sudo npm install -g pm2
     $ sudo pm2 startup ubuntu
     ```
 
-12. Clone the repo onto your device
+13. Clone the repo onto your device
 
     ```
     $ git clone https://github.com/BashEdThomps/IoT-RaspberryPI.git
     ```
 
-13. Navigate to the repository
+14. Navigate to the repository
 
     ```
     $ cd IoT-RaspberryPI
     ```
 
-13. Configure your pins by editing the `config.json` file
+15. Configure your pins by editing the `config.json` file
 
     ```
     $ vi config.json
@@ -93,7 +99,7 @@ This simple project allows users to remotely monitor and modify the states of th
     ];
     ```
 
-14. Install the application.
+16. Install the application.
 
     ```
     $ ./install
