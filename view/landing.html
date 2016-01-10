@@ -13,8 +13,12 @@
       </span>
       <!-- Inputs -->
       <span ng-show="pin.io == 'in'" class="pull-right">
-        <span ng-show="pin.state == 1" class="glyphicon glyphicon-ok-sign"></span>
-        <span ng-show="pin.state == 0" class="glyphicon glyphicon-remove-sign"></span>
+        <button ng-show="pin.state == 1" disabled class="pull-right btn btn-success btn-lg">
+          <span class="glyphicon glyphicon-ok-sign"></span>
+        </button>
+        <button ng-show="pin.state == 0" disabled class="pull-right btn btn-danger btn-lg">
+          <span class="glyphicon glyphicon-remove-sign"></span>
+        </button>
       </span>
     </h4>
     </li>
