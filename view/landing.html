@@ -3,10 +3,10 @@
     <li ng-repeat="pin in pinList" class="list-group-item">
       <h4>
         {{pin.name}}
-        <button ng-show="pin.state == 0" ng-click="gpioSetHigh(pin.num)" class="pull-right btn btn-success btn-lg">
+        <button ng-show="pin.state == 0" ng-click="gpioSet(pin.num,1)" class="pull-right btn btn-lg">
           <span class="glyphicon glyphicon-off"></span>
         </button>
-        <button ng-show="pin.state == 1" ng-click="gpioSetLow(pin.num)" class="pull-right btn btn-danger btn-lg">
+        <button ng-show="pin.state == 1" ng-click="gpioSet(pin.num,0)" class="pull-right btn btn-primary btn-lg">
           <span class="glyphicon glyphicon-off"></span>
         </button>
       </h4>

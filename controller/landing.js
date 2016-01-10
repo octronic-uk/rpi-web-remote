@@ -11,7 +11,7 @@ PiApp.controller('Landing',
 			$scope.pinList = list;
 		});
 
-		$scope.gpioPinSet = function(pinNum, state)
+		$scope.gpioSet = function(pinNum, state)
 		{
 			$scope.setGpioPinApi(pinNum,state,function(success)
 			{
