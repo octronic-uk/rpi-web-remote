@@ -6,7 +6,7 @@ PiApp.controller('Landing',
 
 		console.log("Getting GPIO list from API");
 
-		$scope.getGpioList(function(list)
+		$scope.getGpioListApi(function(list)
 		{
 			$scope.pinList = list;
 		});
