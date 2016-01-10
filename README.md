@@ -85,23 +85,18 @@ This simple project allows users to remotely monitor and modify the states of th
     $ vi config.json
     ```
 
-    15.1 The devices name is set by the `devie_name` variable.
-
+    * The device's name is set by the `devie_name` variable.
         ```
-        ...
         "device_name": "Lounge Lights",
-        ...
         ```
-
-    15.2 The application's HTTP server will listen on the port specified by `http_port`.
+        
+    * The application's HTTP server will listen on the port specified by `http_port`.
 
         ```
-        ...
         "http_port": 80,
-        ...
         ```
-
-    15.3 The `pins` array defines the list of pins that will be available to the user.
+        
+    * The `pins` array defines the list of pins that will be available to the user.
 
         ```
         "pins": [
