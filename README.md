@@ -1,22 +1,37 @@
 # IoT RaspberryPI GPIO
-This simple project allows users to remotely monitor and modify the states of the RaspberryPI's GPIO pins through a web interface.
+
+## Introduction
+This project implements a simple remote control web application that allows users to monitor and modify the states of the RaspberryPI's GPIO pins.
+
+### Key Features
+* Pi-Hosted Web Application. No need to install an app on each device.
+* Define pins as input or output.
+* Name pins for easy access.
+* Runs on any device with a modern web browser.
+* Great starting point for home automation or remote management projects.
+
+## Android Screenshot
+![Android Screenshot](/readme/android_screen.png)
 
 ## Hardware Architecture
-- Raspberry Pi (written on model b) running Raspbian.
-- A device with web browser.
+- Raspberry Pi (written and tested on Model B) running Raspbian.
+- A client device with a web browser.
+- Something to control via GPIO :)
 
-## Software Achitecture
+## Software Stack
 - Raspbian
-- Node
-- PM2
+- PM2/NodeJS
 - Express
 - Angular
 - UI-Bootstrap
 
 ## Setup Environment
+
+This guide starts from scratch. Please begin where appropriate for you!
+
 1. Download Raspbian Jessie Lite from https://www.raspberrypi.org/downloads/raspbian/ install using the standard procedure.
 
-2. Power up your RaspberryPI and complete the first configuration.
+2. Power up your RaspberryPI and complete the initial configuration.
 
 3. Run apt-get to update the system.
 
@@ -24,6 +39,7 @@ This simple project allows users to remotely monitor and modify the states of th
     $ sudo apt-get update
     $ sudo apt-get ugrade
     ```
+
 4. Download the latest (or your preferred) version of linux-armv6l node-js from https://nodejs.org/dist/
 
 5. Unpack node by running
@@ -32,18 +48,20 @@ This simple project allows users to remotely monitor and modify the states of th
     $ tar xvf node-vX.X.X-linux-armv6l.tar.gz
     ```
 
-6. Add the `node-vX.X.X-linux-armv61/bin` extracted directory to your `PATH` environment variable by modifying `/etc/profile` and adding the following line to the end.
+6. Add the extracted `node-vX.X.X-linux-armv61/bin` directory to your `PATH` environment variable by modifying `/etc/profile` and adding the following line to the end.
 
     ```
     export PATH=${PATH}:/path/to/node-vX.X.X-linux-armv61/bin
     ```
 7. Save `/etc/profile` and quit your editor.
 
-8. Also add this directory to your sudo's path by modifying the path variable through visudo
+8. Add this directory to your sudo's path by modifying the path variable through visudo
 
     ```
     $ sudo visudo
     ```
+
+    Add ':/path/to/node-vX.X.X-linux-armv61/bin' to the path, save and exit.
 
 9. Reboot to reload your environment
 
@@ -66,7 +84,7 @@ This simple project allows users to remotely monitor and modify the states of th
     $ sudo pm2 startup ubuntu
     ```
 
-13. Clone the repo onto your device
+13. Clone this repo to your device.
 
     ```
     $ git clone https://github.com/BashEdThomps/IoT-RaspberryPI.git
@@ -78,8 +96,7 @@ This simple project allows users to remotely monitor and modify the states of th
     $ cd IoT-RaspberryPI
     ```
 
-15. Configure the application by editing the `config.json` file. This file holds
-   the device name, port and pin configuration.
+15. Configure the application by editing the `config.json` file. This file holds the device name, port and pin configuration.
 
     ```
     $ vi config.json
@@ -89,13 +106,13 @@ This simple project allows users to remotely monitor and modify the states of th
         ```
         "device_name": "Lounge Lights",
         ```
-        
+
     * The application's HTTP server will listen on the port specified by `http_port`.
 
         ```
         "http_port": 80,
         ```
-        
+
     * The `pins` array defines the list of pins that will be available to the user.
 
         ```
@@ -116,5 +133,4 @@ This simple project allows users to remotely monitor and modify the states of th
     $ ./install
     ```
 
-    This will install all node dependencies and configure PM2 to start the
-    application at boot time.
+    This will install all node dependencies and configure PM2 to start the application at boot time.
