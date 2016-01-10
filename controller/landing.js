@@ -17,11 +17,12 @@ PiApp.controller('Landing',
 			{
 				if (success)
 				{
-					$scope.getPin(pinNum,function(pin)
+					$scope.getPin($scope.pinList,pinNum,function(pin)
 				  {
 						pin.state = state;
 					});
 				}
 			});
 	  }
+	}
 ]);
