@@ -91,7 +91,7 @@ config.pins.forEach(function(pin)
 app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
 {
   var pin = req.params.pin;
-  var val = (req.params.value == "true" ? 1 : 0 );
+  var val = req.params.value;
 
   console.log("Setting output",pin,"to value",val);
 
