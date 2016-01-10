@@ -2,14 +2,20 @@
   <ul class="list-group">
     <li ng-repeat="pin in pinList" class="list-group-item clearfix">
       <h4>{{pin.name}}
-      <span class="pull-right">
+      <!-- Output -->
+      <span ng-show="pin.io == 'out'" class="pull-right">
         <button ng-show="pin.state == 0" ng-click="gpioSet(pin.num,1)" class="pull-right btn btn-lg">
           <span class="glyphicon glyphicon-off"></span>
         </button>
         <button ng-show="pin.state == 1" ng-click="gpioSet(pin.num,0)" class="pull-right btn btn-success btn-lg">
           <span class="glyphicon glyphicon-off"></span>
         </button>
-      </sp2an>
+      </span>
+      <!-- Inputs -->
+      <span ng-show="pin.io == 'in'" class="pull-right">
+        <span ng-show="pin.state == 1" class="glyphicon glyphicon-ok-sign"></span>
+        <span ng-show="pin.state == 0" class="glyphicon glyphicon-remove-sign"></span>
+      </span>
     </h4>
     </li>
   </ul>

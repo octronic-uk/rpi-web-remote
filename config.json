@@ -9,45 +9,16 @@
       "state": 0
     },
     {
-      "name": "GPIO 11",
+      "name": "Auto Massage",
       "num": 11,
-      "io": "out",
+      "io": "in",
       "state": 0
     },
     {
-      "name": "GPIO 12",
+      "name": "Radiator",
       "num": 12,
-      "io": "out",
-      "state": 0
-    },
-    {
-      "name": "GPIO 13",
-      "num": 13,
-      "io": "out",
-      "state": 0
-    },
-    {
-      "name": "GPIO 15",
-      "num": 15,
-      "io": "out",
-      "state": 0
-    },
-    {
-      "name": "GPIO 16",
-      "num": 16,
-      "io": "out",
-      "state": 0
-    },
-    {
-      "name": "GPIO 18",
-      "num": 18,
-      "io": "out",
-      "state": 0
-    },
-    {"name": "GPIO 22",
-      "num": 22,
-      "io": "out",
-      "state": 0
+      "io": "in",
+      "state": 1
     }
   ]
 }
