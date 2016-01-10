@@ -93,8 +93,11 @@ This simple project allows users to remotely monitor and modify the states of th
     ];
     ```
 
-14. Run the application.
+14. Install the application.
 
     ```
     $ ./install
     ```
+
+    This will install all node dependencies and configure PM2 to start the
+    application at boot time.
