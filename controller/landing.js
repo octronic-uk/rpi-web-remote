@@ -15,11 +15,13 @@ PiApp.controller('Landing',
 		{
 			$scope.setGpioPinApi(pinNum,state,function(success)
 			{
-				$scope.getPin(pinNum,function(pin)
+				if (success)
 				{
-						pin.state = success ? 1 : 0;
-				});
+					$scope.getPin(pinNum,function(pin)
+				  {
+						pin.state = state;
+					});
+				}
 			});
-		}
-	}
+	  }
 ]);

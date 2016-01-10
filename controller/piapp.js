@@ -57,7 +57,7 @@ PiApp.controller('PiApp',
 		  {
 		    if (pins[j].num == i)
 		    {
-		      callback(pins[i]);
+		      callback(pins[j]);
 		      break;
 		    }
 		  }
