@@ -3,34 +3,23 @@ PiApp.controller('Landing',
 	function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	{
     $controller('PiApp', {$scope: $scope});
-		$scope.gpioVals = {};
 
 		console.log("Getting GPIO list from API");
 
 		$scope.getGpioList(function(list)
 		{
 			$scope.pinList = list;
-			list.forEach(function(pin)
-			{
-				console.log("pin"+pin.num,"to",pin.state);
-				$scope.gpioVals["pin"+pin.num] = pin.state;
-			});
 		});
 
-		$scope.gpioToggled = function(pin)
+		$scope.gpioSetUp = function(pinNum, state)
 		{
-			var val = $scope.gpioVals["pin"+pin];
-			$scope.setGpioPin(pin,val,function(resp)
+			$scope.setGpioPinApi(pinNum,state,function(success)
 			{
-					if (resp)
-					{
-						console.log("Success setting pin",pin,"to",val);
-					}
-					else
-					{
-						console.log("Error setting pin",pin,"to",val);
-					}
+				$scope.getPin(pinNum,function(pin)
+				{
+						pin.state = success ? 1 : 0;
+				});
 			});
 		}
-  }
+	}
 ]);

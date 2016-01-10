@@ -9,7 +9,7 @@ PiApp.controller('PiApp',
 	['$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
 	function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
-		$scope.setGpioPin = function(pin, value, callback)
+		$scope.setGpioPinApi = function(pin, value, callback)
 		{
 			$http({
 				method: "PUT",
@@ -23,7 +23,7 @@ PiApp.controller('PiApp',
 			});
 		}
 
-		$scope.getGpioPin = function(pin, callback)
+		$scope.getGpioPinApi = function(pin, callback)
 		{
 			$http({
 				method: "GET",
@@ -37,7 +37,7 @@ PiApp.controller('PiApp',
 			});
 		}
 
-		$scope.getGpioList = function(callback)
+		$scope.getGpioListApi = function(callback)
 		{
 			$http({
 				method: "GET",
@@ -50,5 +50,18 @@ PiApp.controller('PiApp',
 				callback(null);
 			});
 		}
+
+		$scope.getPin = function(pins,i,callback)
+		{
+		  for (j = 0; j < pins.length; j++)
+		  {
+		    if (pins[j].num == i)
+		    {
+		      callback(pins[i]);
+		      break;
+		    }
+		  }
+		}
+
   }
 ]);
