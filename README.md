@@ -21,9 +21,9 @@ This simple project allows users to remotely monitor and modify the states of th
 3. Run apt-get to update the system.
 
     ```
-    $ sudo apt-get update 
+    $ sudo apt-get update
     $ sudo apt-get ugrade
-    ``` 
+    ```
 4. Download the latest (or your preferred) version of linux-armv6l node-js from https://nodejs.org/dist/
 
 5. Unpack node by running
@@ -39,45 +39,62 @@ This simple project allows users to remotely monitor and modify the states of th
     ```
 7. Save `/etc/profile` and quit your editor.
 
-8. Reboot to reload your environment 
-    
-9. Test node and npm with 
+8. Reboot to reload your environment
+
+9. Test node and npm with
 
     ```
     $ npm --version
     $ node --version
     ```
-    
+
 10. Install git to clone repositories
     ```
     $ sudo apt-get install git
     ```
-    
+
 11. Install PM2 globally and instruct it to run at boot.
 
     ```
     $ sudo npm install -g pm2
     $ sudo pm2 startup ubuntu
     ```
-    
+
 12. Clone the repo onto your device
 
     ```
     $ git clone https://github.com/BashEdThomps/IoT-RaspberryPI.git
     ```
-    
-13. Navigate to the repository and install
+
+13. Navigate to the repository
+
     ```
     $ cd IoT-RaspberryPI
-    $ ./install
     ```
-    
-13. Configure your pins
+
+13. Configure your pins by editing the `config.json` file
+
     ```
-    Coming soon
+    $ vi config.json
     ```
+
+    This file holds the application's configuration JSON object. The `pins`
+    array defines the list of pins that will be available to the user.
+
+    ```
+    "pins": [
+      {
+        "name": "Hall Light", // Human readable name
+        "num": 7,             // Pin number
+        "io": "out",          // Direction; "in" or "out"
+        "state": 0            // Initial state 0 or 1 (output only)
+      },
+      ...
+    ];
+    ```
+
 14. Run the application.
 
     ```
-    $ npm start
+    $ ./install
     ```
