@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Installing NPM Dependencies"
+npm install -d --unsafe-perm
+
+echo "Starting Applicaiton"
+sudo pm2 start model/app.js
+
+echo "Saving pm2 state"
+sudo pm2 save
+
+echo "Done"
