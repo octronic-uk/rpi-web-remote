@@ -151,7 +151,7 @@ This guide starts from scratch. Please begin where appropriate for you!
     $ pm2 stop x
     ```
 
-2. Pull the laest changes fom github
+2. Pull the latest changes fom github
     ```
     $ cd /path/to/IoT-RaspberryPI
     $ git pull origin master
