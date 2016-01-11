@@ -3,7 +3,7 @@
     <h5>
       <span ng-show="pin.io == 'out'" class="glyphicon glyphicon-log-out"></span>
       <span ng-show="pin.io == 'in'" class="glyphicon glyphicon-log-in"></span>
-      {{pin.name}}
+      &nbsp;{{pin.name}}
       <!-- Output -->
       <span ng-show="pin.io == 'out'" class="pull-right">
         <button ng-show="pin.state == 0" ng-click="gpioSet(pin.num,1)" class="pull-right btn btn-danger btn-lg">
@@ -30,8 +30,8 @@
     Legend
   </div>
   <div class="panel-body">
-    <span class="glyphicon glyphicon-log-in"></span> Input
+    <span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Input
     <br>
-    <span class="glyphicon glyphicon-log-out"></span> Output
+    <span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Output
   </div>
 </div>
