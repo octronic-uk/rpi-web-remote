@@ -157,7 +157,7 @@ This guide starts from scratch. Please begin where appropriate for you!
     $ git pull origin master
     ```
 
-3 Restart the process in PM2
+3. Restart the process in PM2
 
     ```
     pm2 start x
