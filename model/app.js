@@ -41,21 +41,21 @@ httpServer.on('error', function(error)
   }
 
   var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  ? 'Pipe ' + port
+  : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(constants.APP_EXIT_ERROR);
-      break;
+    console.error(bind + ' requires elevated privileges');
+    process.exit(constants.APP_EXIT_ERROR);
+    break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(constants.APP_EXIT_ERROR);
-      break;
+    console.error(bind + ' is already in use');
+    process.exit(constants.APP_EXIT_ERROR);
+    break;
     default:
-      throw error;
+    throw error;
   }
 });
 
@@ -64,8 +64,8 @@ httpServer.on('listening', function()
 {
   var addr = httpServer.address();
   var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  ? 'pipe ' + addr
+  : 'port ' + addr.port;
   console.log('Listening on ' + bind);
 });
 
@@ -94,7 +94,7 @@ gpio.on('change', function(channel, value)
 {
   // Emmit to listeners here
   console.log('Channel ' + channel + ' value is now ' + value);
-  addPinEvent(Channel,value);
+  addPinEvent(channel, value);
 });
 
 // Set the value of an output pin
@@ -123,7 +123,7 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
 
       util.sendHttpOK(res);
     }
-	});
+  });
 });
 
 // Get the list of pins configured
@@ -146,10 +146,10 @@ app.get("/api/gpio/:pin", jsonParser, function(req,res)
       {
         gpio.read(pin, function(err, value)
         {
-        	if (err)
+          if (err)
           {
             util.sendHttpError(res,"error reading pin "+pin);
-        	}
+          }
           else
           {
             util.sendHttpJson(res,{value: value});
@@ -159,7 +159,7 @@ app.get("/api/gpio/:pin", jsonParser, function(req,res)
       // Get state from memory for output
       else
       {
-          util.sendHttpJson(res,{value: pinObj.state});
+        util.sendHttpJson(res,{value: pinObj.state});
       }
     }
     else
@@ -176,10 +176,10 @@ app.get('/api/devicename', jsonParser, function(req,res)
 });
 
 // Get the state history for a pin
-app.get('/app/gpio/:pin/history', function(req,res)
+app.get('/api/gpio/:pin/history', function(req,res)
 {
   var pin = req.params.pin;
-  util.sendHttpJson(res,eventHistory[pinNumString(pin)]));
+  util.sendHttpJson(res,eventHistory[pinNumString(pin)]);
 });
 
 // Convert a pin integer to a variable name
