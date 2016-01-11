@@ -144,3 +144,22 @@ This guide starts from scratch. Please begin where appropriate for you!
      ```
 
 19. Control your device :)
+
+## Update
+1. Stop the process in pm2
+
+    ```
+    $ pm2 stop x
+    ```
+
+2. Pull the laest changes fom github
+    ```
+    $ cd /path/to/IoT-RaspberryPI
+    $ git pull origin master
+    ```
+
+3 Restart the process in PM2
+    
+    ```
+    pm2 start x
+    ```
