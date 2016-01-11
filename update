@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo pm2 stop app
+git pull origin master
+sudo pm2 start model/app.js
