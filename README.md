@@ -158,6 +158,7 @@ This guide starts from scratch. Please begin where appropriate for you!
     ```
 
 3 Restart the process in PM2
+
     ```
     pm2 start x
     ```
