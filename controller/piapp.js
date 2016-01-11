@@ -55,7 +55,7 @@ PiApp.controller('PiApp',
 		{
 			$http({
 				method: "GET",
-				url: "/api/device"
+				url: "/api/devicename"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data).name);
@@ -75,6 +75,21 @@ PiApp.controller('PiApp',
 		      break;
 		    }
 		  }
+		}
+
+		$scope.getPinHistoryApi = function(pin, callback)
+		{
+			$http({
+				method:"GET",
+				url: "/api/gpio/"+pin+"/history"
+			}).then(function successCallback(resp)
+			{
+					callback(JSON.parse(resp.data));
+			},
+			function errorCallback(resp)
+			{
+				callback(null);
+			});
 		}
 
 		$scope.getDeviceNameApi(function(name)

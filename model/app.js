@@ -1,4 +1,5 @@
-// https://github.com/JamesBarwell/rpi-gpio.js
+// Using https://github.com/JamesBarwell/rpi-gpio.js
+// Requires
 var gpio       = require("rpi-gpio");
 var path       = require('path');
 var bodyParser = require('body-parser');
@@ -9,16 +10,17 @@ var util       = require('./util')
 var constants  = require('./constants')
 var config     = require('../config.json');
 
+// Variables
 var port       = config.http_port;
 var app        = express();
 var jsonParser = bodyParser.json();
 var rawParser  = bodyParser.raw();
 var httpServer = http.createServer(app);
-
+var eventHistory = {};
 var PIN        = "pin";
 
+// Configure express
 app.use(logger('dev'));
-
 app.use(express.static(path.join(__dirname, '../view')));
 app.use(express.static(path.join(__dirname, '../controller')));
 app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-bootstrap')));
@@ -27,8 +29,10 @@ app.use(express.static(path.join(__dirname, '../node_modules/angular-cookies')))
 app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
 app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
 
+// HTTP Listen
 httpServer.listen(port);
 
+// HTTP Error handler
 httpServer.on('error', function(error)
 {
   if (error.syscall !== 'listen')
@@ -55,6 +59,7 @@ httpServer.on('error', function(error)
   }
 });
 
+// HTTP Listen
 httpServer.on('listening', function()
 {
   var addr = httpServer.address();
@@ -74,6 +79,7 @@ config.pins.forEach(function(pin)
       gpio.write(pin, pin.state, function(err)
       {
         console.log("set pin",pin.num,"to",pin.state);
+        addPinEvent(pin,pin.state);
       });
     });
   }
@@ -83,13 +89,15 @@ config.pins.forEach(function(pin)
   }
 });
 
+// Listen for state change on input pins
 gpio.on('change', function(channel, value)
 {
   // Emmit to listeners here
   console.log('Channel ' + channel + ' value is now ' + value);
+  addPinEvent(Channel,value);
 });
 
-
+// Set the value of an output pin
 app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
 {
   var pin = req.params.pin;
@@ -118,27 +126,13 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
 	});
 });
 
+// Get the list of pins configured
 app.get("/api/gpio/list",jsonParser,function(req,res)
 {
   util.sendHttpJson(res,config.pins);
 });
 
-app.get("/api/gpio/:pin/state", jsonParser, function(req,res)
-{
-  var pin = req.params.pin;
-  var data = 0;
-
-  getPin(pin,function(pinObj)
-  {
-    if (pinObj)
-    {
-      data = pinObj.state;
-    }
-
-    util.sendHttpJson(res,{value: data});
-  });
-});
-
+// Get the state of a pin
 app.get("/api/gpio/:pin", jsonParser, function(req,res)
 {
   var pin = req.params.pin;
@@ -147,6 +141,7 @@ app.get("/api/gpio/:pin", jsonParser, function(req,res)
   {
     if (pinObj)
     {
+      // Read state for input
       if (pinObj.io == "in")
       {
         gpio.read(pin, function(err, value)
@@ -161,9 +156,10 @@ app.get("/api/gpio/:pin", jsonParser, function(req,res)
           }
         });
       }
+      // Get state from memory for output
       else
       {
-        util.sendHttpNotFound(res);
+          util.sendHttpJson(res,{value: pinObj.state});
       }
     }
     else
@@ -173,11 +169,37 @@ app.get("/api/gpio/:pin", jsonParser, function(req,res)
   });
 });
 
-app.get('/api/device', jsonParser, function(req,res)
+// Get the name of the device
+app.get('/api/devicename', jsonParser, function(req,res)
 {
   util.sendHttpJson(res, {name: config.device_name});
 });
 
+// Get the state history for a pin
+app.get('/app/gpio/:pin/history', function(req,res)
+{
+  var pin = req.params.pin;
+  util.sendHttpJson(res,eventHistory[pinNumString(pin)]));
+});
+
+// Convert a pin integer to a variable name
+var pinNumString = function(pin)
+{
+  return PIN+pin;
+}
+
+// Add an event to the pin history
+var addPinEvent = function(pinNum, state)
+{
+  if (eventHistory[pinNumString(pinNum)] == null)
+  {
+    eventHistory[pinNumString(pinNum)] = [];
+  }
+  console.log("Adding pin event to history  (pin / state)",pinNum,"/",state);
+  eventHistory[pinNumString(pinNum)].push({date: new Date(), state});
+}
+
+// Return a pin object based on it's number
 var getPin = function(pin,callback)
 {
   for (i = 0; i < config.pins.length; i++)
