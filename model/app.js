@@ -79,7 +79,7 @@ config.pins.forEach(function(pin)
       gpio.write(pin, pin.state, function(err)
       {
         console.log("set pin",pin.num,"to",pin.state);
-        addPinEvent(pin,pin.state);
+        addPinEvent(pin.num, pin.state);
       });
     });
   }
@@ -113,6 +113,7 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
     }
     else
     {
+      addPinEvent(pin,val);
       getPin(pin,function(pinObj)
       {
         if (pinObj)
@@ -179,7 +180,12 @@ app.get('/api/devicename', jsonParser, function(req,res)
 app.get('/api/gpio/:pin/history', function(req,res)
 {
   var pin = req.params.pin;
-  util.sendHttpJson(res,eventHistory[pinNumString(pin)]);
+  var data = eventHistory[pinNumString(pin)];
+
+  if (data)
+    util.sendHttpJson(res,data);
+  else
+    util.sendHttpNotFound(res);
 });
 
 // Convert a pin integer to a variable name
