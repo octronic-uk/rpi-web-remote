@@ -145,7 +145,7 @@ This guide starts from scratch. Please begin where appropriate for you!
 
 19. Control your device :)
 
-## Update
+## Updating the app
 1. Stop the process in pm2
 
     ```
