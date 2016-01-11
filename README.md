@@ -61,7 +61,7 @@ This guide starts from scratch. Please begin where appropriate for you!
     $ sudo visudo
     ```
 
-    Add ':/path/to/node-vX.X.X-linux-armv61/bin' to the path, save and exit.
+    Add `:/path/to/node-vX.X.X-linux-armv61/bin` to the secure path, save and exit.
 
 9. Reboot to reload your environment
 
