@@ -1,24 +1,24 @@
 {
-  "device_name":"Bedroom Stuff",
+  "device_name":"Bedroom",
   "http_port": 80,
   "pins": [
     {
-      "name": "Orange LED",
+      "name": "Lamp",
       "num": 7,
       "io": "out",
       "state": 0
     },
     {
-      "name": "Auto Massage",
+      "name": "Fan",
       "num": 11,
-      "io": "in",
+      "io": "out",
       "state": 0
     },
     {
       "name": "Radiator",
       "num": 12,
-      "io": "in",
-      "state": 1
+      "io": "out",
+      "state": 0
     }
   ]
 }

@@ -119,10 +119,15 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
         if (pinObj)
         {
           pinObj.state = val;
+          util.sendHttpOK(res);
+        }
+        else
+        {
+            util.sendHttpError(res);
         }
       });
 
-      util.sendHttpOK(res);
+
     }
   });
 });

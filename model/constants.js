@@ -1,6 +1,6 @@
 constants =
 {
-	APP_NAME: "RaspberryPI",
+	APP_NAME: "GPIO Remote",
 	VERSION: "1.0.0",
 	HTTP_OK: 200,
 	HTTP_NOT_FOUND:  404,

@@ -1,11 +1,11 @@
 {
-  "name": "node-template",
+  "name": "iot-raspberrypi",
   "version": "1.0.0",
   "description": "Node template project for RPI",
   "main": "model/app.js",
   "scripts": {
-    "start": "nodemon model/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo \"Please start using pm2\" && exit 0",
+    "test": "echo \"Error: No test specified (I know... I'm bad.))\" && exit 1"
   },
   "author": "Ash Thompson",
   "license": "GPL-3.0",
