@@ -23,11 +23,13 @@
   <title>{{deviceName}}</title>
 </head>
 <body>
-  <!-- Header -->
-  <div class="well">
-    <h4>{{deviceName}}</h4>
+  <div class="container-fluid">
+    <!-- Header -->
+    <div class="well">
+      <h4>{{deviceName}}</h4>
+    </div>
+    <!-- Page Content -->
+    <div ui-view></div>
   </div>
-  <!-- Page Content -->
-  <div ui-view></div>
 </body>
 </html>
