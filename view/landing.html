@@ -1,5 +1,8 @@
 <ul class="list-group">
   <li ng-repeat="pin in pinList" class="list-group-item clearfix">
+    <span ng-show="pin.io == 'out'" class="glyphicon glyphicon-log-out"></span>
+    <span ng-show="pin.io == 'in'" class="glyphicon glyphicon-log-in"></span>
+    &nbsp;
     <h4>{{pin.name}}
     <!-- Output -->
     <span ng-show="pin.io == 'out'" class="pull-right">
@@ -12,13 +15,23 @@
     </span>
     <!-- Inputs -->
     <span ng-show="pin.io == 'in'" class="pull-right">
-      <button ng-show="pin.state == 1" disabled class="pull-right btn btn-success btn-lg">
-        <span class="glyphicon glyphicon-ok-sign"></span>
-      </button>
       <button ng-show="pin.state == 0" disabled class="pull-right btn btn-danger btn-lg">
         <span class="glyphicon glyphicon-remove-sign"></span>
+      </button>
+      <button ng-show="pin.state == 1" disabled class="pull-right btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-ok-sign"></span>
       </button>
     </span>
   </h4>
   </li>
 </ul>
+<div class="panel">
+  <div class="panel-heading">
+    Legend
+  </div>
+  <div class="panel-body">
+    <span class="glyphicon glyphicon-log-in"></span> Input
+    <br>
+    <span class="glyphicon glyphicon-log-out"></span> Output
+  </div>
+</div>
