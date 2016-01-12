@@ -306,7 +306,8 @@ var initRoutes = function()
   {
     var name = req.body.name;
     var command = req.body.cmd;
-
+    console.log("Removing command",name,"/",command);
+    
     if (name != undefined && command != undefined)
     {
       config.serial.commands.push({name: name, cmd: command});

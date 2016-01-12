@@ -76,7 +76,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			}
 			else
 			{
-				consloe.log("Error setting serial device path");
+				console.log("Error setting serial device path");
 				$scope.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!.' });
 			}
 		});
