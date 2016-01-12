@@ -27,7 +27,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		$scope.baudRateList = baudList;
 	});
 
-	$scope.getDeviceSerialCommands(function(commandList)
+	$scope.getDeviceSerialCommandList(function(commandList)
 	{
 		$scope.serialCommandList = commandList;
 	});

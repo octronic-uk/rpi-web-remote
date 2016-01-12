@@ -11,7 +11,7 @@ PiApp.controller('Landing',
 			$scope.pinList = list;
 		});
 
-		$scope.getDeviceSerialCommands(function(commandList)
+		$scope.getDeviceSerialCommandList(function(commandList)
 		{
 			$scope.serialCommandList = commandList;
 		});
