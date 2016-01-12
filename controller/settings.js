@@ -108,17 +108,26 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	$scope.removeSerialCommand = function()
 	{
 		var name = $scope.serialCommandRemove;
-
+		console.log("Removing command",name);
 		$http({
 			method: "DELETE",
 			url: "/api/device/serial/command",
 			data: {
-				name: name
+				cmdName: name
 			}
 		}).then(function successCalback(resp)
 		{
-			var index = getSerialCommandIndexByName(name);
-			$scope.serialCommandList.splice(index,1);
+			getSerialCommandIndexByName(name, function (index)
+			{
+				if (index > -1)
+				{
+					$scope.serialCommandList.splice(index,1);
+				}
+				else
+			  {
+					console.log("Cannot remove, index of ",name," command not found");
+				}
+			});
 			$scope.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
 		}, function errorCallback(resp)
 		{
@@ -127,6 +136,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		});
 	}
 
+  // Get the index of a command by name
 	$scope.getSerialCommandIndexByName = function(name,callback)
 	{
 		getSerialCommandByName(name, function(cmd)

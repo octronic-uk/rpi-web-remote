@@ -321,7 +321,7 @@ var initRoutes = function()
   // Remove a serial command to the configuration
   app.delete('/api/device/serial/command',jsonParser,function(req,res)
   {
-    var name = req.body.name;
+    var name = req.body.cmdName;
     getSerialCommandIndexByName(name,function(index)
     {
       if (index > -1)
