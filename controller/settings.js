@@ -89,7 +89,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 
 		$http({
 			method: "PUT",
-			url: "/api/device/serial/command",
+			url: "/api/device/serial/command/add",
 			data: {
 				name: name,
 				cmd: cmd
@@ -111,7 +111,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		console.log("Removing command",name);
 		$http({
 			method: "PUT",
-			url: "/api/device/serial/command",
+			url: "/api/device/serial/command/remove",
 			data: {
 				cmdName: name
 			}

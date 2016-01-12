@@ -302,12 +302,11 @@ var initRoutes = function()
   });
 
   // Add a serial command to the configuration
-  app.put('/api/device/serial/command',jsonParser,function(req,res)
+  app.put('/api/device/serial/command/add',jsonParser,function(req,res)
   {
     var name = req.body.name;
     var command = req.body.cmd;
-    console.log("Removing command",name,"/",command);
-
+    console.log("Adding command",name,"/",command)
     if (name != undefined && command != undefined)
     {
       config.serial.commands.push({name: name, cmd: command});
@@ -320,7 +319,7 @@ var initRoutes = function()
   });
 
   // Remove a serial command to the configuration
-  app.put('/api/device/serial/command',jsonParser,function(req,res)
+  app.put('/api/device/serial/command/remove',jsonParser,function(req,res)
   {
     var name = req.body.cmdName;
     console.log("Reomving command", name, "aka", req.body.cmdName);
