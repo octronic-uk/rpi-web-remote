@@ -1,4 +1,3 @@
-// Using https://github.com/JamesBarwell/rpi-gpio.js
 // Requires
 var SerialPort = require("serialport").SerialPort
 var gpio       = require("rpi-gpio");

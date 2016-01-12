@@ -8,4 +8,11 @@ PiApp.config(function($provide, $stateProvider, $urlRouterProvider)
   	templateUrl: "landing.html",
     controller: "Landing"
   });
+
+  $stateProvider.state('Settings',
+  {
+    url: "/settings",
+    templateUrl: "settings.html",
+    controller: "Settings"
+  });
 });
