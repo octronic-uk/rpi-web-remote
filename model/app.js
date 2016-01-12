@@ -76,7 +76,7 @@ var initSerial = function()
 
 var restartSerial = function()
 {
-  closeSerial(initSerial());
+  closeSerial(initSerial);
 }
 
 // Configure express
