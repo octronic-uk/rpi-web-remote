@@ -327,7 +327,7 @@ var initRoutes = function()
     {
       if (index > -1)
       {
-        config.serial.command.splice(index, 1);
+        config.serial.commands.splice(index, 1);
         util.sendHttpOK(res);
       }
       else
