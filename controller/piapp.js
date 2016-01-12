@@ -205,7 +205,7 @@ PiApp.controller('PiApp',
 			 callback(true);
 		 },function errorCallback(res)
 		 {
-			 callback(false;)
+			 callback(false);
 		 });
 		}
 
