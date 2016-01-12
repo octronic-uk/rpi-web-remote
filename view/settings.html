@@ -2,6 +2,7 @@
   <div class="panel-heading">
     Serial Port
   </div>
+  <uib-alert dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
   <div class="panel-body">
     <form role="form">
       <div class="form-group">
