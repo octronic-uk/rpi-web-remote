@@ -1,5 +1,6 @@
 // Requires
-var SerialPort = require("serialport").SerialPort;
+var SerialPortModule = require("serialport");
+var SerialPort = SerialPortModule.SerialPort;
 var gpio       = require("rpi-gpio");
 var path       = require('path');
 var bodyParser = require('body-parser');
@@ -218,7 +219,7 @@ app.get('/api/device/serial/list',jsonParser,function(req,res)
 {
   if (serialPort)
   {
-    serialPort.list(function (err, ports)
+    SerialPortModule.list(function (err, ports)
     {
       if (err || ports == null)
       {
