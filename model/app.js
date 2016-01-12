@@ -27,26 +27,33 @@ var baudRateList = [
   150,    134,   110,   75, 50
 ];
 
+var closeSerial = function(callback)
+{
+  if (serialPort && serialPort.isOpen())
+  {
+    serialPort.close(function(error)
+    {
+      if (error)
+      {
+        console.log("FATAL: Error closing serial port");
+        process.exit(constants.APP_EXIT_ERROR);
+      }
+      else
+      {
+        console.log("Successfuly closed serial port");
+        callback();
+      }
+    });
+  }
+  else {
+    callback();
+  }
+}
+
 var initSerial = function()
 {
   if (config.serial)
   {
-    if (serialPort && serialPort.isOpen())
-    {
-      serialPort.close(function(error)
-      {
-        if (error)
-        {
-          console.log("FATAL: Error closing serial port");
-          process.exit(constants.APP_EXIT_ERROR);
-        }
-        else
-        {
-          console.log("Successfuly closed serial port");
-        }
-      });
-    }
-
     console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
     serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate}, false);
 
@@ -65,6 +72,11 @@ var initSerial = function()
   {
     console.log("Serial port support is not enabled");
   }
+}
+
+var restartSerial = function()
+{
+  closeSerial(initSerial());
 }
 
 // Configure express
@@ -293,7 +305,7 @@ var initRoutes = function()
     if (path)
     {
       config.serial.path = path;
-      initSerial();
+      restartSerial();
       util.sendHttpOK(res);
     }
     else
@@ -309,7 +321,7 @@ var initRoutes = function()
     if (baudrate)
     {
       config.serial.baudrate = baudrate;
-      initSerial();
+      restartSerial();
       util.sendHttpOK(res);
     }
     else

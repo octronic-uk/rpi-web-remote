@@ -38,7 +38,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 					if (result)
 					{
 						console.log("Settings saved successfuly");
-						addAlert({ type: 'success', msg: 'Serial settings have been saved!.' });
+						$scope.addAlert({ type: 'success', msg: 'Serial settings have been saved!.' });
 					}
 					else
 					{
