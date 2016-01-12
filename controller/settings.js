@@ -127,13 +127,13 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		});
 	}
 
-	$scope.getSerialCommandIndexByName = function(name)
+	$scope.getSerialCommandIndexByName = function(name,callback)
 	{
-	  return $scope.serialCommandList.indexOf($scope.getSerialCommandByName(name));
+	  callback($scope.serialCommandList.indexOf($scope.getSerialCommandByName(name)));
 	}
 
 	// Get a serial command by name
-	$scope.getSerialCommandByName = function(name)
+	$scope.getSerialCommandByName = function(name,callback)
 	{
 		var nCommands = $scope.serialCommandList.length;
 	  for (var i = 0; i < nCommands; i++)
@@ -142,7 +142,8 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 
 	    if (next.name == name)
 	    {
-	      return next;
+	      callback(next);
+				break;
 	    }
 	  }
 	}

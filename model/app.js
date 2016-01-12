@@ -322,17 +322,18 @@ var initRoutes = function()
   app.delete('/api/device/serial/command',jsonParser,function(req,res)
   {
     var name = req.body.name;
-    var index = getSerialCommandIndexByName(name);
-
-    if (index > -1)
+    getSerialCommandIndexByName(name,function(index)
     {
-      config.serial.command.splice(index, 1);
-      util.sendHttpOK(res);
-    }
-    else
-    {
-      util.sendHttpNotFound(res);
-    }
+      if (index > -1)
+      {
+        config.serial.command.splice(index, 1);
+        util.sendHttpOK(res);
+      }
+      else
+      {
+        util.sendHttpNotFound(res);
+      }
+    });
   });
 
   // Get list of supported baud rates
@@ -408,13 +409,13 @@ var initRoutes = function()
 }
 
 // Get a serial command's index by name
-var getSerialCommandIndexByName = function(name)
+var getSerialCommandIndexByName = function(name,callback)
 {
-  return config.serial.commands.indexOf(getSerialCommandByName(name));
+  callback(config.serial.commands.indexOf(getSerialCommandByName(name)));
 }
 
 // Get a serial command by name
-var getSerialCommandByName = function(name)
+var getSerialCommandByName = function(name,callback)
 {
   var nCommands = config.serial.commands.length;
   console.log("Checking",nCommands,"commands");
@@ -424,10 +425,10 @@ var getSerialCommandByName = function(name)
 
     if (next.name == name)
     {
-      return next;
+      callback(next);
+      break;
     }
   }
-  return null;
 }
 
 // Save the configuration object to disk
