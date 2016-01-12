@@ -309,7 +309,7 @@ var initRoutes = function()
 
     if (name != undefined && command != undefined)
     {
-      config.serial.commands.put({name: name, cmd: cmd});
+      config.serial.commands.push({name: name, cmd: command});
       util.sendHttpOK(res);
     }
     else
@@ -407,6 +407,7 @@ var initRoutes = function()
   });
 }
 
+// Get a serial command's index by name
 var getSerialCommandIndexByName = function(name)
 {
   return config.serial.commands.indexOf(getSerialCommandByName(name));
@@ -415,7 +416,8 @@ var getSerialCommandIndexByName = function(name)
 // Get a serial command by name
 var getSerialCommandByName = function(name)
 {
-  for (i = 0; i < config.serial.commands.length; i++)
+  var nCommands = config.serial.commands.length;
+  for (var i = 0; i < nCommands; i++)
   {
     var next = config.serial.commands[i];
 

@@ -107,22 +107,22 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 
 	$scope.removeSerialCommand = function()
 	{
-		var commandName = $scope.serialCommandRemove;
+		var name = $scope.serialCommandRemove;
 
 		$http({
 			method: "DELETE",
 			url: "/api/device/serial/command",
 			data: {
-				name: commandName
+				name: name
 			}
 		}).then(function successCalback(resp)
 		{
-			var index = getSerialCommandIndexByName(commandName);
+			var index = getSerialCommandIndexByName(name);
 			$scope.serialCommandList.splice(index,1);
 			$scope.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
 		}, function errorCallback(resp)
 		{
-			console.log("Error removing serial command",commandName);
+			console.log("Error removing serial command",name);
 			$scope.addAlert({ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
 		});
 	}
@@ -135,7 +135,8 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	// Get a serial command by name
 	$scope.getSerialCommandByName = function(name)
 	{
-	  for (i = 0; i < $scope.serialCommandList.length; i++)
+		var nCommands = $scope.serialCommandList.length;
+	  for (var i = 0; i < nCommands; i++)
 	  {
 	    var next = $scope.serialCommandList[i];
 
