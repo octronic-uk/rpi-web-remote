@@ -16,7 +16,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 
 		$scope.addSerialCommandApi(name,cmd,function(res)
 		{
-			if (resp)
+			if (res)
 			{
 				$scope.serialCommandList.push({name: name, cmd: cmd});
 				$scope.addAlert({ type: 'success', msg: 'Added command \"' + name + '\"' });
