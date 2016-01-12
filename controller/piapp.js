@@ -266,10 +266,10 @@ PiApp.controller('PiApp',
 			});
 		}
 
-		$scope.executeSerialCommandApi = function(cmd,callback)
+		$scope.executeSerialCommandApi = function(cmd, callback)
 		{
 		 $http({
-			 method:"GET",
+			 method:"PUT",
 			 url:"/api/device/serial/command/execute",
 			 data: {
 				 cmd: cmd
