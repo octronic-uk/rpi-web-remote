@@ -96,7 +96,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			}
 		}).then(function successCalback(resp)
 		{
-			$scope.serialCommandList.put({name: name, cmd: cmd});
+			$scope.serialCommandList.push({name: name, cmd: cmd});
 			$scope.addAlert({ type: 'success', msg: 'Added command \"' + name + '\"' });
 		}, function errorCallback(resp)
 		{

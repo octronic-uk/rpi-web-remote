@@ -417,6 +417,7 @@ var getSerialCommandIndexByName = function(name)
 var getSerialCommandByName = function(name)
 {
   var nCommands = config.serial.commands.length;
+  console.log("Checking",nCommands,"commands");
   for (var i = 0; i < nCommands; i++)
   {
     var next = config.serial.commands[i];
@@ -426,6 +427,7 @@ var getSerialCommandByName = function(name)
       return next;
     }
   }
+  return null;
 }
 
 // Save the configuration object to disk
