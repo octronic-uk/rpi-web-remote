@@ -393,6 +393,7 @@ var initRoutes = function()
   app.put('/api/device/serial/path', jsonParser, function(req,res)
   {
     var path = req.body.path;
+    
     if (path)
     {
       config.serial.path = path;

@@ -4,33 +4,9 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 {
 	$controller('PiApp', {$scope: $scope});
 	$scope.serialPortList = [];
-
 	$scope.alerts = [];
 
-	$scope.addAlert = function(alert)
-	{
-		$scope.alerts.push(alert);
-	};
-
-	$scope.closeAlert = function(index)
-	{
-		$scope.alerts.splice(index, 1);
-	};
-
-	$scope.getDeviceSerialListApi(function(serialList)
-	{
-		$scope.serialPortList = serialList;
-	});
-
-	$scope.getDeviceSerialBaudrateList(function(baudList)
-	{
-		$scope.baudRateList = baudList;
-	});
-
-	$scope.getDeviceSerialCommandList(function(commandList)
-	{
-		$scope.serialCommandList = commandList;
-	});
+  // Client function definitions -----------------------------------------------
 
 	$scope.saveSerialSettings = function()
 	{
@@ -55,8 +31,8 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 										}
 										else
 										{
-											console.log("Error saving settings");
-											$scope.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!.' });
+											console.log("Error restarting serial device");
+											$scope.addAlert({ type: 'danger', msg: 'Error restarting serial device. Please try again!.' });
 										}
 									});
 								}
@@ -79,60 +55,6 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 				console.log("Error setting serial device path");
 				$scope.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!.' });
 			}
-		});
-	}
-
-	$scope.addSerialCommand = function()
-	{
-		var name = $scope.serialCommandNameAdd;
-		var cmd = $scope.serialCommandAdd;
-
-		$http({
-			method: "PUT",
-			url: "/api/device/serial/command/add",
-			data: {
-				name: name,
-				cmd: cmd
-			}
-		}).then(function successCalback(resp)
-		{
-			$scope.serialCommandList.push({name: name, cmd: cmd});
-			$scope.addAlert({ type: 'success', msg: 'Added command \"' + name + '\"' });
-		}, function errorCallback(resp)
-		{
-			console.log("Error adding serial command",name,cmd);
-			$scope.addAlert({ type: 'danger', msg: 'Error adding command \"' + name + '\"' });
-		});
-	}
-
-	$scope.removeSerialCommand = function()
-	{
-		var name = $scope.serialCommandRemove;
-		console.log("Removing command",name);
-		$http({
-			method: "PUT",
-			url: "/api/device/serial/command/remove",
-			data: {
-				cmdName: name
-			}
-		}).then(function successCalback(resp)
-		{
-			$scope.getSerialCommandIndexByName(name, function (index)
-			{
-				if (index > -1)
-				{
-					$scope.serialCommandList.splice(index,1);
-				}
-				else
-			  {
-					console.log("Cannot remove, index of ",name," command not found");
-				}
-			});
-			$scope.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
-		}, function errorCallback(resp)
-		{
-			console.log("Error removing serial command",name);
-			$scope.addAlert({ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
 		});
 	}
 
@@ -160,5 +82,42 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	    }
 	  }
 	}
+
+	$scope.addAlert = function(alert)
+	{
+		$scope.alerts.push(alert);
+	};
+
+	$scope.closeAlert = function(index)
+	{
+		$scope.alerts.splice(index, 1);
+	};
+
+	// Calls ---------------------------------------------------------------------
+
+	$scope.getDeviceSerialListApi(function(serialList)
+	{
+		$scope.serialPortList = serialList;
+	});
+
+	$scope.getDeviceSerialBaudrateListApi(function(baudList)
+	{
+		$scope.baudRateList = baudList;
+	});
+
+	$scope.getDeviceSerialCommandListApi(function(commandList)
+	{
+		$scope.serialCommandList = commandList;
+	});
+
+	$scope.getDeviceSerialBaudrateApi(function(baudrate)
+	{
+		$scope.selectedBaudrate = baudrate;
+	});
+
+	$scope.getDeviceSerialPathApi(function(path)
+	{
+		$scope.selectedSerialPort = path;
+	});
 }
 ]);

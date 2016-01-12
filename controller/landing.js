@@ -4,6 +4,24 @@ PiApp.controller('Landing',
 	{
     $controller('PiApp', {$scope: $scope});
 
+		// Client Function Definitions ---------------------------------------------
+
+		$scope.gpioSet = function(pinNum, state)
+		{
+			$scope.setGpioPinValueApi(pinNum,state,function(success)
+			{
+				if (success)
+				{
+					$scope.getPin($scope.pinList,pinNum,function(pin)
+					{
+						pin.state = state;
+					});
+				}
+			});
+		}
+
+		// Function Calls ----------------------------------------------------------
+
 		console.log("Getting GPIO list from API");
 
 		$scope.getGpioListApi(function(list)
@@ -15,19 +33,5 @@ PiApp.controller('Landing',
 		{
 			$scope.serialCommandList = commandList;
 		});
-
-		$scope.gpioSet = function(pinNum, state)
-		{
-			$scope.setGpioPinValueApi(pinNum,state,function(success)
-			{
-				if (success)
-				{
-					$scope.getPin($scope.pinList,pinNum,function(pin)
-				  {
-						pin.state = state;
-					});
-				}
-			});
-	  }
 	}
 ]);
