@@ -333,7 +333,7 @@ var initRoutes = function()
     {
       util.sendHttpNotFound(res);
     }
-  }
+  });
 
   // Get list of supported baud rates
   app.get('/api/device/serial/baudrate/list',jsonParser,function(req,res)
