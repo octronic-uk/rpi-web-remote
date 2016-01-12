@@ -1,7 +1,7 @@
 {
   "name": "iot-raspberrypi",
   "version": "1.0.0",
-  "description": "Node template project for RPI",
+  "description": "IoT Remote for RaspberryPI",
   "main": "model/app.js",
   "scripts": {
     "start": "echo \"Please start using pm2\" && exit 0",
@@ -18,6 +18,7 @@
     "bootstrap": "^3.3.6",
     "express": "^4.13.3",
     "morgan": "^1.6.1",
-    "rpi-gpio": "^0.7.0"
+    "rpi-gpio": "^0.7.0",
+    "serialport": "^2.0.6"
   }
 }

@@ -1,5 +1,6 @@
 // Using https://github.com/JamesBarwell/rpi-gpio.js
 // Requires
+var SerialPort = require("serialport").SerialPort
 var gpio       = require("rpi-gpio");
 var path       = require('path');
 var bodyParser = require('body-parser');
@@ -11,13 +12,24 @@ var constants  = require('./constants')
 var config     = require('../config.json');
 
 // Variables
-var port       = config.http_port;
-var app        = express();
-var jsonParser = bodyParser.json();
-var rawParser  = bodyParser.raw();
-var httpServer = http.createServer(app);
-var eventHistory = {};
-var PIN        = "pin";
+var port          = config.http_port;
+var app           = express();
+var jsonParser    = bodyParser.json();
+var rawParser     = bodyParser.raw();
+var httpServer    = http.createServer(app);
+var eventHistory  = {};
+var PIN           = "pin";
+var serialPort    = null;
+
+if (config.serial.enabled)
+{
+  console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
+  serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
+}
+else
+{
+  console.log("Serial port support is not enabled");
+}
 
 // Configure express
 app.use(logger('dev'));
