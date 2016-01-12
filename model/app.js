@@ -20,7 +20,7 @@ var eventHistory  = {};
 var PIN           = "pin";
 var serialPort    = null;
 
-if (config.serial.enabled)
+if (config.serial)
 {
   console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
   serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
@@ -203,19 +203,26 @@ app.get('/api/device/name', jsonParser, function(req,res)
 });
 
 // Get the devce's list of serial ports
-app.get('/api/device/serial/ports',jsonParser,function(req,res)
+app.get('/api/device/serial/list',jsonParser,function(req,res)
 {
-  serialPort.list(function (err, ports)
+  if (serialPort)
   {
-    if (err || ports == null)
+    serialPort.list(function (err, ports)
     {
-      util.sendHttpError(res);
-    }
-    else
-    {
-      util.sendHttpJson(ports);
-    }
-  });
+      if (err || ports == null)
+      {
+        util.sendHttpError(res);
+      }
+      else
+      {
+        util.sendHttpJson(ports);
+      }
+    });
+  }
+  else
+  {
+    util.sendHttpNotFound(res);
+  }
 });
 
 // Convert a pin integer to a variable name

@@ -1,10 +1,7 @@
 {
   "device_name":"Bedroom",
   "http_port": 80,
-  "serial": {
-    "port": "/dev/ttyUSB0",
-    "baudrate": 9600,
-    "enabled": false
+  "serial": true
   },
   "pins": [
     {
