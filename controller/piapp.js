@@ -266,7 +266,7 @@ PiApp.controller('PiApp',
 			});
 		}
 
-		$scope.executeSerialCommandApi = function(cmd)
+		$scope.executeSerialCommandApi = function(cmd,callback)
 		{
 		 $http({
 			 method:"GET",

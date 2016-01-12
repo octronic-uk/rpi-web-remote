@@ -340,7 +340,7 @@ var initRoutes = function()
   app.get('/api/device/serial/command/execute', jsonParser, function(req,res)
   {
     var cmd = req.body.cmd;
-
+    console.log("Executing command",cmd);
     if (serialPort && serialPort.isOpen())
     {
       getSerialCommandByName(cmd,function(commandObject)
@@ -393,7 +393,7 @@ var initRoutes = function()
   app.put('/api/device/serial/path', jsonParser, function(req,res)
   {
     var path = req.body.path;
-    
+
     if (path)
     {
       config.serial.path = path;
