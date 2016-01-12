@@ -10,7 +10,7 @@ var http       = require('http');
 var logger     = require('morgan');
 var util       = require('./util');
 var constants  = require('./constants');
-var configPath = path.join(__dirname, constants.CONFIG);
+var configPath = path.join(__dirname, "../"+constants.CONFIG);
 var config     = require(configPath);
 
 // Variables
