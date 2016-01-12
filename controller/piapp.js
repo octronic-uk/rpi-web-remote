@@ -72,7 +72,7 @@ PiApp.controller('PiApp',
 				url: "/api/device/serial/list"
 			}).then(function successCallback(resp)
 			{
-				callback(JSON.parse(resp.data).name);
+				callback(JSON.parse(resp.data));
 			},function errorCallback(resp)
 			{
 				callback(null);
