@@ -2,14 +2,16 @@
 var SerialPortModule = require("serialport");
 var SerialPort = SerialPortModule.SerialPort;
 var gpio       = require("rpi-gpio");
+var fs         = require('fs');
 var path       = require('path');
 var bodyParser = require('body-parser');
 var express    = require('express');
 var http       = require('http');
 var logger     = require('morgan');
-var util       = require('./util')
-var constants  = require('./constants')
-var config     = require('../config.json');
+var util       = require('./util');
+var constants  = require('./constants');
+var configPath = path.join(__dirname, constants.CONFIG);
+var config     = require(configPath);
 
 // Variables
 var port          = config.http_port;
@@ -21,6 +23,7 @@ var eventHistory  = {};
 var PIN           = "pin";
 var serialPort    = null;
 var baudRateList = [
+
   115200, 57600, 38400, 19200,
   9600,   4800,  2400,  1800,
   1200,   600,   300,   200,
@@ -292,10 +295,44 @@ var initRoutes = function()
     }
   });
 
+  // Get the list of serial commands
+  app.get('/api/device/serial/command/list',jsonParser,function(req,res)
+  {
+    util.sendHttpJson(res,config.serial.commands);
+  });
+
+  // Add a serial command to the configuration
+  app.put('/api/device/serial/command',jsonParser,function(req,res)
+  {
+    var name = req.body.name;
+    var command = req.body.command;
+
+    if (name && command)
+    {
+      config.serial.commands.put({name: name, cmd: command});
+    }
+    else
+    {
+      util.sendHttpError(res);
+    }
+  });
+
   // Get list of supported baud rates
   app.get('/api/device/serial/baudrate/list',jsonParser,function(req,res)
   {
     util.sendHttpJson(res,baudRateList);
+  });
+
+  // Get the serial path
+  app.get('/api/device/serial/path', jsonParser, function(req,res)
+  {
+    util.sendHttpJson(res,{path: config.serial.path});
+  });
+
+  // get the serial baud rate
+  app.get('/api/device/serial/baudrate', jsonParser, function(req,res)
+  {
+    util.sendHttpJson(res,{baudrate: config.serial.baudrate})
   });
 
   // Set the serial device path
@@ -305,7 +342,6 @@ var initRoutes = function()
     if (path)
     {
       config.serial.path = path;
-      restartSerial();
       util.sendHttpOK(res);
     }
     else
@@ -321,7 +357,6 @@ var initRoutes = function()
     if (baudrate)
     {
       config.serial.baudrate = baudrate;
-      restartSerial();
       util.sendHttpOK(res);
     }
     else
@@ -329,7 +364,49 @@ var initRoutes = function()
       util.sendHttpError(res);
     }
   });
+
+  // Restart the serial device
+  app.put('/api/device/serial/restart',function (req,res)
+  {
+    restartSerial();
+    util.sendHttpOK(res);
+  });
+
+  // Save the current configuration
+  app.put('/api/config/save',function(req,res)
+  {
+    saveConfigFile(function(err)
+    {
+      if (err)
+      {
+        util.sendHttpError(res);
+      }
+      else
+      {
+        util.sendHttpOK(res);
+      }
+    });
+  });
 }
+
+// Save the configuration object to disk
+var saveConfigFile = function(callback)
+{
+  fs.writeFile(configPath, JSON.stringify(config, null, 2) , 'utf-8', function(err)
+  {
+    if(err)
+    {
+      console.log(err);
+      callback(err);
+    }
+    else
+    {
+      console.log("The config file was saved!");
+      callback(null);
+    }
+  });
+}
+
 // Convert a pin integer to a variable name
 var pinNumString = function(pin)
 {

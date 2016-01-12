@@ -27,6 +27,11 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		$scope.baudRateList = baudList;
 	});
 
+	$scope.getDeviceSerialCommands(function(commandList)
+	{
+		$scope.serialCommandList = commandList;
+	});
+
 	$scope.saveSerialSettings = function()
 	{
 		$scope.setDeviceSerialPathApi($scope.selectedSerialPort,function(result)
@@ -37,20 +42,42 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 				{
 					if (result)
 					{
-						console.log("Settings saved successfuly");
-						$scope.addAlert({ type: 'success', msg: 'Serial settings have been saved!.' });
+						$scope.configSaveApi(function(result)
+						{
+								if (result)
+								{
+									$scope.deviceSerialRestartApi(function(result)
+									{
+										if (result)
+										{
+											console.log("Serial settings saved successfuly");
+											$scope.addAlert({ type: 'success', msg: 'Serial settings have been saved!.' });
+										}
+										else
+										{
+											console.log("Error saving settings");
+											$scope.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!.' });
+										}
+									});
+								}
+								else
+								{
+									console.log("Error saving settings");
+									$scope.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!.' });
+								}
+						});
 					}
 					else
 					{
 						console.log("Error setting serial device baudrate");
-						$scope.addAlert({ type: 'danger', msg: 'Error saving baudrate, please try again!.' });
+						$scope.addAlert({ type: 'danger', msg: 'Error saving baudrate. Please try again!.' });
 					}
 				});
 			}
 			else
 			{
 				consloe.log("Error setting serial device path");
-				$scope.addAlert({ type: 'danger', msg: 'Error saving device path, please try again!.' });
+				$scope.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!.' });
 			}
 		});
 	}

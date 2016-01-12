@@ -3,7 +3,17 @@
   "http_port": 80,
   "serial": {
     "path": "/dev/ttyUSB0",
-    "baudrate": 9600
+    "baudrate": 9600,
+    "commands": [
+      {
+        "name":"Turn pin one on",
+        "cmd":"1:1"
+      },
+      {
+        "name":"Turn pin one off",
+        "cmd":"1:0"
+      }
+    ]
   },
   "pins": [
     {

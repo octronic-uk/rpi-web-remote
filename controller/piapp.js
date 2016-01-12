@@ -123,6 +123,48 @@ PiApp.controller('PiApp',
 			});
 		}
 
+		$scope.getDeviceSerialCommandList = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/serial/command/list",
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		}
+
+		$scope.configSaveApi = function(callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/config/save",
+			}).then(function successCallback(resp)
+			{
+					callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		}
+
+		$scope.deviceSerialRestartApi = function(callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/device/serial/restart",
+			}).then(function successCallback(resp)
+			{
+					callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		}
+
 		$scope.getPin = function(pins,i,callback)
 		{
 		  for (j = 0; j < pins.length; j++)

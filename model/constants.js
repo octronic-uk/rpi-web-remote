@@ -1,5 +1,6 @@
 constants =
 {
+	CONFIG: "config.json",
 	APP_NAME: "GPIO Remote",
 	VERSION: "1.0.0",
 	HTTP_OK: 200,
