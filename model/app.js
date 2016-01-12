@@ -411,14 +411,17 @@ var initRoutes = function()
 // Get a serial command's index by name
 var getSerialCommandIndexByName = function(name,callback)
 {
-  callback(config.serial.commands.indexOf(getSerialCommandByName(name)));
+  getSerialCommandByName(name, function(cmd)
+  {
+    callback(config.serial.commands.indexOf(cmd));
+  });
 }
 
 // Get a serial command by name
 var getSerialCommandByName = function(name,callback)
 {
   var nCommands = config.serial.commands.length;
-  console.log("Checking",nCommands,"commands");
+  console.log("Checking",nCommands,"commands for",name);
   for (var i = 0; i < nCommands; i++)
   {
     var next = config.serial.commands[i];

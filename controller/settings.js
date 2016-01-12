@@ -129,7 +129,10 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 
 	$scope.getSerialCommandIndexByName = function(name,callback)
 	{
-	  callback($scope.serialCommandList.indexOf($scope.getSerialCommandByName(name)));
+		getSerialCommandByName(name, function(cmd)
+	  {
+			callback($scope.serialCommandList.indexOf(cmd);
+		));
 	}
 
 	// Get a serial command by name
