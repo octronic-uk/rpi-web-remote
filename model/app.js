@@ -227,7 +227,7 @@ app.get('/api/device/serial/list',jsonParser,function(req,res)
       }
       else
       {
-        util.sendHttpJson(ports);
+        util.sendHttpJson(res,ports);
       }
     });
   }
