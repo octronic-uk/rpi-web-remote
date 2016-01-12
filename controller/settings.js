@@ -110,7 +110,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		var name = $scope.serialCommandRemove;
 		console.log("Removing command",name);
 		$http({
-			method: "DELETE",
+			method: "PUT",
 			url: "/api/device/serial/command",
 			data: {
 				cmdName: name
