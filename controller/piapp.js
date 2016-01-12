@@ -12,11 +12,8 @@ PiApp.controller('PiApp',
 
 		// API function calls ------------------------------------------------------
 
-		$scope.addSerialCommandApi = function()
+		$scope.addSerialCommandApi = function(name,cmd,callback)
 		{
-			var name = $scope.serialCommandNameAdd;
-			var cmd = $scope.serialCommandAdd;
-
 			$http({
 				method: "PUT",
 				url: "/api/device/serial/command/add",
@@ -26,16 +23,14 @@ PiApp.controller('PiApp',
 				}
 			}).then(function successCalback(resp)
 			{
-				$scope.serialCommandList.push({name: name, cmd: cmd});
-				$scope.addAlert({ type: 'success', msg: 'Added command \"' + name + '\"' });
+				callback(true);
 			}, function errorCallback(resp)
 			{
-				console.log("Error adding serial command",name,cmd);
-				$scope.addAlert({ type: 'danger', msg: 'Error adding command \"' + name + '\"' });
+				callback(false);
 			});
 		}
 
-		$scope.removeSerialCommandApi = function()
+		$scope.removeSerialCommandApi = function(name,callback)
 		{
 			var name = $scope.serialCommandRemove;
 			console.log("Removing command",name);
@@ -47,22 +42,10 @@ PiApp.controller('PiApp',
 				}
 			}).then(function successCalback(resp)
 			{
-				$scope.getSerialCommandIndexByName(name, function (index)
-				{
-					if (index > -1)
-					{
-						$scope.serialCommandList.splice(index,1);
-					}
-					else
-				  {
-						console.log("Cannot remove, index of ",name," command not found");
-					}
-				});
-				$scope.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
+				callback(true);
 			}, function errorCallback(resp)
 			{
-				console.log("Error removing serial command",name);
-				$scope.addAlert({ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
+				callback(false);
 			});
 		}
 
