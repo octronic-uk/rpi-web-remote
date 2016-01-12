@@ -20,6 +20,21 @@ PiApp.controller('Landing',
 			});
 		}
 
+		$scope.executeSerialCommand = function(command)
+		{
+			$scope.executeSerialCommandApi(command,function(res)
+			{
+				if (res)
+				{
+					$scope.addAlert({ type: 'success', msg: 'Successuly executed '+command+'!.' });
+				}
+				else
+				{
+					$scope.addAlert({ type: 'danger', msg: 'Error executing'+command+'. Please try again!.' });
+				}
+			});
+		}
+
 		// Function Calls ----------------------------------------------------------
 
 		console.log("Getting GPIO list from API");

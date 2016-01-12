@@ -4,7 +4,6 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 {
 	$controller('PiApp', {$scope: $scope});
 	$scope.serialPortList = [];
-	$scope.alerts = [];
 
   // Client function definitions -----------------------------------------------
 
@@ -82,16 +81,6 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	    }
 	  }
 	}
-
-	$scope.addAlert = function(alert)
-	{
-		$scope.alerts.push(alert);
-	};
-
-	$scope.closeAlert = function(index)
-	{
-		$scope.alerts.splice(index, 1);
-	};
 
 	// Calls ---------------------------------------------------------------------
 
