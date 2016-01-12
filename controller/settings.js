@@ -4,16 +4,10 @@ PiApp.controller('Settings',
 	{
     $controller('PiApp', {$scope: $scope});
 		$scope.serialPortList = [];
-		$scope.serialPortNames = [];
 
 		$scope.getDeviceSerialListApi(function(serialList)
 		{
 			$scope.serialPortList = serialList;
-			$scope.serialPortNames = [];
-			$scope.serialPortList.forEach(function(sp)
-			{
-				$scope.serialPrtNames.push(sp.comName);
-			});
 		});
   }
 ]);

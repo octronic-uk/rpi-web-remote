@@ -9,7 +9,7 @@ PiApp.controller('PiApp',
 	['$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
 	function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
-		$scope.setGpioPinApi = function(pin, value, callback)
+		$scope.setGpioPinValueApi = function(pin, value, callback)
 		{
 			$http({
 				method: "PUT",
@@ -92,7 +92,7 @@ PiApp.controller('PiApp',
 		  }
 		}
 
-		$scope.getPinHistoryApi = function(pin, callback)
+		$scope.getGpioPinHistoryApi = function(pin, callback)
 		{
 			$http({
 				method:"GET",

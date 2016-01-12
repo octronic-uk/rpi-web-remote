@@ -13,7 +13,7 @@ PiApp.controller('Landing',
 
 		$scope.gpioSet = function(pinNum, state)
 		{
-			$scope.setGpioPinApi(pinNum,state,function(success)
+			$scope.setGpioPinValueApi(pinNum,state,function(success)
 			{
 				if (success)
 				{
