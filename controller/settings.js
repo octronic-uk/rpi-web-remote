@@ -131,7 +131,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	{
 		getSerialCommandByName(name, function(cmd)
 	  {
-			callback($scope.serialCommandList.indexOf(cmd);
+			callback($scope.serialCommandList.indexOf(cmd));
 		));
 	}
 
