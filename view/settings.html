@@ -3,7 +3,12 @@
     Serial Port
   </div>
   <div class="panel-body">
-    Some serial settings
+    <form role="form">
+  <div class="form-group">
+      <label for="select-port">Serial Port</label>
+      <select id="select-port" class="form-control" ng-options="serialPortNames" ng-model="selectedSerialPort"></select> 
+    </div>
+    </form>
   </div>
   <div class="clearfix panel-footer">
     <button ng-click="saveSerialSettings()" class="pull-right btn-lg btn btn-primary">
