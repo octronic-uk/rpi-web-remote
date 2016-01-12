@@ -5,10 +5,11 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	$controller('PiApp', {$scope: $scope});
 	$scope.serialPortList = [];
 	$scope.alerts = [];
-	
+	$scope.REMOVE_CMD_DEFAULT = "Select Command";
+
   // Client function definitions -----------------------------------------------
 
-	$scope.addSerialCommandApi = function()
+	$scope.addSerialCommand = function()
 	{
 		var name = $scope.serialCommandNameAdd;
 		var cmd = $scope.serialCommandAdd;
@@ -48,6 +49,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 						}
 					});
 					$scope.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
+					$scope.serialCommandRemove = $scope.REMOVE_CMD_DEFAULT;
 				}
 				else
 				{

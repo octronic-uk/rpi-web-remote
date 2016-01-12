@@ -54,7 +54,7 @@
         <label for="remove-command">Remove</label>
         <div class="input-group">
         <select id="remove-command" class="form-control" ng-model="serialCommandRemove">
-          <option value="">Select Command</option>
+          <option value="">{{REMOVE_CMD_DEFAULT}}</option>
           <option ng-repeat="cmd in serialCommandList" value="{{cmd.name}}">{{cmd.name}}</option>
         </select>
         <span class="input-group-btn" >
