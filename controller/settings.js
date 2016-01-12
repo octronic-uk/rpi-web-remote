@@ -43,12 +43,14 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 					else
 					{
 						console.log("Error setting serial device baudrate");
+						$scope.addAlert({ type: 'danger', msg: 'Error saving baudrate, please try again!.' });
 					}
 				});
 			}
 			else
 			{
 				consloe.log("Error setting serial device path");
+				$scope.addAlert({ type: 'danger', msg: 'Error saving device path, please try again!.' });
 			}
 		});
 	}

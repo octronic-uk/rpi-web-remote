@@ -34,6 +34,10 @@ This guide starts from scratch. Please begin where appropriate for you!
 
 2. Power up your RaspberryPI and complete the initial configuration.
 
+    ```
+    $sudo raspi-config
+    ```
+
 3. Run apt-get to update the system.
 
     ```
@@ -140,9 +144,9 @@ This guide starts from scratch. Please begin where appropriate for you!
 
 18. Use a browser to navigate to your RaspberryPI on the port specified in your configuration.
 
-     ```
-     http://192.168.0.31:80
-     ```
+    ```
+    http://192.168.0.31:80
+    ```
 
 19. Control your device :)
 
@@ -151,3 +155,10 @@ This guide starts from scratch. Please begin where appropriate for you!
     ```
     ./update
     ```
+
+## Using Serial Functionality
+The application also allows the user to send ASCII commands to a device connected via a USB/Serial inteface, such as an Arduino.
+
+1. To configure serial click the settings cog at the bottom of the home screen.
+2. Choose your serial device and baud rate from the list available.
+3. Save your settings by clicking the green save button. An alert will indicate success/failure.
