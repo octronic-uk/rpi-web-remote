@@ -1,5 +1,5 @@
 // Requires
-var SerialPort = require("serialport").SerialPort
+var SerialPort = require("serialport").SerialPort;
 var gpio       = require("rpi-gpio");
 var path       = require('path');
 var bodyParser = require('body-parser');
