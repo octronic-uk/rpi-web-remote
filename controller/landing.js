@@ -11,6 +11,11 @@ PiApp.controller('Landing',
 			$scope.pinList = list;
 		});
 
+		$scope.getDeviceSerialCommands(function(commandList)
+		{
+			$scope.serialCommandList = commandList;
+		});
+
 		$scope.gpioSet = function(pinNum, state)
 		{
 			$scope.setGpioPinValueApi(pinNum,state,function(success)
