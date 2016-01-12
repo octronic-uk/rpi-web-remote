@@ -293,12 +293,12 @@ var initRoutes = function()
     if (path)
     {
       config.serial.path = path;
-      res.sendHttpOK(res);
+      initSerial();
+      util.sendHttpOK(res);
     }
     else
     {
-      initSerial();
-      req.sendHttpError(res);
+      util.sendHttpError(res);
     }
   });
 
@@ -309,12 +309,12 @@ var initRoutes = function()
     if (baudrate)
     {
       config.serial.baudrate = baudrate;
-      res.sendHttpOK(res);
+      initSerial();
+      util.sendHttpOK(res);
     }
     else
     {
-      initSerial();
-      req.sendHttpError(res);
+      util.sendHttpError(res);
     }
   });
 }

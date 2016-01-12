@@ -48,7 +48,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			}
 			else
 			{
-				consoe.log("Error setting serial device path");
+				consloe.log("Error setting serial device path");
 			}
 		});
 	}
