@@ -20,10 +20,6 @@ var eventHistory  = {};
 var PIN           = "pin";
 var serialPort    = null;
 
-serialPort.on('error', function(err) {
-  console.log(err); // THIS SHOULD WORK!
-});
-
 if (config.serial)
 {
   console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
