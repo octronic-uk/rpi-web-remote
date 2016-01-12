@@ -192,6 +192,23 @@ PiApp.controller('PiApp',
 			});
 		}
 
+		$scope.executeSerialCommand = function(cmd)
+		{
+		 $http({
+			 method:"GET",
+			 url:"/api/device/serial/command/execute",
+			 data: {
+				 cmd: cmd
+			 }
+		 }).then(function successCallback(res)
+		 {
+			 callback(true);
+		 },function errorCallback(res)
+		 {
+			 callback(false;)
+		 });
+		}
+
 		$scope.getDeviceNameApi(function(name)
 		{
 			$scope.deviceName = name;

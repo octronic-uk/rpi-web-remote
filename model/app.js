@@ -337,6 +337,40 @@ var initRoutes = function()
     });
   });
 
+  app.get('/api/device/serial/command/execute', jsonParser, function(req,res)
+  {
+    var cmd = req.body.cmd;
+
+    if (serialPort && serialPort.isOpen())
+    {
+      getSerialCommandByName(cmd,function(commandObject)
+      {
+        if (commandObject)
+        {
+          serialPort.write(commandObject.cmd, function(err)
+          {
+            if (err)
+            {
+              util.sendHttpError(res);
+            }
+            else
+            {
+              util.sendHttpOK(res);
+            }
+          });
+        }
+        else
+        {
+          util.sendHttpError(res);
+        }
+      });
+    }
+    else
+    {
+      util.sendHttpError(res);
+    }
+  });
+
   // Get list of supported baud rates
   app.get('/api/device/serial/baudrate/list',jsonParser,function(req,res)
   {
