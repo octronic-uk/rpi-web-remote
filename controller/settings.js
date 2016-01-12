@@ -6,7 +6,7 @@ PiApp.controller('Settings',
 		$scope.serialPortList = [];
 		$scope.serialPortNames = [];
 
-		$scope.getDeviceSerialPortsApi(function(serialList)
+		$scope.getDeviceSerialListApi(function(serialList)
 		{
 			$scope.serialPortList = serialList;
 			$scope.serialPortNames = [];

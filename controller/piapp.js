@@ -65,11 +65,11 @@ PiApp.controller('PiApp',
 			});
 		}
 
-		$scope.getDeviceSerialPortsApi = function(callback)
+		$scope.getDeviceSerialListApi = function(callback)
 		{
 			$http({
 				method: "GET",
-				url: "/api/device/serial/ports"
+				url: "/api/device/serial/list"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data).name);

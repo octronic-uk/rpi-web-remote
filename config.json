@@ -1,8 +1,7 @@
 {
   "device_name":"Bedroom",
   "http_port": 80,
-  "serial": true
-  },
+  "serial": true,
   "pins": [
     {
       "name": "Lamp",
