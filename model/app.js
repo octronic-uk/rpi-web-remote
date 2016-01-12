@@ -305,17 +305,35 @@ var initRoutes = function()
   app.put('/api/device/serial/command',jsonParser,function(req,res)
   {
     var name = req.body.name;
-    var command = req.body.command;
+    var command = req.body.cmd;
 
     if (name && command)
     {
       config.serial.commands.put({name: name, cmd: command});
+      util.sendHttpOK(res);
     }
     else
     {
       util.sendHttpError(res);
     }
   });
+
+  // Remove a serial command to the configuration
+  app.delete('/api/device/serial/command',jsonParser,function(req,res)
+  {
+    var name = req.body.name;
+    var index = config.serial.commands.indexOf(name);
+
+    if (index > -1)
+    {
+      config.serial.command.splice(index, 1);
+      util.sendHttpOK(res);
+    }
+    else
+    {
+      util.sendHttpNotFound(res);
+    }
+  }
 
   // Get list of supported baud rates
   app.get('/api/device/serial/baudrate/list',jsonParser,function(req,res)

@@ -38,8 +38,11 @@
       </div>
       <div class="form-group">
         <label for="add-command">Add</label>
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Name" ng-model="serialCommandNameAdd">
+        </div>
         <div class="input-group">
-          <input class="form-control" type="text" placeholder="New Command" ng-model="serialCommandToAdd">
+          <input class="form-control" type="text" placeholder="Command" ng-model="serialCommandAdd">
           <span class="input-group-btn" >
             <button ng-click="addSerialCommand()" type="button" class="btn btn-success ">
               <span class="glyphicon glyphicon-plus"></span>
@@ -50,12 +53,12 @@
       <div class="form-group">
         <label for="remove-command">Remove</label>
         <div class="input-group">
-        <select id="remove-command" class="form-control" ng-model="selectedSerialCommandToRemove">
+        <select id="remove-command" class="form-control" ng-model="serialCommandRemove">
           <option value="">Select Command</option>
           <option ng-repeat="cmd in serialCommandList" value="{{cmd.name}}">{{cmd.name}}</option>
         </select>
         <span class="input-group-btn" >
-          <button ng-click="removeSerialCommand()" type="button" class="btn btn-success ">
+          <button ng-click="removeSerialCommand()" type="button" class="btn btn-danger ">
             <span class="glyphicon glyphicon-minus"></span>
           </button>
         </span>

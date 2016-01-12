@@ -81,5 +81,46 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			}
 		});
 	}
+
+	$scope.addSerialCommand = function()
+	{
+		var name = $scope.serialCommandNameAdd;
+		var cmd = $scope.serialCommandAdd;
+
+		$http({
+			method: "PUT",
+			url: "/api/device/serial/command",
+			data: {
+				name: name,
+				cmd: cmd
+			}
+		}).then(function successCalback(resp)
+		{
+			$scope.serialCommandList.put({name: name, cmd: cmd});
+		}, function errorCallback(resp)
+		{
+			console.log("Error addingserial command",name,cmd);
+		});
+	}
+
+	$scope.removeSerialCommand = function()
+	{
+		var commandName = $scope.serialCommandRemove;
+
+		$http({
+			method: "DELETE",
+			url: "/api/device/serial/command",
+			data: {
+				name: commandName
+			}
+		}).then(function successCalback(resp)
+		{
+			var index = $scope.indexOf(commandName);
+			$scope.serialCommandList.splice(index,1);
+		}, function errorCallback(resp)
+		{
+			console.log("Error removing serial command",commandName);
+		});
+	}
 }
 ]);
