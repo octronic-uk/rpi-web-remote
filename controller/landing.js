@@ -29,7 +29,7 @@ PiApp.controller('Landing',
 			$scope.pinList = list;
 		});
 
-		$scope.getDeviceSerialCommandList(function(commandList)
+		$scope.getDeviceSerialCommandListApi(function(commandList)
 		{
 			$scope.serialCommandList = commandList;
 		});
