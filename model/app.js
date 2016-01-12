@@ -184,6 +184,18 @@ app.get("/api/gpio/:pin", jsonParser, function(req,res)
   });
 });
 
+// Get the state history for a pin
+app.get('/api/gpio/:pin/history', function(req,res)
+{
+  var pin = req.params.pin;
+  var data = eventHistory[pinNumString(pin)];
+
+  if (data)
+    util.sendHttpJson(res,data);
+  else
+    util.sendHttpNotFound(res);
+});
+
 // Get the name of the device
 app.get('/api/device/name', jsonParser, function(req,res)
 {
@@ -203,18 +215,7 @@ app.get('/api/device/serial/ports',jsonParser,function(req,res)
     {
       util.sendHttpJson(ports);
     }
-});
-
-// Get the state history for a pin
-app.get('/api/gpio/:pin/history', function(req,res)
-{
-  var pin = req.params.pin;
-  var data = eventHistory[pinNumString(pin)];
-
-  if (data)
-    util.sendHttpJson(res,data);
-  else
-    util.sendHttpNotFound(res);
+  });
 });
 
 // Convert a pin integer to a variable name
