@@ -121,6 +121,7 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
+		}
 
 		$scope.getPin = function(pins,i,callback)
 		{
