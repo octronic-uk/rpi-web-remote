@@ -117,7 +117,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			}
 		}).then(function successCalback(resp)
 		{
-			getSerialCommandIndexByName(name, function (index)
+			$scope.getSerialCommandIndexByName(name, function (index)
 			{
 				if (index > -1)
 				{
@@ -139,7 +139,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
   // Get the index of a command by name
 	$scope.getSerialCommandIndexByName = function(name,callback)
 	{
-		getSerialCommandByName(name, function(cmd)
+		$scope.getSerialCommandByName(name, function(cmd)
 	  {
 			callback($scope.serialCommandList.indexOf(cmd));
 		});
