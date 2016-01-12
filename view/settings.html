@@ -33,20 +33,18 @@
               <td>{{cmd.name}}</td>
               <td>{{cmd.cmd}}</td>
             </tr>
-            </tbody>
-          </table>
+          </tbody>
+        </table>
       </div>
       <div class="form-group">
         <label for="add-commands">Add</label>
-        <div class="form-control">
-          <div class="input-group">
-            <input class="form-control" type="text" placeholder="New Command" ng-model="serialCommandToAdd">
-            <span class="input-group-btn" >
-              <button ng-click="addSerialCommand()" type="buttn" class="btn btn-success ">
-                <span class="glyphicon glyphicon-plus"></span>
-              </button>
-            </span>
-          </div>
+        <div class="input-group">
+          <input class="form-control" type="text" placeholder="New Command" ng-model="serialCommandToAdd">
+          <span class="input-group-btn" >
+            <button ng-click="addSerialCommand()" type="buttn" class="btn btn-success ">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
         </div>
       </div>
       <div class="form-group">
