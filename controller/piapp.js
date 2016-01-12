@@ -9,7 +9,6 @@ PiApp.controller('PiApp',
 	['$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
 	function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
-		$scope.alerts = [];
 
 		// API function calls ------------------------------------------------------
 
@@ -300,13 +299,12 @@ PiApp.controller('PiApp',
 		$scope.addAlert = function(alert)
 		{
 			$scope.alerts.push(alert);
-		};
+		}
 
 		$scope.closeAlert = function(index)
 		{
 			$scope.alerts.splice(index, 1);
-		};
-
+		}
 
 		// Function calls ----------------------------------------------------------
 

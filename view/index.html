@@ -30,7 +30,6 @@
     <div class="well">
       <a href="#"><h4>{{deviceName}}</h4></a>
     </div>
-    <uib-alert dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
     <!-- Page Content -->
     <div ui-view></div>
   </div>
