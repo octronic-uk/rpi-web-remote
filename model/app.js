@@ -415,7 +415,7 @@ var getSerialCommandIndexByName = function(name)
 // Get a serial command by name
 var getSerialCommandByName = function(name)
 {
-  for (i = 0; i > config.serial.commands.length; i++)
+  for (i = 0; i < config.serial.commands.length; i++)
   {
     var next = config.serial.commands[i];
 

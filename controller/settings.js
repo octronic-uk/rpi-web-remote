@@ -97,9 +97,11 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		}).then(function successCalback(resp)
 		{
 			$scope.serialCommandList.put({name: name, cmd: cmd});
+			$scope.addAlert({ type: 'success', msg: 'Added command \"' + name + '\"' });
 		}, function errorCallback(resp)
 		{
-			console.log("Error addingserial command",name,cmd);
+			console.log("Error adding serial command",name,cmd);
+			$scope.addAlert({ type: 'danger', msg: 'Error adding command \"' + name + '\"' });
 		});
 	}
 
@@ -117,9 +119,11 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		{
 			var index = getSerialCommandIndexByName(commandName);
 			$scope.serialCommandList.splice(index,1);
+			$scope.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
 		}, function errorCallback(resp)
 		{
 			console.log("Error removing serial command",commandName);
+			$scope.addAlert({ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
 		});
 	}
 
@@ -131,7 +135,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	// Get a serial command by name
 	$scope.getSerialCommandByName = function(name)
 	{
-	  for (i = 0; i > $scope.serialCommandList.length; i++)
+	  for (i = 0; i < $scope.serialCommandList.length; i++)
 	  {
 	    var next = $scope.serialCommandList[i];
 
