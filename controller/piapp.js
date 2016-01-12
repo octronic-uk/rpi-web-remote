@@ -79,6 +79,48 @@ PiApp.controller('PiApp',
 			});
 		}
 
+		$scope.getDeviceSerialBaudrateList = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/serial/baudrate/list"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		}
+
+		$scope.setDeviceSerialPathApi = function(path,callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/device/serial/path",
+				data: {path: path}
+			}).then(function successCallback(resp)
+			{
+					callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		}
+
+		$scope.setDeviceSerialBaudrateApi = function(baud,callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/device/serial/baudrate",
+				data: {baudrate: baud}
+			}).then(function successCallback(resp)
+			{
+					callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
 
 		$scope.getPin = function(pins,i,callback)
 		{

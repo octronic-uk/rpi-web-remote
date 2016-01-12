@@ -20,230 +20,304 @@ var httpServer    = http.createServer(app);
 var eventHistory  = {};
 var PIN           = "pin";
 var serialPort    = null;
+var baudRateList = [
+  115200, 57600, 38400, 19200,
+  9600,   4800,  2400,  1800,
+  1200,   600,   300,   200,
+  150,    134,   110,   75, 50
+];
 
-if (config.serial)
+var initSerial = function()
 {
-  console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
-  serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate}, false);
-
-  serialPort.on('error', function(err) {
-    console.log(err); // THIS SHOULD WORK!
-  });
-
-  serialPort.open(function (err)
+  if (config.serial)
   {
-    if (err) {
-       console.log(err);
-    }
-  });
-}
-else
-{
-  console.log("Serial port support is not enabled");
-}
-
-// Configure express
-app.use(logger('dev'));
-app.use(express.static(path.join(__dirname, '../view')));
-app.use(express.static(path.join(__dirname, '../controller')));
-app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-bootstrap')));
-app.use(express.static(path.join(__dirname, '../node_modules/angular')));
-app.use(express.static(path.join(__dirname, '../node_modules/angular-cookies')));
-app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
-app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
-
-// HTTP Listen
-httpServer.listen(port);
-
-// HTTP Error handler
-httpServer.on('error', function(error)
-{
-  if (error.syscall !== 'listen')
-  {
-    throw error;
-  }
-
-  var bind = typeof port === 'string'
-  ? 'Pipe ' + port
-  : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-    console.error(bind + ' requires elevated privileges');
-    process.exit(constants.APP_EXIT_ERROR);
-    break;
-    case 'EADDRINUSE':
-    console.error(bind + ' is already in use');
-    process.exit(constants.APP_EXIT_ERROR);
-    break;
-    default:
-    throw error;
-  }
-});
-
-// HTTP Listen
-httpServer.on('listening', function()
-{
-  var addr = httpServer.address();
-  var bind = typeof addr === 'string'
-  ? 'pipe ' + addr
-  : 'port ' + addr.port;
-  console.log('Listening on ' + bind);
-});
-
-// Initialise pins
-config.pins.forEach(function(pin)
-{
-  if (pin.io == "out")
-  {
-    gpio.setup(pin.num, gpio.DIR_OUT,function()
+    if (serialPort && serialPort.isOpen())
     {
-      gpio.write(pin, pin.state, function(err)
+      serialPort.close(function(error)
       {
-        console.log("set pin",pin.num,"to",pin.state);
-        addPinEvent(pin.num, pin.state);
-      });
-    });
-  }
-  else if (pin.io == "in")
-  {
-    gpio.setup(pin.num, gpio.DIR_IN, gpio.EDGE_BOTH);
-  }
-});
-
-// Listen for state change on input pins
-gpio.on('change', function(channel, value)
-{
-  // Emmit to listeners here
-  console.log('Channel ' + channel + ' value is now ' + value);
-  addPinEvent(channel, value);
-});
-
-// Set the value of an output pin
-app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
-{
-  var pin = req.params.pin;
-  var val = req.params.value;
-
-  console.log("Setting output",pin,"to value",val);
-
-  gpio.write(pin, val, function(err)
-  {
-    if (err)
-    {
-      util.sendHttpError(res,"Unable to set output of pin "+pin);
-    }
-    else
-    {
-      addPinEvent(pin,val);
-      getPin(pin,function(pinObj)
-      {
-        if (pinObj)
+        if (error)
         {
-          pinObj.state = val;
-          util.sendHttpOK(res);
+          console.log("FATAL: Error closing serial port");
+          process.exit(constants.APP_EXIT_ERROR);
         }
         else
         {
-            util.sendHttpError(res);
+          console.log("Successfuly closed serial port");
         }
       });
     }
-  });
-});
 
-// Get the list of pins configured
-app.get("/api/gpio/list",jsonParser,function(req,res)
-{
-  util.sendHttpJson(res,config.pins);
-});
+    console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
+    serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate}, false);
 
-// Get the state of a pin
-app.get("/api/gpio/:pin", jsonParser, function(req,res)
-{
-  var pin = req.params.pin;
+    serialPort.on('error', function(err) {
+      console.log(err); // THIS SHOULD WORK!
+    });
 
-  getPin(pin, function(pinObj)
-  {
-    if (pinObj)
+    serialPort.open(function (err)
     {
-      // Read state for input
-      if (pinObj.io == "in")
+      if (err) {
+         console.log(err);
+      }
+    });
+  }
+  else
+  {
+    console.log("Serial port support is not enabled");
+  }
+}
+
+// Configure express
+var initExpress = function()
+{
+  app.use(logger('dev'));
+  app.use(express.static(path.join(__dirname, '../view')));
+  app.use(express.static(path.join(__dirname, '../controller')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-bootstrap')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-cookies')));
+  app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
+}
+
+var initHttpServer = function()
+{
+  // HTTP Listen
+  httpServer.listen(port);
+
+  // HTTP Error handler
+  httpServer.on('error', function(error)
+  {
+    if (error.syscall !== 'listen')
+    {
+      throw error;
+    }
+
+    var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+      case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(constants.APP_EXIT_ERROR);
+      break;
+      case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(constants.APP_EXIT_ERROR);
+      break;
+      default:
+      throw error;
+    }
+  });
+
+  // HTTP Listen
+  httpServer.on('listening', function()
+  {
+    var addr = httpServer.address();
+    var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+    console.log('Listening on ' + bind);
+  });
+}
+
+var initGpio = function()
+{
+  // Initialise pins
+  config.pins.forEach(function(pin)
+  {
+    if (pin.io == "out")
+    {
+      gpio.setup(pin.num, gpio.DIR_OUT,function()
       {
-        gpio.read(pin, function(err, value)
+        gpio.write(pin, pin.state, function(err)
         {
-          if (err)
+          console.log("set pin",pin.num,"to",pin.state);
+          addPinEvent(pin.num, pin.state);
+        });
+      });
+    }
+    else if (pin.io == "in")
+    {
+      gpio.setup(pin.num, gpio.DIR_IN, gpio.EDGE_BOTH);
+    }
+  });
+
+  // Listen for state change on input pins
+  gpio.on('change', function(channel, value)
+  {
+    // Emmit to listeners here
+    console.log('Channel ' + channel + ' value is now ' + value);
+    addPinEvent(channel, value);
+  });
+}
+
+var initRoutes = function()
+{
+  // Set the value of an output pin
+  app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
+  {
+    var pin = req.params.pin;
+    var val = req.params.value;
+
+    console.log("Setting output",pin,"to value",val);
+
+    gpio.write(pin, val, function(err)
+    {
+      if (err)
+      {
+        util.sendHttpError(res,"Unable to set output of pin "+pin);
+      }
+      else
+      {
+        addPinEvent(pin,val);
+        getPin(pin,function(pinObj)
+        {
+          if (pinObj)
           {
-            util.sendHttpError(res,"error reading pin "+pin);
+            pinObj.state = val;
+            util.sendHttpOK(res);
           }
           else
           {
-            util.sendHttpJson(res,{value: value});
+              util.sendHttpError(res);
           }
         });
       }
-      // Get state from memory for output
+    });
+  });
+
+  // Get the list of pins configured
+  app.get("/api/gpio/list",jsonParser,function(req,res)
+  {
+    util.sendHttpJson(res,config.pins);
+  });
+
+  // Get the state of a pin
+  app.get("/api/gpio/:pin", jsonParser, function(req,res)
+  {
+    var pin = req.params.pin;
+
+    getPin(pin, function(pinObj)
+    {
+      if (pinObj)
+      {
+        // Read state for input
+        if (pinObj.io == "in")
+        {
+          gpio.read(pin, function(err, value)
+          {
+            if (err)
+            {
+              util.sendHttpError(res,"error reading pin "+pin);
+            }
+            else
+            {
+              util.sendHttpJson(res,{value: value});
+            }
+          });
+        }
+        // Get state from memory for output
+        else
+        {
+          util.sendHttpJson(res,{value: pinObj.state});
+        }
+      }
       else
       {
-        util.sendHttpJson(res,{value: pinObj.state});
+        util.sendHttpNotFound(res);
       }
+    });
+  });
+
+  // Get the state history for a pin
+  app.get('/api/gpio/:pin/history', function(req,res)
+  {
+    var pin = req.params.pin;
+    var data = eventHistory[pinNumString(pin)];
+
+    if (data)
+      util.sendHttpJson(res,data);
+    else
+      util.sendHttpNotFound(res);
+  });
+
+  // Get the name of the device
+  app.get('/api/device/name', jsonParser, function(req,res)
+  {
+    util.sendHttpJson(res, {name: config.device_name});
+  });
+
+  // Get the devce's list of serial ports
+  app.get('/api/device/serial/list',jsonParser,function(req,res)
+  {
+    if (serialPort)
+    {
+      SerialPortModule.list(function (err, ports)
+      {
+        if (err || ports == null)
+        {
+          util.sendHttpError(res);
+        }
+        else
+        {
+          var data = [];
+
+          ports.forEach(function(port)
+          {
+            data.push(port.comName);
+          });
+
+          util.sendHttpJson(res,data);
+        }
+      });
     }
     else
     {
       util.sendHttpNotFound(res);
     }
   });
-});
 
-// Get the state history for a pin
-app.get('/api/gpio/:pin/history', function(req,res)
-{
-  var pin = req.params.pin;
-  var data = eventHistory[pinNumString(pin)];
-
-  if (data)
-    util.sendHttpJson(res,data);
-  else
-    util.sendHttpNotFound(res);
-});
-
-// Get the name of the device
-app.get('/api/device/name', jsonParser, function(req,res)
-{
-  util.sendHttpJson(res, {name: config.device_name});
-});
-
-// Get the devce's list of serial ports
-app.get('/api/device/serial/list',jsonParser,function(req,res)
-{
-  if (serialPort)
+  // Get list of supported baud rates
+  app.get('/api/device/serial/baudrate/list',jsonParser,function(req,res)
   {
-    SerialPortModule.list(function (err, ports)
+    util.sendHttpJson(res,baudRateList);
+  });
+
+  // Set the serial device path
+  app.put('/api/device/serial/path', jsonParser, function(req,res)
+  {
+    var path = req.body.path;
+    if (path)
     {
-      if (err || ports == null)
-      {
-        util.sendHttpError(res);
-      }
-      else
-      {
-        var data = [];
+      config.serial.path = path;
+      res.sendHttpOK(res);
+    }
+    else
+    {
+      initSerial();
+      req.sendHttpError(res);
+    }
+  });
 
-        ports.forEach(function(port)
-        {
-          data.push(port.comName);
-        });
-
-        util.sendHttpJson(res,data);
-      }
-    });
-  }
-  else
+  // Set the serial baud rate
+  app.put('/api/device/serial/baudrate', jsonParser, function(req,res)
   {
-    util.sendHttpNotFound(res);
-  }
-});
-
+    var baudrate = req.body.baudrate;
+    if (baudrate)
+    {
+      config.serial.baudrate = baudrate;
+      res.sendHttpOK(res);
+    }
+    else
+    {
+      initSerial();
+      req.sendHttpError(res);
+    }
+  });
+}
 // Convert a pin integer to a variable name
 var pinNumString = function(pin)
 {
@@ -273,3 +347,9 @@ var getPin = function(pin,callback)
     }
   }
 }
+
+initSerial();
+initGpio();
+initExpress();
+initHttpServer();
+initRoutes();

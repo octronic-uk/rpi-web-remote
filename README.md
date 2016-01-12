@@ -9,6 +9,7 @@ This project implements a simple remote control web application that allows user
 * Name pins for easy access.
 * Runs on any device with a modern web browser.
 * Great starting point for home automation or remote management projects.
+* Support for sending serial commands to external devices such as Arduino.
 
 ## Android Screenshot
 ![Android Screenshot](/readme/android_screen.png)

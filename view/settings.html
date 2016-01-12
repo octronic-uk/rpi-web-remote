@@ -11,6 +11,13 @@
           <option ng-repeat="port in serialPortList" value="{{port}}">{{port}}</option>
         </select>
       </div>
+      <div class="form-group">
+        <label for="select-baud">Baud Rate</label>
+        <select id="select-baud" class="form-control" ng-model="selectedBaudrate">
+          <option value="">Select Baud Rate</option>
+          <option ng-repeat="baud in baudRateList" value="{{baud}}">{{baud}}</option>
+        </select>
+      </div>
     </form>
   </div>
   <div class="clearfix panel-footer">
