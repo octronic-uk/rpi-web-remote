@@ -137,8 +137,6 @@ app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
             util.sendHttpError(res);
         }
       });
-
-
     }
   });
 });
@@ -187,9 +185,24 @@ app.get("/api/gpio/:pin", jsonParser, function(req,res)
 });
 
 // Get the name of the device
-app.get('/api/devicename', jsonParser, function(req,res)
+app.get('/api/device/name', jsonParser, function(req,res)
 {
   util.sendHttpJson(res, {name: config.device_name});
+});
+
+// Get the devce's list of serial ports
+app.get('/api/device/serial/ports',jsonParser,function(req,res)
+{
+  serialPort.list(function (err, ports)
+  {
+    if (err || ports == null)
+    {
+      util.sendHttpError(res);
+    }
+    else
+    {
+      util.sendHttpJson(ports);
+    }
 });
 
 // Get the state history for a pin

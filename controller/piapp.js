@@ -55,7 +55,7 @@ PiApp.controller('PiApp',
 		{
 			$http({
 				method: "GET",
-				url: "/api/devicename"
+				url: "/api/device/name"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data).name);
@@ -64,6 +64,21 @@ PiApp.controller('PiApp',
 				callback(null);
 			});
 		}
+
+		$scope.getDeviceSerialPortsApi = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/serial/ports"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).name);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		}
+
 
 		$scope.getPin = function(pins,i,callback)
 		{
