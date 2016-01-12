@@ -115,12 +115,31 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			}
 		}).then(function successCalback(resp)
 		{
-			var index = $scope.indexOf(commandName);
+			var index = getSerialCommandIndexByName(commandName);
 			$scope.serialCommandList.splice(index,1);
 		}, function errorCallback(resp)
 		{
 			console.log("Error removing serial command",commandName);
 		});
+	}
+
+	$scope.getSerialCommandIndexByName = function(name)
+	{
+	  return $scope.serialCommandList.indexOf($scope.getSerialCommandByName(name));
+	}
+
+	// Get a serial command by name
+	$scope.getSerialCommandByName = function(name)
+	{
+	  for (i = 0; i > $scope.serialCommandList.length; i++)
+	  {
+	    var next = $scope.serialCommandList[i];
+
+	    if (next.name == name)
+	    {
+	      return next;
+	    }
+	  }
 	}
 }
 ]);

@@ -307,9 +307,9 @@ var initRoutes = function()
     var name = req.body.name;
     var command = req.body.cmd;
 
-    if (name && command)
+    if (name != undefined && command != undefined)
     {
-      config.serial.commands.put({name: name, cmd: command});
+      config.serial.commands.put({name: name, cmd: cmd});
       util.sendHttpOK(res);
     }
     else
@@ -322,7 +322,7 @@ var initRoutes = function()
   app.delete('/api/device/serial/command',jsonParser,function(req,res)
   {
     var name = req.body.name;
-    var index = config.serial.commands.indexOf(name);
+    var index = getSerialCommandIndexByName(name);
 
     if (index > -1)
     {
@@ -405,6 +405,25 @@ var initRoutes = function()
       }
     });
   });
+}
+
+var getSerialCommandIndexByName = function(name)
+{
+  return config.serial.commands.indexOf(getSerialCommandByName(name));
+}
+
+// Get a serial command by name
+var getSerialCommandByName = function(name)
+{
+  for (i = 0; i > config.serial.commands.length; i++)
+  {
+    var next = config.serial.commands[i];
+
+    if (next.name == name)
+    {
+      return next;
+    }
+  }
 }
 
 // Save the configuration object to disk
