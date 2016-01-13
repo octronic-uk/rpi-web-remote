@@ -1,7 +1,6 @@
 .toast-alert
 {
    z-index:9999;
-   width: 100%;
-   margin:2m;
+   width: 90%;
    position: absolute;
 }
