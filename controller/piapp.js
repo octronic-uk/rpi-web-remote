@@ -5,9 +5,9 @@ var PiApp = angular.module('PiApp',
 	'ui.router',
 ]);
 
-PiApp.controller('PiApp',
-	['$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
-	function($state, $stateParams, $cookies, $http, $scope, $rootScope)
+PiApp.controller('PiApp', [
+	'$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
+   function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
 		$scope.alerts = [];
 
@@ -287,20 +287,20 @@ PiApp.controller('PiApp',
 
 		$scope.executeSerialCommandApi = function(cmd, callback)
 		{
-		 $http({
-			 method:"PUT",
-			 url:"/api/device/serial/command/execute",
-			 data: {
-				 cmd: cmd
-			 }
-		 }).then(function successCallback(res)
-		 {
-			 callback(true);
-		 },function errorCallback(res)
-		 {
-			 callback(false);
-		 });
-	 };
+			$http({
+				method:"PUT",
+				url:"/api/device/serial/command/execute",
+				data: {
+					cmd: cmd
+				}
+			}).then(function successCallback(res)
+			{
+				callback(true);
+			},function errorCallback(res)
+			{
+				callback(false);
+			});
+		};
 
 		// Client function definitions ---------------------------------------------
 
@@ -376,5 +376,5 @@ PiApp.controller('PiApp',
 		{
 			$scope.deviceName = name;
 		});
-  }
+	}
 ]);
