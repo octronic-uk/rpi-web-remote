@@ -177,7 +177,7 @@ PiApp.controller('PiApp',
 				url: "/api/device/serial/path",
 			}).then(function successCallback(res)
 			{
-					callback(JSON.parse(res.data).path);
+				callback(JSON.parse(res.data).path);
 			},function errorCallback(res)
 			{
 				callback(null);
@@ -191,7 +191,7 @@ PiApp.controller('PiApp',
 				url: "/api/device/serial/baudrate",
 			}).then(function successCallback(res)
 			{
-					callback(JSON.parse(res.data).baudrate);
+				callback(JSON.parse(res.data).baudrate);
 			},function errorCallback(res)
 			{
 				callback(null);
@@ -206,7 +206,7 @@ PiApp.controller('PiApp',
 				data: {path: path}
 			}).then(function successCallback(resp)
 			{
-					callback(true);
+				callback(true);
 			}, function errorCallback(resp)
 			{
 				callback(false);
@@ -221,7 +221,7 @@ PiApp.controller('PiApp',
 				data: {baudrate: baud}
 			}).then(function successCallback(resp)
 			{
-					callback(true);
+				callback(true);
 			}, function errorCallback(resp)
 			{
 				callback(false);
@@ -249,7 +249,7 @@ PiApp.controller('PiApp',
 				url: "/api/config/save",
 			}).then(function successCallback(resp)
 			{
-					callback(true);
+				callback(true);
 			}, function errorCallback(resp)
 			{
 				callback(false);
@@ -263,7 +263,7 @@ PiApp.controller('PiApp',
 				url: "/api/device/serial/restart",
 			}).then(function successCallback(resp)
 			{
-					callback(true);
+				callback(true);
 			}, function errorCallback(resp)
 			{
 				callback(false);
@@ -277,7 +277,7 @@ PiApp.controller('PiApp',
 				url: "/api/gpio/"+pin+"/history"
 			}).then(function successCallback(resp)
 			{
-					callback(JSON.parse(resp.data));
+				callback(JSON.parse(resp.data));
 			},
 			function errorCallback(resp)
 			{
@@ -306,7 +306,7 @@ PiApp.controller('PiApp',
 
 		$scope.getPinByNumber = function(pins,i,callback)
 		{
-			for (j = 0; j < pins.length; j++)
+			for (var j = 0; j < pins.length; j++)
 			{
 				if (pins[j].num == i)
 				{
@@ -318,7 +318,7 @@ PiApp.controller('PiApp',
 
 		$scope.getPinByName = function(pins,name,callback)
 		{
-			for (j = 0; j < pins.length; j++)
+			for (var j = 0; j < pins.length; j++)
 			{
 				if (pins[j].name == name)
 				{
