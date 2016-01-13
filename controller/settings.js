@@ -3,7 +3,6 @@ PiApp.controller('Settings',
 function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 {
 	$controller('PiApp', {$scope: $scope});
-
 	$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
 	$scope.REMOVE_CMD_DEFAULT = "Select Command";
 
@@ -167,13 +166,29 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 				$scope.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
 				$scope.getPinByName($scope.pinList,pin,function(pinObj)
 				{
-					$scope.pinList.splice(pinObj);
+					var index = $scope.pinList.indexOf(pinObj);
+					$scope.pinList.splice(index,1);
 				});
 			}
 			else
 			{
 				$scope.addAlert({ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
 			}
+		});
+	};
+
+	$scope.serialEnabledCheckboxChanged = function()
+	{
+		$scope.setDeviceSerialEnabledApi($scope.ui.serialEnabled,function(resp)
+		{
+				if (resp)
+				{
+					$scope.addAlert({ type: 'success', msg: 'Serial has been enabled.' });
+				}
+				else
+				{
+					$scope.addAlert({ type: 'warning', msg: 'Serial has been disabled.' });
+				}
 		});
 	};
 }

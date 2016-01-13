@@ -314,6 +314,20 @@ var initRoutes = function()
     util.sendHttpJson(res, {name: config.device_name});
   });
 
+  // Get serial enabled state
+  app.get('/api/device/serial/enabled', jsonParser, function(req,res)
+  {
+    util.sendHttpJson(res,{enabled: config.serial.enabled});
+  });
+
+  // Set serial enabled state
+  app.put('/api/device/serial/enabled/:en', jsonParser, function(req,res)
+  {
+    var enabled = req.params.en;
+    config.serial.enabled = (enabled == "true" ? true : false);
+    util.sendHttpOK(res);
+  });
+
   // Get the devce's list of serial ports
   app.get('/api/device/serial/list',jsonParser,function(req,res)
   {

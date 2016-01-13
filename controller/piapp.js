@@ -10,6 +10,7 @@ PiApp.controller('PiApp', [
    function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
 		$scope.alerts = [];
+		$scope.ui = {};
 
 		// API function calls ------------------------------------------------------
 
@@ -302,6 +303,34 @@ PiApp.controller('PiApp', [
 			});
 		};
 
+		$scope.getDeviceSerialEnabledApi = function(callback)
+		{
+			$htt({
+				method: "GET",
+				url: "/api/device/serial/enabled",
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).enabled);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		};
+
+		$scope.setDeviceSerialEnabledApi = function(enabled,callback)
+		{
+			$htt({
+				method: "PUT",
+				url: "/api/device/serial/enabled/"+enabled,
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		};
+
 		// Client function definitions ---------------------------------------------
 
 		$scope.getPinByNumber = function(pins,i,callback)
@@ -375,6 +404,11 @@ PiApp.controller('PiApp', [
 		$scope.getDeviceNameApi(function(name)
 		{
 			$scope.deviceName = name;
+		});
+
+		$scope.getDeviceSerialEnabledApi(function(en)
+		{
+			$scope.ui.serialEnabled = en;
 		});
 	}
 ]);
