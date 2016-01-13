@@ -5,7 +5,6 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	$controller('PiApp', {$scope: $scope});
 	$scope.serialPortList = [];
 	$scope.alerts = [];
-	$scope.REMOVE_CMD_DEFAULT = "Select Command";
 
   // Client function definitions -----------------------------------------------
 
@@ -27,7 +26,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 				$scope.addAlert({ type: 'danger', msg: 'Error adding command \"' + name + '\"' });
 			}
 		});
-	}
+	};
 
 	$scope.removeSerialCommand = function()
 	{
@@ -57,7 +56,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 					$scope.addAlert({ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
 				}
 		});
-	}
+	};
 
 	$scope.saveSerialSettings = function()
 	{
@@ -107,7 +106,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 				$scope.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!.' });
 			}
 		});
-	}
+	};
 
   // Get the index of a command by name
 	$scope.getSerialCommandIndexByName = function(name,callback)
@@ -116,7 +115,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	  {
 			callback($scope.serialCommandList.indexOf(cmd));
 		});
-	}
+	};
 
 	// Get a serial command by name
 	$scope.getSerialCommandByName = function(name,callback)
@@ -132,33 +131,52 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 				break;
 	    }
 	  }
-	}
+	};
 
-	// Calls ---------------------------------------------------------------------
-
-	$scope.getDeviceSerialListApi(function(serialList)
+	$scope.addGpioPin = function()
 	{
-		$scope.serialPortList = serialList;
-	});
+		var name = $scope.gpioPinAddName;
+		var num = $scope.gpioPinAddNum;
+		var io = $scope.gpioPinAddIo;
+		var state = $scope.gpioPinAddState;
 
-	$scope.getDeviceSerialBaudrateListApi(function(baudList)
-	{
-		$scope.baudRateList = baudList;
-	});
+		$scope.addGpioPinApi(name,num,io,state,function(res)
+		{
+			if (res)
+			{
+				$scope.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
+				$scope.getGpioListApi(function(list)
+				{
+					$scope.pinList = list;
+				});
+			}
+			else
+			{
+				$scope.addAlert({ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
+			}
+		});
+	};
 
-	$scope.getDeviceSerialCommandListApi(function(commandList)
+	// Remove GPIO pin
+	$scope.reomveGpioPin = function()
 	{
-		$scope.serialCommandList = commandList;
-	});
+		var pin = $scope.gpioPinRemove;
 
-	$scope.getDeviceSerialBaudrateApi(function(baudrate)
-	{
-		$scope.selectedBaudrate = baudrate;
-	});
-
-	$scope.getDeviceSerialPathApi(function(path)
-	{
-		$scope.selectedSerialPort = path;
-	});
+		$scope.removeGpioPinApi(pin,function(res)
+		{
+			if (res)
+			{
+				$scope.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
+				$scope.getGpioListApi(function(list)
+				{
+					$scope.pinList = list;
+				});
+			}
+			else
+			{
+				$scope.addAlert({ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
+			}
+		});
+	};
 }
 ]);

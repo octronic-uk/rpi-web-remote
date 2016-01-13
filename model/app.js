@@ -51,7 +51,7 @@ var closeSerial = function(callback)
   else {
     callback();
   }
-}
+};
 
 var initSerial = function()
 {
@@ -75,12 +75,12 @@ var initSerial = function()
   {
     console.log("Serial port support is not enabled");
   }
-}
+};
 
 var restartSerial = function()
 {
   closeSerial(initSerial);
-}
+};
 
 // Configure express
 var initExpress = function()
@@ -93,7 +93,7 @@ var initExpress = function()
   app.use(express.static(path.join(__dirname, '../node_modules/angular-cookies')));
   app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
-}
+};
 
 var initHttpServer = function()
 {
@@ -108,9 +108,7 @@ var initHttpServer = function()
       throw error;
     }
 
-    var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
@@ -131,12 +129,10 @@ var initHttpServer = function()
   httpServer.on('listening', function()
   {
     var addr = httpServer.address();
-    var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+    var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Listening on ' + bind);
   });
-}
+};
 
 var initGpio = function()
 {
@@ -167,7 +163,7 @@ var initGpio = function()
     console.log('Channel ' + channel + ' value is now ' + value);
     addPinEvent(channel, value);
   });
-}
+};
 
 var initRoutes = function()
 {
@@ -188,7 +184,7 @@ var initRoutes = function()
       else
       {
         addPinEvent(pin,val);
-        getPin(pin,function(pinObj)
+        getPinByNumber(pin,function(pinObj)
         {
           if (pinObj)
           {
@@ -210,12 +206,57 @@ var initRoutes = function()
     util.sendHttpJson(res,config.pins);
   });
 
+  // Get the list of pins configured
+  app.put("/api/gpio/list",jsonParser,function(req,res)
+  {
+    var pinList = req.body.list;
+    config.pins = list;
+    util.sendHttpOK(res);
+  });
+
+  // Remove a pin from the config
+  app.put("/api/gpio/remove",jsonParser,function(req,res)
+  {
+    var pin = req.body.pin;
+    getPinByNumber(pin, function(pinObj)
+    {
+      if (pinObj)
+      {
+        var index = config.pins.indexOf(pinObj);
+        congig.pins.splice(index,1);
+        util.sendHttpOK(res);
+      }
+      else
+      {
+          util.sendHttpError(res);
+      }
+    });
+  });
+
+  // Add a pin to the config list
+  app.put("/api/gpio/add",jsonParser,function(req,res)
+  {
+    var num = req.body.num;
+    var name = req.body.name;
+    var io = req.body.io;
+    var state = req.body.state;
+
+    config.pins.push({
+      name: name,
+      num: num,
+      io: io,
+      state: state
+    });
+
+    util.sendHttpOK(res);
+  });
+
   // Get the state of a pin
   app.get("/api/gpio/:pin", jsonParser, function(req,res)
   {
     var pin = req.params.pin;
 
-    getPin(pin, function(pinObj)
+    getPinByNumber(pin, function(pinObj)
     {
       if (pinObj)
       {
@@ -272,7 +313,7 @@ var initRoutes = function()
     {
       SerialPortModule.list(function (err, ports)
       {
-        if (err || ports == null)
+        if (err || ports === null)
         {
           util.sendHttpError(res);
         }
@@ -306,8 +347,9 @@ var initRoutes = function()
   {
     var name = req.body.name;
     var command = req.body.cmd;
-    console.log("Adding command",name,"/",command)
-    if (name != undefined && command != undefined)
+    console.log("Adding command",name,"/",command);
+
+    if (name !== undefined && command !== undefined)
     {
       config.serial.commands.push({name: name, cmd: command});
       util.sendHttpOK(res);
@@ -387,7 +429,7 @@ var initRoutes = function()
   // get the serial baud rate
   app.get('/api/device/serial/baudrate', jsonParser, function(req,res)
   {
-    util.sendHttpJson(res,{baudrate: config.serial.baudrate})
+    util.sendHttpJson(res,{baudrate: config.serial.baudrate});
   });
 
   // Set the serial device path
@@ -443,7 +485,7 @@ var initRoutes = function()
       }
     });
   });
-}
+};
 
 // Get a serial command's index by name
 var getSerialCommandIndexByName = function(name,callback)
@@ -452,7 +494,7 @@ var getSerialCommandIndexByName = function(name,callback)
   {
     callback(config.serial.commands.indexOf(cmd));
   });
-}
+};
 
 // Get a serial command by name
 var getSerialCommandByName = function(name, callback)
@@ -469,7 +511,7 @@ var getSerialCommandByName = function(name, callback)
       break;
     }
   }
-}
+};
 
 // Save the configuration object to disk
 var saveConfigFile = function(callback)
@@ -487,27 +529,27 @@ var saveConfigFile = function(callback)
       callback(null);
     }
   });
-}
+};
 
 // Convert a pin integer to a variable name
 var pinNumString = function(pin)
 {
   return PIN+pin;
-}
+};
 
 // Add an event to the pin history
 var addPinEvent = function(pinNum, state)
 {
-  if (eventHistory[pinNumString(pinNum)] == null)
+  if (eventHistory[pinNumString(pinNum)] === null)
   {
     eventHistory[pinNumString(pinNum)] = [];
   }
   console.log("Adding pin event to history  (pin / state)",pinNum,"/",state);
-  eventHistory[pinNumString(pinNum)].push({date: new Date(), state});
-}
+  eventHistory[pinNumString(pinNum)].push({date: new Date(), state: state});
+};
 
 // Return a pin object based on it's number
-var getPin = function(pin,callback)
+var getPinByNumber = function(pin,callback)
 {
   for (i = 0; i < config.pins.length; i++)
   {
@@ -517,7 +559,7 @@ var getPin = function(pin,callback)
       break;
     }
   }
-}
+};
 
 initSerial();
 initGpio();

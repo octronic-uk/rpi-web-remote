@@ -18,7 +18,7 @@ PiApp.controller('Landing',
 					});
 				}
 			});
-		}
+		};
 
 		$scope.executeSerialCommand = function(command)
 		{
@@ -33,20 +33,6 @@ PiApp.controller('Landing',
 					$scope.addAlert({ type: 'danger', msg: 'Error executing'+command+'. Please try again!.' });
 				}
 			});
-		}
-
-		// Function Calls ----------------------------------------------------------
-
-		console.log("Getting GPIO list from API");
-
-		$scope.getGpioListApi(function(list)
-		{
-			$scope.pinList = list;
-		});
-
-		$scope.getDeviceSerialCommandListApi(function(commandList)
-		{
-			$scope.serialCommandList = commandList;
-		});
+		};
 	}
 ]);

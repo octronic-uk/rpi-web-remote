@@ -9,7 +9,8 @@ PiApp.controller('PiApp',
 	['$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
 	function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
-
+		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
+		$scope.REMOVE_CMD_DEFAULT = "Select Command";
 		// API function calls ------------------------------------------------------
 
 		$scope.addSerialCommandApi = function(name,cmd,callback)
@@ -28,11 +29,10 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
-		}
+		};
 
 		$scope.removeSerialCommandApi = function(name,callback)
 		{
-			var name = $scope.serialCommandRemove;
 			console.log("Removing command",name);
 			$http({
 				method: "PUT",
@@ -47,7 +47,7 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
-		}
+		};
 
 		$scope.setGpioPinValueApi = function(pin, value, callback)
 		{
@@ -61,7 +61,7 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
-		}
+		};
 
 		$scope.getGpioPinApi = function(pin, callback)
 		{
@@ -75,7 +75,7 @@ PiApp.controller('PiApp',
 			{
 				callback(null);
 			});
-		}
+		};
 
 		$scope.getGpioListApi = function(callback)
 		{
@@ -89,7 +89,44 @@ PiApp.controller('PiApp',
 			{
 				callback(null);
 			});
-		}
+		};
+
+		$scope.removeGpioPinApi = function(pinNum,callback)
+		{
+			$http({
+				method: "put",
+				url: "/api/gpio/remove",
+				data: {
+					pin: pinNum
+				}
+			}).then(function successCallback(res)
+			{
+				callback(true);
+			},function errorCallback(res)
+			{
+				callback(false);
+			});
+		};
+
+		$scope.addGpioPinApi = function(name,num,io,state,callback)
+		{
+			$http({
+				method: "put",
+				url: "/api/gpio/add",
+				data: {
+					name:name,
+					num:num,
+					io:io,
+					state:state
+				}
+			}).then(function successCallback(res)
+			{
+				callback(true);
+			},function errorCallback(res)
+			{
+				callback(false);
+			});
+		};
 
 		$scope.getDeviceNameApi = function(callback)
 		{
@@ -103,7 +140,7 @@ PiApp.controller('PiApp',
 			{
 				callback(null);
 			});
-		}
+		};
 
 		$scope.getDeviceSerialListApi = function(callback)
 		{
@@ -117,7 +154,7 @@ PiApp.controller('PiApp',
 			{
 				callback(null);
 			});
-		}
+		};
 
 		$scope.getDeviceSerialBaudrateListApi = function(callback)
 		{
@@ -131,7 +168,7 @@ PiApp.controller('PiApp',
 			{
 				callback(null);
 			});
-		}
+		};
 
 		$scope.getDeviceSerialPathApi = function(callback)
 		{
@@ -145,7 +182,7 @@ PiApp.controller('PiApp',
 			{
 				callback(null);
 			});
-		}
+		};
 
 		$scope.getDeviceSerialBaudrateApi = function(callback)
 		{
@@ -159,7 +196,7 @@ PiApp.controller('PiApp',
 			{
 				callback(null);
 			});
-		}
+		};
 
 		$scope.setDeviceSerialPathApi = function(path,callback)
 		{
@@ -174,7 +211,7 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
-		}
+		};
 
 		$scope.setDeviceSerialBaudrateApi = function(baud,callback)
 		{
@@ -189,7 +226,7 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
-		}
+		};
 
 		$scope.getDeviceSerialCommandListApi = function(callback)
 		{
@@ -203,7 +240,7 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
-		}
+		};
 
 		$scope.configSaveApi = function(callback)
 		{
@@ -217,7 +254,7 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
-		}
+		};
 
 		$scope.deviceSerialRestartApi = function(callback)
 		{
@@ -231,7 +268,7 @@ PiApp.controller('PiApp',
 			{
 				callback(false);
 			});
-		}
+		};
 
 		$scope.getGpioPinHistoryApi = function(pin, callback)
 		{
@@ -246,7 +283,7 @@ PiApp.controller('PiApp',
 			{
 				callback(null);
 			});
-		}
+		};
 
 		$scope.executeSerialCommandApi = function(cmd, callback)
 		{
@@ -263,7 +300,7 @@ PiApp.controller('PiApp',
 		 {
 			 callback(false);
 		 });
-		}
+	 };
 
 		// Client function definitions ---------------------------------------------
 
@@ -277,19 +314,51 @@ PiApp.controller('PiApp',
 					break;
 				}
 			}
-		}
+		};
 
 		$scope.addAlert = function(alert)
 		{
 			$scope.alerts.push(alert);
-		}
+		};
 
 		$scope.closeAlert = function(index)
 		{
 			$scope.alerts.splice(index, 1);
-		}
+		};
 
 		// Function calls ----------------------------------------------------------
+
+		// API Calls -----------------------------------------------------------------
+
+		$scope.getDeviceSerialListApi(function(serialList)
+		{
+			$scope.serialPortList = serialList;
+		});
+
+		$scope.getDeviceSerialBaudrateListApi(function(baudList)
+		{
+			$scope.baudRateList = baudList;
+		});
+
+		$scope.getDeviceSerialCommandListApi(function(commandList)
+		{
+			$scope.serialCommandList = commandList;
+		});
+
+		$scope.getDeviceSerialBaudrateApi(function(baudrate)
+		{
+			$scope.selectedBaudrate = baudrate;
+		});
+
+		$scope.getDeviceSerialPathApi(function(path)
+		{
+			$scope.selectedSerialPort = path;
+		});
+
+		$scope.getGpioListApi(function(list)
+		{
+			$scope.pinList = list;
+		});
 
 		$scope.getDeviceNameApi(function(name)
 		{
