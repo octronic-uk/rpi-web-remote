@@ -324,7 +324,7 @@ PiApp.controller('PiApp', [
 				url: "/api/device/serial/enabled/"+enabled,
 			}).then(function successCallback(resp)
 			{
-				callback(true);
+				callback(resp);
 			},function errorCallback(resp)
 			{
 				callback(false);
