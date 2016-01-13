@@ -367,8 +367,6 @@ PiApp.controller('PiApp', [
 			$scope.alerts.splice(index, 1);
 		};
 
-		// Function calls ----------------------------------------------------------
-
 		// API Calls -----------------------------------------------------------------
 
 		$scope.getDeviceSerialData = function()
@@ -405,7 +403,7 @@ PiApp.controller('PiApp', [
 
 			if ($scope.ui.serialEnabled)
 			{
-				$scope.getDevieSerialData();
+				$scope.getDeviceSerialData();
 			}
 		});
 
