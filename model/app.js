@@ -55,7 +55,7 @@ var closeSerial = function(callback)
 
 var initSerial = function()
 {
-  if (config.serial)
+  if (config.serial.enable)
   {
     console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
     serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate}, false);

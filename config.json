@@ -2,6 +2,7 @@
   "device_name":"Bedroom",
   "http_port": 80,
   "serial": {
+    "enable": false,
     "path": "/dev/ttyUSB0",
     "baudrate": 9600,
     "commands": [
