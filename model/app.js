@@ -218,13 +218,21 @@ var initRoutes = function()
   app.put("/api/gpio/remove",jsonParser,function(req,res)
   {
     var pin = req.body.pin;
-    getPinByNumber(pin, function(pinObj)
+    getPinByName(pin, function(pinObj)
     {
       if (pinObj)
       {
         var index = config.pins.indexOf(pinObj);
-        congig.pins.splice(index,1);
-        util.sendHttpOK(res);
+
+        if (index > -1)
+        {
+          congig.pins.splice(index,1);
+          util.sendHttpOK(res);
+        }
+        else
+        {
+          util.sendHttpError(res);
+        }
       }
       else
       {
@@ -554,6 +562,19 @@ var getPinByNumber = function(pin,callback)
   for (i = 0; i < config.pins.length; i++)
   {
     if (config.pins[i].num == pin)
+    {
+      callback(config.pins[i]);
+      break;
+    }
+  }
+};
+
+// Return a pin object based on it's number
+var getPinByName = function(pin,callback)
+{
+  for (i = 0; i < config.pins.length; i++)
+  {
+    if (config.pins[i].name == pin)
     {
       callback(config.pins[i]);
       break;
