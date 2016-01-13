@@ -9,8 +9,8 @@ PiApp.controller('PiApp',
 	['$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
 	function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
-		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
-		$scope.REMOVE_CMD_DEFAULT = "Select Command";
+
+
 		// API function calls ------------------------------------------------------
 
 		$scope.addSerialCommandApi = function(name,cmd,callback)

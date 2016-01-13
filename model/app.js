@@ -218,7 +218,7 @@ var initRoutes = function()
   app.put("/api/gpio/remove",jsonParser,function(req,res)
   {
     var pin = req.body.pin;
-    getPinByNumber(pin, function(pinObj)
+    getGpioPinByNumber(pin, function(pinObj)
     {
       if (pinObj)
       {
@@ -486,6 +486,19 @@ var initRoutes = function()
     });
   });
 };
+
+var getGpioPinByNumber = function(num, callback)
+{
+  var pinsLength = config.pins.length;
+  for (var i = 0; i < pinsLength; i++)
+  {
+    if (config.pins[i].num == num)
+    {
+      callback(config.pins[i]);
+    }
+  }
+};
+
 
 // Get a serial command's index by name
 var getSerialCommandIndexByName = function(name,callback)

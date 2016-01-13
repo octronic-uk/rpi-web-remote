@@ -5,6 +5,8 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	$controller('PiApp', {$scope: $scope});
 	$scope.serialPortList = [];
 	$scope.alerts = [];
+	$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
+	$scope.REMOVE_CMD_DEFAULT = "Select Command";
 
   // Client function definitions -----------------------------------------------
 
@@ -58,7 +60,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		});
 	};
 
-	$scope.saveSerialSettings = function()
+	$scope.saveSettings = function()
 	{
 		$scope.setDeviceSerialPathApi($scope.selectedSerialPort,function(result)
 		{
@@ -144,7 +146,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		{
 			if (res)
 			{
-				$scope.addAlert({ type: 'success', msg: 'Pin '+name+' removed successfuly.' });
+				$scope.addAlert({ type: 'success', msg: 'Pin '+name+' added successfuly.' });
 				$scope.getGpioListApi(function(list)
 				{
 					$scope.pinList = list;
@@ -152,7 +154,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			}
 			else
 			{
-				$scope.addAlert({ type: 'danger', msg: 'Error removing pin '+name+'. Please try again!.' });
+				$scope.addAlert({ type: 'danger', msg: 'Error adding pin '+name+'. Please try again!.' });
 			}
 		});
 	};

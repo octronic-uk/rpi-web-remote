@@ -5,69 +5,66 @@
     GPIO
   </div>
   <div class="panel-body">
+    <div class="form-group">
+      <label for="commands-table">Pins</label>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Pin</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="pin in pinList">
+            <td>{{pin.num}}</td>
+            <td>{{pin.name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-group">
+      <label for="add-command">Add</label>
       <div class="form-group">
-        <label for="commands-table">Pins</label>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Pin</th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="pin in pinList">
-              <td>{{pin.num}}</td>
-              <td>{{pin.name}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <input class="form-control" type="text" placeholder="Name" ng-model="gpioPinAddName">
       </div>
       <div class="form-group">
-        <label for="add-command">Add</label>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Name" ng-model="gpioPinAddName">
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Pin Number" ng-model="gpioPinAddNum">
-        </div>
-        <div class="form-group">
-          <select id="remove-command" class="form-control" ng-model="gpioPinAddIo">
-            <option value="">Select Pin Mode</option>
-            <option value="in">in</option>
-            <option value="out">out</option>
-          </select>
-        </div>
-        <div class="form-group">
+        <input class="form-control" type="text" placeholder="Pin Number" ng-model="gpioPinAddNum">
+      </div>
+      <div class="form-group">
+        <select id="remove-command" class="form-control" ng-model="gpioPinAddIo">
+          <option value="">Select Pin Mode</option>
+          <option value="in">in</option>
+          <option value="out">out</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
           <select id="remove-command" class="form-control" ng-model="gpioPinAddState">
             <option value="">Selct State</option>
             <option value="0">0</option>
             <option value="1">1</option>
           </select>
+          <span class="input-group-btn" >
+            <button ng-click="addGpioPin()" type="button" class="pull-right btn btn-success">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
         </div>
-        <button ng-click="addGpioPin()" type="button" class="pull-right btn btn-success">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
       </div>
       <div class="form-group">
         <label for="remove-command">Remove</label>
         <div class="input-group">
-        <select id="remove-command" class="form-control" ng-model="gpioPinRemove">
-          <option value="">{{REMOVE_GPIO_DEFAULT}}</option>
-          <option ng-repeat="pin in pinList" value="{{pin.name}}">{{pin.name}}</option>
-        </select>
-        <span class="input-group-btn" >
-          <button ng-click="removeGpioPin()" type="button" class="btn btn-danger ">
-            <span class="glyphicon glyphicon-minus"></span>
-          </button>
-        </span>
+          <select id="remove-command" class="form-control" ng-model="gpioPinRemove">
+            <option value="">{{REMOVE_GPIO_DEFAULT}}</option>
+            <option ng-repeat="pin in pinList" value="{{pin.name}}">{{pin.name}}</option>
+          </select>
+            <button ng-click="removeGpioPin()" type="button" class="btn btn-danger ">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+          </span>
         </div>
       </div>
     </form>
-  </div>
-  <div class="clearfix panel-footer">
-    <button ng-click="saveGpioSettings()" class="pull-right  btn btn-primary">
-      <span class="glyphicon glyphicon-floppy-disk"></span>
-    </button>
   </div>
 </div>
 <!-- Serial Settings -->
@@ -125,22 +122,22 @@
       <div class="form-group">
         <label for="remove-command">Remove</label>
         <div class="input-group">
-        <select id="remove-command" class="form-control" ng-model="serialCommandRemove">
-          <option value="">{{REMOVE_CMD_DEFAULT}}</option>
-          <option ng-repeat="cmd in serialCommandList" value="{{cmd.name}}">{{cmd.name}}</option>
-        </select>
-        <span class="input-group-btn" >
-          <button ng-click="removeSerialCommand()" type="button" class="btn btn-danger ">
-            <span class="glyphicon glyphicon-minus"></span>
-          </button>
-        </span>
+          <select id="remove-command" class="form-control" ng-model="serialCommandRemove">
+            <option value="">{{REMOVE_CMD_DEFAULT}}</option>
+            <option ng-repeat="cmd in serialCommandList" value="{{cmd.name}}">{{cmd.name}}</option>
+          </select>
+          <span class="input-group-btn" >
+            <button ng-click="removeSerialCommand()" type="button" class="btn btn-danger ">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+          </span>
         </div>
       </div>
     </form>
   </div>
-  <div class="clearfix panel-footer">
-    <button ng-click="saveSerialSettings()" class="pull-right  btn btn-primary">
-      <span class="glyphicon glyphicon-floppy-disk"></span>
-    </button>
-  </div>
+</div>
+<div class="clearfix well">
+  <button ng-click="saveSettings()" class="pull-right  btn btn-primary">
+    <span class="glyphicon glyphicon-floppy-disk"></span>
+  </button>
 </div>
