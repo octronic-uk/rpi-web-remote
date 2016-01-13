@@ -144,7 +144,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 		{
 			if (res)
 			{
-				$scope.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
+				$scope.addAlert({ type: 'success', msg: 'Pin '+name+' removed successfuly.' });
 				$scope.getGpioListApi(function(list)
 				{
 					$scope.pinList = list;
@@ -152,7 +152,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			}
 			else
 			{
-				$scope.addAlert({ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
+				$scope.addAlert({ type: 'danger', msg: 'Error removing pin '+name+'. Please try again!.' });
 			}
 		});
 	};

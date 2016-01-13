@@ -28,16 +28,22 @@
           <input class="form-control" type="text" placeholder="Name" ng-model="gpioPinAddName">
         </div>
         <div class="form-group">
-          <input class="form-control" type="text" placeholder="Pin Numver" ng-model="gpioPinAddNum">
+          <input class="form-control" type="text" placeholder="Pin Number" ng-model="gpioPinAddNum">
         </div>
-        <select id="remove-command" class="form-control" ng-model="gpioPinAddIo">
-          <option value="in">in</option>
-          <option value="out">out</option>
-        </select>
-        <select id="remove-command" class="form-control" ng-model="gpioPinAddState">
-          <option value="0">0</option>
-          <option value="1">1</option>
-        </select>
+        <div class="form-group">
+          <select id="remove-command" class="form-control" ng-model="gpioPinAddIo">
+            <option value="">Select Pin Mode</option>
+            <option value="in">in</option>
+            <option value="out">out</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select id="remove-command" class="form-control" ng-model="gpioPinAddState">
+            <option value="">Selct State</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+          </select>
+        </div>
         <button ng-click="addGpioPin()" type="button" class="pull-right btn btn-success">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
