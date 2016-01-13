@@ -77,33 +77,33 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 										if (result)
 										{
 											console.log("Settings saved successfuly");
-											$scope.addAlert({ type: 'success', msg: 'Serial settings have been saved!.' });
+											$scope.addAlert({ type: 'success', msg: 'Settings have been saved!' });
 										}
 										else
 										{
 											console.log("Error restarting serial device");
-											$scope.addAlert({ type: 'danger', msg: 'Error restarting serial device. Please try again!.' });
+											$scope.addAlert({ type: 'danger', msg: 'Error restarting serial device. Please try again!' });
 										}
 									});
 								}
 								else
 								{
 									console.log("Error saving settings");
-									$scope.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!.' });
+									$scope.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!' });
 								}
 						});
 					}
 					else
 					{
 						console.log("Error setting serial device baudrate");
-						$scope.addAlert({ type: 'danger', msg: 'Error saving baudrate. Please try again!.' });
+						$scope.addAlert({ type: 'danger', msg: 'Error saving baudrate. Please try again!' });
 					}
 				});
 			}
 			else
 			{
 				console.log("Error setting serial device path");
-				$scope.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!.' });
+				$scope.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!' });
 			}
 		});
 	};
