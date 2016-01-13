@@ -2,8 +2,7 @@
 {
    z-index:9999;
    width: 100%;
-   top: 1em;
-   margin-left: 1em;
-   margin-right: 1em;
+   top: 0px;
+   left: 0px;
    position: fixed;
 }
