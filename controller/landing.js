@@ -3,7 +3,7 @@ PiApp.controller('Landing',
 	function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	{
     $controller('PiApp', {$scope: $scope});
-		$scope.alerts = [];
+
 		// Client Function Definitions ---------------------------------------------
 
 		$scope.gpioSet = function(pinNum, state)

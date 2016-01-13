@@ -9,7 +9,7 @@ PiApp.controller('PiApp',
 	['$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
 	function($state, $stateParams, $cookies, $http, $scope, $rootScope)
 	{
-
+		$scope.alerts = [];
 
 		// API function calls ------------------------------------------------------
 

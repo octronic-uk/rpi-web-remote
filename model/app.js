@@ -226,7 +226,7 @@ var initRoutes = function()
 
         if (index > -1)
         {
-          congig.pins.splice(index,1);
+          config.pins.splice(index,1);
           util.sendHttpOK(res);
         }
         else
