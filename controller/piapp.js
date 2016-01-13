@@ -305,7 +305,7 @@ PiApp.controller('PiApp', [
 
 		$scope.getDeviceSerialEnabledApi = function(callback)
 		{
-			$htt({
+			$http({
 				method: "GET",
 				url: "/api/device/serial/enabled",
 			}).then(function successCallback(resp)
@@ -319,7 +319,7 @@ PiApp.controller('PiApp', [
 
 		$scope.setDeviceSerialEnabledApi = function(enabled,callback)
 		{
-			$htt({
+			$http({
 				method: "PUT",
 				url: "/api/device/serial/enabled/"+enabled,
 			}).then(function successCallback(resp)
