@@ -3,8 +3,7 @@ PiApp.controller('Settings',
 function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 {
 	$controller('PiApp', {$scope: $scope});
-	$scope.serialPortList = [];
-	$scope.alerts = [];
+	
 	$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
 	$scope.REMOVE_CMD_DEFAULT = "Select Command";
 
@@ -147,10 +146,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			if (res)
 			{
 				$scope.addAlert({ type: 'success', msg: 'Pin '+name+' added successfuly.' });
-				$scope.getGpioListApi(function(list)
-				{
-					$scope.pinList = list;
-				});
+				$scope.pinList.push({name:name, num:num, io:io, state:state});
 			}
 			else
 			{
@@ -163,15 +159,15 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	$scope.reomveGpioPin = function()
 	{
 		var pin = $scope.gpioPinRemove;
-
+		console.log("Removing gpio pin",pin);
 		$scope.removeGpioPinApi(pin,function(res)
 		{
 			if (res)
 			{
 				$scope.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
-				$scope.getGpioListApi(function(list)
+				$scope.getPin(pin,function(pinObj)
 				{
-					$scope.pinList = list;
+					$scope.pinList.splice(pinObj);
 				});
 			}
 			else
