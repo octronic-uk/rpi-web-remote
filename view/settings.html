@@ -30,23 +30,17 @@
         <div class="form-group">
           <input class="form-control" type="text" placeholder="Pin Numver" ng-model="gpioPinAddNum">
         </div>
-        <div class="form-control">
-          <select id="remove-command" class="form-control" ng-model="gpioPinAddIo">
-            <option value="in">in</option>
-            <option value="out">out</option>
-          </select>
-        </div>
-        <div class="form-control">
-          <select id="remove-command" class="form-control" ng-model="gpioPinAddState">
-            <option value="0">0</option>
-            <option value="1">1</option>
-          </select>
-        </div>
-        <div class="form-control">
-          <button ng-click="addGpioPin()" type="button" class="btn btn-success">
-            <span class="glyphicon glyphicon-plus"></span>
-          </button>
-        </div>
+        <select id="remove-command" class="form-control" ng-model="gpioPinAddIo">
+          <option value="in">in</option>
+          <option value="out">out</option>
+        </select>
+        <select id="remove-command" class="form-control" ng-model="gpioPinAddState">
+          <option value="0">0</option>
+          <option value="1">1</option>
+        </select>
+        <button ng-click="addGpioPin()" type="button" class="pull-right btn btn-success">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
       </div>
       <div class="form-group">
         <label for="remove-command">Remove</label>
