@@ -323,8 +323,17 @@ var initRoutes = function()
   // Set serial enabled state
   app.put('/api/device/serial/enabled/:en', jsonParser, function(req,res)
   {
-    var enabled = req.params.en;
-    config.serial.enabled = (enabled == "true" ? true : false);
+    var enabled = (req.params.en  == "true" ? true : false);
+
+    config.serial.enabled = enabled;
+    if (enabled)
+    {
+      restartSerial();
+    }
+    else
+    {
+        closeSerial();
+    }
     util.sendHttpOK(res);
   });
 
