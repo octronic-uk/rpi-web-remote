@@ -30,7 +30,7 @@ PiApp.controller('Landing',
 				}
 				else
 				{
-					$scope.addAlert({ type: 'danger', msg: 'Error executing'+command+'. Please try again!.' });
+					$scope.addAlert({ type: 'danger', msg: 'Error executing '+command+'. Please try again!.' });
 				}
 			});
 		};

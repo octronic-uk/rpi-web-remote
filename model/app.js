@@ -32,7 +32,7 @@ var baudRateList = [
 
 var closeSerial = function(callback)
 {
-  if (serialPort && serialPort.isOpen())
+  if (serialPort !== null && serialPort.isOpen())
   {
     serialPort.close(function(error)
     {
@@ -58,16 +58,20 @@ var initSerial = function()
   if (config.serial.enable)
   {
     console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
-    serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate}, false);
+    serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
 
-    serialPort.on('error', function(err) {
-      console.log(err); // THIS SHOULD WORK!
+    serialPort.on('error', function(err)
+    {
+      config.serial.enable = false;
+      console.log(err);
     });
 
     serialPort.open(function (err)
     {
-      if (err) {
-         console.log(err);
+      if (err)
+      {
+        config.serial.enable = false;
+        console.log(err);
       }
     });
   }
@@ -317,22 +321,24 @@ var initRoutes = function()
   // Get serial enabled state
   app.get('/api/device/serial/enabled', jsonParser, function(req,res)
   {
-    util.sendHttpJson(res,{enabled: config.serial.enabled});
+    util.sendHttpJson(res,{enabled: config.serial.enable});
   });
 
   // Set serial enabled state
   app.put('/api/device/serial/enabled/:en', jsonParser, function(req,res)
   {
-    var enabled = (req.params.en  == "true" ? true : false);
+    var enParam = req.params.en;
+    console.log("Enable param: ",enParam);
+    var enabled = (enParam  == "true" ? true : false);
 
-    config.serial.enabled = enabled;
+    config.serial.enable = enabled;
     if (enabled)
     {
       restartSerial();
     }
     else
     {
-        closeSerial();
+      closeSerial();
     }
     util.sendHttpOK(res);
   });
@@ -408,7 +414,7 @@ var initRoutes = function()
     var cmd = req.body.cmd;
     console.log("Executing command",cmd);
 
-    if (serialPort && serialPort.isOpen())
+    if (serialPort !== null && serialPort.isOpen())
     {
       getSerialCommandByName(cmd,function(commandObject)
       {
@@ -418,6 +424,7 @@ var initRoutes = function()
           {
             if (err)
             {
+              console.log("Serial execute error",err);
               util.sendHttpError(res);
             }
             else
@@ -428,12 +435,14 @@ var initRoutes = function()
         }
         else
         {
+          console.log("Serial execute error: no command obj");
           util.sendHttpError(res);
         }
       });
     }
     else
     {
+      console.log("Serial execute error, no serial port or not isOpen()");
       util.sendHttpError(res);
     }
   });
