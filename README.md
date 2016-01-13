@@ -151,10 +151,11 @@ This guide starts from scratch. Please begin where appropriate for you!
 19. Control your device :)
 
 ## Updating the app
+Run the following command in the repository directory to update the application.
 
-    ```
-    ./update
-    ```
+```
+./update
+```
 
 ## Using Serial Functionality
 The application also allows the user to send ASCII commands to a device connected via a USB/Serial inteface, such as an Arduino.
