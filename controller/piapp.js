@@ -304,11 +304,23 @@ PiApp.controller('PiApp',
 
 		// Client function definitions ---------------------------------------------
 
-		$scope.getPin = function(pins,i,callback)
+		$scope.getPinByNumber = function(pins,i,callback)
 		{
 			for (j = 0; j < pins.length; j++)
 			{
 				if (pins[j].num == i)
+				{
+					callback(pins[j]);
+					break;
+				}
+			}
+		};
+
+		$scope.getPinByName = function(pins,name,callback)
+		{
+			for (j = 0; j < pins.length; j++)
+			{
+				if (pins[j].name == name)
 				{
 					callback(pins[j]);
 					break;

@@ -12,7 +12,7 @@ PiApp.controller('Landing',
 			{
 				if (success)
 				{
-					$scope.getPin($scope.pinList,pinNum,function(pin)
+					$scope.getPinByNumber($scope.pinList,pinNum,function(pin)
 					{
 						pin.state = state;
 					});

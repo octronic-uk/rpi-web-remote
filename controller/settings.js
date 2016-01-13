@@ -165,7 +165,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 			if (res)
 			{
 				$scope.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
-				$scope.getPin(pin,function(pinObj)
+				$scope.getPinByName($scope.pinList,pin,function(pinObj)
 				{
 					$scope.pinList.splice(pinObj);
 				});
