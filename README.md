@@ -160,5 +160,89 @@ This guide starts from scratch. Please begin where appropriate for you!
 The application also allows the user to send ASCII commands to a device connected via a USB/Serial inteface, such as an Arduino.
 
 1. To configure serial click the settings cog at the bottom of the home screen.
+2. Check the "Enable Serial" checkbox in the "Serial" section.
 2. Choose your serial device and baud rate from the list available.
 3. Save your settings by clicking the green save button. An alert will indicate success/failure.
+4. Return to the home screen and refresh the page.
+5. Return to te Settings page by pressing the cog button at the bottom of the home screen.
+6. Add serial commands to the application.
+7. Execute commnds from the home page.
+
+### Example Arduino Sketch
+To control a device via serial, the remote sends commands in the form of ASCII characters to the device. An Arduino can be controlled by listening for commands on each iteration of the main loop and switching the executing method as appropriate. An example sketch of this implementation is shown below.
+
+```
+/*
+  Basic State Machine
+  Ash Thompson
+  ashthompson06@gmail.com
+*/
+
+// Constants
+const int SERIAL_BAUD = 9600;
+const int RAINBOW = 49;
+const int FLASH = 50;
+const int RAINBOW_DELAY = 200;
+const int LED_PIN = 3;
+const int DEFAULT_DELAY = 10;
+const int FLASH_DELAY = 1000;
+
+// Variables
+int itr = 0;
+int state = 0;
+
+void setup()
+{
+ initPins();
+ Serial.begin(SERIAL_BAUD);
+}
+
+void loop()
+{
+  if (Serial.available())
+  {
+    state = Serial.read();
+  }
+
+  switch (state)
+  {
+    case RAINBOW:
+      doRainbow();
+    break;
+    case FLASH:
+      doFlash();
+    break;
+    default:
+      doDefault();
+      break;
+  };
+
+  itr++;
+}
+
+void initPins()
+{
+ pinMode(LED_PIN, INPUT);
+}
+
+void doRainbow()
+{
+ digitalWrite(LED_PIN, (itr % 2 == 0 ? HIGH : LOW));
+ delay(RAINBOW_DELAY);
+ return;
+}
+
+void doFlash()
+{
+  digitalWrite(LED_PIN, (itr % 2 == 0 ? HIGH : LOW));
+  delay(FLASH_DELAY);
+  return;
+}
+
+void doDefault()
+{
+  digitalWrite(LED_PIN,LOW);
+  delay(DEFAULT_DELAY);
+  return;
+}
+```
