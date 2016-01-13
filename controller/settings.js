@@ -3,7 +3,7 @@ PiApp.controller('Settings',
 function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 {
 	$controller('PiApp', {$scope: $scope});
-	
+
 	$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
 	$scope.REMOVE_CMD_DEFAULT = "Select Command";
 
@@ -156,7 +156,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	};
 
 	// Remove GPIO pin
-	$scope.reomveGpioPin = function()
+	$scope.removeGpioPin = function()
 	{
 		var pin = $scope.gpioPinRemove;
 		console.log("Removing gpio pin",pin);
