@@ -58,14 +58,16 @@
             <option value="">{{REMOVE_GPIO_DEFAULT}}</option>
             <option ng-repeat="pin in pinList" value="{{pin.name}}">{{pin.name}}</option>
           </select>
-            <button ng-click="removeGpioPin()" type="button" class="btn btn-danger ">
-              <span class="glyphicon glyphicon-minus"></span>
-            </button>
-          </span>
-        </div>
+          <span  class="input-group-btn">
+          <button ng-click="removeGpioPin()" type="button" class="btn btn-danger ">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
+        </span>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>
+</div>
 </div>
 <!-- Serial Settings -->
 <div class="panel">
@@ -136,6 +138,7 @@
     </form>
   </div>
 </div>
+
 <div class="clearfix well">
   <button ng-click="saveSettings()" class="pull-right  btn btn-primary">
     <span class="glyphicon glyphicon-floppy-disk"></span>
