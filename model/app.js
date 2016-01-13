@@ -340,31 +340,24 @@ var initRoutes = function()
   // Get the devce's list of serial ports
   app.get('/api/device/serial/list',jsonParser,function(req,res)
   {
-    if (serialPort)
+    SerialPortModule.list(function (err, ports)
     {
-      SerialPortModule.list(function (err, ports)
+      if (err || ports === undefined)
       {
-        if (err || ports === undefined)
-        {
-          util.sendHttpError(res);
-        }
-        else
-        {
-          var data = [];
+        util.sendHttpError(res);
+      }
+      else
+      {
+        var data = [];
 
-          ports.forEach(function(port)
-          {
-            data.push(port.comName);
-          });
+        ports.forEach(function(port)
+        {
+          data.push(port.comName);
+        });
 
-          util.sendHttpJson(res,data);
-        }
-      });
-    }
-    else
-    {
-      util.sendHttpNotFound(res);
-    }
+        util.sendHttpJson(res,data);
+      }
+    });
   });
 
   // Get the list of serial commands
