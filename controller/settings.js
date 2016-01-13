@@ -181,8 +181,6 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	{
 		$scope.setDeviceSerialEnabledApi($scope.ui.serialEnabled,function(resp)
 		{
-			$scope.ui.serialEnabled = !$scope.ui.serialEnabled;
-
 			if ($scope.ui.serialEnabled)
 			{
 				$scope.getDeviceSeriaData();
