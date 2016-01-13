@@ -313,7 +313,7 @@ var initRoutes = function()
     {
       SerialPortModule.list(function (err, ports)
       {
-        if (err || ports === null)
+        if (err || ports === undefined)
         {
           util.sendHttpError(res);
         }
@@ -540,7 +540,7 @@ var pinNumString = function(pin)
 // Add an event to the pin history
 var addPinEvent = function(pinNum, state)
 {
-  if (eventHistory[pinNumString(pinNum)] === null)
+  if (eventHistory[pinNumString(pinNum)] === undefined)
   {
     eventHistory[pinNumString(pinNum)] = [];
   }
