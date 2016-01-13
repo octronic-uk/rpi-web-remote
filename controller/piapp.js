@@ -371,29 +371,42 @@ PiApp.controller('PiApp', [
 
 		// API Calls -----------------------------------------------------------------
 
-		$scope.getDeviceSerialListApi(function(serialList)
+		$scope.getDeviceSerialData = function()
 		{
-			$scope.serialPortList = serialList;
-		});
+			$scope.getDeviceSerialListApi(function(serialList)
+			{
+				$scope.serialPortList = serialList;
+			});
 
-		$scope.getDeviceSerialBaudrateListApi(function(baudList)
-		{
-			$scope.baudRateList = baudList;
-		});
+			$scope.getDeviceSerialBaudrateListApi(function(baudList)
+			{
+				$scope.baudRateList = baudList;
+			});
 
-		$scope.getDeviceSerialCommandListApi(function(commandList)
-		{
-			$scope.serialCommandList = commandList;
-		});
+			$scope.getDeviceSerialCommandListApi(function(commandList)
+			{
+				$scope.serialCommandList = commandList;
+			});
 
-		$scope.getDeviceSerialBaudrateApi(function(baudrate)
-		{
-			$scope.selectedBaudrate = baudrate;
-		});
+			$scope.getDeviceSerialBaudrateApi(function(baudrate)
+			{
+				$scope.selectedBaudrate = baudrate;
+			});
 
-		$scope.getDeviceSerialPathApi(function(path)
+			$scope.getDeviceSerialPathApi(function(path)
+			{
+				$scope.selectedSerialPort = path;
+			});
+		};
+
+		$scope.getDeviceSerialEnabledApi(function(en)
 		{
-			$scope.selectedSerialPort = path;
+			$scope.ui.serialEnabled = en;
+
+			if ($scope.ui.serialEnabled)
+			{
+				$scope.getDevieSerialData();
+			}
 		});
 
 		$scope.getGpioListApi(function(list)
@@ -404,11 +417,6 @@ PiApp.controller('PiApp', [
 		$scope.getDeviceNameApi(function(name)
 		{
 			$scope.deviceName = name;
-		});
-
-		$scope.getDeviceSerialEnabledApi(function(en)
-		{
-			$scope.ui.serialEnabled = en;
 		});
 	}
 ]);

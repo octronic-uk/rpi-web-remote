@@ -181,14 +181,18 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 	{
 		$scope.setDeviceSerialEnabledApi($scope.ui.serialEnabled,function(resp)
 		{
-				if (resp)
-				{
-					$scope.addAlert({ type: 'success', msg: 'Serial has been enabled.' });
-				}
-				else
-				{
-					$scope.addAlert({ type: 'warning', msg: 'Serial has been disabled.' });
-				}
+			$scope.ui.serialEnabled = !$scope.ui.serialEnabled;
+
+			if ($scope.ui.serialEnabled)
+			{
+				$scope.getDeviceSeriaData();
+				$scope.addAlert({ type: 'success', msg: 'Serial has been enabled.' });
+			}
+			else
+			{
+				$scope.getDeviceSeriaData();
+				$scope.addAlert({ type: 'warning', msg: 'Serial has been disabled.' });
+			}
 		});
 	};
 }
