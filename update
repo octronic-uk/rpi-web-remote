@@ -1,5 +1,7 @@
 #!/bin/bash
 
 sudo pm2 stop app
+sudo rm /root/.pm2/logs/app-out-0.log
+sudo rm /root/.pm2/logs/app-error-0.log
 git pull origin master
 sudo pm2 start model/app.js
