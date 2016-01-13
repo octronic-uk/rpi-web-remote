@@ -1,4 +1,4 @@
-<uib-alert dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+<uib-alert style="z-index:9999; margin-top:10px; position: fixed;" dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 <!-- Serial Commands -->
 <div class="panel">
   <div class="panel-heading">
