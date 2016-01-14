@@ -78,6 +78,20 @@ PiApp.controller('PiApp', [
 			});
 		};
 
+		$scope.gpioRestartApi = function(callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/gpio/restart"
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		};
+
 		$scope.getGpioListApi = function(callback)
 		{
 			$http({

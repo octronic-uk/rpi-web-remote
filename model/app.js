@@ -138,7 +138,13 @@ var initHttpServer = function()
   });
 };
 
-var initGpio = function()
+var closeGpio = function(callback)
+{
+  gpio.destroy();
+  if (callback) callbac();
+};
+
+var initGpio = function(callback)
 {
   // Initialise pins
   config.pins.forEach(function(pin)
@@ -167,6 +173,8 @@ var initGpio = function()
     console.log('Channel ' + channel + ' value is now ' + value);
     addPinEvent(channel, value);
   });
+
+  if (callback) callback();
 };
 
 var initRoutes = function()
@@ -261,6 +269,18 @@ var initRoutes = function()
     });
 
     util.sendHttpOK(res);
+  });
+
+  // Restart the GPIO library
+  app.put('/api/gpio/restart',jsonParser,function(req,res)
+  {
+      closeGpio(function ()
+      {
+        initGpio(function()
+        {
+          util.sendHttpOK(res);
+        });
+      });
   });
 
   // Get the state of a pin

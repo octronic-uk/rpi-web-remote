@@ -76,8 +76,19 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 									{
 										if (result)
 										{
-											console.log("Settings saved successfuly");
-											$scope.addAlert({ type: 'success', msg: 'Settings have been saved!' });
+											$scope.gpioRestartApi(function(result)
+											{
+												if (result)
+												{
+													console.log("Settings saved successfuly");
+													$scope.addAlert({ type: 'success', msg: 'Settings have been saved!' });
+												}
+												else
+											  {
+												 console.log("Error restarting gpio");
+												 $scope.addAlert({ type: 'danger', msg: 'Error restarting GPIO. Please try again!' });
+												}
+											});
 										}
 										else
 										{
