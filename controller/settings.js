@@ -82,7 +82,7 @@ function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
 										else
 									  {
 										 console.log("Error restarting serial");
-										 $scope.addAlert({ type: 'danger', msg: 'Error restarting GPIO. Please try again!' });
+										 $scope.addAlert({ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
 										}
 									});
 								}

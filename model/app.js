@@ -58,7 +58,7 @@ var initSerial = function()
   if (config.serial.enable)
   {
     console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
-    if (serialPort === null) Port = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
+    if (serialPort === null) serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
 
     serialPort.on('error', function(err)
     {
