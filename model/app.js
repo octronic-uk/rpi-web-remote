@@ -144,26 +144,34 @@ var closeGpio = function(callback)
   if (callback) callback();
 };
 
+var initIndividualGpioPin = function(pin)
+{
+  if (pin.io == "out")
+  {
+    gpio.setup(pin.num, gpio.DIR_OUT,function()
+    {
+      gpio.write(pin, pin.state, function(err)
+      {
+        console.log("set pin",pin.num,"to",pin.state);
+        addPinEvent(pin.num, pin.state);
+      });
+    });
+  }
+  else if (pin.io == "in")
+  {
+    gpio.setup(pin.num, gpio.DIR_IN, gpio.EDGE_BOTH);
+  }
+  else {
+    config.log("Error, pin",pin.num,"should be 'in' or 'out'");
+  }
+};
+
 var initGpio = function(callback)
 {
   // Initialise pins
   config.pins.forEach(function(pin)
   {
-    if (pin.io == "out")
-    {
-      gpio.setup(pin.num, gpio.DIR_OUT,function()
-      {
-        gpio.write(pin, pin.state, function(err)
-        {
-          console.log("set pin",pin.num,"to",pin.state);
-          addPinEvent(pin.num, pin.state);
-        });
-      });
-    }
-    else if (pin.io == "in")
-    {
-      gpio.setup(pin.num, gpio.DIR_IN, gpio.EDGE_BOTH);
-    }
+    initIndividualGpioPin(pin);
   });
 
   // Listen for state change on input pins
@@ -262,26 +270,16 @@ var initRoutes = function()
     var io = req.body.io;
     var state = req.body.state;
 
-    config.pins.push({
+    var pin = {
       name: name,
       num: num,
       io: io,
       state: state
-    });
+    };
 
+    config.pins.push(pin);
+    initIndividualGpioPin(pin);
     util.sendHttpOK(res);
-  });
-
-  // Restart the GPIO library
-  app.put('/api/gpio/restart',jsonParser,function(req,res)
-  {
-      closeGpio(function ()
-      {
-        initGpio(function()
-        {
-          util.sendHttpOK(res);
-        });
-      });
   });
 
   // Get the state of a pin
