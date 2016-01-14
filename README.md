@@ -11,9 +11,13 @@ This project implements a simple remote control web application that allows user
 * Great starting point for home automation or remote management projects.
 * Support for sending serial commands to external devices such as Arduino.
 
-## Android Screenshot
-![Android Screenshot](/readme/android_screen.png)
-
+## Android Screenshots
+###Home
+![Home Screenshot](/readme/android_screen1.png)
+### GPIO Settings
+![GPIO Settings Screenshot](/readme/android_screen1.png)
+### Serial Settings
+![Serial Settings Screenshot](/readme/android_screen1.png)
 ## Hardware Architecture
 - Raspberry Pi (written and tested on Model B) running Raspbian.
 - A client device with a web browser.
