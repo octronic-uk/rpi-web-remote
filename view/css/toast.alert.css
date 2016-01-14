@@ -2,7 +2,8 @@
 {
    z-index:9999;
    width: 100%;
-   top: 0px;
-   left: 0px;
+   top: 0.5em;
+   left: 0.5em;
+   right: 0.5em;
    position: fixed;
 }
