@@ -141,7 +141,7 @@ var initHttpServer = function()
 var closeGpio = function(callback)
 {
   gpio.destroy();
-  if (callback) callbac();
+  if (callback) callback();
 };
 
 var initGpio = function(callback)
