@@ -183,25 +183,35 @@ To control a device via serial, the remote sends commands in the form of ASCII c
   ashthompson06@gmail.com
 */
 
-// Constants
+/* Constants */
+
+// Serial Speed
 const int SERIAL_BAUD = 9600;
-const int RAINBOW = 49;
-const int FLASH = 50;
-const int RAINBOW_DELAY = 200;
+
+// Commands
+const int RAINBOW = 49; // 1 in ASCII
+const int FLASH = 50;   // 2 in ASCII
+
+// LED Pin
 const int LED_PIN = 3;
+
+// Delay Times
+const int RAINBOW_DELAY = 200;
 const int DEFAULT_DELAY = 10;
 const int FLASH_DELAY = 1000;
 
-// Variables
+/* Variables */
 int itr = 0;
 int state = 0;
 
+/* Arduino Setup */
 void setup()
 {
  initPins();
  Serial.begin(SERIAL_BAUD);
 }
 
+/* Main Loop */
 void loop()
 {
   if (Serial.available())
@@ -225,11 +235,13 @@ void loop()
   itr++;
 }
 
+/* Initialise IO pins */
 void initPins()
 {
  pinMode(LED_PIN, INPUT);
 }
 
+/* Rainbow Comand */
 void doRainbow()
 {
  digitalWrite(LED_PIN, (itr % 2 == 0 ? HIGH : LOW));
@@ -237,6 +249,7 @@ void doRainbow()
  return;
 }
 
+/* Flash Command */
 void doFlash()
 {
   digitalWrite(LED_PIN, (itr % 2 == 0 ? HIGH : LOW));
@@ -244,6 +257,7 @@ void doFlash()
   return;
 }
 
+/* Default Command */
 void doDefault()
 {
   digitalWrite(LED_PIN,LOW);
