@@ -191,7 +191,7 @@ var initRoutes = function()
     {
       if (err)
       {
-        util.sendHttpError(res,"Unable to set output of pin 1"+pin,err);
+        util.sendHttpError(res,"Unable to set output of pin (err 1) "+pin+" "+err);
       }
       else
       {
@@ -205,7 +205,7 @@ var initRoutes = function()
           }
           else
           {
-            util.sendHttpError(res,"Unable to set output of pin 2"+pin);
+            util.sendHttpError(res,"Unable to set output of pin (err 2 )"+pin+" "+err);
               util.sendHttpError(res);
           }
         });
