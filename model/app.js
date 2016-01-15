@@ -58,24 +58,29 @@ var initSerial = function()
   if (config.serial.enable)
   {
     console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
-    if  (serialPort === null)
+    if  (serialPort === null &&
+         config.serial.path !== undefined && config.serial.baudrate !== undefined)
     {
       serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
     }
-    serialPort.on('error', function(err)
-    {
-      config.serial.enable = false;
-      console.log(err);
-    });
 
-    serialPort.open(function (err)
+    if (serialPort !== null)
     {
-      if (err)
+      serialPort.on('error', function(err)
       {
         config.serial.enable = false;
         console.log(err);
-      }
-    });
+      });
+
+      serialPort.open(function (err)
+      {
+        if (err)
+        {
+          config.serial.enable = false;
+          console.log(err);
+        }
+      });
+    }
   }
   else
   {
