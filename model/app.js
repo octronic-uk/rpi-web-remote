@@ -58,8 +58,10 @@ var initSerial = function()
   if (config.serial.enable)
   {
     console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
-    if (serialPort === null) serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
-
+    if  (serialPort === null)
+    { 
+      serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
+    }
     serialPort.on('error', function(err)
     {
       config.serial.enable = false;
@@ -141,23 +143,33 @@ var initHttpServer = function()
 var closeGpio = function(callback)
 {
   gpio.destroy();
-  if (callback) callback();
+  if (callback !== null)
+  { 
+    callback();
+  }
 };
 
 var initIndividualGpioPin = function(pin)
 {
-  if (pin.io == "out")
+  if (pin.io === "out")
   {
     gpio.setup(pin.num, gpio.DIR_OUT,function()
     {
       gpio.write(pin, pin.state, function(err)
       {
-        console.log("set pin",pin.num,"to",pin.state);
-        addPinEvent(pin.num, pin.state);
+        if (err)
+        {
+            console.log("Error writing to pin",pin.num);
+        }
+        else
+        {
+          console.log("set pin",pin.num,"to",pin.state);
+          addPinEvent(pin.num, pin.state);
+        }
       });
     });
   }
-  else if (pin.io == "in")
+  else if (pin.io === "in")
   {
     gpio.setup(pin.num, gpio.DIR_IN, gpio.EDGE_BOTH);
   }
@@ -182,7 +194,10 @@ var initGpio = function(callback)
     addPinEvent(channel, value);
   });
 
-  if (callback) callback();
+  if (callback)
+  { 
+    callback();
+  }
 };
 
 var initRoutes = function()
@@ -231,7 +246,7 @@ var initRoutes = function()
   app.put("/api/gpio/list",jsonParser,function(req,res)
   {
     var pinList = req.body.list;
-    config.pins = list;
+    config.pins = pinList;
     util.sendHttpOK(res);
   });
 
@@ -326,9 +341,13 @@ var initRoutes = function()
     var data = eventHistory[pinNumString(pin)];
 
     if (data)
+    {
       util.sendHttpJson(res,data);
+    }
     else
+    {
       util.sendHttpNotFound(res);
+    }
   });
 
   // Get the name of the device
@@ -348,7 +367,7 @@ var initRoutes = function()
   {
     var enParam = req.params.en;
     console.log("Enable param: ",enParam);
-    var enabled = (enParam  == "true" ? true : false);
+    var enabled = (enParam  === "true" ? true : false);
 
     config.serial.enable = enabled;
     if (enabled)
@@ -551,13 +570,16 @@ var getSerialCommandIndexByName = function(name,callback)
 // Get a serial command by name
 var getSerialCommandByName = function(name, callback)
 {
+  var i = 0;
   var nCommands = config.serial.commands.length;
-  console.log("Checking",nCommands,"commands for",name);
-  for (var i = 0; i < nCommands; i++)
-  {
-    var next = config.serial.commands[i];
+  var next = null;
 
-    if (next.name == name)
+  console.log("Checking",nCommands,"commands for",name);
+
+  for (i = 0; i < nCommands; i++)
+  {
+    next = config.serial.commands[i];
+    if (next.name === name)
     {
       callback(next);
       break;
@@ -603,9 +625,10 @@ var addPinEvent = function(pinNum, state)
 // Return a pin object based on it's number
 var getPinByNumber = function(pin,callback)
 {
+  var i = 0;
   for (i = 0; i < config.pins.length; i++)
   {
-    if (config.pins[i].num == pin)
+    if (config.pins[i].num === pin)
     {
       callback(config.pins[i]);
       break;
@@ -616,9 +639,10 @@ var getPinByNumber = function(pin,callback)
 // Return a pin object based on it's number
 var getPinByName = function(pin,callback)
 {
+  var i = 0;
   for (i = 0; i < config.pins.length; i++)
   {
-    if (config.pins[i].name == pin)
+    if (config.pins[i].name === pin)
     {
       callback(config.pins[i]);
       break;
