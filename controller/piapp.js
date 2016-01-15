@@ -170,6 +170,48 @@ PiApp.controller('PiApp', [
 			});
 		};
 
+		$scope.getDeviceHostnameApi = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/hostname"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).hostname);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		};
+
+		$scope.getDeviceAddressApi = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/address"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).address);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		};
+
+		$scope.getDeviceRebootApi = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/reboot"
+			}).then(function successCallback(resp)
+			{
+				callback(null);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		};
+
 		$scope.getDeviceSerialListApi = function(callback)
 		{
 			$http({

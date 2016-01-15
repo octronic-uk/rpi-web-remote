@@ -9,6 +9,24 @@
         {{stats.uptime}}
       </div>
     </div>
+    <div class="panel">
+      <div class="panel-heading">
+        Network
+      </div>
+      <div class="panel-body">
+        Hostname: {{stats.hostname}}
+        <br>
+        Address: {{stats.address}}
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-heading">
+        Power
+      </div>
+      <div class="panel-body">
+        <button ng-click="rebootButton()" class="pull-right btn btn-primary"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Reboot</button>
+      </div>
+    </div>
   </div>
 </div>
 

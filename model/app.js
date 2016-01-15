@@ -21,10 +21,15 @@ var jsonParser    = bodyParser.json();
 var rawParser     = bodyParser.raw();
 var httpServer    = http.createServer(app);
 var eventHistory  = {};
-var PIN           = 'pin';
-var UPTIME_CMD    = 'uptime -p';
 var serialPort    = null;
-var baudRateList = [
+
+// constants
+var PIN             = 'pin';
+var UPTIME_CMD      = 'uptime -p';
+var ADDR_CMD        = 'hostname -I';
+var HOSTNAME_CMD    = 'hostname';
+var REBOOT_CMD      = "reboot";
+var BAUDRATE_LIST   = [
 
   115200, 57600, 38400, 19200,
   9600,   4800,  2400,  1800,
@@ -381,6 +386,52 @@ var initRoutes = function()
     });
   });
 
+  // Get the device's hostname
+  app.get('/api/device/hostname', jsonParser, function(req,res)
+  {
+    var child = exec(HOSTNAME_CMD, function (error, stdout, stderr)
+    {
+      if (error !== null)
+      {
+        util.sendHttpError(res,"Error getting hostname: "+error);
+      }
+      else
+      {
+        util.sendHttpJson(res,{hostname: stdout});
+      }
+    });
+  });
+
+  // Reboot the device
+  app.get('/api/device/reboot', jsonParser, function(req,res)
+  {
+    util.sendHttpOk(res);
+
+    var child = exec(REBOOT_CMD, function (error, stdout, stderr)
+    {
+      if (error === null)
+      {
+        console.log("Rebooting the device...");
+      }
+    });
+  });
+
+  // Get the device's address'
+  app.get('/api/device/address', jsonParser, function(req,res)
+  {
+    var child = exec(ADDR_CMD, function (error, stdout, stderr)
+    {
+      if (error !== null)
+      {
+        util.sendHttpError(res,"Error getting address: "+error);
+      }
+      else
+      {
+        util.sendHttpJson(res,{address: stdout});
+      }
+    });
+  });
+
   // Get serial enabled state
   app.get('/api/serial/enabled', jsonParser, function(req,res)
   {
@@ -513,7 +564,7 @@ var initRoutes = function()
   // Get list of supported baud rates
   app.get('/api/serial/baudrate/list',jsonParser,function(req,res)
   {
-    util.sendHttpJson(res,baudRateList);
+    util.sendHttpJson(res,BAUDRATE_LIST);
   });
 
   // Get the serial path
