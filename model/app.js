@@ -370,6 +370,14 @@ var initRoutes = function()
     util.sendHttpJson(res, {name: config.device_name});
   });
 
+  // Set the name of the device
+  app.put('/api/device/name', jsonParser, function(req,res)
+  {
+    var name = req.body.devName;
+    config.device_name = name;
+    util.sendHttpOK(res);
+  });
+
   // Get the device's uptime
   app.get('/api/device/uptime', jsonParser, function(req,res)
   {
