@@ -17,7 +17,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "PUT",
-				url: "/api/device/serial/command/add",
+				url: "/api/serial/command/add",
 				data: {
 					name: name,
 					cmd: cmd
@@ -36,7 +36,7 @@ PiApp.controller('PiApp', [
 			console.log("Removing command",name);
 			$http({
 				method: "PUT",
-				url: "/api/device/serial/command/remove",
+				url: "/api/serial/command/remove",
 				data: {
 					cmdName: name
 				}
@@ -156,11 +156,25 @@ PiApp.controller('PiApp', [
 			});
 		};
 
+		$scope.getDeviceUptimeApi = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/uptime"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).uptime);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		};
+
 		$scope.getDeviceSerialListApi = function(callback)
 		{
 			$http({
 				method: "GET",
-				url: "/api/device/serial/list"
+				url: "/api/serial/list"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));
@@ -174,7 +188,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "GET",
-				url: "/api/device/serial/baudrate/list"
+				url: "/api/serial/baudrate/list"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));
@@ -188,7 +202,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "GET",
-				url: "/api/device/serial/path",
+				url: "/api/serial/path",
 			}).then(function successCallback(res)
 			{
 				callback(JSON.parse(res.data).path);
@@ -202,7 +216,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "GET",
-				url: "/api/device/serial/baudrate",
+				url: "/api/serial/baudrate",
 			}).then(function successCallback(res)
 			{
 				callback(JSON.parse(res.data).baudrate);
@@ -216,7 +230,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "PUT",
-				url: "/api/device/serial/path",
+				url: "/api/serial/path",
 				data: {path: path}
 			}).then(function successCallback(resp)
 			{
@@ -231,7 +245,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "PUT",
-				url: "/api/device/serial/baudrate",
+				url: "/api/serial/baudrate",
 				data: {baudrate: baud}
 			}).then(function successCallback(resp)
 			{
@@ -246,7 +260,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "GET",
-				url: "/api/device/serial/command/list",
+				url: "/api/serial/command/list",
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));
@@ -274,7 +288,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "PUT",
-				url: "/api/device/serial/restart",
+				url: "/api/serial/restart",
 			}).then(function successCallback(resp)
 			{
 				callback(true);
@@ -303,7 +317,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method:"PUT",
-				url:"/api/device/serial/command/execute",
+				url:"/api/serial/command/execute",
 				data: {
 					cmd: cmd
 				}
@@ -320,7 +334,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "GET",
-				url: "/api/device/serial/enabled",
+				url: "/api/serial/enabled",
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data).enabled);
@@ -334,7 +348,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "PUT",
-				url: "/api/device/serial/enabled/"+enabled,
+				url: "/api/serial/enabled/"+enabled,
 			}).then(function successCallback(resp)
 			{
 				callback(resp);

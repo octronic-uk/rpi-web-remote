@@ -15,4 +15,11 @@ PiApp.config(function($provide, $stateProvider, $urlRouterProvider)
     templateUrl: "settings.html",
     controller: "Settings"
   });
+
+  $stateProvider.state('System',
+  {
+    url: "/system",
+    templateUrl: "system.html",
+    controller: "System"
+  });
 });

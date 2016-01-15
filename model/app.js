@@ -12,6 +12,7 @@ var util       = require('./util');
 var constants  = require('./constants');
 var configPath = path.join(__dirname, "../"+constants.CONFIG);
 var config     = require(configPath);
+var exec = require('child_process').exec;
 
 // Variables
 var port          = config.http_port;
@@ -20,7 +21,8 @@ var jsonParser    = bodyParser.json();
 var rawParser     = bodyParser.raw();
 var httpServer    = http.createServer(app);
 var eventHistory  = {};
-var PIN           = "pin";
+var PIN           = 'pin';
+var UPTIME_CMD    = 'uptime -p';
 var serialPort    = null;
 var baudRateList = [
 
@@ -360,14 +362,30 @@ var initRoutes = function()
     util.sendHttpJson(res, {name: config.device_name});
   });
 
+  // Get the device's uptime
+  app.get('/api/device/uptime', jsonParser, function(req,res)
+  {
+    var child = exec(UPTIME_CMD, function (error, stdout, stderr)
+    {
+      if (error !== null)
+      {
+        util.sendHttpError(res,"Error getting uptime: "+error);
+      }
+      else
+      {
+        util.sendHttpJson(res,{uptime: stdout});
+      }
+    });
+  });
+
   // Get serial enabled state
-  app.get('/api/device/serial/enabled', jsonParser, function(req,res)
+  app.get('/api/serial/enabled', jsonParser, function(req,res)
   {
     util.sendHttpJson(res,{enabled: config.serial.enable});
   });
 
   // Set serial enabled state
-  app.put('/api/device/serial/enabled/:en', jsonParser, function(req,res)
+  app.put('/api/serial/enabled/:en', jsonParser, function(req,res)
   {
     var enParam = req.params.en;
     console.log("Enable param: ",enParam);
@@ -386,7 +404,7 @@ var initRoutes = function()
   });
 
   // Get the devce's list of serial ports
-  app.get('/api/device/serial/list',jsonParser,function(req,res)
+  app.get('/api/serial/list',jsonParser,function(req,res)
   {
     SerialPortModule.list(function (err, ports)
     {
@@ -409,13 +427,13 @@ var initRoutes = function()
   });
 
   // Get the list of serial commands
-  app.get('/api/device/serial/command/list',jsonParser,function(req,res)
+  app.get('/api/serial/command/list',jsonParser,function(req,res)
   {
     util.sendHttpJson(res,config.serial.commands);
   });
 
   // Add a serial command to the configuration
-  app.put('/api/device/serial/command/add',jsonParser,function(req,res)
+  app.put('/api/serial/command/add',jsonParser,function(req,res)
   {
     var name = req.body.name;
     var command = req.body.cmd;
@@ -433,7 +451,7 @@ var initRoutes = function()
   });
 
   // Remove a serial command to the configuration
-  app.put('/api/device/serial/command/remove',jsonParser,function(req,res)
+  app.put('/api/serial/command/remove',jsonParser,function(req,res)
   {
     var name = req.body.cmdName;
     console.log("Reomving command", name, "aka", req.body.cmdName);
@@ -451,7 +469,7 @@ var initRoutes = function()
     });
   });
 
-  app.put('/api/device/serial/command/execute', jsonParser, function(req,res)
+  app.put('/api/serial/command/execute', jsonParser, function(req,res)
   {
     var cmd = req.body.cmd;
     console.log("Executing command",cmd);
@@ -490,25 +508,25 @@ var initRoutes = function()
   });
 
   // Get list of supported baud rates
-  app.get('/api/device/serial/baudrate/list',jsonParser,function(req,res)
+  app.get('/api/serial/baudrate/list',jsonParser,function(req,res)
   {
     util.sendHttpJson(res,baudRateList);
   });
 
   // Get the serial path
-  app.get('/api/device/serial/path', jsonParser, function(req,res)
+  app.get('/api/serial/path', jsonParser, function(req,res)
   {
     util.sendHttpJson(res,{path: config.serial.path});
   });
 
   // get the serial baud rate
-  app.get('/api/device/serial/baudrate', jsonParser, function(req,res)
+  app.get('/api/serial/baudrate', jsonParser, function(req,res)
   {
     util.sendHttpJson(res,{baudrate: config.serial.baudrate});
   });
 
   // Set the serial device path
-  app.put('/api/device/serial/path', jsonParser, function(req,res)
+  app.put('/api/serial/path', jsonParser, function(req,res)
   {
     var path = req.body.path;
 
@@ -524,7 +542,7 @@ var initRoutes = function()
   });
 
   // Set the serial baud rate
-  app.put('/api/device/serial/baudrate', jsonParser, function(req,res)
+  app.put('/api/serial/baudrate', jsonParser, function(req,res)
   {
     var baudrate = req.body.baudrate;
     if (baudrate !== null)
@@ -539,7 +557,7 @@ var initRoutes = function()
   });
 
   // Restart the serial device
-  app.put('/api/device/serial/restart',function (req,res)
+  app.put('/api/serial/restart',function (req,res)
   {
     restartSerial();
     util.sendHttpOK(res);
