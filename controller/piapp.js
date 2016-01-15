@@ -1,7 +1,6 @@
 var PiApp = angular.module('PiApp',
 [
 	'ui.bootstrap',
-	'ngCookies',
 	'ui.router',
 ]);
 
