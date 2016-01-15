@@ -187,11 +187,14 @@ var initIndividualGpioPin = function(pin)
 
 var initGpio = function(callback)
 {
-  // Initialise pins
-  config.pins.forEach(function(pin)
+  var i = 0;
+  var nPins = config.pins.length;
+
+  for (i = 0; i < nPins; i++)
   {
+    var pin = config.pins[i];
     initIndividualGpioPin(pin);
-  });
+  }
 
   // Listen for state change on input pins
   gpio.on('change', function(channel, value)
