@@ -1,6 +1,6 @@
 PiApp.controller('Landing',
-	['$state','$stateParams','$controller','$cookies','$http','$scope','$rootScope' ,
-	function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
+	['$state','$stateParams','$controller','$http','$scope','$rootScope' ,
+	function($state, $stateParams, $controller, $http, $scope, $rootScope)
 	{
     $controller('PiApp', {$scope: $scope});
 

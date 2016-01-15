@@ -5,8 +5,8 @@ var PiApp = angular.module('PiApp',
 ]);
 
 PiApp.controller('PiApp', [
-	'$state','$stateParams','$cookies','$http','$scope','$rootScope' ,
-   function($state, $stateParams, $cookies, $http, $scope, $rootScope)
+	'$state','$stateParams','$http','$scope','$rootScope' ,
+   function($state, $stateParams, $http, $scope, $rootScope)
 	{
 		$scope.alerts = [];
 		$scope.ui = {};

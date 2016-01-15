@@ -1,6 +1,6 @@
 PiApp.controller('Settings',
-['$state','$stateParams','$controller','$cookies','$http','$scope','$rootScope' ,
-function($state, $stateParams, $controller, $cookies, $http, $scope, $rootScope)
+['$state','$stateParams','$controller','$http','$scope','$rootScope' ,
+function($state, $stateParams, $controller, $http, $scope, $rootScope)
 {
 	$controller('PiApp', {$scope: $scope});
 	$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
