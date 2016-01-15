@@ -156,6 +156,23 @@ PiApp.controller('PiApp', [
 			});
 		};
 
+		$scope.setDeviceNameApi = function(callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/device/name",
+				data: {
+					devName: $scope.deviceName
+				}
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		};
+
 		$scope.getDeviceUptimeApi = function(callback)
 		{
 			$http({
@@ -212,7 +229,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.getDeviceSerialListApi = function(callback)
+		$scope.getSerialListApi = function(callback)
 		{
 			$http({
 				method: "GET",
@@ -226,7 +243,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.getDeviceSerialBaudrateListApi = function(callback)
+		$scope.getSerialBaudrateListApi = function(callback)
 		{
 			$http({
 				method: "GET",
@@ -240,7 +257,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.getDeviceSerialPathApi = function(callback)
+		$scope.getSerialPathApi = function(callback)
 		{
 			$http({
 				method: "GET",
@@ -254,7 +271,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.getDeviceSerialBaudrateApi = function(callback)
+		$scope.getSerialBaudrateApi = function(callback)
 		{
 			$http({
 				method: "GET",
@@ -268,7 +285,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.setDeviceSerialPathApi = function(path,callback)
+		$scope.setSerialPathApi = function(path,callback)
 		{
 			$http({
 				method: "PUT",
@@ -283,7 +300,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.setDeviceSerialBaudrateApi = function(baud,callback)
+		$scope.setSerialBaudrateApi = function(baud,callback)
 		{
 			$http({
 				method: "PUT",
@@ -298,7 +315,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.getDeviceSerialCommandListApi = function(callback)
+		$scope.getSerialCommandListApi = function(callback)
 		{
 			$http({
 				method: "GET",
@@ -326,7 +343,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.deviceSerialRestartApi = function(callback)
+		$scope.serialRestartApi = function(callback)
 		{
 			$http({
 				method: "PUT",
@@ -372,7 +389,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.getDeviceSerialEnabledApi = function(callback)
+		$scope.getSerialEnabledApi = function(callback)
 		{
 			$http({
 				method: "GET",
@@ -386,7 +403,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.setDeviceSerialEnabledApi = function(enabled,callback)
+		$scope.setSerialEnabledApi = function(enabled,callback)
 		{
 			$http({
 				method: "PUT",
@@ -438,41 +455,41 @@ PiApp.controller('PiApp', [
 
 		// API Calls -----------------------------------------------------------------
 
-		$scope.getDeviceSerialData = function()
+		$scope.getSerialData = function()
 		{
-			$scope.getDeviceSerialListApi(function(serialList)
+			$scope.getSerialListApi(function(serialList)
 			{
 				$scope.serialPortList = serialList;
 			});
 
-			$scope.getDeviceSerialBaudrateListApi(function(baudList)
+			$scope.getSerialBaudrateListApi(function(baudList)
 			{
 				$scope.baudRateList = baudList;
 			});
 
-			$scope.getDeviceSerialCommandListApi(function(commandList)
+			$scope.getSerialCommandListApi(function(commandList)
 			{
 				$scope.serialCommandList = commandList;
 			});
 
-			$scope.getDeviceSerialBaudrateApi(function(baudrate)
+			$scope.getSerialBaudrateApi(function(baudrate)
 			{
 				$scope.selectedBaudrate = baudrate;
 			});
 
-			$scope.getDeviceSerialPathApi(function(path)
+			$scope.getSerialPathApi(function(path)
 			{
 				$scope.selectedSerialPort = path;
 			});
 		};
 
-		$scope.getDeviceSerialEnabledApi(function(en)
+		$scope.getSerialEnabledApi(function(en)
 		{
 			$scope.ui.serialEnabled = en;
 
 			if ($scope.ui.serialEnabled)
 			{
-				$scope.getDeviceSerialData();
+				$scope.getSerialData();
 			}
 		});
 

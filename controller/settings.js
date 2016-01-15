@@ -60,37 +60,48 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 
 	$scope.saveSettings = function()
 	{
-		$scope.setDeviceSerialPathApi($scope.selectedSerialPort,function(result)
+		$scope.setSerialPathApi($scope.selectedSerialPort,function(result)
 		{
 			if (result)
 			{
-				$scope.setDeviceSerialBaudrateApi($scope.selectedBaudrate,function(result)
+				$scope.setSerialBaudrateApi($scope.selectedBaudrate,function(result)
 				{
 					if (result)
 					{
-						$scope.configSaveApi(function(result)
+						$scope.setDeviceNameApi(function(result)
 						{
-								if (result)
+							if (result)
+							{
+								$scope.configSaveApi(function(result)
 								{
-									$scope.deviceSerialRestartApi(function(result)
-									{
 										if (result)
 										{
-											console.log("Settings saved successfuly");
-											$scope.addAlert({ type: 'success', msg: 'Settings have been saved!' });
+											$scope.serialRestartApi(function(result)
+											{
+												if (result)
+												{
+													console.log("Settings saved successfuly");
+													$scope.addAlert({ type: 'success', msg: 'Settings have been saved!' });
+												}
+												else
+											  {
+												 console.log("Error restarting serial");
+												 $scope.addAlert({ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
+												}
+											});
 										}
 										else
-									  {
-										 console.log("Error restarting serial");
-										 $scope.addAlert({ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
+										{
+											console.log("Error saving settings");
+											$scope.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!' });
 										}
-									});
-								}
-								else
-								{
-									console.log("Error saving settings");
-									$scope.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!' });
-								}
+								});
+							}
+							else
+							{
+								console.log("Error setting device name");
+								$scope.addAlert({ type: 'danger', msg: 'Error setting device name. Please try again!' });
+							}
 						});
 					}
 					else
@@ -179,7 +190,7 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 
 	$scope.serialEnabledCheckboxChanged = function()
 	{
-		$scope.setDeviceSerialEnabledApi($scope.ui.serialEnabled,function(resp)
+		$scope.setSerialEnabledApi($scope.ui.serialEnabled,function(resp)
 		{
 			if ($scope.ui.serialEnabled)
 			{
