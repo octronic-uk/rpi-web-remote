@@ -32,7 +32,7 @@ var baudRateList = [
 
 var closeSerial = function(callback)
 {
-  if (serialPort !== null && serialPort.isOpen())
+  if (serialPort && serialPort.isOpen())
   {
     serialPort.close(function(error)
     {
@@ -58,8 +58,8 @@ var initSerial = function()
   if (config.serial.enable)
   {
     console.log("Enabling serial port:",config.serial.path,"at",config.serial.baudrate);
-    if  (serialPort === null)
-    { 
+    if  (serialPort)
+    {
       serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
     }
     serialPort.on('error', function(err)
@@ -109,12 +109,12 @@ var initHttpServer = function()
   // HTTP Error handler
   httpServer.on('error', function(error)
   {
-    if (error.syscall !== 'listen')
+    if (error.syscall != 'listen')
     {
       throw error;
     }
 
-    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    var bind = typeof port == 'string' ? 'Pipe ' + port : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
@@ -135,7 +135,7 @@ var initHttpServer = function()
   httpServer.on('listening', function()
   {
     var addr = httpServer.address();
-    var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    var bind = typeof addr == 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Listening on ' + bind);
   });
 };
@@ -143,15 +143,15 @@ var initHttpServer = function()
 var closeGpio = function(callback)
 {
   gpio.destroy();
-  if (callback !== null)
-  { 
+  if (callback)
+  {
     callback();
   }
 };
 
 var initIndividualGpioPin = function(pin)
 {
-  if (pin.io === "out")
+  if (pin.io == "out")
   {
     gpio.setup(pin.num, gpio.DIR_OUT,function()
     {
@@ -169,7 +169,7 @@ var initIndividualGpioPin = function(pin)
       });
     });
   }
-  else if (pin.io === "in")
+  else if (pin.io == "in")
   {
     gpio.setup(pin.num, gpio.DIR_IN, gpio.EDGE_BOTH);
   }
@@ -195,7 +195,7 @@ var initGpio = function(callback)
   });
 
   if (callback)
-  { 
+  {
     callback();
   }
 };
@@ -229,7 +229,6 @@ var initRoutes = function()
           else
           {
             util.sendHttpError(res,"Unable to set output of pin (err 2 )"+pin+" "+err);
-              util.sendHttpError(res);
           }
         });
       }
@@ -256,7 +255,7 @@ var initRoutes = function()
     var pin = req.body.pin;
     getPinByName(pin, function(pinObj)
     {
-      if (pinObj)
+      if (pinObj !== null)
       {
         var index = config.pins.indexOf(pinObj);
 
@@ -304,7 +303,7 @@ var initRoutes = function()
 
     getPinByNumber(pin, function(pinObj)
     {
-      if (pinObj)
+      if (pinObj !== null)
       {
         // Read state for input
         if (pinObj.io == "in")
@@ -367,7 +366,7 @@ var initRoutes = function()
   {
     var enParam = req.params.en;
     console.log("Enable param: ",enParam);
-    var enabled = (enParam  === "true" ? true : false);
+    var enabled = (enParam  == "true" ? true : false);
 
     config.serial.enable = enabled;
     if (enabled)
@@ -508,7 +507,7 @@ var initRoutes = function()
   {
     var path = req.body.path;
 
-    if (path)
+    if (path !== null)
     {
       config.serial.path = path;
       util.sendHttpOK(res);
@@ -523,7 +522,7 @@ var initRoutes = function()
   app.put('/api/device/serial/baudrate', jsonParser, function(req,res)
   {
     var baudrate = req.body.baudrate;
-    if (baudrate)
+    if (baudrate !== null)
     {
       config.serial.baudrate = baudrate;
       util.sendHttpOK(res);
@@ -579,7 +578,7 @@ var getSerialCommandByName = function(name, callback)
   for (i = 0; i < nCommands; i++)
   {
     next = config.serial.commands[i];
-    if (next.name === name)
+    if (next.name == name)
     {
       callback(next);
       break;
@@ -628,7 +627,7 @@ var getPinByNumber = function(pin,callback)
   var i = 0;
   for (i = 0; i < config.pins.length; i++)
   {
-    if (config.pins[i].num === pin)
+    if (config.pins[i].num == pin)
     {
       callback(config.pins[i]);
       break;
@@ -642,7 +641,7 @@ var getPinByName = function(pin,callback)
   var i = 0;
   for (i = 0; i < config.pins.length; i++)
   {
-    if (config.pins[i].name === pin)
+    if (config.pins[i].name == pin)
     {
       callback(config.pins[i]);
       break;
