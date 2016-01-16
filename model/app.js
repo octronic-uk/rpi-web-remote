@@ -29,6 +29,8 @@ var UPTIME_CMD      = 'uptime -p';
 var ADDR_CMD        = 'hostname -I';
 var HOSTNAME_CMD    = 'hostname';
 var REBOOT_CMD      = "reboot";
+var RESTART_CMD     =  path.join(__dirname, "../"+restart);
+var UPDATE_CMD      =  path.join(__dirname, "../"+update_internal);
 var BAUDRATE_LIST   = [
 
   115200, 57600, 38400, 19200,
@@ -362,6 +364,31 @@ var initRoutes = function()
     {
       util.sendHttpNotFound(res);
     }
+  });
+
+  // Update the application from github
+  app.get('/api/application/update', jsonParser, function(req,res)
+  {
+    var child = execFile(UPDATE_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr)
+    {
+      if (error !== null)
+      {
+        util.sendHttpError(res,"Error updating app: "+error);
+      }
+      else
+      {
+        util.sendHttpOK(res);
+      }
+    });
+  });
+
+  // Reload the application through PM2
+  app.get('/api/application/restart', jsonParser, function(req,res)
+  {
+    var child = execFile(RESTART_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr)
+    {
+      util.sendHttpOK(res);
+    });
   });
 
   // Get the name of the device

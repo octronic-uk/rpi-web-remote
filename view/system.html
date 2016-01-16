@@ -32,12 +32,37 @@
 </div>
 <div class="panel">
   <div class="panel-heading">
-    Power
+    Update Application
   </div>
-  <div class="panel-body">
-    <button ng-click="rebootButton()" class="pull-right btn btn-primary"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Reboot</button>
-  </div>
+  <ul class="list-group">
+    <li class="list-group-item clearfix">
+      <h5>
+        Update
+        <button ng-click="updateButton()" class="pull-right btn btn-primary"><span class="glyphicon glyphicon-save"></span>&nbsp;Update</button>
+      </h5>
+    </li>
+  </ul>
 </div>
+<div class="panel">
+  <div class="panel-heading">
+    Restart
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item clearfix">
+      <h5>
+        Restart Application
+        <button ng-click="restartButton()" class="pull-right btn btn-primary"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Reboot</button>
+      </h5>
+    </li>
+    <li class="list-group-item clearfix">
+      <h5>
+        Reboot RaspberryPI
+        <button ng-click="rebootButton()" class="pull-right btn btn-danger"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Reboot</button>
+      </h5>
+    </li>
+  </ul>
+</div>
+
 
 <!-- div class="panel">
 <div class="panel-heading">

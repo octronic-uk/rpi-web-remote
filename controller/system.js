@@ -20,11 +20,36 @@ PiApp.controller('System',
       $scope.stats.address = address;
     });
 
+    $scope.updateButton = function()
+    {
+      $scope.addAlert({ type: 'info', msg: 'The application is updating. Please wait...' });
+      $scope.getApplicationUpdateApi(function(resp)
+      {
+        if (resp)
+        {
+          $scope.addAlert({ type: 'success', msg: 'Update successful! Please restart the application.' });
+        }
+        else
+        {
+          $scope.addAlert({ type: 'danger', msg: 'There was an error updating the application. Please try again' });
+        }
+      });
+    };
+
+    $scope.restartButton = function()
+    {
+      $scope.addAlert({ type: 'info', msg: 'The application is restarting. Please wait...' });
+      $scope.getApplicationRestartApi(function(resp)
+      {
+
+      });
+    };
+
     $scope.rebootButton = function()
     {
       $scope.getDeviceRebootApi(function()
       {
-        $scope.addAlert({ type: 'primary', msg: 'The device is rebooting, please wait...' });
+        $scope.addAlert({ type: 'info', msg: 'The device is rebooting, please wait...' });
       });
     };
   }

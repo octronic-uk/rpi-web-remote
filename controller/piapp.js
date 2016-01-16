@@ -142,6 +142,34 @@ PiApp.controller('PiApp', [
 			});
 		};
 
+		$scope.getApplicationRestartApi = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/application/restart"
+			}).then(function successCallback(resp)
+			{
+				callback();
+			},function errorCallback(resp)
+			{
+				callback();
+			});
+		};
+
+		$scope.getApplicationUpdateApi = function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/application/update"
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		};
+
 		$scope.getDeviceNameApi = function(callback)
 		{
 			$http({
