@@ -222,7 +222,7 @@ PiApp.controller('PiApp', [
 				url: "/api/device/hostname"
 			}).then(function successCallback(resp)
 			{
-				callback(JSON.parse(resp.data).hostname);
+				callback(JSON.parse(resp.data).hostname.replace(" ","\n"));
 			},function errorCallback(resp)
 			{
 				callback(null);
