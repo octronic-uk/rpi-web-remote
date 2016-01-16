@@ -413,7 +413,7 @@ var initRoutes = function()
   // Reboot the device
   app.get('/api/device/reboot', jsonParser, function(req,res)
   {
-    util.sendHttpOk(res);
+    util.sendHttpOK(res);
 
     var child = exec(REBOOT_CMD, function (error, stdout, stderr)
     {
