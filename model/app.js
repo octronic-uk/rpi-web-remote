@@ -29,8 +29,8 @@ var UPTIME_CMD      = 'uptime -p';
 var ADDR_CMD        = 'hostname -I';
 var HOSTNAME_CMD    = 'hostname';
 var REBOOT_CMD      = "reboot";
-var RESTART_CMD     =  path.join(__dirname, "../"+restart);
-var UPDATE_CMD      =  path.join(__dirname, "../"+update_internal);
+var RESTART_CMD     =  path.join(__dirname, "../restart");
+var UPDATE_CMD      =  path.join(__dirname, "../update_internal");
 var BAUDRATE_LIST   = [
 
   115200, 57600, 38400, 19200,
