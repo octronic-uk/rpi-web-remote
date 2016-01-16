@@ -13,6 +13,7 @@ var constants  = require('./constants');
 var configPath = path.join(__dirname, "../"+constants.CONFIG);
 var config     = require(configPath);
 var exec = require('child_process').exec;
+var exec = require('child_process').execFile;
 
 // Variables
 var port          = config.http_port;
