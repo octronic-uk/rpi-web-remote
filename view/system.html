@@ -3,19 +3,32 @@
   <div class="panel-heading">
     Uptime
   </div>
-  <div class="panel-body">
-    {{stats.uptime}}
-  </div>
+  <ul class="list-group">
+    <li class="list-group-item clearfix">
+      <h5>{{stats.uptime}}</h5>
+    </li>
+  </ul>
 </div>
 <div class="panel">
   <div class="panel-heading">
     Network
   </div>
-  <div class="panel-body">
-    Hostname: {{stats.hostname}}
-    <br>
-    Address: {{stats.address}}
-  </div>
+  <ul class="list-group">
+    <li class="list-group-item clearfix">
+      <h5>
+        Hostname
+        <br>
+        <small>{{stats.hostname}}</small>
+      </h5>
+    </li>
+    <li class="list-group-item clearfix">
+      <h5>
+        Address
+        <br>
+        <small>{{stats.address}}</small>
+      </h5>
+    </li>
+  </ul>
 </div>
 <div class="panel">
   <div class="panel-heading">
