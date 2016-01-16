@@ -163,10 +163,10 @@ PiApp.controller('PiApp', [
 				url: "/api/application/update"
 			}).then(function successCallback(resp)
 			{
-				callback(true);
+				callback(JSON.parse(resp.data).result);
 			},function errorCallback(resp)
 			{
-				callback(false);
+				callback(null);
 			});
 		};
 

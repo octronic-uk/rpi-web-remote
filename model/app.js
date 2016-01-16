@@ -378,7 +378,7 @@ var initRoutes = function()
       }
       else
       {
-        util.sendHttpOK(res);
+        util.sendHttpJson(res,{result: stdout});
       }
     });
   });

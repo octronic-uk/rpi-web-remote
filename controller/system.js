@@ -27,6 +27,7 @@ PiApp.controller('System',
       {
         if (resp)
         {
+          $scope.stats.updateResult = resp;
           $scope.addAlert({ type: 'success', msg: 'Update successful! Please restart the application.' });
         }
         else
