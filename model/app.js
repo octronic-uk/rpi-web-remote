@@ -368,6 +368,23 @@ var initRoutes = function()
     }
   });
 
+  // Get a GPIO script
+  app.get('/api/gpio/script/:name',jsonParser,function(req,res)
+  {
+    var name = req.params.name;
+    getGpioScriptByName(function (script)
+    {
+      if (script)
+      {
+        util.sendHttpJson(res,script);
+      }
+      else
+      {
+        util.sendHttpError(res);
+      }
+    });
+  });
+
   // Execute a GPIO script
   app.get('/api/gpio/script/:name/execute',jsonParser,function(req,res)
   {
@@ -410,7 +427,7 @@ var initRoutes = function()
           if ('while condition becomes false')
           {
             clearInterval(scriptInterval);
-            
+
             // End
             for (iThen = 0; iThen < doStates.length; iThen++)
             {

@@ -400,6 +400,34 @@ PiApp.controller('PiApp', [
 			});
 		};
 
+		$scope.getGpioScriptApi = function(name, callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/script/"+name,
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			}, function errorCallback(resp)
+			{
+				callback(null);
+			});
+		};
+
+		$scope.executeGpioScriptApi = function(name, callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/script/"+name+"/execute",
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		};
+
 		$scope.executeSerialCommandApi = function(cmd, callback)
 		{
 			$http({
