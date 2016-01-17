@@ -12,11 +12,6 @@ PiApp.controller('PiApp', [
 		$scope.alerts = [];
 		$scope.ui = {};
 
-		// Scroll to top
-		$rootScope.$on('$stateChangeSuccess', function() {
-		  document.body.scrollTop = document.documentElement.scrollTop = 0;
-		});
-
 		// API function calls ------------------------------------------------------
 
 		$scope.addSerialCommandApi = function(name,cmd,callback)
