@@ -573,7 +573,7 @@ PiApp.controller('PiApp', [
 			$scope.deviceName = name;
 		});
 
-		$scope.getGpioScriptsListApi(function(sriptList)
+		$scope.getGpioScriptsListApi(function(scriptList)
 		{
 			$scope.gpioScriptList = scriptList;
 		});
