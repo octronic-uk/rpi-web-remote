@@ -63,7 +63,7 @@ PiApp.controller('GpioScript',
 
     $scope.addWhileButton = function()
     {
-      $scope.script.while({pin: $scope.ui.addWhilePin, state: $scope.ui.addWhileState});
+      $scope.script.while.push({pin: $scope.ui.addWhilePin, state: $scope.ui.addWhileState});
     };
 
     $scope.removeWhileButton = function()
