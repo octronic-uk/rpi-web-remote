@@ -153,16 +153,20 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 	$scope.getSerialCommandByName = function(name,callback)
 	{
 		var nCommands = $scope.serialCommandList.length;
+		var target = null;
+
 	  for (var i = 0; i < nCommands; i++)
 	  {
 	    var next = $scope.serialCommandList[i];
 
 	    if (next.name == name)
 	    {
-	      callback(next);
+	      target = next;
 				break;
 	    }
 	  }
+
+		callback(target);
 	};
 
 	$scope.addGpioPin = function()

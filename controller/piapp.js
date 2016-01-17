@@ -525,26 +525,31 @@ PiApp.controller('PiApp', [
 
 		$scope.getPinByNumber = function(pins,i,callback)
 		{
+			var target = null;
 			for (var j = 0; j < pins.length; j++)
 			{
 				if (pins[j].num == i)
 				{
-					callback(pins[j]);
+					target = pins[j];
 					break;
 				}
 			}
+			callback(target);
 		};
 
 		$scope.getPinByName = function(pins,name,callback)
 		{
+			var target = null;
+
 			for (var j = 0; j < pins.length; j++)
 			{
 				if (pins[j].name == name)
 				{
-					callback(pins[j]);
+					target = pins[j];
 					break;
 				}
 			}
+			callback(target);
 		};
 
 		$scope.addAlert = function(alert)

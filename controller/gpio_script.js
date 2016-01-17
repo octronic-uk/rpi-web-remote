@@ -47,18 +47,19 @@ PiApp.controller('GpioScript',
       var i = 0;
       var nDo = $scope.script.do.length;
       var next = null;
+      var target = null;
 
       for (i = 0; i < nDo; i++)
       {
         next = $scope.script.do[i];
         if (next.pin == name)
         {
-          callback(next);
+          target = next;
           break;
         }
       }
 
-      callback(null);
+      callback(target);
     };
 
     $scope.addWhileButton = function()
@@ -80,18 +81,19 @@ PiApp.controller('GpioScript',
       var i = 0;
       var nWhile = $scope.script.while.length;
       var next = null;
+      var target = null;
 
       for (i = 0; i < nWhile; i++)
       {
         next = $scope.script.while[i];
         if (next.pin == name)
         {
-          callback(next);
+          target = next;
           break;
         }
       }
 
-      callback(null);
+      callback(target);
     };
 
     $scope.addThenButton = function()
@@ -113,18 +115,19 @@ PiApp.controller('GpioScript',
       var i = 0;
       var nThen = $scope.script.then.length;
       var next = null;
+      var target = null;
 
       for (i = 0; i < nThen; i++)
       {
         next = $scope.script.then[i];
         if (next.pin == name)
         {
-          callback(next);
+          target = next;
           break;
         }
       }
 
-      callback(null);
+      callback(target);
     };
 
     $scope.deleteButton = function()

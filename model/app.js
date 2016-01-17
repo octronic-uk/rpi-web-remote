@@ -815,7 +815,8 @@ var getGpioScriptByName = function(name,callback)
   var i = 0;
   var nScripts = config.gpio.scripts.length;
   var next = null;
-
+  var target = null;
+  
   console.log("Checking",nScripts,"GPIO scripts for",name);
 
   for (i = 0; i < nScripts; i++)
@@ -823,10 +824,13 @@ var getGpioScriptByName = function(name,callback)
     next = config.gpio.scripts[i];
     if (next.name == name)
     {
-      callback(next);
+      target = next;
       break;
     }
   }
+
+  callback(target);
+
 };
 
 // Get a GPIO script by name
@@ -853,6 +857,7 @@ var getSerialCommandByName = function(name, callback)
   var i = 0;
   var nCommands = config.serial.commands.length;
   var next = null;
+  var target = null;
 
   console.log("Checking",nCommands,"commands for",name);
 
@@ -861,10 +866,12 @@ var getSerialCommandByName = function(name, callback)
     next = config.serial.commands[i];
     if (next.name == name)
     {
-      callback(next);
+      target = next;
       break;
     }
   }
+
+  callback(target);
 };
 
 var filterScriptName = function(name,callback)
@@ -911,28 +918,33 @@ var addGpioPinEvent = function(pinNum, state)
 var getGpioPinByNumber = function(pin,callback)
 {
   var i = 0;
+  var target = null;
   for (i = 0; i < config.gpio.pins.length; i++)
   {
     if (config.gpio.pins[i].num == pin)
     {
-      callback(config.gpio.pins[i]);
+      target = config.gpio.pins[i];
       break;
     }
   }
+  callback(target);
 };
 
 // Return a pin object based on it's number
 var getGpioPinByName = function(pin,callback)
 {
   var i = 0;
+  var target = null;
+
   for (i = 0; i < config.gpio.pins.length; i++)
   {
     if (config.gpio.pins[i].name == pin)
     {
-      callback(config.gpio.pins[i]);
+      target = config.gpio.pins[i];
       break;
     }
   }
+  callback(target);
 };
 
 initSerial();
