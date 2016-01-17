@@ -397,7 +397,10 @@ var initRoutes = function()
 
     getGpioScriptIndexByName(script.name,function(index)
     {
-      config.gpio.scripts.splice(index,1);
+      if (index > 0)
+      {
+        config.gpio.scripts.splice(index,1);
+      }
       config.gpio.scripts.push(script);
       util.sendHttpOK(res);
     });
