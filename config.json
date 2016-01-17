@@ -41,13 +41,13 @@
         "num": 12,
         "io": "out",
         "state": 0,
-        "hidden": false
+        "hidden": true
       },
       {
         "name": "door_in",
         "num": 14,
         "io": "in",
-        "hidden": false
+        "hidden": true
       }
     ],
     "scripts": [

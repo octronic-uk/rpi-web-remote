@@ -27,12 +27,14 @@
             <tr>
               <th>Pin</th>
               <th>Name</th>
+              <th>Hidden</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="pin in pinList">
               <td>{{pin.num}}</td>
               <td>{{pin.name}}</td>
+              <td>{{pin.hidden}}</td>
             </tr>
           </tbody>
         </table>
@@ -103,6 +105,10 @@
               </tr>
             </tbody>
           </table>
+          <div class="form-group">
+            <label for="new_script">New Script</label>
+            <button id="new_script"href="#gpio_script/new_script"><span class="glyphicon glyphicon-minus"</button>
+          </div>
         </div>
       </form>
     </div>
