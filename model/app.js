@@ -385,6 +385,12 @@ var initRoutes = function()
     });
   });
 
+  // Get GPIO script list
+  app.get('/api/gpio/script/list',jsonParser,function(req,res)
+  {
+    util.sendHttpJson(res,config.gpio.scripts);
+  });
+
   // Execute a GPIO script
   app.get('/api/gpio/script/:name/execute',jsonParser,function(req,res)
   {

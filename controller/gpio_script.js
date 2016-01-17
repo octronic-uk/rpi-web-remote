@@ -16,6 +16,6 @@ PiApp.controller('GpioScript',
       {
 
       });
-    }
+    };
   }
 ]);

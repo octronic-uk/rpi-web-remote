@@ -473,6 +473,20 @@ PiApp.controller('PiApp', [
 			});
 		};
 
+		$scope.getGpioScriptListApi = function()
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/script/list",
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		};
+
 		// Client function definitions ---------------------------------------------
 
 		$scope.getPinByNumber = function(pins,i,callback)
@@ -557,6 +571,11 @@ PiApp.controller('PiApp', [
 		$scope.getDeviceNameApi(function(name)
 		{
 			$scope.deviceName = name;
+		});
+
+		$scope.getGpioScriptListApi(function(sriptList)
+		{
+			$scope.gpioScriptList = scriptList;
 		});
 	}
 ]);
