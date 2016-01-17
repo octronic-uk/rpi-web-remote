@@ -28,13 +28,16 @@
       </div>
       <div class="form-group">
         <label for="add-command">Add</label>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Name" ng-model="addDoName">
-        </div>
-        <div class="form-group">
+        <input class="form-control" type="text" placeholder="Name" ng-model="addDoName">
+        <select id="add-do-pin" class="form-control" ng-model="addDoPin">
+          <option value="">Selct Pin</option>
+          <option ng-repeat="state in config.gpio.pins" value="{{pin.name}}">{{pin.name}}</option>
+        </select>
+        <div class="input-group">
           <select id="add-do-state" class="form-control" ng-model="addDoState">
             <option value="">Selct State</option>
-            <option ng-repeat="state in script.do" value="{{state.name}}">{{state.name}}</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
           </select>
           <span class="input-group-btn" >
             <button ng-click="addDoButton()" type="button" class="pull-right btn btn-success">
@@ -46,8 +49,8 @@
       <div class="form-group">
         <label for="remove-command">Remove</label>
         <div class="input-group">
-          <select id="remove-command" class="form-control" ng-model="doRemove">
-            <option value="">Remove Do Definition</option>
+          <select id="remove-command" class="form-control" ng-model="doRemoveStateName">
+            <option value="">Remove Do</option>
             <option ng-repeat="state in script.do" value="{{state.name}}">{{state.name}}</option>
           </select>
           <span  class="input-group-btn">
