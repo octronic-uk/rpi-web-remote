@@ -371,7 +371,7 @@ var initRoutes = function()
   // Delete GPIO Script
   app.get('/api/gpio/script/:name/delete',jsonParser,function(req,res)
   {
-    var name = req.params.name;
+    var name = req.params.name.replaceAll("%20", " ");
 
     getGpioScriptIndexByName(name,function(index)
     {
@@ -384,7 +384,8 @@ var initRoutes = function()
   app.put('/api/gpio/script/:name',jsonParser,function(req,res)
   {
     var script = req.body.script;
-
+    script.name.replaceAll("%20", " ");
+    
     console.log("Updating GPIO Script",script);
 
     getGpioScriptIndexByName(script.name,function(index)
