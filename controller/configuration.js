@@ -25,7 +25,7 @@ PiApp.config(function($provide, $stateProvider, $urlRouterProvider)
 
   $stateProvider.state('GpioScript',
   {
-    url: "/gpio_script/:name",
+    url: "/settings/gpio_script/:name",
     templateUrl: "gpio_script.html",
     controller: "GpioScript"
   });

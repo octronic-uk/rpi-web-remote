@@ -8,6 +8,11 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 
   // Client function definitions -----------------------------------------------
 
+	$scope.getSafeScriptName = function(name)
+	{
+		return "#settings/gpio_script/"+name.replace(" ","_");
+	};
+	
 	$scope.addSerialCommand = function()
 	{
 		var name = $scope.serialCommandNameAdd;
