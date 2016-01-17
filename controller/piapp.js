@@ -525,6 +525,34 @@ PiApp.controller('PiApp', [
 
 		// API Calls ---------------------------------------------------------------
 
+		$scope.getSerialData = function()
+		{
+			$scope.getSerialListApi(function(serialList)
+			{
+				$scope.serialPortList = serialList;
+			});
+
+			$scope.getSerialBaudrateListApi(function(baudList)
+			{
+				$scope.baudRateList = baudList;
+			});
+
+			$scope.getSerialCommandListApi(function(commandList)
+			{
+				$scope.serialCommandList = commandList;
+			});
+
+			$scope.getSerialBaudrateApi(function(baudrate)
+			{
+				$scope.selectedBaudrate = baudrate;
+			});
+
+			$scope.getSerialPathApi(function(path)
+			{
+				$scope.selectedSerialPort = path;
+			});
+		};
+
 		$scope.getDeviceNameApi(function(name)
 		{
 			$scope.deviceName = name;
