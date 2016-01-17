@@ -376,10 +376,12 @@ var initRoutes = function()
     {
       if (script)
       {
+        console.log("Sending script for",name,script);
         util.sendHttpJson(res,script);
       }
       else
       {
+        console.log("Script not found",name);
         util.sendHttpError(res);
       }
     });

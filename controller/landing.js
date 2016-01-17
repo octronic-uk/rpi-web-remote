@@ -34,5 +34,27 @@ PiApp.controller('Landing',
 				}
 			});
 		};
+
+		// API Calls ---------------------------------------------------------------
+
+		$scope.getSerialEnabledApi(function(en)
+		{
+			$scope.ui.serialEnabled = en;
+
+			if ($scope.ui.serialEnabled)
+			{
+				$scope.getSerialData();
+			}
+		});
+
+		$scope.getGpioListApi(function(list)
+		{
+			$scope.pinList = list;
+		});
+
+		$scope.getGpioScriptsListApi(function(scriptList)
+		{
+			$scope.gpioScriptList = scriptList;
+		});
 	}
 ]);

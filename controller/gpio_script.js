@@ -16,9 +16,9 @@ PiApp.controller('GpioScript',
     {
       $scope.script = {name:"New Script", do: [], while: [], then: []};
     }
-    
+
     console.log($scope.script);
-    console.log($scope.scriptList);
+    console.log($scope.gpioScriptList);
 
     $scope.executeGpioScriptButton = function(scriptName)
     {
