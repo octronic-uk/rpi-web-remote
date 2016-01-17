@@ -372,7 +372,7 @@ var initRoutes = function()
   app.get('/api/gpio/script/:name',jsonParser,function(req,res)
   {
     var name = req.params.name;
-    getGpioScriptByName(function (script)
+    getGpioScriptByName(name,function (script)
     {
       if (script)
       {
@@ -386,7 +386,7 @@ var initRoutes = function()
   });
 
   // Get GPIO script list
-  app.get('/api/gpio/script/list',jsonParser,function(req,res)
+  app.get('/api/gpio/scripts/list',jsonParser,function(req,res)
   {
     util.sendHttpJson(res,config.gpio.scripts);
   });

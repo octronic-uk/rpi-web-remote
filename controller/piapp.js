@@ -473,11 +473,11 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.getGpioScriptListApi = function()
+		$scope.getGpioScriptsListApi = function()
 		{
 			$http({
 				method: "GET",
-				url: "/api/gpio/script/list",
+				url: "/api/gpio/scripts/list",
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));
@@ -573,7 +573,7 @@ PiApp.controller('PiApp', [
 			$scope.deviceName = name;
 		});
 
-		$scope.getGpioScriptListApi(function(sriptList)
+		$scope.getGpioScriptsListApi(function(sriptList)
 		{
 			$scope.gpioScriptList = scriptList;
 		});
