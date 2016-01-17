@@ -140,7 +140,7 @@ PiApp.controller('GpioScript',
           setTimeout(function()
           {
             $state.go("Settings");
-          }, 3000);
+          }, 1500);
         }
         else
         {
@@ -163,7 +163,7 @@ PiApp.controller('GpioScript',
               setTimeout(function()
               {
                 $state.go("Settings");
-              }, 3000);
+              }, 1500);
             }
             else
             {

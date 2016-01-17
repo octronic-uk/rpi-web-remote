@@ -115,6 +115,7 @@ var initExpress = function()
   app.use(express.static(path.join(__dirname, '../node_modules/angular-cookies')));
   app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-animate')));
 };
 
 var initHttpServer = function()

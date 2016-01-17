@@ -2,6 +2,7 @@ var PiApp = angular.module('PiApp',
 [
 	'ui.bootstrap',
 	'ui.router',
+	'ngAnimate',
 ]);
 
 PiApp.controller('PiApp', [

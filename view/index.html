@@ -2,11 +2,12 @@
 <html lang="en" ng-app="PiApp" ng-controller="PiApp">
 <head>
   <!-- AnguarUI/BS Libraries -->
-  <script src="angular.js"></script>
+  <script src="angular.min.js"></script>
   <script src="angular-ui-router.min.js"></script>
-  <script src="ui-bootstrap-tpls.min.js"></script>
+  <script src="ui-bootstrap.min.js"></script>
+  <script src="angular-animate.min.js"></script>
   <!-- / -->
-  <script src="piapp.js"></script>
+  <script src="main.js"></script>
   <script src="landing.js"></script>
   <script src="settings.js"></script>
   <script src="system.js"></script>
@@ -15,6 +16,7 @@
   <!-- Stylesheets -->
   <link href="css/cyborg.bootstrap.min.css" rel="stylesheet">
   <link href="css/toast.alert.css" rel="stylesheet">
+  <link href="css/animate.css" rel="stylesheet">
   <!-- Meta -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,7 +34,7 @@
       <a href="#"><h4><span class="glyphicon glyphicon-home"></span>&nbsp;{{deviceName}}</h4></a>
     </div>
     <!-- Page Content -->
-    <div ui-view></div>
+    <div  autoscroll="true" ui-view></div>
   </div>
 </body>
 </html>
