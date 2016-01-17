@@ -37,31 +37,37 @@
         "hidden": false
       },
       {
-        "name": "Radiator",
+        "name": "door_out",
         "num": 12,
         "io": "out",
         "state": 0,
+        "hidden": false
+      },
+      {
+        "name": "door_in",
+        "num": 14,
+        "io": "in",
         "hidden": false
       }
     ],
     "scripts": [
       {
         "name": "Open South Garage",
-        "begin": [
+        "do": [
           {
-            "pin": "garage_south_output",
+            "pin": "door_out",
             "state": 1
           }
         ],
         "while": [
           {
-            "pin": "garage_south_input",
+            "pin": "door_in",
             "state": 0
           }
         ],
-        "end": [
+        "then": [
           {
-            "pin": "garage_pin_output",
+            "pin": "door_out",
             "state": 0
           }
         ]

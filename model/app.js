@@ -16,23 +16,24 @@ var exec = require('child_process').exec;
 var execFile = require('child_process').execFile;
 
 // Variables
-var port          = config.http_port;
-var app           = express();
-var jsonParser    = bodyParser.json();
-var rawParser     = bodyParser.raw();
-var httpServer    = http.createServer(app);
-var eventHistory  = {};
-var serialPort    = null;
+var port       = config.http_port;
+var app        = express();
+var jsonParser = bodyParser.json();
+var rawParser    = bodyParser.raw();
+var httpServer   = http.createServer(app);
+var eventHistory = {};
+var serialPort   = null;
 
 // constants
-var PIN             = 'pin';
-var UPTIME_CMD      = 'uptime -p';
-var ADDR_CMD        = 'hostname -I';
-var HOSTNAME_CMD    = 'hostname';
-var REBOOT_CMD      = "reboot";
-var RESTART_CMD     =  path.join(__dirname, "../restart");
-var UPDATE_CMD      =  path.join(__dirname, "../update_internal");
-var BAUDRATE_LIST   = [
+var PIN           = 'pin';
+var UPTIME_CMD    = 'uptime -p';
+var ADDR_CMD      = 'hostname -I';
+var HOSTNAME_CMD  = 'hostname';
+var REBOOT_CMD    = "reboot";
+var GPIO_SCRIPT_DELAY = 250;
+var RESTART_CMD       =  path.join(__dirname, "../restart");
+var UPDATE_CMD        =  path.join(__dirname, "../update_internal");
+var BAUDRATE_LIST = [
 
   115200, 57600, 38400, 19200,
   9600,   4800,  2400,  1800,
@@ -131,7 +132,7 @@ var initHttpServer = function()
 
     var bind = typeof port == 'string' ? 'Pipe ' + port : 'Port ' + port;
 
-    // handle specific listen errors with friendly messages
+    // handle specific listen errors with friThenly messages
     switch (error.code) {
       case 'EACCES':
       console.error(bind + ' requires elevated privileges');
@@ -374,57 +375,64 @@ var initRoutes = function()
 
     getGpioScriptByName(name,function(script)
     {
-      var beginStates = script.begin;
-      var untilStates = script.until;
-      var endStates   = script.end;
+      var doStates     = script.do;
+      var whiltStates  = script.while;
+      var thenStates   = script.then;
 
-      var iBegin = 0;
-      var iUntil = 0;
-      var iEnd = 0;
+      var iDo    = 0;
+      var iWhile = 0;
+      var iThen  = 0;
 
       // Begin
-      for (iBegin = 0; iBegin < beginStates.length; iBegin++)
+      for (iDo = 0; iDo < doStates.length; iDo++)
       {
-        var bState = beginStates[iBegin];
+        var dState = doStates[iDo];
 
-        getGpioPinByName(bState.pin, function(pin)
+        getGpioPinByName(dState.pin, function(pin)
         {
-          gpio.write(pin.num, bState.state, function(err)
+          gpio.write(pin.num, dState.state, function(err)
           {
             if (err)
             {
-              console.log("Script:", script.name, "Error writing begin state", bState.pin, pin.num, bState.state);
+              console.log("Script:", script.name, "Error writing begin state", dState.pin, pin.num, dState.state);
             }
             else
             {
-              console.log("Script:", script.name, "Written begin state", bState.pin, pin.num, bState.state);
+              console.log("Script:", script.name, "Written begin state", dState.pin, pin.num, dState.state);
             }
           });
         });
       }
 
       // Until
-
-      // End
-      for (iEnd = 0; iEnd < beginStates.length; iEnd++)
+      var scriptInterval = setInterval(function()
       {
-        var eState = endStates[iEnd];
-
-        getGpioPinByName(state.pin, function(pin)
-        {
-          gpio.write(pin.num, eState.state, function(err)
+          if ('while condition becomes false')
           {
-            if (err)
+            clearInterval(scriptInterval);
+            
+            // End
+            for (iThen = 0; iThen < doStates.length; iThen++)
             {
-              console.log("Script:", script.name, "Error writing end state", eState.pin, pin.num, eState.state);
+              var tState = thenStates[iThen];
+
+              getGpioPinByName(state.pin, function(pin)
+              {
+                gpio.write(pin.num, tState.state, function(err)
+                {
+                  if (err)
+                  {
+                    console.log("Script:", script.name, "Error writing end state", tState.pin, pin.num, tState.state);
+                  }
+                  else
+                  {
+                    console.log("Script:", script.name, "Written end state", tState.pin, pin.num, tState.state);
+                  }
+                });
+              });
             }
-            else
-            {
-              console.log("Script:", script.name, "Written end state", eState.pin, pin.num, eState.state);
-            }
-          });
-        });
-      }
+          }
+      }, GPIO_SCRIPT_DELAY);
     });
   });
 

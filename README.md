@@ -137,7 +137,7 @@ This guide starts from scratch. Please begin where appropriate for you!
           ```
 
       * The `scripts` array defines a list of scripts that can be executed on
-        GPIO pins. Scripts apply an initial state, wait until a condition is met
+        GPIO pins. Scripts apply an initial state, wait wile a condition is true
         and then apply a finishing state.
 
           ```
@@ -146,21 +146,21 @@ This guide starts from scratch. Please begin where appropriate for you!
               // Script name
               "name": "Open South Garage",
               // Define initial state(s) to apply.
-              "begin": [
+              "do": [
                 {
                   "pin": "garage_south_output", // Pin name as defined in 'pins'
                   "state": 1
                 }
               ],
-              // Wait until the following condition(s) are true.
-              "until": [
+              // Wait wile the following condition(s) are true.
+              "while": [
                 {
                   "pin": "garage_south_input",
                   "state": 1
                 }
               ],
-              // Apply these state(s) after 'until' condition has been met.
-              "end": [
+              // Apply these state(s) after 'while' condition has been met.
+              "then": [
                 {
                   "pin": "garage_pin_output",
                   "state": 0
