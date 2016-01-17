@@ -100,8 +100,8 @@
             <tbody>
               <tr ng-repeat="script in gpioScriptList">
                 <td>{{script.name}}</td>
-                <td><a class="btn btn-primary" href="getSafeScriptName(script.name)">Edit</a></td>
-                <td><a class="btn btn-danger" href="removeGpioScript(script.name)"><span class="glyphicon glyphicon-minus"></span></a></td>
+                <td><a class="btn btn-primary" href="#" ng-click="getSafeScriptName(script.name)">Edit</a></td>
+                <td><a class="btn btn-danger" href="#" ng-click="removeGpioScript(script.name)"><span class="glyphicon glyphicon-minus"></span></a></td>
               </tr>
             </tbody>
           </table>
