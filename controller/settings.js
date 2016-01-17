@@ -20,7 +20,7 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 			if (success)
 			{
 				$scope.addAlert({ type: 'success', msg: 'Script '+name+' has been deleted!' });
-				$state.go("Settings");
+				$scope.gpioScriptList.splice($scope.gpioScriptList.indexOf(name),1);
 			}
 			else
 			{

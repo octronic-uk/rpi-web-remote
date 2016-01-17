@@ -877,7 +877,7 @@ var getSerialCommandByName = function(name, callback)
 
 var filterScriptName = function(name,callback)
 {
-  callback((name.indexOf(" ") > 0 ? name.split("_").join(" ") : name));
+  callback((name.indexOf("_") > 0 ? name.split("_").join(" ") : name));
 };
 
 // Save the configuration object to disk
