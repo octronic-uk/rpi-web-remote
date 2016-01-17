@@ -8,7 +8,16 @@
         <label for="script-name">Name</label>
         <input type="text" class="form-control" placeholder="Name" id="script-name" ng-model="script.name">
       </div>
-      <!-- Do -->
+    </form>
+  </div>
+</div>
+<!-- Do -->
+<div class="panel">
+  <div class="panel-heading">
+    Do
+  </div>
+  <div class="panel-body">
+    <form role="form">
       <div class="form-group">
         <label for="script-name">Do</label>
         <table class="table table-striped">
@@ -61,9 +70,17 @@
           </span>
         </div>
       </div>
-      <!-- While-->
+    </form>
+  </div>
+</div>
+<!-- While-->
+<div class="panel">
+  <div class="panel-heading">
+    While
+  </div>
+  <div class="panel-body">
+    <form role="form">
       <div class="form-group">
-        <label for="script-name">While</label>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -114,9 +131,17 @@
           </span>
         </div>
       </div>
-      <!-- Then -->
+    </form>
+  </div>
+</div>
+<!-- Then -->
+<div class="panel">
+  <div class="panel-heading">
+    Then
+  </div>
+  <div class="panel-body">
+    <form role="form">
       <div class="form-group">
-        <label for="script-name">Then</label>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -169,8 +194,21 @@
       </div>
     </form>
   </div>
-  <div class="panel-footer">
-    <button ng-click="deleteButton()" class="btn btn-danger">Delete&nbsp;<span class="glyphicon glyphicon-minus"></span></button>
-    <button ng-click="saveButton()" class="pull-right btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Save</button>
-  </div>
+</div>
+<!-- Footer -->
+<div class="panel">
+  <ul class="list-group">
+    <li ng-repeat="pin in pinList" ng-show="pin.hidden == 0" class="list-group-item clearfix">
+      <h5>
+        Delete
+        <button ng-click="deleteButton()" class="pull-right btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+      </h5>
+    </li>
+    <li ng-repeat="pin in pinList" ng-show="pin.hidden == 0" class="list-group-item clearfix">
+      <h5>
+        Save
+        <button ng-click="saveButton()" class="pull-right btn btn-success"><span class="glyphicon glyphicon-ok"></span></button>
+      </h5>
+    </li>
+  </ul>
 </div>
