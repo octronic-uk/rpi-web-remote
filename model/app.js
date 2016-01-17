@@ -368,6 +368,31 @@ var initRoutes = function()
     }
   });
 
+  // Delete GPIO Script
+  app.get('/api/gpio/script/:name/delete',jsonParser,function(req,res)
+  {
+    var name = req.params.name;
+
+    getGpioScriptIndexByName(name,function(index)
+    {
+      config.gpio.scripts.splice(index,1);
+      util.sendHttpOK(res);
+    });
+  });
+
+  // Update GPIO Script
+  app.put('/api/gpio/script/:name',jsonParser,function(req,res)
+  {
+    var script = req.params.script;
+
+    getGpioScriptIndexByName(name,function(index)
+    {
+      config.gpio.scripts.splice(index,1);
+      config.gpio.scripts.push(script);
+      util.sendHttpOK(res);
+    });
+  });
+
   // Get a GPIO script
   app.get('/api/gpio/script/:name',jsonParser,function(req,res)
   {

@@ -11,6 +11,12 @@ PiApp.controller('PiApp', [
 		$scope.alerts = [];
 		$scope.ui = {};
 
+		// Scroll to top
+		$rootScope.$on('$stateChangeSuccess',function()
+		{
+			document.body.scrollTop = document.documentElement.scrollTop = 0;
+		});
+
 		// API function calls ------------------------------------------------------
 
 		$scope.addSerialCommandApi = function(name,cmd,callback)
@@ -397,6 +403,35 @@ PiApp.controller('PiApp', [
 			function errorCallback(resp)
 			{
 				callback(null);
+			});
+		};
+
+		$scope.setGpioScriptApi = function(script,callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/gpio/script/"+script.name,
+			  data: script
+			}).then(function successCalback(resp)
+			{
+				callback(true);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		};
+
+		$scope.deleteGpioScriptApi = function(scriptName,callback)
+		{
+			$http({
+				method: "PUT",
+				url:"/api/gpio/script/"+scriptName+"/delete"
+			}).then(function successCalback(res)
+			{
+					callback(true);
+			},function errorCallback(res)
+			{
+				callback(false);
 			});
 		};
 

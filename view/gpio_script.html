@@ -50,7 +50,7 @@
       <div class="form-group">
         <label for="remove-do">Remove</label>
         <div class="input-group">
-          <select id="remove-do" class="form-control" ng-model="doRemoveStateName">
+          <select id="remove-do" class="form-control" ng-model="removeDoName">
             <option value="">Remove State</option>
             <option ng-repeat="state in script.do" value="{{state.pin}}">{{state.pin}}</option>
           </select>
@@ -103,7 +103,7 @@
       <div class="form-group">
         <label for="remove-while">Remove</label>
         <div class="input-group">
-          <select id="remove-while" class="form-control" ng-model="whileRemoveStateName">
+          <select id="remove-while" class="form-control" ng-model="removeWhileName">
             <option value="">Remove State</option>
             <option ng-repeat="state in script.while" value="{{state.pin}}">{{state.pin}}</option>
           </select>
@@ -156,7 +156,7 @@
       <div class="form-group">
         <label for="remove-then">Remove</label>
         <div class="input-group">
-          <select id="remove-then" class="form-control" ng-model="thenRemoveStateName">
+          <select id="remove-then" class="form-control" ng-model="removeThenName">
             <option value="">Remove State</option>
             <option ng-repeat="state in script.then" value="{{state.pin}}">{{state.pin}}</option>
           </select>
@@ -170,7 +170,7 @@
     </form>
   </div>
   <div class="panel-footer">
-    <button class="btn btn-danger">Delete&nbsp;<span class="glyphicon glyphicon-minus"></span></button>
-    <button class="pull-right btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Save</button>
+    <button ng-click="deleteButton()" class="btn btn-danger">Delete&nbsp;<span class="glyphicon glyphicon-minus"></span></button>
+    <button ng-click="saveButton()" class="pull-right btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Save</button>
   </div>
 </div>
