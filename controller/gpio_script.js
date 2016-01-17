@@ -12,7 +12,14 @@ PiApp.controller('GpioScript',
         $scope.script = script;
       });
     }
+    else
+    {
+      $scope.script = {name:"New Script", do: [], while: [], then: []};
+    }
     
+    console.log($scope.script);
+    console.log($scope.scriptList);
+
     $scope.executeGpioScriptButton = function(scriptName)
     {
       $scope.executeGpioScriptApi(scriptName,function(resp)
