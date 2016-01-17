@@ -20,24 +20,52 @@
       }
     ]
   },
-  "pins": [
-    {
-      "name": "Lamp",
-      "num": 7,
-      "io": "out",
-      "state": 0
-    },
-    {
-      "name": "Fan",
-      "num": 11,
-      "io": "out",
-      "state": 0
-    },
-    {
-      "name": "Radiator",
-      "num": 12,
-      "io": "out",
-      "state": 0
-    }
-  ]
+  "gpio": {
+    "pins": [
+      {
+        "name": "Lamp",
+        "num": 7,
+        "io": "out",
+        "state": 0,
+        "hidden": false
+      },
+      {
+        "name": "Fan",
+        "num": 11,
+        "io": "out",
+        "state": 0,
+        "hidden": false
+      },
+      {
+        "name": "Radiator",
+        "num": 12,
+        "io": "out",
+        "state": 0,
+        "hidden": false
+      }
+    ],
+    "scripts": [
+      {
+        "name": "Open South Garage",
+        "begin": [
+          {
+            "pin": "garage_south_output",
+            "state": 1
+          }
+        ],
+        "while": [
+          {
+            "pin": "garage_south_input",
+            "state": 0
+          }
+        ],
+        "end": [
+          {
+            "pin": "garage_pin_output",
+            "state": 0
+          }
+        ]
+      }
+    ]
+  }
 }

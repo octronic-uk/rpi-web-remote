@@ -179,7 +179,7 @@ var initIndividualGpioPin = function(pin)
         else
         {
           console.log("set pin",pin.num,"to",pin.state);
-          addPinEvent(pin.num, pin.state);
+          addGpioPinEvent(pin.num, pin.state);
         }
       });
     });
@@ -196,11 +196,11 @@ var initIndividualGpioPin = function(pin)
 var initGpio = function(callback)
 {
   var i = 0;
-  var nPins = config.pins.length;
+  var nPins = config.gpio.pins.length;
 
   for (i = 0; i < nPins; i++)
   {
-    var pin = config.pins[i];
+    var pin = config.gpio.pins[i];
     initIndividualGpioPin(pin);
   }
 
@@ -209,7 +209,7 @@ var initGpio = function(callback)
   {
     // Emmit to listeners here
     console.log('Channel ' + channel + ' value is now ' + value);
-    addPinEvent(channel, value);
+    addGpioPinEvent(channel, value);
   });
 
   if (callback)
@@ -236,8 +236,8 @@ var initRoutes = function()
       }
       else
       {
-        addPinEvent(pin,val);
-        getPinByNumber(pin,function(pinObj)
+        addGpioPinEvent(pin,val);
+        getGpioPinByNumber(pin,function(pinObj)
         {
           if (pinObj)
           {
@@ -256,14 +256,14 @@ var initRoutes = function()
   // Get the list of pins configured
   app.get("/api/gpio/list",jsonParser,function(req,res)
   {
-    util.sendHttpJson(res,config.pins);
+    util.sendHttpJson(res,config.gpio.pins);
   });
 
   // Get the list of pins configured
   app.put("/api/gpio/list",jsonParser,function(req,res)
   {
     var pinList = req.body.list;
-    config.pins = pinList;
+    config.gpio.pins = pinList;
     util.sendHttpOK(res);
   });
 
@@ -271,15 +271,15 @@ var initRoutes = function()
   app.put("/api/gpio/remove",jsonParser,function(req,res)
   {
     var pin = req.body.pin;
-    getPinByName(pin, function(pinObj)
+    getGpioPinByName(pin, function(pinObj)
     {
       if (pinObj !== null)
       {
-        var index = config.pins.indexOf(pinObj);
+        var index = config.gpio.pins.indexOf(pinObj);
 
         if (index > -1)
         {
-          config.pins.splice(index,1);
+          config.gpio.pins.splice(index,1);
           util.sendHttpOK(res);
         }
         else
@@ -309,7 +309,7 @@ var initRoutes = function()
       state: state
     };
 
-    config.pins.push(pin);
+    config.gpio.pins.push(pin);
     initIndividualGpioPin(pin);
     util.sendHttpOK(res);
   });
@@ -319,7 +319,7 @@ var initRoutes = function()
   {
     var pin = req.params.pin;
 
-    getPinByNumber(pin, function(pinObj)
+    getGpioPinByNumber(pin, function(pinObj)
     {
       if (pinObj !== null)
       {
@@ -365,6 +365,43 @@ var initRoutes = function()
     {
       util.sendHttpNotFound(res);
     }
+  });
+
+  // Execute a GPIO script
+  app.get('/api/gpio/script/:name/execute',jsonParser,function(req,res)
+  {
+    var name = req.params.name;
+
+    getGpioScriptByName(name,function(script)
+    {
+      var beginStates = script.begin;
+      var untilStates = script.until;
+      var endStates   = script.end;
+
+      var iBegin = 0;
+      var iUntil = 0;
+      var iEnd = 0;
+
+      for (iBegin = 0; iBegin < beginStates.length; iBegin++)
+      {
+        var state = beginStates[iBegin];
+
+        getGpioPinByName(state.pin, function(pin)
+        {
+          gpio.write(pin.num, state.state, function(err)
+          {
+            if (err)
+            {
+              console.log("Script:", script.name, "Error writing beginning state", state.pin, pin.num, state.state);
+            }
+            else
+            {
+              console.log("Script:", script.name, "Written beginning state", state.pin, pin.num, state.state);
+            }
+          });
+        });
+      }
+    });
   });
 
   // Update the application from github
@@ -670,6 +707,35 @@ var initRoutes = function()
   });
 };
 
+// Get a GPIO script by name
+var getGpioScriptByName = function(name,callback)
+{
+  var i = 0;
+  var nScripts = config.gpio.scripts.length;
+  var next = null;
+
+  console.log("Checking",nScripts,"GPIO scripts for",name);
+
+  for (i = 0; i < nScripts; i++)
+  {
+    next = config.gpio.scripts[i];
+    if (next.name == name)
+    {
+      callback(next);
+      break;
+    }
+  }
+};
+
+// Get a GPIO script by name
+var getGpioScriptIndexByName = function(name,callback)
+{
+  getGpioScriptByName(name,function(script)
+  {
+    callback(config.gpio.scripts.indexOf(script));
+  });
+};
+
 // Get a serial command's index by name
 var getSerialCommandIndexByName = function(name,callback)
 {
@@ -724,7 +790,7 @@ var pinNumString = function(pin)
 };
 
 // Add an event to the pin history
-var addPinEvent = function(pinNum, state)
+var addGpioPinEvent = function(pinNum, state)
 {
   if (eventHistory[pinNumString(pinNum)] === undefined)
   {
@@ -735,28 +801,28 @@ var addPinEvent = function(pinNum, state)
 };
 
 // Return a pin object based on it's number
-var getPinByNumber = function(pin,callback)
+var getGpioPinByNumber = function(pin,callback)
 {
   var i = 0;
-  for (i = 0; i < config.pins.length; i++)
+  for (i = 0; i < config.gpio.pins.length; i++)
   {
-    if (config.pins[i].num == pin)
+    if (config.gpio.pins[i].num == pin)
     {
-      callback(config.pins[i]);
+      callback(config.gpio.pins[i]);
       break;
     }
   }
 };
 
 // Return a pin object based on it's number
-var getPinByName = function(pin,callback)
+var getGpioPinByName = function(pin,callback)
 {
   var i = 0;
-  for (i = 0; i < config.pins.length; i++)
+  for (i = 0; i < config.gpio.pins.length; i++)
   {
-    if (config.pins[i].name == pin)
+    if (config.gpio.pins[i].name == pin)
     {
-      callback(config.pins[i]);
+      callback(config.gpio.pins[i]);
       break;
     }
   }

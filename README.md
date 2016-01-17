@@ -113,7 +113,7 @@ This guide starts from scratch. Please begin where appropriate for you!
 
     * The device's name is set by the `devie_name` variable.
         ```
-        "device_name": "Lounge Lights",
+        "device_name": "Bedroom",
         ```
 
     * The application's HTTP server will listen on the port specified by `http_port`.
@@ -121,21 +121,54 @@ This guide starts from scratch. Please begin where appropriate for you!
         ```
         "http_port": 80,
         ```
+    * Configure GPIO Pins and Scripts
+      * The `pins` array defines the list of pins that will be available to the application.
 
-    * The `pins` array defines the list of pins that will be available to the user.
+          ```
+          "pins": [
+            {
+              "name": "Hall Light", // Human readable name
+              "num": 7,             // Pin number
+              "io": "out",          // Direction; "in" or "out"
+              "state": 0,           // Initial state 0 or 1 (output only)
+              "hidden": false       // Hide pin from UI and only make availabe to scripts
+            }
+          ];
+          ```
 
-        ```
-        "pins": [
-          {
-            "name": "Hall Light", // Human readable name
-            "num": 7,             // Pin number
-            "io": "out",          // Direction; "in" or "out"
-            "state": 0            // Initial state 0 or 1 (output only)
-          },
-          ...
-        ];
-        ```
+      * The `scripts` array defines a list of scripts that can be executed on
+        GPIO pins. Scripts apply an initial state, wait until a condition is met
+        and then apply a finishing state.
 
+          ```
+          "scripts": [
+            {
+              // Script name
+              "name": "Open South Garage",
+              // Define initial state(s) to apply.
+              "begin": [
+                {
+                  "pin": "garage_south_output", // Pin name as defined in 'pins'
+                  "state": 1
+                }
+              ],
+              // Wait until the following condition(s) are true.
+              "until": [
+                {
+                  "pin": "garage_south_input",
+                  "state": 1
+                }
+              ],
+              // Apply these state(s) after 'until' condition has been met.
+              "end": [
+                {
+                  "pin": "garage_pin_output",
+                  "state": 0
+                }
+              ]
+            }
+          ]
+          ```
 16. Install the application.
 
     ```
@@ -154,24 +187,23 @@ This guide starts from scratch. Please begin where appropriate for you!
 
 19. Control your device :)
 
-## Updating the app
-Run the following command in the repository directory to update the application.
+## Updating the Application
+The application can be updated by clicking the 'update' button on the 'System' page, or run the
+update command from the repository's root directory to update the application.
 
 ```
 ./update
 ```
 
 ## Using Serial Functionality
-The application also allows the user to send ASCII commands to a device connected via a USB/Serial inteface, such as an Arduino.
+The application also allows the user to send ASCII commands to a device connected via a USB/Serial interface, such as an Arduino.
 
 1. To configure serial click the settings cog at the bottom of the home screen.
-2. Check the "Enable Serial" checkbox in the "Serial" section.
-2. Choose your serial device and baud rate from the list available.
-3. Save your settings by clicking the green save button. An alert will indicate success/failure.
-4. Return to the home screen and refresh the page.
-5. Return to te Settings page by pressing the cog button at the bottom of the home screen.
-6. Add serial commands to the application.
-7. Execute commnds from the home page.
+2. Check the "Enable Serial" check-box in the "Serial" section.
+3. Choose your serial device and baud rate from the list available.
+4. Add serial commands to the application.
+5. Save your settings by clicking the green 'save' button. An alert will indicate success/failure.
+6. Execute commands from the home page.
 
 ### Example Arduino Sketch
 To control a device via serial, the remote sends commands in the form of ASCII characters to the device. An Arduino can be controlled by listening for commands on each iteration of the main loop and switching the executing method as appropriate. An example sketch of this implementation is shown below.
