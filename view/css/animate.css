@@ -1,9 +1,6 @@
 [ui-view].ng-enter, [ui-view].ng-leave {
-  position: absolute;
-  left: 0;
-  right: 0;
-  -webkit-transition:all .5s ease-in-out;
-  transition:all .5s ease-in-out;
+  -webkit-transition:all .75s ease-in-out;
+  transition:all .75s ease-in-out;
 }
 
 [ui-view].ng-enter {
