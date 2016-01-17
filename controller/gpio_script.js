@@ -137,7 +137,10 @@ PiApp.controller('GpioScript',
         if (success)
         {
           $scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
-          $state.go("Settings");
+          setTimeout(function()
+          {
+            $state.go("Settings");
+          }, 3000);
         }
         else
         {
@@ -148,11 +151,25 @@ PiApp.controller('GpioScript',
 
     $scope.saveButton = function()
     {
-      $scope.setGpioScriptApi($scope.script,function(success)
+      $scope.setGpioScriptApi($scope.script,function(success1)
       {
         if (success)
         {
-          $scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
+          $scope.configSaveApi(function(success2)
+          {
+            if (success2)
+            {
+              $scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
+              setTimeout(function()
+              {
+                $state.go("Settings");
+              }, 3000);
+            }
+            else
+            {
+              $scope.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
+            }
+          });
         }
         else
         {
