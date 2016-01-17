@@ -50,7 +50,7 @@
         <div class="input-group">
           <select id="remove-command" class="form-control" ng-model="doRemoveStateName">
             <option value="">Remove Do</option>
-            <option ng-repeat="state in script.do" value="{{state.name}}">{{state.name}}</option>
+            <option ng-repeat="state in script.do" value="{{state.pin}}">{{state.pin}}</option>
           </select>
           <span  class="input-group-btn">
             <button ng-click="removeDoButton()" type="button" class="btn btn-danger ">

@@ -12,21 +12,20 @@ PiApp.controller('GpioScript',
       $scope.getGpioScriptApi($scope.scriptName, function(script)
       {
         $scope.script = script;
+        console.log("Modifying script:", $scope.script);
       });
     }
     else
     {
       $scope.script = {name:"New Script", do: [], while: [], then: []};
+      console.log("Modifying script:", $scope.script);
     }
-
-    console.log("Modifying script:", $scope.script);
 
     $scope.getGpioListApi(function (pinList)
     {
       $scope.gpioPinList = pinList;
+      console.log("GPIO Pin list:", $scope.gpioPinList);
     });
-
-    console.log("GPIO Pin list:", $scope.gpioPinList);
 
     $scope.executeGpioScriptButton = function(scriptName)
     {
