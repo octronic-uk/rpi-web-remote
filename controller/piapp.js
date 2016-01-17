@@ -397,7 +397,9 @@ PiApp.controller('PiApp', [
 			$http({
 				method: "PUT",
 				url: "/api/gpio/script/"+script.name,
-			  data: script
+			  data: {
+					script: script
+				}
 			}).then(function successCalback(resp)
 			{
 				callback(true);
