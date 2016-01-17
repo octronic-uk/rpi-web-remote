@@ -222,7 +222,7 @@ var initGpio = function(callback)
 var initRoutes = function()
 {
   // Set the value of an output pin
-  app.put("/api/gpio/:pin/:value", jsonParser, function(req,res)
+  app.put("/api/gpio/pins/:pin/:value", jsonParser, function(req,res)
   {
     var pin = req.params.pin;
     var val = req.params.value;
@@ -255,13 +255,13 @@ var initRoutes = function()
   });
 
   // Get the list of pins configured
-  app.get("/api/gpio/list",jsonParser,function(req,res)
+  app.get("/api/gpio/pins/list",jsonParser,function(req,res)
   {
     util.sendHttpJson(res,config.gpio.pins);
   });
 
   // Get the list of pins configured
-  app.put("/api/gpio/list",jsonParser,function(req,res)
+  app.put("/api/gpio/pins/list",jsonParser,function(req,res)
   {
     var pinList = req.body.list;
     config.gpio.pins = pinList;
@@ -269,7 +269,7 @@ var initRoutes = function()
   });
 
   // Remove a pin from the config
-  app.put("/api/gpio/remove",jsonParser,function(req,res)
+  app.put("/api/gpio/pins/remove",jsonParser,function(req,res)
   {
     var pin = req.body.pin;
     getGpioPinByName(pin, function(pinObj)
@@ -296,7 +296,7 @@ var initRoutes = function()
   });
 
   // Add a pin to the config list
-  app.put("/api/gpio/add",jsonParser,function(req,res)
+  app.put("/api/gpio/pins/add",jsonParser,function(req,res)
   {
     var num = req.body.num;
     var name = req.body.name;
@@ -316,7 +316,7 @@ var initRoutes = function()
   });
 
   // Get the state of a pin
-  app.get("/api/gpio/:pin", jsonParser, function(req,res)
+  app.get("/api/gpio/pins/:pin", jsonParser, function(req,res)
   {
     var pin = req.params.pin;
 
@@ -353,7 +353,7 @@ var initRoutes = function()
   });
 
   // Get the state history for a pin
-  app.get('/api/gpio/:pin/history', function(req,res)
+  app.get('/api/gpio/pins/:pin/history', function(req,res)
   {
     var pin = req.params.pin;
     var data = eventHistory[pinNumString(pin)];

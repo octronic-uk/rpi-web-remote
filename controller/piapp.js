@@ -59,7 +59,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "PUT",
-				url: "/api/gpio/"+pin+"/"+value
+				url: "/api/gpio/pins/"+pin+"/"+value
 			}).then(function successCallback(resp)
 			{
 				callback(true);
@@ -73,7 +73,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "GET",
-				url: "/api/gpio/"+pin
+				url: "/api/gpio/pins/"+pin
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));
@@ -83,25 +83,11 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.gpioRestartApi = function(callback)
-		{
-			$http({
-				method: "PUT",
-				url: "/api/gpio/restart"
-			}).then(function successCallback(resp)
-			{
-				callback(true);
-			},function errorCallback(resp)
-			{
-				callback(false);
-			});
-		};
-
 		$scope.getGpioListApi = function(callback)
 		{
 			$http({
 				method: "GET",
-				url: "/api/gpio/list"
+				url: "/api/gpio/pins/list"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));
@@ -115,7 +101,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "put",
-				url: "/api/gpio/remove",
+				url: "/api/gpio/pins/remove",
 				data: {
 					pin: pinNum
 				}
@@ -132,7 +118,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "put",
-				url: "/api/gpio/add",
+				url: "/api/gpio/pins/add",
 				data: {
 					name:name,
 					num:num,
@@ -395,7 +381,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method:"GET",
-				url: "/api/gpio/"+pin+"/history"
+				url: "/api/gpio/pins/"+pin+"/history"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));
