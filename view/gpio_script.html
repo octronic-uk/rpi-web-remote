@@ -31,7 +31,7 @@
         <input class="form-control" type="text" placeholder="Name" ng-model="addDoName">
         <select id="add-do-pin" class="form-control" ng-model="addDoPin">
           <option value="">Selct Pin</option>
-          <option ng-repeat="state in config.gpio.pins" value="{{pin.name}}">{{pin.name}}</option>
+          <option ng-repeat="pin in pinList" value="{{pin.name}}">{{pin.name}}</option>
         </select>
         <div class="input-group">
           <select id="add-do-state" class="form-control" ng-model="addDoState">
