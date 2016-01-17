@@ -5,7 +5,7 @@
     GPIO
   </div>
   <ul class="list-group">
-    <li ng-repeat="pin in pinList" class="list-group-item clearfix">
+    <li ng-repeat="pin in pinList" ng-show="!pin.hidden" class="list-group-item clearfix">
       <h5>
         <span ng-show="pin.io == 'out'" class="glyphicon glyphicon-log-out"></span>
         <span ng-show="pin.io == 'in'" class="glyphicon glyphicon-log-in"></span>
@@ -26,6 +26,25 @@
           </button>
           <button ng-show="pin.state == 1" disabled class="pull-right btn btn-success ">
             <span class="glyphicon glyphicon-ok-sign"></span>
+          </button>
+        </span>
+      </h5>
+    </li>
+  </ul>
+</div>
+<!-- GPIO Scripts-->
+<div class="panel">
+  <div class="panel-heading">
+    GPIO Scripts
+  </div>
+  <ul class="list-group">
+    <li ng-repeat="script in gpioScriptList" class="list-group-item clearfix">
+      <h5>
+        <span class="glyphicon glyphicon glyphicon-list-alt"></span>
+        &nbsp;{{script.name}}
+        <span class="pull-right">
+          <button ng-click="executeGpioScript(script.name)" class="pull-right btn btn-warning ">
+            <span class="glyphicon glyphicon glyphicon-play"></span>
           </button>
         </span>
       </h5>

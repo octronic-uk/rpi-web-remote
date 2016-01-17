@@ -382,21 +382,45 @@ var initRoutes = function()
       var iUntil = 0;
       var iEnd = 0;
 
+      // Begin
       for (iBegin = 0; iBegin < beginStates.length; iBegin++)
       {
-        var state = beginStates[iBegin];
+        var bState = beginStates[iBegin];
 
-        getGpioPinByName(state.pin, function(pin)
+        getGpioPinByName(bState.pin, function(pin)
         {
-          gpio.write(pin.num, state.state, function(err)
+          gpio.write(pin.num, bState.state, function(err)
           {
             if (err)
             {
-              console.log("Script:", script.name, "Error writing beginning state", state.pin, pin.num, state.state);
+              console.log("Script:", script.name, "Error writing begin state", bState.pin, pin.num, bState.state);
             }
             else
             {
-              console.log("Script:", script.name, "Written beginning state", state.pin, pin.num, state.state);
+              console.log("Script:", script.name, "Written begin state", bState.pin, pin.num, bState.state);
+            }
+          });
+        });
+      }
+
+      // Until
+
+      // End
+      for (iEnd = 0; iEnd < beginStates.length; iEnd++)
+      {
+        var eState = endStates[iEnd];
+
+        getGpioPinByName(state.pin, function(pin)
+        {
+          gpio.write(pin.num, eState.state, function(err)
+          {
+            if (err)
+            {
+              console.log("Script:", script.name, "Error writing end state", eState.pin, pin.num, eState.state);
+            }
+            else
+            {
+              console.log("Script:", script.name, "Written end state", eState.pin, pin.num, eState.state);
             }
           });
         });

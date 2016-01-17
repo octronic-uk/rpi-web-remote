@@ -150,13 +150,20 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 		var num = $scope.gpioPinAddNum;
 		var io = $scope.gpioPinAddIo;
 		var state = $scope.gpioPinAddState;
+		var hidden = $scope.gpioPinAddHidden;
 
 		$scope.addGpioPinApi(name,num,io,state,function(res)
 		{
 			if (res)
 			{
 				$scope.addAlert({ type: 'success', msg: 'Pin '+name+' added successfuly.' });
-				$scope.pinList.push({name:name, num:num, io:io, state:state});
+				$scope.pinList.push({
+					name:name,
+					num:num,
+					io:io,
+					state:state,
+					hidden:hidden
+				});
 			}
 			else
 			{

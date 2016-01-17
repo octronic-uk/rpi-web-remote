@@ -1,4 +1,5 @@
 <uib-alert class="toast-alert" dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+<!-- Device -->
 <div class="panel">
   <div class="panel-heading">
     Device
@@ -50,6 +51,11 @@
             <option value="in">in</option>
             <option value="out">out</option>
           </select>
+        </div>
+        <div class="form-group">
+          <div class="checkbox">
+            <label><input type="checkbox" ng-model="gpioPinAddHidden" value="">Pin Hidden</label>
+          </div>
         </div>
         <div class="form-group">
           <div class="input-group">
@@ -157,6 +163,7 @@
     </form>
   </div>
 </div>
+<!-- Save -->
 <div class="clearfix well">
   <h5>
     Save Settings
