@@ -473,7 +473,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.getGpioScriptsListApi = function()
+		$scope.getGpioScriptsListApi = function(callback)
 		{
 			$http({
 				method: "GET",
