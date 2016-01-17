@@ -394,37 +394,44 @@ PiApp.controller('PiApp', [
 
 		$scope.setGpioScriptApi = function(script,callback)
 		{
-			var filteredName = (script.name.contains(" ") ? script.name.split(" ").join("_") : script.name);
-
-			$http({
-				method: "PUT",
-				url: "/api/gpio/script/"+filteredName,
-			  data: {
-					script: script
-				}
-			}).then(function successCalback(resp)
+			$scope.filterScriptName(script.name,function(name)
 			{
-				callback(true);
-			},function errorCallback(resp)
-			{
-				callback(false);
+				$http({
+					method: "PUT",
+					url: "/api/gpio/script/"+name,
+				  data: {
+						script: script
+					}
+				}).then(function successCalback(resp)
+				{
+					callback(true);
+				},function errorCallback(resp)
+				{
+					callback(false);
+				});
 			});
 		};
 
 		$scope.deleteGpioScriptApi = function(scriptName,callback)
 		{
-			var filteredName = (script.name.contains(" ") ? script.name.split(" ").join("_") : script.name);
-
-			$http({
-				method: "PUT",
-				url:"/api/gpio/script/"+filteredName
-			}).then(function successCalback(res)
+			$scope.filterScriptName(scriptName, function(name)
 			{
-					callback(true);
-			},function errorCallback(res)
-			{
-				callback(false);
+				$http({
+					method: "PUT",
+					url:"/api/gpio/script/"+name
+				}).then(function successCalback(res)
+				{
+						callback(true);
+				},function errorCallback(res)
+				{
+					callback(false);
+				});
 			});
+		};
+
+		$scope.filterScriptName = function(name,callback)
+		{
+			callback((name.indexOf(" ") > 0 ? name.split(" ").join("_") : name));
 		};
 
 		$scope.getGpioScriptApi = function(name, callback)

@@ -371,19 +371,22 @@ var initRoutes = function()
   // Delete GPIO Script
   app.put('/api/gpio/script/:name/delete',jsonParser,function(req,res)
   {
-    var name = req.params.name.split("_").join(" ");
+    var nme = req.params.name;
 
-    getGpioScriptIndexByName(name,function(index)
+    filterScriptName(nme,function(name)
     {
-      if (index < 0)
+      getGpioScriptIndexByName(name,function(index)
       {
-        util.sendHttpNotFound(res);
-      }
-      else
-      {
-        config.gpio.scripts.splice(index,1);
-        util.sendHttpOK(res);
-      }
+        if (index < 0)
+        {
+          util.sendHttpNotFound(res);
+        }
+        else
+        {
+          config.gpio.scripts.splice(index,1);
+          util.sendHttpOK(res);
+        }
+      });
     });
   });
 
@@ -391,18 +394,22 @@ var initRoutes = function()
   app.put('/api/gpio/script/:name',jsonParser,function(req,res)
   {
     var script = req.body.script;
-    script.name.split("_").join(" ");
 
-    console.log("Updating GPIO Script",script);
-
-    getGpioScriptIndexByName(script.name,function(index)
+    filterScriptName(script.name, function(name)
     {
-      if (index > 0)
+      script.name = name;
+
+      console.log("Updating GPIO Script",script);
+
+      getGpioScriptIndexByName(script.name,function(index)
       {
-        config.gpio.scripts.splice(index,1);
-      }
-      config.gpio.scripts.push(script);
-      util.sendHttpOK(res);
+        if (index > 0)
+        {
+          config.gpio.scripts.splice(index,1);
+        }
+        config.gpio.scripts.push(script);
+        util.sendHttpOK(res);
+      });
     });
   });
 
@@ -858,6 +865,11 @@ var getSerialCommandByName = function(name, callback)
       break;
     }
   }
+};
+
+var filterScriptName = function(name,callback)
+{
+  callback((name.indexOf(" ") > 0 ? name.split("_").join(" ") : name));
 };
 
 // Save the configuration object to disk
