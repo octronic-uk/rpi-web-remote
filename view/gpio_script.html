@@ -19,12 +19,57 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="state in script.begin">
+            <tr ng-repeat="state in script.do">
               <td>{{state.pin}}</td>
               <td>{{state.state}}</td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="form-group">
+        <label for="add-command">Add</label>
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Name" ng-model="addDoName">
+        </div>
+        <div class="form-group">
+          <select id="add-do-state" class="form-control" ng-model="addDoState">
+            <option value="">Selct State</option>
+            <option ng-repeat="state in script.do" value="{{state.name}}">{{state.name}}</option>
+          </select>
+          <span class="input-group-btn" >
+            <button ng-click="addDoButton()" type="button" class="pull-right btn btn-success">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="remove-command">Remove</label>
+        <div class="input-group">
+          <select id="remove-command" class="form-control" ng-model="doRemove">
+            <option value="">Remove Do Definition</option>
+            <option ng-repeat="state in script.do" value="{{state.name}}">{{state.name}}</option>
+          </select>
+          <span  class="input-group-btn">
+            <button ng-click="removeDoButton()" type="button" class="btn btn-danger ">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="remove-command">Remove</label>
+        <div class="input-group">
+          <select id="remove-command" class="form-control" ng-model="gpioPinRemove">
+            <option value="">{{REMOVE_GPIO_DEFAULT}}</option>
+            <option ng-repeat="pin in pinList" value="{{pin.name}}">{{pin.name}}</option>
+          </select>
+          <span  class="input-group-btn">
+            <button ng-click="removeGpioPin()" type="button" class="btn btn-danger ">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+          </span>
+        </div>
       </div>
       <!-- While-->
       <div class="form-group">
