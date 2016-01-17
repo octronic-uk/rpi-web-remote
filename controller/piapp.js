@@ -396,7 +396,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "PUT",
-				url: "/api/gpio/script/"+script.name,
+				url: "/api/gpio/script/"+script.name.split(" ").join("_"),
 			  data: {
 					script: script
 				}
@@ -413,7 +413,7 @@ PiApp.controller('PiApp', [
 		{
 			$http({
 				method: "PUT",
-				url:"/api/gpio/script/"+scriptName+"/delete"
+				url:"/api/gpio/script/"+scriptName.split(" ").join("_")+"/delete"
 			}).then(function successCalback(res)
 			{
 					callback(true);

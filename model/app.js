@@ -371,12 +371,19 @@ var initRoutes = function()
   // Delete GPIO Script
   app.get('/api/gpio/script/:name/delete',jsonParser,function(req,res)
   {
-    var name = req.params.name.split("%20").join(" ");
+    var name = req.params.name.split("_").join(" ");
 
     getGpioScriptIndexByName(name,function(index)
     {
-      config.gpio.scripts.splice(index,1);
-      util.sendHttpOK(res);
+      if (index < 0)
+      {
+        util.sendHttpNotFound(res);
+      }
+      else
+      {
+        config.gpio.scripts.splice(index,1);
+        util.sendHttpOK(res);
+      }
     });
   });
 
@@ -384,7 +391,7 @@ var initRoutes = function()
   app.put('/api/gpio/script/:name',jsonParser,function(req,res)
   {
     var script = req.body.script;
-    script.name.split("%20").join(" ");
+    script.name.split("_").join(" ");
 
     console.log("Updating GPIO Script",script);
 
