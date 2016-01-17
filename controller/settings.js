@@ -10,7 +10,7 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 
 	$scope.getSafeScriptName = function(name)
 	{
-		return "#settings/gpio_script/"+name.replace(" ","_");
+		return "#settings/gpio_script/"+name;
 	};
 
 	$scope.removeGpioScript = function(name)
