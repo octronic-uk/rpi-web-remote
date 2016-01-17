@@ -3,7 +3,7 @@ PiApp.controller('GpioScript',
   function($state, $stateParams, $controller, $http, $scope, $rootScope)
   {
     $controller('PiApp', {$scope: $scope});
-    $scope.scriptName = $state.params.name;
+    $scope.scriptName = $stateParams.name;
 
     if ($scope.scriptName != "new")
     {
@@ -17,8 +17,14 @@ PiApp.controller('GpioScript',
       $scope.script = {name:"New Script", do: [], while: [], then: []};
     }
 
-    console.log($scope.script);
-    console.log($scope.gpioScriptList);
+    console.log("Modifying script:", $scope.script);
+
+    $scope.getGpioListApi(function (pinList)
+    {
+      $scope.gpioPinList = pinList;
+    });
+
+    console.log("GPIO Pin list:", $scope.gpioPinList);
 
     $scope.executeGpioScriptButton = function(scriptName)
     {
