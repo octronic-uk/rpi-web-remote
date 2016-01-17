@@ -153,7 +153,7 @@ PiApp.controller('GpioScript',
     {
       $scope.setGpioScriptApi($scope.script,function(success1)
       {
-        if (success)
+        if (success1)
         {
           $scope.configSaveApi(function(success2)
           {
