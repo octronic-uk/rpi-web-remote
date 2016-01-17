@@ -13,22 +13,6 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 		return "#settings/gpio_script/"+name;
 	};
 
-	$scope.removeGpioScript = function(name)
-	{
-		$scope.deleteGpioScriptApi(name, function(success)
-		{
-			if (success)
-			{
-				$scope.addAlert({ type: 'success', msg: 'Script '+name+' has been deleted!' });
-				$scope.gpioScriptList.splice($scope.gpioScriptList.indexOf(name),1);
-			}
-			else
-			{
-				$scope.addAlert({ type: 'danger', msg: 'Error deleting '+name });
-			}
-		});
-	};
-
 	$scope.addSerialCommand = function()
 	{
 		var name = $scope.serialCommandNameAdd;
