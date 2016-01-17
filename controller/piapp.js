@@ -418,7 +418,7 @@ PiApp.controller('PiApp', [
 			{
 				$http({
 					method: "PUT",
-					url:"/api/gpio/script/"+name
+					url:"/api/gpio/script/"+name+"/delete"
 				}).then(function successCalback(res)
 				{
 						callback(true);

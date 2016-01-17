@@ -394,14 +394,15 @@ var initRoutes = function()
   app.put('/api/gpio/script/:name',jsonParser,function(req,res)
   {
     var script = req.body.script;
+    var pName = req.params.name;
 
-    filterScriptName(script.name, function(name)
+    filterScriptName(pName, function(name)
     {
       script.name = name;
 
       console.log("Updating GPIO Script",script);
 
-      getGpioScriptIndexByName(script.name,function(index)
+      getGpioScriptIndexByName(name,function(index)
       {
         if (index > 0)
         {
@@ -816,7 +817,7 @@ var getGpioScriptByName = function(name,callback)
   var nScripts = config.gpio.scripts.length;
   var next = null;
   var target = null;
-  
+
   console.log("Checking",nScripts,"GPIO scripts for",name);
 
   for (i = 0; i < nScripts; i++)

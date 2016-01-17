@@ -19,12 +19,12 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 		{
 			if (success)
 			{
-				$scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
+				$scope.addAlert({ type: 'success', msg: 'Script '+name+' has been deleted!' });
 				$state.go("Settings");
 			}
 			else
 			{
-				$scope.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.script.name });
+				$scope.addAlert({ type: 'danger', msg: 'Error deleting '+name });
 			}
 		});
 	};
