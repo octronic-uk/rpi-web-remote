@@ -12,7 +12,12 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 	{
 		return "#settings/gpio_script/"+name.replace(" ","_");
 	};
-	
+
+	$scope.removeGpioScript = function(name)
+	{
+		console.log("Not yet implemented");
+	};
+
 	$scope.addSerialCommand = function()
 	{
 		var name = $scope.serialCommandNameAdd;
