@@ -369,7 +369,7 @@ var initRoutes = function()
   });
 
   // Delete GPIO Script
-  app.get('/api/gpio/script/:name/delete',jsonParser,function(req,res)
+  app.put('/api/gpio/script/:name/delete',jsonParser,function(req,res)
   {
     var name = req.params.name.split("_").join(" ");
 
