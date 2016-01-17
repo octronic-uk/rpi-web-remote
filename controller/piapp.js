@@ -394,9 +394,11 @@ PiApp.controller('PiApp', [
 
 		$scope.setGpioScriptApi = function(script,callback)
 		{
+			var filteredName = (script.name.contains(" ") ? script.name.split(" ").join("_") : script.name);
+
 			$http({
 				method: "PUT",
-				url: "/api/gpio/script/"+script.name.split(" ").join("_"),
+				url: "/api/gpio/script/"+filteredName,
 			  data: {
 					script: script
 				}
@@ -411,9 +413,11 @@ PiApp.controller('PiApp', [
 
 		$scope.deleteGpioScriptApi = function(scriptName,callback)
 		{
+			var filteredName = (script.name.contains(" ") ? script.name.split(" ").join("_") : script.name);
+
 			$http({
 				method: "PUT",
-				url:"/api/gpio/script/"+scriptName.split(" ").join("_")+"/delete"
+				url:"/api/gpio/script/"+filteredName
 			}).then(function successCalback(res)
 			{
 					callback(true);

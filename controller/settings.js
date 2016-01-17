@@ -15,7 +15,18 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 
 	$scope.removeGpioScript = function(name)
 	{
-		console.log("Not yet implemented");
+		$scope.deleteGpioScriptApi(name, function(success)
+		{
+			if (success)
+			{
+				$scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
+				$state.go("Settings");
+			}
+			else
+			{
+				$scope.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.script.name });
+			}
+		});
 	};
 
 	$scope.addSerialCommand = function()
@@ -224,7 +235,7 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 
 	// API Calls -----------------------------------------------------------------
 
-	
+
 	$scope.getSerialEnabledApi(function(en)
 	{
 		$scope.ui.serialEnabled = en;
