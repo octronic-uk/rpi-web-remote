@@ -5,6 +5,8 @@ PiApp.controller('GpioScript',
     $controller('PiApp', {$scope: $scope});
     $scope.scriptName = $stateParams.name;
 
+    console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
+
     if ($scope.scriptName != "new")
     {
       $scope.getGpioScriptApi($scope.scriptName, function(script)
