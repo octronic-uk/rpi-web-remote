@@ -4,6 +4,7 @@ PiApp.controller('GpioScript',
   {
     $controller('PiApp', {$scope: $scope});
     $scope.scriptName = $stateParams.name;
+    $scope.ui = {};
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
 
@@ -27,22 +28,14 @@ PiApp.controller('GpioScript',
       console.log("GPIO Pin list:", $scope.gpioPinList);
     });
 
-    $scope.executeGpioScriptButton = function(scriptName)
-    {
-      $scope.executeGpioScriptApi(scriptName,function(resp)
-      {
-
-      });
-    };
-
     $scope.addDoButton = function()
     {
-      $scope.script.do.push({pin: addDoPin, state: addDoState});
+      $scope.script.do.push({pin: $scope.ui.addDoPin, state: $scope.ui.addDoState});
     };
 
     $scope.removeDoButton = function()
     {
-      $scope.getDoByPin($scope.removeDoName,function(obj)
+      $scope.getDoByPin($scope.ui.removeDoName,function(obj)
       {
         var index = $scope.script.do.indexOf(obj);
         $scope.script.do.splice(index,1);
@@ -70,12 +63,12 @@ PiApp.controller('GpioScript',
 
     $scope.addWhileButton = function()
     {
-      $scope.script.while({pin: addWhilePin, state: addWhileState});
+      $scope.script.while({pin: $scope.ui.addWhilePin, state: $scope.ui.addWhileState});
     };
 
     $scope.removeWhileButton = function()
     {
-      $scope.getWhileByPin($scope.removeWhileName,function(obj)
+      $scope.getWhileByPin($scope.ui.removeWhileName,function(obj)
       {
         var index = $scope.script.while.indexOf(obj);
         $scope.script.while.splice(index,1);
@@ -103,12 +96,12 @@ PiApp.controller('GpioScript',
 
     $scope.addThenButton = function()
     {
-      $scope.script.then.push({pin: addThenPin, state: addThenState});
+      $scope.script.then.push({pin: $scope.ui.addThenPin, state: $scope.ui.addThenState});
     };
 
     $scope.removeThenButton = function()
     {
-      $scope.getThenByPin($scope.removeThenName,function(obj)
+      $scope.getThenByPin($scope.ui.removeThenName,function(obj)
       {
         var index = $scope.script.then.indexOf(obj);
         $scope.script.then.splice(index,1);

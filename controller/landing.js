@@ -35,6 +35,21 @@ PiApp.controller('Landing',
 			});
 		};
 
+		$scope.executeGpioScriptButton = function(scriptName)
+		{
+			$scope.executeGpioScriptApi(scriptName,function(resp)
+			{
+				if (res)
+				{
+					$scope.addAlert({ type: 'success', msg: 'Successuly executed '+scriptName+'!.' });
+				}
+				else
+				{
+					$scope.addAlert({ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!.' });
+				}
+			});
+		};
+
 		// API Calls ---------------------------------------------------------------
 
 		$scope.getSerialEnabledApi(function(en)
