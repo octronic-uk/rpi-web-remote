@@ -104,12 +104,12 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Edit</th>
+              <th class="text-right">Edit</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="script in gpioScriptList">
-              <td class="text-right">{{script.name}}</td>
+              <td >{{script.name}}</td>
               <td class="text-right"><a class="btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a></td>
             </tr>
           </tbody>
