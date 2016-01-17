@@ -1,7 +1,5 @@
-PiApp.config(function($provide, $stateProvider, $urlRouterProvider,$locationProvider,$uiViewScrollProvider)
+PiApp.config(function($provide, $stateProvider, $urlRouterProvider)
 {
-  $uiViewScrollProvider.useAnchorScroll();
-
   $urlRouterProvider.otherwise("/");
 
   $stateProvider.state('Landing',
@@ -30,14 +28,5 @@ PiApp.config(function($provide, $stateProvider, $urlRouterProvider,$locationProv
     url: "/settings/gpio_script/:name",
     templateUrl: "gpio_script.html",
     controller: "GpioScript"
-  });
-});
-
-PiApp.run(function($rootScope,$location,$stateParams, $anchorScroll){
-  $rootScope.$on('$stateChangeSuccess', function(event, toState){
-    if($stateParams.scrollTo){
-      $location.hash($stateParams.scrollTo);
-      $anchorScroll();
-    }
   });
 });

@@ -90,38 +90,38 @@
       </form>
     </div>
   </div>
-  <!-- GPIO Scripts -->
-  <div class="panel">
-    <div class="panel-heading">
-      GPIO Scripts
-    </div>
-    <div class="panel-body">
-      <form role="form">
+</div>
+<!-- GPIO Scripts -->
+<div class="panel">
+  <div class="panel-heading">
+    GPIO Scripts
+  </div>
+  <div class="panel-body">
+    <form role="form">
+      <div class="form-group">
+        <label for="commands-table">Scripts</label>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Edit</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="script in gpioScriptList">
+              <td>{{script.name}}</td>
+              <td><a class="btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a></td>
+              <td><button class="btn btn-danger" ng-click="removeGpioScript(script.name)"><span class="glyphicon glyphicon-minus"></span></button></td>
+            </tr>
+          </tbody>
+        </table>
         <div class="form-group">
-          <label for="commands-table">Scripts</label>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Edit</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="script in gpioScriptList">
-                <td>{{script.name}}</td>
-                <td><a class="btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a></td>
-                <td><button class="btn btn-danger" ng-click="removeGpioScript(script.name)"><span class="glyphicon glyphicon-minus"></span></button></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="form-group">
-            <label for="new_script">New Script</label>
-            <a id="new_script" href="#/settings/gpio_script/new" class="pull-right btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
-          </div>
+          <label for="new_script">New Script</label>
+          <a id="new_script" href="#/settings/gpio_script/new" class="pull-right btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </div>
 <!-- Serial Settings -->
