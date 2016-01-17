@@ -383,8 +383,9 @@ var initRoutes = function()
   // Update GPIO Script
   app.put('/api/gpio/script/:name',jsonParser,function(req,res)
   {
-    var script = req.params.script;
-
+    var name = req.params.name;
+    console.log("Updating GPIO Script",name);
+    
     getGpioScriptIndexByName(name,function(index)
     {
       config.gpio.scripts.splice(index,1);
