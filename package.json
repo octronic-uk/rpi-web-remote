@@ -19,6 +19,7 @@
     "express": "^4.13.3",
     "morgan": "^1.6.1",
     "rpi-gpio": "^0.7.0",
-    "serialport": "^2.0.6"
+    "serialport": "^2.0.6",
+    "socket.io": "^1.4.4"
   }
 }
