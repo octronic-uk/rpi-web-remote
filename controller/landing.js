@@ -55,9 +55,10 @@ PiApp.controller('Landing',
 
 		$scope.executeGpioScriptButton = function(scriptName)
 		{
+			console.log("Executing GPIO Script",scriptName);
 			$scope.executeGpioScriptApi(scriptName,function(resp)
 			{
-				if (res)
+				if (resp)
 				{
 					$scope.addAlert({ type: 'success', msg: 'Successuly executed '+scriptName+'!.' });
 				}

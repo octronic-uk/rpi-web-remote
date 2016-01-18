@@ -370,14 +370,15 @@ var initRoutes = function(callback) {
   // Execute a GPIO script
   app.get('/api/gpio/script/:name/execute',jsonParser,function(req,res) {
     var name = req.params.name;
-
+    console.log("GPIO Script",name);
+    
     getGpioScriptByName(name,function(script) {
 
       if (script === null) {
         console.log("Script",name,"was not found");
         return;
       }
-      
+
       var doStates     = script.do;
       var whileStates  = script.while;
       var thenStates   = script.then;
