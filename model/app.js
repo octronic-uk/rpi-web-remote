@@ -708,8 +708,10 @@ var getWhileResult = function(whileObjects, callback) {
           console.log("Error reading pin",pin.num);
           result = false;
         } else {
-          var thisWhile = (value == pin.state);
-          console.log("while",i,"wants",pin.state,"and is",value,"/",thisWhile);
+          var numVal = (value ? 1 : 0);
+          var thisWhile = numVal == pin.state;
+
+          console.log("while",i,"wants",pin.state,"and is",numVal,"vs",pin.state);
           result = result && thisWhile;
           console.log("Result is now",result);
         }
