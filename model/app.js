@@ -61,10 +61,13 @@ var BAUDRATE_LIST = [
   150,    134,   110,   75, 50
 ];
 
-console.log("\nAsh's RaspberryPI IO Remote.\n\nCopyright (C) 2016, Ashley Thompson.",
-            "\nThis program comes with ABSOLUTELY NO WARRANTY.",
-            "\nThis is free software, and you are welcome to redistribute an or",
-            "modify it under the terms of the GPLv3.\n\nHappy Hacking :)\n\n");
+// Print Mini License
+console.log(
+  "\nAsh's RaspberryPI IO Remote! ---------------------------------------------------",
+  "\nCopyright (C) 2016, Ashley Thompson.",
+  "\nThis program comes with ABSOLUTELY NO WARRANTY.",
+  "\nThis is free software, and you are welcome to redistribute an or modify it under the terms of the GPLv3.",
+  "\n\nHappy Hacking :)\n\n");
 
 var closeSerial = function(callback) {
   if (serialPort && serialPort.isOpen()) {
@@ -127,7 +130,7 @@ var initExpress = function() {
   app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-animate')));
-  app.use(express.static(path.join(__dirname, '../node_modules/socket.io')));
+  app.use(express.static(path.join(__dirname, '../node_modules/socket.io/node_modules/socket.io-client')));
 };
 
 var initSocketIO = function()
