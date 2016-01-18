@@ -1,5 +1,5 @@
 /*
-  .
+  Ash's RaspberryPI IO Remote.
   email: ashthompson06@gmail.command
   repo: https://github.com/BashEdThomps/IoT-RaspberryPI.git
 
@@ -33,6 +33,7 @@ var configPath = path.join(__dirname, "../"+constants.CONFIG);
 var config     = require(configPath);
 var exec = require('child_process').exec;
 var execFile = require('child_process').execFile;
+var ioModule = require('socket.io');
 
 // Variables
 var port       = config.http_port;
@@ -40,6 +41,7 @@ var app        = express();
 var jsonParser = bodyParser.json();
 var rawParser    = bodyParser.raw();
 var httpServer   = http.createServer(app);
+var io = ioModule(httpServer);
 var eventHistory = {};
 var serialPort   = null;
 
@@ -125,6 +127,20 @@ var initExpress = function() {
   app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-animate')));
+  app.use(express.static(path.join(__dirname, '../node_modules/socket.io')));
+};
+
+var initSocketIO = function()
+{
+  io.on('connection', function(socket) {
+    console.log("Socket IO connection detected");
+    socket.on('event', function(data) {
+      console.log("Socket IO event detected");
+    });
+    socket.on('disconnect', function() {
+      console.log("Socket IO disconnect event detected");
+    });
+  });
 };
 
 var initHttpServer = function() {
@@ -371,7 +387,7 @@ var initRoutes = function(callback) {
   app.get('/api/gpio/script/:name/execute',jsonParser,function(req,res) {
     var name = req.params.name;
     console.log("GPIO Script",name);
-    
+
     getGpioScriptByName(name,function(script) {
 
       if (script === null) {
@@ -784,5 +800,6 @@ var getGpioPinByName = function(pin,callback){
   initSerial();
   initGpio();
   initExpress();
+  initSocketIO();
   initHttpServer();
   initRoutes();
