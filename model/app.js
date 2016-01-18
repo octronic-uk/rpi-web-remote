@@ -721,7 +721,7 @@ var getWhileResult = function(whileObjects, callback) {
           numVal = (value ? 1 : 0);
           thisWhile = (numVal == pin.state);
           console.log(i,": While",pin.state,"on",pin.num,". Got:",numVal);
-          console.lo(result,"&&",thisWhile);
+          console.log(result,"&&",thisWhile);
           result = (result && thisWhile);
         }
       });
