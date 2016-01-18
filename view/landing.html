@@ -23,7 +23,7 @@
     GPIO
   </div>
   <ul class="list-group">
-    <li ng-repeat="pin in pinList" ng-show="!pin.hidden" class="list-group-item clearfix">
+    <li ng-repeat="pin in pinList" ng-show="pin.hidden == false" class="list-group-item clearfix">
       <h5>
         <span ng-show="pin.io == 'out'" class="glyphicon glyphicon-log-out"></span>
         <span ng-show="pin.io == 'in'" class="glyphicon glyphicon-log-in"></span>
