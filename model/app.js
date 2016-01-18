@@ -402,227 +402,227 @@ app.get('/api/gpio/script/:name/execute',jsonParser,function(req,res) {
   });
 });
 
-  // Update the application from github
-  app.get('/api/application/update', jsonParser, function(req,res) {
-    var child = execFile(UPDATE_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {
-      if (error !== null) {
-        util.sendHttpError(res,"Error updating app: "+error);
-      } else {
-        util.sendHttpJson(res,{result: stdout});
-      }
-    });
+// Update the application from github
+app.get('/api/application/update', jsonParser, function(req,res) {
+  var child = execFile(UPDATE_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {
+    if (error !== null) {
+      util.sendHttpError(res,"Error updating app: "+error);
+    } else {
+      util.sendHttpJson(res,{result: stdout});
+    }
   });
+});
 
-  // Reload the application through PM2
-  app.get('/api/application/restart', jsonParser, function(req,res) {
-    var child = execFile(RESTART_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {
-      util.sendHttpOK(res);
-    });
-  });
-
-  // Get the name of the device
-  app.get('/api/device/name', jsonParser, function(req,res) {
-    util.sendHttpJson(res, {name: config.device_name});
-  });
-
-  // Set the name of the device
-  app.put('/api/device/name', jsonParser, function(req,res) {
-    var name = req.body.devName;
-    config.device_name = name;
+// Reload the application through PM2
+app.get('/api/application/restart', jsonParser, function(req,res) {
+  var child = execFile(RESTART_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {
     util.sendHttpOK(res);
   });
+});
 
-  // Get the device's uptime
-  app.get('/api/device/uptime', jsonParser, function(req,res){
-    var child = exec(UPTIME_CMD, function (error, stdout, stderr){
-      if (error !== null){
-        util.sendHttpError(res,"Error getting uptime: "+error);
-      }else{
-        util.sendHttpJson(res,{uptime: stdout});
-      }
-    });
-  });
+// Get the name of the device
+app.get('/api/device/name', jsonParser, function(req,res) {
+  util.sendHttpJson(res, {name: config.device_name});
+});
 
-  // Get the device's hostname
-  app.get('/api/device/hostname', jsonParser, function(req,res) {
-    var child = exec(HOSTNAME_CMD, function (error, stdout, stderr) {
-      if (error !== null) {
-        util.sendHttpError(res,"Error getting hostname: "+error);
-      } else {
-        util.sendHttpJson(res,{hostname: stdout});
-      }
-    });
-  });
+// Set the name of the device
+app.put('/api/device/name', jsonParser, function(req,res) {
+  var name = req.body.devName;
+  config.device_name = name;
+  util.sendHttpOK(res);
+});
 
-  // Reboot the device
-  app.get('/api/device/reboot', jsonParser, function(req,res){
-    util.sendHttpOK(res);
-    var child = exec(REBOOT_CMD, function (error, stdout, stderr) {
-      if (error === null) {
-        console.log("Rebooting the device...");
-      }
-    });
-  });
-
-  // Get the device's address'
-  app.get('/api/device/address', jsonParser, function(req,res){
-    var child = exec(ADDR_CMD, function (error, stdout, stderr){
-      if (error !== null){
-        util.sendHttpError(res,"Error getting address: "+error);
-      } else{
-        util.sendHttpJson(res,{address: stdout});
-      }
-    });
-  });
-
-  // Get serial enabled state
-  app.get('/api/serial/enabled', jsonParser, function(req,res){
-    util.sendHttpJson(res,{enabled: config.serial.enable});
-  });
-
-  // Set serial enabled state
-  app.put('/api/serial/enabled/:en', jsonParser, function(req,res){
-    var enParam = req.params.en;
-    console.log("Enable param: ",enParam);
-    var enabled = (enParam  == "true" ? true : false);
-    config.serial.enable = enabled;
-    if (enabled) {
-      restartSerial();
-    } else {
-      closeSerial();
-    }
-    util.sendHttpOK(res);
-  });
-
-  // Get the devce's list of serial ports
-  app.get('/api/serial/list',jsonParser,function(req,res) {
-    SerialPortModule.list(function (err, ports){
-      if (err || ports === undefined){
-        util.sendHttpError(res);
-      } else {
-        var data = [];
-        ports.forEach(function(port) {
-          data.push(port.comName);
-        });
-        util.sendHttpJson(res,data);
-      }
-    });
-  });
-
-  // Get the list of serial commands
-  app.get('/api/serial/command/list',jsonParser,function(req,res) {
-    util.sendHttpJson(res,config.serial.commands);
-  });
-
-  // Add a serial command to the configuration
-  app.put('/api/serial/command/add',jsonParser,function(req,res){
-    var name = req.body.name;
-    var command = req.body.cmd;
-    console.log("Adding command",name,"/",command);
-
-    if (name !== undefined && command !== undefined){
-      config.serial.commands.push({name: name, cmd: command});
-      util.sendHttpOK(res);
-    } else {
-      util.sendHttpError(res);
+// Get the device's uptime
+app.get('/api/device/uptime', jsonParser, function(req,res){
+  var child = exec(UPTIME_CMD, function (error, stdout, stderr){
+    if (error !== null){
+      util.sendHttpError(res,"Error getting uptime: "+error);
+    }else{
+      util.sendHttpJson(res,{uptime: stdout});
     }
   });
+});
 
-  // Remove a serial command to the configuration
-  app.put('/api/serial/command/remove',jsonParser,function(req,res) {
-    var name = req.body.cmdName;
-    console.log("Reomving command", name, "aka", req.body.cmdName);
-    getSerialCommandIndexByName(name,function(index){
-      if (index > -1) {
-        config.serial.commands.splice(index, 1);
-        util.sendHttpOK(res);
-      } else {
-        util.sendHttpNotFound(res);
-      }
-    });
-  });
-
-  app.put('/api/serial/command/execute', jsonParser, function(req,res) {
-    var cmd = req.body.cmd;
-    console.log("Executing command",cmd);
-    if (serialPort !== null && serialPort.isOpen()){
-      getSerialCommandByName(cmd,function(commandObject){
-        if (commandObject){
-          serialPort.write(commandObject.cmd, function(err){
-            if (err){
-              console.log("Serial execute error",err);
-              util.sendHttpError(res);
-            } else {
-              util.sendHttpOK(res);
-            }
-          });
-        } else {
-          console.log("Serial execute error: no command obj");
-          util.sendHttpError(res);
-        }
-      });
+// Get the device's hostname
+app.get('/api/device/hostname', jsonParser, function(req,res) {
+  var child = exec(HOSTNAME_CMD, function (error, stdout, stderr) {
+    if (error !== null) {
+      util.sendHttpError(res,"Error getting hostname: "+error);
     } else {
-      console.log("Serial execute error, no serial port or not isOpen()");
-      util.sendHttpError(res);
+      util.sendHttpJson(res,{hostname: stdout});
     }
   });
+});
 
-  // Get list of supported baud rates
-  app.get('/api/serial/baudrate/list',jsonParser,function(req,res) {
-    util.sendHttpJson(res,BAUDRATE_LIST);
-  });
-
-  // Get the serial path
-  app.get('/api/serial/path', jsonParser, function(req,res) {
-    util.sendHttpJson(res,{path: config.serial.path});
-  });
-
-  // get the serial baud rate
-  app.get('/api/serial/baudrate', jsonParser, function(req,res) {
-    util.sendHttpJson(res,{baudrate: config.serial.baudrate});
-  });
-
-  // Set the serial device path
-  app.put('/api/serial/path', jsonParser, function(req,res) {
-    var path = req.body.path;
-    if (path !== null) {
-      config.serial.path = path;
-      util.sendHttpOK(res);
-    } else {
-      util.sendHttpError(res);
+// Reboot the device
+app.get('/api/device/reboot', jsonParser, function(req,res){
+  util.sendHttpOK(res);
+  var child = exec(REBOOT_CMD, function (error, stdout, stderr) {
+    if (error === null) {
+      console.log("Rebooting the device...");
     }
   });
+});
 
-  // Set the serial baud rate
-  app.put('/api/serial/baudrate', jsonParser, function(req,res) {
-    var baudrate = req.body.baudrate;
-    if (baudrate !== null) {
-      config.serial.baudrate = baudrate;
-      util.sendHttpOK(res);
-    } else {
-      util.sendHttpError(res);
+// Get the device's address'
+app.get('/api/device/address', jsonParser, function(req,res){
+  var child = exec(ADDR_CMD, function (error, stdout, stderr){
+    if (error !== null){
+      util.sendHttpError(res,"Error getting address: "+error);
+    } else{
+      util.sendHttpJson(res,{address: stdout});
     }
   });
+});
 
-  // Restart the serial device
-  app.put('/api/serial/restart',function (req,res) {
+// Get serial enabled state
+app.get('/api/serial/enabled', jsonParser, function(req,res){
+  util.sendHttpJson(res,{enabled: config.serial.enable});
+});
+
+// Set serial enabled state
+app.put('/api/serial/enabled/:en', jsonParser, function(req,res){
+  var enParam = req.params.en;
+  console.log("Enable param: ",enParam);
+  var enabled = (enParam  == "true" ? true : false);
+  config.serial.enable = enabled;
+  if (enabled) {
     restartSerial();
-    util.sendHttpOK(res);
-  });
+  } else {
+    closeSerial();
+  }
+  util.sendHttpOK(res);
+});
 
-  // Save the current configuration
-  app.put('/api/config/save',function(req,res) {
-    saveConfigFile(function(err) {
-      if (err) {
+// Get the devce's list of serial ports
+app.get('/api/serial/list',jsonParser,function(req,res) {
+  SerialPortModule.list(function (err, ports){
+    if (err || ports === undefined){
+      util.sendHttpError(res);
+    } else {
+      var data = [];
+      ports.forEach(function(port) {
+        data.push(port.comName);
+      });
+      util.sendHttpJson(res,data);
+    }
+  });
+});
+
+// Get the list of serial commands
+app.get('/api/serial/command/list',jsonParser,function(req,res) {
+  util.sendHttpJson(res,config.serial.commands);
+});
+
+// Add a serial command to the configuration
+app.put('/api/serial/command/add',jsonParser,function(req,res){
+  var name = req.body.name;
+  var command = req.body.cmd;
+  console.log("Adding command",name,"/",command);
+
+  if (name !== undefined && command !== undefined){
+    config.serial.commands.push({name: name, cmd: command});
+    util.sendHttpOK(res);
+  } else {
+    util.sendHttpError(res);
+  }
+});
+
+// Remove a serial command to the configuration
+app.put('/api/serial/command/remove',jsonParser,function(req,res) {
+  var name = req.body.cmdName;
+  console.log("Reomving command", name, "aka", req.body.cmdName);
+  getSerialCommandIndexByName(name,function(index){
+    if (index > -1) {
+      config.serial.commands.splice(index, 1);
+      util.sendHttpOK(res);
+    } else {
+      util.sendHttpNotFound(res);
+    }
+  });
+});
+
+app.put('/api/serial/command/execute', jsonParser, function(req,res) {
+  var cmd = req.body.cmd;
+  console.log("Executing command",cmd);
+  if (serialPort !== null && serialPort.isOpen()){
+    getSerialCommandByName(cmd,function(commandObject){
+      if (commandObject){
+        serialPort.write(commandObject.cmd, function(err){
+          if (err){
+            console.log("Serial execute error",err);
+            util.sendHttpError(res);
+          } else {
+            util.sendHttpOK(res);
+          }
+        });
+      } else {
+        console.log("Serial execute error: no command obj");
         util.sendHttpError(res);
       }
-      else {
-        util.sendHttpOK(res);
-      }
     });
-  });
+  } else {
+    console.log("Serial execute error, no serial port or not isOpen()");
+    util.sendHttpError(res);
+  }
+});
 
-  callback(result);
+// Get list of supported baud rates
+app.get('/api/serial/baudrate/list',jsonParser,function(req,res) {
+  util.sendHttpJson(res,BAUDRATE_LIST);
+});
+
+// Get the serial path
+app.get('/api/serial/path', jsonParser, function(req,res) {
+  util.sendHttpJson(res,{path: config.serial.path});
+});
+
+// get the serial baud rate
+app.get('/api/serial/baudrate', jsonParser, function(req,res) {
+  util.sendHttpJson(res,{baudrate: config.serial.baudrate});
+});
+
+// Set the serial device path
+app.put('/api/serial/path', jsonParser, function(req,res) {
+  var path = req.body.path;
+  if (path !== null) {
+    config.serial.path = path;
+    util.sendHttpOK(res);
+  } else {
+    util.sendHttpError(res);
+  }
+});
+
+// Set the serial baud rate
+app.put('/api/serial/baudrate', jsonParser, function(req,res) {
+  var baudrate = req.body.baudrate;
+  if (baudrate !== null) {
+    config.serial.baudrate = baudrate;
+    util.sendHttpOK(res);
+  } else {
+    util.sendHttpError(res);
+  }
+});
+
+// Restart the serial device
+app.put('/api/serial/restart',function (req,res) {
+  restartSerial();
+  util.sendHttpOK(res);
+});
+
+// Save the current configuration
+app.put('/api/config/save',function(req,res) {
+  saveConfigFile(function(err) {
+    if (err) {
+      util.sendHttpError(res);
+    }
+    else {
+      util.sendHttpOK(res);
+    }
+  });
+});
+
+callback();
 };
 
 // Get result for GPIO script while
