@@ -781,7 +781,7 @@ var addGpioPinEvent = function(pinNum, state){
   }
   console.log("Adding pin event to history  (pin / state)",pinNum,"/",state);
   eventHistory[pinNumString(pinNum)].push({date: new Date(), state: state});
-  emitSocketIOGpioStateChange(channel,value);
+  emitSocketIOGpioStateChange(pinNum,state);
 };
 
 // Return a pin object based on it's number
