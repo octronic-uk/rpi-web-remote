@@ -53,7 +53,7 @@ var UPTIME_CMD        = 'uptime -p';
 var ADDR_CMD          = 'hostname -I';
 var HOSTNAME_CMD      = 'hostname';
 var REBOOT_CMD        = "reboot";
-var GPIO_SCRIPT_DELAY =  500;
+var GPIO_SCRIPT_DELAY =  100;
 var RESTART_CMD       =  path.join(__dirname, "../restart");
 var UPDATE_CMD        =  path.join(__dirname, "../update_internal");
 var BAUDRATE_LIST = [
@@ -443,11 +443,11 @@ var initRoutes = function(callback) {
         var scriptInterval = setInterval(function(){
           //console.log("Inside interval of script:",script.name);
           getWhileResult(whileStates, function(whileRes){
-            console.log("while result:", whileRes);
+            //console.log("while result:", whileRes);
             if (!whileRes && !done){
               done = true;
               // Stop checking while condiion
-              console.log("Clearing interval for script",script.name);
+              //console.log("Clearing interval for script",script.name);
               clearInterval(scriptInterval);
               // Apply Then States
               var iThen   = 0;
@@ -700,7 +700,7 @@ var initRoutes = function(callback) {
 var getWhileResult = function(whileObjects, callback) {
   var i = 0;
   var nWhiles = whileObjects.length;
-  console.log("Checking",nWhiles,"while conditions");
+  //console.log("Checking",nWhiles,"while conditions");
   var next = null;
   var numVal = null;
   var result = null;
@@ -721,7 +721,7 @@ var getWhileResult = function(whileObjects, callback) {
         {
           numVal = (value ? 1 : 0);
           result = (numVal == pin.state);
-          console.log(i,": While",pin.state,"on",pin.num,". Got:",numVal);
+          //console.log(i,": While",pin.state,"on",pin.num,". Got:",numVal);
           callback(result);
         }
       });
