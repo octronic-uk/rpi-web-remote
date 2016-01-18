@@ -372,13 +372,19 @@ var initRoutes = function(callback) {
     var name = req.params.name;
 
     getGpioScriptByName(name,function(script) {
+
+      if (script === null) {
+        console.log("Script",name,"was not found");
+        return;
+      }
+      
       var doStates     = script.do;
       var whileStates  = script.while;
       var thenStates   = script.then;
       var iDo    = 0;
       var iWhile = 0;
       var iThen  = 0;
-
+      console.log("Starting GPIO Script:",script);
       // Do States
       for (iDo = 0; iDo < doStates.length; iDo++){
         var dState = doStates[iDo];
@@ -395,17 +401,15 @@ var initRoutes = function(callback) {
 
       // While States and loop
       var scriptInterval = setInterval(function(){
+        console.log("Inside interval of script:",script.name);
         getWhileResult(whileStates,function(result){
           if (result){
-
             // Stop checking while condiion
             clearInterval(scriptInterval);
-
             // Apply Then States
             var iThen   = 0;
             var tState  = null;
             var nStates = thenStates.length;
-
             for (iThen = 0; iThen < nStates; iThen++){
               tState = thenStates[iThen];
               getGpioPinByName(tState.pin, function(pin){
