@@ -701,18 +701,27 @@ var getWhileResult = function(whileObjects, callback) {
   console.log("Checking",nWhiles,"while conditions");
   var result = true;
   var next = null;
+  var numVal = null;
+  var thisWhil = null;
 
-  for (i = 0; i < nWhiles; i++) {
+  for (i = 0; i < nWhiles; i++)
+  {
     next = whileObjects[i];
-    getGpioPinByName(next.pin, function(pin) {
-      gpio.read(pin.num, function(err, value) {
-        if (err) {
+    getGpioPinByName(next.pin, function(pin)
+    {
+      gpio.read(pin.num, function(err, value)
+      {
+        if (err)
+        {
           console.log("Error reading pin",pin.num);
           result = false;
-        } else {
-          var numVal = (value ? 1 : 0);
-          var thisWhile = (numVal == pin.state);
-          console.log("while",i,"wants",pin.state,"and is",numVal,"vs",pin.state);
+        }
+        else
+        {
+          numVal = (value ? 1 : 0);
+          thisWhile = (numVal == pin.state);
+          console.log(i,": While",pin.state,"on",pin.num,". Got:",numVal);
+          console.lo(result,"&&",thisWhile);
           result = (result && thisWhile);
         }
       });
