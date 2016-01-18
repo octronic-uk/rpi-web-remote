@@ -224,7 +224,6 @@ var initGpio = function(callback) {
     // Emmit to listeners here
     console.log('Channel ' + channel + ' value is now ' + value);
     addGpioPinEvent(channel, value);
-    emitSocketIOGpioStateChange(channel,value);
   });
 
   if (callback) {
@@ -235,6 +234,7 @@ var initGpio = function(callback) {
 // Notify connected socket io clients of state change
 var emitSocketIOGpioStateChange = function(pinNum,state)
 {
+  console.log("Emitting state change to SocketIO");
   io.emit(SIO_STATE_CHANGED, {pin: pinNum, state: state});
 };
 
@@ -781,6 +781,7 @@ var addGpioPinEvent = function(pinNum, state){
   }
   console.log("Adding pin event to history  (pin / state)",pinNum,"/",state);
   eventHistory[pinNumString(pinNum)].push({date: new Date(), state: state});
+  emitSocketIOGpioStateChange(channel,value);
 };
 
 // Return a pin object based on it's number

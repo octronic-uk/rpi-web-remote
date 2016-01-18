@@ -23,7 +23,7 @@ PiApp.controller('Landing',
     $controller('PiApp', {$scope: $scope});
 
 		// Socket IO Listener ------------------------------------------------------
-		
+		console.log("Registering socket.io listener");	
 	  socket.on("StateChanged", function(args)
 		{
 			console.log("Got StateChanged from Socket.IO with args",args);
