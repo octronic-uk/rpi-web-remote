@@ -46,11 +46,12 @@ var eventHistory = {};
 var serialPort   = null;
 
 // constants
-var PIN           = 'pin';
-var UPTIME_CMD    = 'uptime -p';
-var ADDR_CMD      = 'hostname -I';
-var HOSTNAME_CMD  = 'hostname';
-var REBOOT_CMD    = "reboot";
+var SIO_STATE_CHANGED = "StateChanged";
+var PIN               = 'pin';
+var UPTIME_CMD        = 'uptime -p';
+var ADDR_CMD          = 'hostname -I';
+var HOSTNAME_CMD      = 'hostname';
+var REBOOT_CMD        = "reboot";
 var GPIO_SCRIPT_DELAY = 250;
 var RESTART_CMD       =  path.join(__dirname, "../restart");
 var UPDATE_CMD        =  path.join(__dirname, "../update_internal");
@@ -223,6 +224,7 @@ var initGpio = function(callback) {
     // Emmit to listeners here
     console.log('Channel ' + channel + ' value is now ' + value);
     addGpioPinEvent(channel, value);
+    emitSocketIOGpioStateChange(channel,value);
   });
 
   if (callback) {
@@ -230,6 +232,13 @@ var initGpio = function(callback) {
   }
 };
 
+// Notify connected socket io clients of state change
+var emitSocketIOGpioStateChange = function(pinNum,state)
+{
+  io.emit(SIO_STATE_CHANGED, {pin: pinNum, state: state});
+};
+
+// Initialise express routes
 var initRoutes = function(callback) {
   // Set the value of an output pin
   app.put("/api/gpio/pins/:pin/:value", jsonParser, function(req,res) {

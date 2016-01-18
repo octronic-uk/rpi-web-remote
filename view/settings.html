@@ -45,6 +45,7 @@
             <tr>
               <th>Pin</th>
               <th>Name</th>
+              <th>Direction</th>
               <th>Hidden</th>
             </tr>
           </thead>
@@ -52,7 +53,8 @@
             <tr ng-repeat="pin in pinList">
               <td>{{pin.num}}</td>
               <td>{{pin.name}}</td>
-              <td>{{pin.hidden}}</td>
+              <td>{{pin.io}}</td>
+              <td>{{pin.hidden || "false"}}</td>
             </tr>
           </tbody>
         </table>
@@ -133,8 +135,12 @@
           </tbody>
         </table>
         <div class="form-group">
-          <label for="new_script">New Script</label>
-          <a id="new_script" href="#/settings/gpio_script/new" class="pull-right btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
+          <h5 for="new_script">
+            New Script
+            <a id="new_script" href="#/settings/gpio_script/new" class="pull-right btn btn-success">
+              <span class="glyphicon glyphicon-plus"></span>
+            </a>
+          </h5>
         </div>
       </div>
     </form>

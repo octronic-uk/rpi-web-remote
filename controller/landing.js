@@ -17,10 +17,17 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 PiApp.controller('Landing',
-	['$state','$stateParams','$controller','$http','$scope','$rootScope' ,
-	function($state, $stateParams, $controller, $http, $scope, $rootScope)
+	['socket','$state','$stateParams','$controller','$http','$scope','$rootScope' ,
+	function(socket, $state, $stateParams, $controller, $http, $scope, $rootScope)
 	{
     $controller('PiApp', {$scope: $scope});
+
+		// Socket IO Listener ------------------------------------------------------
+		
+	  socket.on("StateChanged", function(args)
+		{
+			console.log("Got StateChanged from Socket.IO with args",args);
+		});
 
 		// Client Function Definitions ---------------------------------------------
 
