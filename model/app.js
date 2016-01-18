@@ -435,6 +435,7 @@ var initRoutes = function(callback) {
               if (err){
                 console.log("Script:", script.name, "Error writing begin state", dState.pin, pin.num, dState.state);
               } else {
+                addGpioPinEvent(pin.num,dState.state);
                 console.log("Script:", script.name, "Written begin state", dState.pin, pin.num, dState.state);
               }
             });
@@ -463,6 +464,7 @@ var initRoutes = function(callback) {
                     if (err){
                       console.log("Script:", script.name, "Error writing end state", tState.pin, pin.num, tState.state);
                     } else {
+                      addGpioPinEvent(pin.num, tState.state);
                       console.log("Script:", script.name, "Written end state", tState.pin, pin.num, tState.state);
                     }
                   }); // gpio.write
