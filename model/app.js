@@ -53,7 +53,7 @@ var UPTIME_CMD        = 'uptime -p';
 var ADDR_CMD          = 'hostname -I';
 var HOSTNAME_CMD      = 'hostname';
 var REBOOT_CMD        = "reboot";
-var GPIO_SCRIPT_DELAY = 250;
+var GPIO_SCRIPT_DELAY =  500;
 var RESTART_CMD       =  path.join(__dirname, "../restart");
 var UPDATE_CMD        =  path.join(__dirname, "../update_internal");
 var BAUDRATE_LIST = [
@@ -441,9 +441,11 @@ var initRoutes = function(callback) {
         // While States and loop
         var scriptInterval = setInterval(function(){
           //console.log("Inside interval of script:",script.name);
-          getWhileResult(whileStates,function(result){
-            if (result == false){
+          getWhileResult(whileStates, function(result){
+            console.log("while result:",result);
+            if (!result){
               // Stop checking while condiion
+              console.log("Clearing interval for script",script.name);
               clearInterval(scriptInterval);
               // Apply Then States
               var iThen   = 0;
