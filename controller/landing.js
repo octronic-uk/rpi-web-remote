@@ -38,6 +38,7 @@ PiApp.controller('Landing',
 			console.log("Got StateChanged from Socket.IO with args",args);
 			$scope.getGpioScriptByName(args.name,function(script){
 				script.inProgress = false;
+				$scope.addAlert({ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
 			});
 		});
 
@@ -63,11 +64,11 @@ PiApp.controller('Landing',
 			{
 				if (res)
 				{
-					$scope.addAlert({ type: 'success', msg: 'Started  '+command+'!.' });
+					$scope.addAlert({ type: 'success', msg: 'Started  '+command+'!' });
 				}
 				else
 				{
-					$scope.addAlert({ type: 'danger', msg: 'Error executing '+command+'. Please try again!.' });
+					$scope.addAlert({ type: 'danger', msg: 'Error executing '+command+'. Please try again!' });
 				}
 			});
 		};
@@ -79,14 +80,14 @@ PiApp.controller('Landing',
 			{
 				if (resp)
 				{
-					$scope.addAlert({ type: 'success', msg: 'Successuly executed '+scriptName+'!.' });
+					$scope.addAlert({ type: 'success', msg: "Script '"+scriptName+"' has been started!" });
 					$scope.getGpioScriptByName(scriptName,function(script){
 						script.inProgress = true;
 					});
 				}
 				else
 				{
-					$scope.addAlert({ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!.' });
+					$scope.addAlert({ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!' });
 				}
 			});
 		};
