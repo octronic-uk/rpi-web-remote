@@ -442,7 +442,7 @@ var initRoutes = function(callback) {
         var scriptInterval = setInterval(function(){
           //console.log("Inside interval of script:",script.name);
           getWhileResult(whileStates, function(result){
-            console.log("while result:",result);
+            console.log("while result:", result);
             if (!result){
               // Stop checking while condiion
               console.log("Clearing interval for script",script.name);
@@ -711,15 +711,14 @@ var getWhileResult = function(whileObjects, callback) {
           result = false;
         } else {
           var numVal = (value ? 1 : 0);
-          var thisWhile = numVal == pin.state;
-
+          var thisWhile = (numVal == pin.state);
           console.log("while",i,"wants",pin.state,"and is",numVal,"vs",pin.state);
-          result = result && thisWhile;
-          console.log("Result is now",result);
+          result = (result && thisWhile);
         }
       });
     });
   }
+  console.log("Result is now",result);
   callback(result);
 };
 
