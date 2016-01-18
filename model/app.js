@@ -442,7 +442,7 @@ var initRoutes = function(callback) {
         var scriptInterval = setInterval(function(){
           //console.log("Inside interval of script:",script.name);
           getWhileResult(whileStates,function(result){
-            if (result){
+            if (result == false){
               // Stop checking while condiion
               clearInterval(scriptInterval);
               // Apply Then States
