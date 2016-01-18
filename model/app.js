@@ -439,11 +439,13 @@ var initRoutes = function(callback) {
         }
 
         // While States and loop
+        var done = false;
         var scriptInterval = setInterval(function(){
           //console.log("Inside interval of script:",script.name);
-          getWhileResult(whileStates, function(result){
-            console.log("while result:", result);
-            if (!result){
+          getWhileResult(whileStates, function(whileRes){
+            console.log("while result:", whileRes);
+            if (!whileRes && !done){
+              done = true;
               // Stop checking while condiion
               console.log("Clearing interval for script",script.name);
               clearInterval(scriptInterval);
@@ -699,10 +701,9 @@ var getWhileResult = function(whileObjects, callback) {
   var i = 0;
   var nWhiles = whileObjects.length;
   console.log("Checking",nWhiles,"while conditions");
-  var result = true;
   var next = null;
   var numVal = null;
-  var thisWhil = null;
+  var result = null;
 
   for (i = 0; i < nWhiles; i++)
   {
@@ -714,21 +715,19 @@ var getWhileResult = function(whileObjects, callback) {
         if (err)
         {
           console.log("Error reading pin",pin.num);
-          result = false;
+          callback(true);
         }
         else
         {
           numVal = (value ? 1 : 0);
-          thisWhile = (numVal == pin.state);
+          result = (numVal == pin.state);
           console.log(i,": While",pin.state,"on",pin.num,". Got:",numVal);
           console.log(result,"&&",thisWhile);
-          result = (result && thisWhile);
+          callback(thisWhile);
         }
       });
     });
   }
-  console.log("Result is now",result);
-  callback(result);
 };
 
 
