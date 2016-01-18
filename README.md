@@ -300,6 +300,5 @@ void doDefault()
 
 # Bonus Section
 ## RaspberryPI GPIO Pinouts
-### Serial Settings
 Courtesy of http://raspi.tv/wp-content/uploads/2014/07/Raspberry-Pi-GPIO-pinouts.png
 ![RaspberryPI GPIO](/readme/Raspberry-Pi-GPIO-pinouts.png)
