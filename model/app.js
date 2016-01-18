@@ -130,7 +130,7 @@ var initExpress = function() {
   app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-animate')));
-  app.use(express.static(path.join(__dirname, '../node_modules/socket.io/node_modules/socket.io-client')));
+  app.use(express.static(path.join(__dirname, '../node_modules/socket.io-client')));
 };
 
 var initSocketIO = function()
