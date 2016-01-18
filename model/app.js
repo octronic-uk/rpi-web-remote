@@ -59,10 +59,10 @@ var BAUDRATE_LIST = [
   150,    134,   110,   75, 50
 ];
 
-console.log("Ash's RaspberryPI IO Remote.\n\nCopyright (C) 2016, Ashley Thompson.\n",
-            "This program comes with ABSOLUTELY NO WARRANTY.\n",
-            "This is free software, and you are welcome to redistribute it",
-            "under the terms of the GPLv3.\n\nHappy Hacking :)");
+console.log("\nAsh's RaspberryPI IO Remote.\n\nCopyright (C) 2016, Ashley Thompson.",
+            "\nThis program comes with ABSOLUTELY NO WARRANTY.",
+            "\nThis is free software, and you are welcome to redistribute an or",
+            "modify it under the terms of the GPLv3.\n\nHappy Hacking :)\n\n");
 
 var closeSerial = function(callback) {
   if (serialPort && serialPort.isOpen()) {
