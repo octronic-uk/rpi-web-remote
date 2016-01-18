@@ -47,6 +47,7 @@ var serialPort   = null;
 
 // constants
 var SIO_STATE_CHANGED = "StateChanged";
+var SIO_SCRIPT_FINISHED = "ScriptFinished";
 var PIN               = 'pin';
 var UPTIME_CMD        = 'uptime -p';
 var ADDR_CMD          = 'hostname -I';
@@ -232,10 +233,15 @@ var initGpio = function(callback) {
 };
 
 // Notify connected socket io clients of state change
-var emitSocketIOGpioStateChange = function(pinNum,state)
-{
+var emitSocketIOGpioStateChange = function(pinNum,state) {
   console.log("Emitting state change to SocketIO");
   io.emit(SIO_STATE_CHANGED, {pin: pinNum, state: state});
+};
+
+// Notify connected socket io clients of script finish
+var emitSocketIOGpioScriptFinished = function(name) {
+  console.log("Emititng script finished to SocketIO",name);
+  io.emit(SIO_SCRIPT_FINISHED, {name: name});
 };
 
 // Initialise express routes
@@ -404,58 +410,62 @@ var initRoutes = function(callback) {
 
       if (script === null) {
         console.log("Script",name,"was not found");
+        util.sendHttpNotFound(res);
         return;
       }
+      else
+      {
+        util.sendHttpOK(res);
 
-      var doStates     = script.do;
-      var whileStates  = script.while;
-      var thenStates   = script.then;
-      var iDo    = 0;
-      var iWhile = 0;
-      var iThen  = 0;
-      console.log("Starting GPIO Script:",script);
-      // Do States
-      for (iDo = 0; iDo < doStates.length; iDo++){
-        var dState = doStates[iDo];
-        getGpioPinByName(dState.pin, function(pin){
-          gpio.write(pin.num, dState.state, function(err){
-            if (err){
-              console.log("Script:", script.name, "Error writing begin state", dState.pin, pin.num, dState.state);
-            } else {
-              console.log("Script:", script.name, "Written begin state", dState.pin, pin.num, dState.state);
-            }
+        var doStates     = script.do;
+        var whileStates  = script.while;
+        var thenStates   = script.then;
+        var iDo    = 0;
+        var iWhile = 0;
+        var iThen  = 0;
+        console.log("Starting GPIO Script:",script);
+        // Do States
+        for (iDo = 0; iDo < doStates.length; iDo++){
+          var dState = doStates[iDo];
+          getGpioPinByName(dState.pin, function(pin){
+            gpio.write(pin.num, dState.state, function(err){
+              if (err){
+                console.log("Script:", script.name, "Error writing begin state", dState.pin, pin.num, dState.state);
+              } else {
+                console.log("Script:", script.name, "Written begin state", dState.pin, pin.num, dState.state);
+              }
+            });
           });
-        });
+        }
+
+        // While States and loop
+        var scriptInterval = setInterval(function(){
+          console.log("Inside interval of script:",script.name);
+          getWhileResult(whileStates,function(result){
+            if (result){
+              // Stop checking while condiion
+              clearInterval(scriptInterval);
+              // Apply Then States
+              var iThen   = 0;
+              var tState  = null;
+              var nStates = thenStates.length;
+              for (iThen = 0; iThen < nStates; iThen++){
+                tState = thenStates[iThen];
+                getGpioPinByName(tState.pin, function(pin){
+                  gpio.write(pin.num, tState.state, function(err){
+                    if (err){
+                      console.log("Script:", script.name, "Error writing end state", tState.pin, pin.num, tState.state);
+                    } else {
+                      console.log("Script:", script.name, "Written end state", tState.pin, pin.num, tState.state);
+                    }
+                  }); // gpio.write
+                }); //getGpioPinByName
+              } // For
+              emitSocketIOGpioScriptFinished(name);
+            } // if result
+          }); // getWhileResult
+        },GPIO_SCRIPT_DELAY);
       }
-
-      // While States and loop
-      var scriptInterval = setInterval(function(){
-        console.log("Inside interval of script:",script.name);
-        getWhileResult(whileStates,function(result){
-          if (result){
-            // Stop checking while condiion
-            clearInterval(scriptInterval);
-            // Apply Then States
-            var iThen   = 0;
-            var tState  = null;
-            var nStates = thenStates.length;
-            for (iThen = 0; iThen < nStates; iThen++){
-              tState = thenStates[iThen];
-              getGpioPinByName(tState.pin, function(pin){
-                gpio.write(pin.num, tState.state, function(err){
-                  if (err){
-                    console.log("Script:", script.name, "Error writing end state", tState.pin, pin.num, tState.state);
-                  } else {
-                    console.log("Script:", script.name, "Written end state", tState.pin, pin.num, tState.state);
-                  }
-                }); // gpio.write
-              }); //getGpioPinByName
-            } // For
-
-            util.sendHttpOK(res);
-          } // if result
-        }); // getWhileResult
-      },GPIO_SCRIPT_DELAY);
     });
   });
 

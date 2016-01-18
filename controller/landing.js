@@ -23,10 +23,22 @@ PiApp.controller('Landing',
     $controller('PiApp', {$scope: $scope});
 
 		// Socket IO Listener ------------------------------------------------------
-		console.log("Registering socket.io listener");	
+		console.log("Registering socket.io listener");
+
 	  socket.on("StateChanged", function(args)
 		{
 			console.log("Got StateChanged from Socket.IO with args",args);
+			$scope.getGpioPinByNumber(args.pin,function(pin){
+				pin.state = args.state;
+			});
+		});
+
+    socket.on("ScriptFinished", function(args)
+		{
+			console.log("Got StateChanged from Socket.IO with args",args);
+			$scope.getGpioScriptByName(args.name,function(script){
+				script.inProgress = false;
+			});
 		});
 
 		// Client Function Definitions ---------------------------------------------
@@ -51,7 +63,7 @@ PiApp.controller('Landing',
 			{
 				if (res)
 				{
-					$scope.addAlert({ type: 'success', msg: 'Successuly executed '+command+'!.' });
+					$scope.addAlert({ type: 'success', msg: 'Started  '+command+'!.' });
 				}
 				else
 				{
@@ -68,6 +80,9 @@ PiApp.controller('Landing',
 				if (resp)
 				{
 					$scope.addAlert({ type: 'success', msg: 'Successuly executed '+scriptName+'!.' });
+					$scope.getGpioScriptByName(scriptName,function(script){
+						script.inProgress = true;
+					});
 				}
 				else
 				{
@@ -97,5 +112,39 @@ PiApp.controller('Landing',
 		{
 			$scope.gpioScriptList = scriptList;
 		});
+
+		// Return a pin object based on it's number
+		$scope.getGpioPinByNumber = function(pin,callback){
+		  var i = 0;
+		  var target = null;
+			var next = null;
+
+		  for (i = 0; i < $scope.pinList.length; i++){
+				next = $scope.pinList[i];
+		    if (next.num == pin){
+		      target = next;
+		      break;
+		    }
+		  }
+		  callback(target);
+		};
+
+		$scope.getGpioScriptByName = function(name,callback)
+		{
+		  var i = 0;
+		  var nScripts = $scope.gpioScriptList.length;
+		  var next = null;
+		  var target = null;
+
+		  console.log("Checking",nScripts,"GPIO scripts for",name);
+		  for (i = 0; i < nScripts; i++){
+		    next = $scope.gpioScriptList[i];
+		    if (next.name == name){
+		      target = next;
+		      break;
+		    }
+		  }
+		  callback(target);
+		};
 	}
 ]);
