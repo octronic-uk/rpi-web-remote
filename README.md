@@ -5,8 +5,10 @@ This project implements a simple remote control web application that allows user
 
 ### Key Features
 * Pi-Hosted Web Application. No need to install an app on each device.
-* Define pins as input or output.
-* Name pins for easy access.
+* Define pins as input/output and name them for easy access.
+* Script GPIO pin actions.
+* Send ASCII commands to serial devices such as Arduino.
+* UI is updated asynchronously by socket.io
 * Runs on any device with a modern web browser.
 * Great starting point for home automation or remote management projects.
 * Support for sending serial commands to external devices such as Arduino.
@@ -26,6 +28,7 @@ This project implements a simple remote control web application that allows user
 ## Software Stack
 - Raspbian
 - PM2/NodeJS
+- socket.io
 - Express
 - Angular
 - UI-Bootstrap
@@ -105,71 +108,7 @@ This guide starts from scratch. Please begin where appropriate for you!
     $ cd IoT-RaspberryPI
     ```
 
-15. Configure the application by editing the `config.json` file. This file holds the device name, port and pin configuration.
-
-    ```
-    $ vi config.json
-    ```
-
-    * The device's name is set by the `devie_name` variable.
-        ```
-        "device_name": "Bedroom",
-        ```
-
-    * The application's HTTP server will listen on the port specified by `http_port`.
-
-        ```
-        "http_port": 80,
-        ```
-    * Configure GPIO Pins and Scripts
-      * The `pins` array defines the list of pins that will be available to the application.
-
-          ```
-          "pins": [
-            {
-              "name": "Hall Light", // Human readable name
-              "num": 7,             // Pin number
-              "io": "out",          // Direction; "in" or "out"
-              "state": 0,           // Initial state 0 or 1 (output only)
-              "hidden": false       // Hide pin from UI and only make availabe to scripts
-            }
-          ];
-          ```
-
-      * The `scripts` array defines a list of scripts that can be executed on
-        GPIO pins. Scripts apply an initial state, wait wile a condition is true
-        and then apply a finishing state.
-
-          ```
-          "scripts": [
-            {
-              // Script name
-              "name": "Open South Garage",
-              // Define initial state(s) to apply.
-              "do": [
-                {
-                  "pin": "garage_south_output", // Pin name as defined in 'pins'
-                  "state": 1
-                }
-              ],
-              // Wait wile the following condition(s) are true.
-              "while": [
-                {
-                  "pin": "garage_south_input",
-                  "state": 1
-                }
-              ],
-              // Apply these state(s) after 'while' condition has been met.
-              "then": [
-                {
-                  "pin": "garage_pin_output",
-                  "state": 0
-                }
-              ]
-            }
-          ]
-          ```
-16. Install the application.
+15. Install the application.
 
     ```
     $ ./install
@@ -177,15 +116,15 @@ This guide starts from scratch. Please begin where appropriate for you!
 
     This will install all node dependencies and configure PM2 to start the application at boot.
 
-17. Restart your RaspberryPI. PM2 will automatically start the application.
+16. Restart your RaspberryPI. PM2 will automatically start the application.
 
-18. Use a browser to navigate to your RaspberryPI on the port specified in your configuration.
+17. Use a browser to navigate to your RaspberryPI on the port specified in your configuration.
 
     ```
     http://192.168.0.31:80
     ```
 
-19. Control your device :)
+18. Control your device :)
 
 ## Updating the Application
 The application can be updated by clicking the 'update' button on the 'System' page, or run the
