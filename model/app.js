@@ -304,11 +304,14 @@ var initRoutes = function(callback) {
     var name = req.body.name;
     var io = req.body.io;
     var state = req.body.state;
+    var hidden = req.body.hidden;
+
     var pin = {
       name: name,
       num: num,
       io: io,
-      state: state
+      state: state,
+      hidden: hidden,
     };
     config.gpio.pins.push(pin);
     initIndividualGpioPin(pin);
