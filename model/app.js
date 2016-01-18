@@ -440,7 +440,7 @@ var initRoutes = function(callback) {
 
         // While States and loop
         var scriptInterval = setInterval(function(){
-          console.log("Inside interval of script:",script.name);
+          //console.log("Inside interval of script:",script.name);
           getWhileResult(whileStates,function(result){
             if (result){
               // Stop checking while condiion
@@ -704,13 +704,16 @@ var getWhileResult = function(whileObjects, callback) {
     getGpioPinByName(next.pin, function(pin) {
       gpio.read(pin.num, function(err, value) {
         if (err) {
+          console.log("Error reading pin",pin.num);
           result = false;
         } else {
-          result = (result || (value != pin.state));
+          result = result && (value == pin.state);
         }
       });
     });
   }
+
+  callback(result);
 };
 
 
