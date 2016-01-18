@@ -696,6 +696,7 @@ var initRoutes = function(callback) {
 var getWhileResult = function(whileObjects, callback) {
   var i = 0;
   var nWhiles = whileObjects.length;
+  console.log("Checking",nWhiles,"while conditions");
   var result = true;
   var next = null;
 
@@ -707,12 +708,14 @@ var getWhileResult = function(whileObjects, callback) {
           console.log("Error reading pin",pin.num);
           result = false;
         } else {
-          result = result && (value == pin.state);
+          var thisWhile = (value == pin.state);
+          console.log("while",i,"wants",pin.state,"and is",value,"/",thisWhile);
+          result = result && thisWhile;
+          console.log("Result is now",result);
         }
       });
     });
   }
-
   callback(result);
 };
 
