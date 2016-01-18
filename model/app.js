@@ -1,3 +1,22 @@
+/*
+  .
+  email: ashthompson06@gmail.command
+  repo: https://github.com/BashEdThomps/IoT-RaspberryPI.git
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 // Requires
 var SerialPortModule = require("serialport");
 var SerialPort = SerialPortModule.SerialPort;
@@ -39,6 +58,11 @@ var BAUDRATE_LIST = [
   1200,   600,   300,   200,
   150,    134,   110,   75, 50
 ];
+
+console.log("Ash's RaspberryPi  Copyright (C) 2016  Ashley Thompson.",
+            "This program comes with ABSOLUTELY NO WARRANTY.",
+            "This is free software, and you are welcome to redistribute it",
+            "under the terms of the GPLv3");
 
 var closeSerial = function(callback) {
   if (serialPort && serialPort.isOpen()) {
