@@ -245,12 +245,9 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 	$scope.getSerialEnabledApi(function(en)
 	{
 		$scope.ui.serialEnabled = en;
-
-		if ($scope.ui.serialEnabled)
-		{
-			$scope.getSerialData();
-		}
 	});
+
+	$scope.getSerialData();
 
 	$scope.getGpioListApi(function(list)
 	{
