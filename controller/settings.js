@@ -179,7 +179,7 @@ function($state, $stateParams, $controller, $http, $scope, $rootScope)
 		var state = $scope.gpioPinAddState;
 		var hidden = $scope.gpioPinAddHidden;
 
-		$scope.addGpioPinApi(name,num,io,state,function(res)
+		$scope.addGpioPinApi(name,num,io,state,hidden,function(res)
 		{
 			if (res)
 			{

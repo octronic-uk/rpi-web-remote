@@ -127,7 +127,7 @@ PiApp.controller('PiApp', [
 			});
 		};
 
-		$scope.addGpioPinApi = function(name,num,io,state,callback)
+		$scope.addGpioPinApi = function(name,num,io,state,hidden,callback)
 		{
 			$http({
 				method: "put",
@@ -136,7 +136,8 @@ PiApp.controller('PiApp', [
 					name:name,
 					num:num,
 					io:io,
-					state:state
+					state:state,
+					hidden:hidden
 				}
 			}).then(function successCallback(res)
 			{
