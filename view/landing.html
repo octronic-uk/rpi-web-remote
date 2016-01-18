@@ -61,7 +61,7 @@
         <span class="glyphicon glyphicon glyphicon-list-alt"></span>
         &nbsp;{{script.name}}
         <span class="pull-right">
-          <button ng-click="executeGpioScriptButton(script.name)" class="pull-right btn" ng-disabled="script.inProgress" ng-class="(script.inProgress ? btn-success : btn-warning">
+          <button ng-click="executeGpioScriptButton(script.name)" class="pull-right btn" ng-disabled="script.inProgress" ng-class="script.inProgress ? 'btn-success' : 'btn-warning'">
             <span class="glyphicon glyphicon glyphicon-play"></span>
           </button>
         </span>
