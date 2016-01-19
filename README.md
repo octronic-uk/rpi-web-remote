@@ -7,11 +7,10 @@ This project implements a simple remote control web application that allows user
 * Pi-Hosted Web Application. No need to install an app on each device.
 * Define pins as input/output and name them for easy access.
 * Script GPIO pin actions.
-* Send ASCII commands to serial devices such as Arduino.
 * UI is updated asynchronously by socket.io
 * Runs on any device with a modern web browser.
 * Great starting point for home automation or remote management projects.
-* Support for sending serial commands to external devices such as Arduino.
+* Support for sending ASCII serial commands to external devices such as Arduino.
 
 ## Android Screenshots
 ###Home
