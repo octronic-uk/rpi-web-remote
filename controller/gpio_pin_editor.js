@@ -25,7 +25,7 @@ PiApp.controller('GpioPinEditor', ['appApi','util','$scope', '$state', '$statePa
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
 
     if ($scope.pinName != "new") {
-      appApi.getGpioPin($scope.pinName, function(pin) {
+      appApi.getGpioPinByName($scope.pinName, function(pin) {
         $scope.pin = pin;
         console.log("Modifying pin:", $scope.pin);
       });
