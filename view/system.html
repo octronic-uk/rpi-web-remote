@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<uib-alert class="toast-alert" dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert(alerts,$index)">{{alert.msg}}</uib-alert>
+<uib-alert class="toast-alert" dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="util.closeAlert(alerts,$index)">{{alert.msg}}</uib-alert>
 <div class="panel">
   <div class="panel-heading">
     Uptime
