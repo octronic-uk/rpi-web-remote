@@ -21,23 +21,23 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 {
   return {
     getSerialData : function() {
-			appApi.getSerialList(function(serialList) {
+			this.getSerialList(function(serialList) {
 				$rootScope.serialPortList = serialList;
 			});
 
-			appApi.getSerialBaudrateList(function(baudList) {
+			this.getSerialBaudrateList(function(baudList) {
 				$rootScope.baudRateList = baudList;
 			});
 
-			appApi.getSerialCommandList(function(commandList) {
+			this.getSerialCommandList(function(commandList) {
 				$rootScope.serialCommandList = commandList;
 			});
 
-			appApi.getSerialBaudrate(function(baudrate) {
+			this.getSerialBaudrate(function(baudrate) {
 				$rootScope.selectedBaudrate = baudrate;
 			});
 
-			appApi.getSerialPath(function(path) {
+			this.getSerialPath(function(path) {
 				$rootScope.selectedSerialPort = path;
 			});
 		},
