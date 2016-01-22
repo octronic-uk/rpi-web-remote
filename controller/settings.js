@@ -16,247 +16,243 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('Settings',
-['$state','$stateParams','$controller','$http','$scope','$rootScope' ,
-function($state, $stateParams, $controller, $http, $scope, $rootScope)
-{
-	$controller('PiApp', {$scope: $scope});
-	$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
-	$scope.REMOVE_CMD_DEFAULT = "Select Command";
+PiApp.controller('Settings', ['AppApi','Util','$scope', function(AppApi,Util, $scope) {
+		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
+		$scope.REMOVE_CMD_DEFAULT = "Select Command";
 
-  // Client function definitions -----------------------------------------------
+	  // Client function definitions ---------------------------------------------
 
-	$scope.getSafeScriptName = function(name)
-	{
-		return "#settings/gpio_script/"+name;
-	};
-
-	$scope.addSerialCommand = function()
-	{
-		var name = $scope.serialCommandNameAdd;
-		var cmd = $scope.serialCommandAdd;
-
-		$scope.addSerialCommandApi(name,cmd,function(res)
+		$scope.getGpioScriptEditorUrl = function(name)
 		{
-			if (res)
-			{
-				$scope.serialCommandList.push({name: name, cmd: cmd});
-				$scope.addAlert({ type: 'success', msg: 'Added command \"' + name + '\"' });
-			}
-			else
-			{
-				console.log("Error adding serial command",name,cmd);
-				$scope.addAlert({ type: 'danger', msg: 'Error adding command \"' + name + '\"' });
-			}
-		});
-	};
+			return "#settings/gpio_script_editor/"+name;
+		};
 
-	$scope.removeSerialCommand = function()
-	{
-		var name = $scope.serialCommandRemove;
-
-		$scope.removeSerialCommandApi(name,function(resp)
+		$scope.addSerialCommand = function()
 		{
-				if (resp)
+			var name = $scope.serialCommandNameAdd;
+			var cmd = $scope.serialCommandAdd;
+
+			AppApi.addSerialCommand(name,cmd,function(res)
+			{
+				if (res)
 				{
-					$scope.getSerialCommandIndexByName(name, function (index)
-					{
-						if (index > -1)
-						{
-							$scope.serialCommandList.splice(index,1);
-						}
-						else
-					  {
-							console.log("Cannot remove, index of ",name," command not found");
-						}
-					});
-					$scope.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
-					$scope.serialCommandRemove = $scope.REMOVE_CMD_DEFAULT;
+					$scope.serialCommandList.push({name: name, cmd: cmd});
+					Util.addAlert( { type: 'success', msg: 'Added command \"' + name + '\"' });
 				}
 				else
 				{
-					console.log("Error removing serial command",name);
-					$scope.addAlert({ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
+					console.log("Error adding serial command",name,cmd);
+				  Util.addAlert( { type: 'danger', msg: 'Error adding command \"' + name + '\"' });
 				}
-		});
-	};
+			});
+		};
 
-	$scope.saveSettings = function()
-	{
-		$scope.setSerialPathApi($scope.selectedSerialPort,function(result)
+		$scope.removeSerialCommand = function()
 		{
-			if (result)
+			var name = $scope.serialCommandRemove;
+
+			AppApi.removeSerialCommand(name,function(resp)
 			{
-				$scope.setSerialBaudrateApi($scope.selectedBaudrate,function(result)
-				{
-					if (result)
+					if (resp)
 					{
-						$scope.setDeviceNameApi(function(result)
+						$scope.getSerialCommandIndexByName(name, function (index)
 						{
-							if (result)
+							if (index > -1)
 							{
-								$scope.configSaveApi(function(result)
-								{
-										if (result)
-										{
-											$scope.serialRestartApi(function(result)
-											{
-												if (result)
-												{
-													console.log("Settings saved successfuly");
-													$scope.addAlert({ type: 'success', msg: 'Settings have been saved!' });
-												}
-												else
-											  {
-												 console.log("Error restarting serial");
-												 $scope.addAlert({ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
-												}
-											});
-										}
-										else
-										{
-											console.log("Error saving settings");
-											$scope.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!' });
-										}
-								});
+								$scope.serialCommandList.splice(index,1);
 							}
 							else
-							{
-								console.log("Error setting device name");
-								$scope.addAlert({ type: 'danger', msg: 'Error setting device name. Please try again!' });
+						  {
+								console.log("Cannot remove, index of ",name," command not found");
 							}
 						});
+						Util.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
+						$scope.serialCommandRemove = $scope.REMOVE_CMD_DEFAULT;
 					}
 					else
 					{
-						console.log("Error setting serial device baudrate");
-						$scope.addAlert({ type: 'danger', msg: 'Error saving baudrate. Please try again!' });
+						console.log("Error removing serial command",name);
+					  Util.addAlert({ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
 					}
-				});
-			}
-			else
-			{
-				console.log("Error setting serial device path");
-				$scope.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!' });
-			}
-		});
-	};
+			});
+		};
 
-  // Get the index of a command by name
-	$scope.getSerialCommandIndexByName = function(name,callback)
-	{
-		$scope.getSerialCommandByName(name, function(cmd)
-	  {
-			callback($scope.serialCommandList.indexOf(cmd));
-		});
-	};
-
-	// Get a serial command by name
-	$scope.getSerialCommandByName = function(name,callback)
-	{
-		var nCommands = $scope.serialCommandList.length;
-		var target = null;
-
-	  for (var i = 0; i < nCommands; i++)
-	  {
-	    var next = $scope.serialCommandList[i];
-
-	    if (next.name == name)
-	    {
-	      target = next;
-				break;
-	    }
-	  }
-
-		callback(target);
-	};
-
-	$scope.addGpioPin = function()
-	{
-		var name = $scope.gpioPinAddName;
-		var num = $scope.gpioPinAddNum;
-		var io = $scope.gpioPinAddIo;
-		var state = $scope.gpioPinAddState;
-		var hidden = $scope.gpioPinAddHidden || false;
-
-		$scope.addGpioPinApi(name,num,io,state,hidden,function(res)
+		$scope.saveSettings = function()
 		{
-			if (res)
+			AppApi.setSerialPath($scope.selectedSerialPort,function(result)
 			{
-				$scope.addAlert({ type: 'success', msg: 'Pin '+name+' added successfuly.' });
-				$scope.pinList.push({
-					name:name,
-					num:num,
-					io:io,
-					state:state,
-					hidden:hidden
-				});
-			}
-			else
-			{
-				$scope.addAlert({ type: 'danger', msg: 'Error adding pin '+name+'. Please try again!.' });
-			}
-		});
-	};
-
-	// Remove GPIO pin
-	$scope.removeGpioPin = function()
-	{
-		var pin = $scope.gpioPinRemove;
-		console.log("Removing gpio pin",pin);
-		$scope.removeGpioPinApi(pin,function(res)
-		{
-			if (res)
-			{
-				$scope.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
-				$scope.getPinByName($scope.pinList,pin,function(pinObj)
+				if (result)
 				{
-					var index = $scope.pinList.indexOf(pinObj);
-					$scope.pinList.splice(index,1);
-				});
-			}
-			else
-			{
-				$scope.addAlert({ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
-			}
-		});
-	};
+					AppApi.setSerialBaudrate($scope.selectedBaudrate,function(result)
+					{
+						if (result)
+						{
+							AppApi.setDeviceName(function(result)
+							{
+								if (result)
+								{
+									AppApi.configSave(function(result)
+									{
+											if (result)
+											{
+												AppApi.serialRestart(function(result)
+												{
+													if (result)
+													{
+														console.log("Settings saved successfuly");
+														Util.addAlert({ type: 'success', msg: 'Settings have been saved!' });
+													}
+													else
+												  {
+													 console.log("Error restarting serial");
+													 Util.addAlert({ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
+													}
+												});
+											}
+											else
+											{
+												console.log("Error saving settings");
+												Util.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!' });
+											}
+									});
+								}
+								else
+								{
+									console.log("Error setting device name");
+									Util.addAlert({ type: 'danger', msg: 'Error setting device name. Please try again!' });
+								}
+							});
+						}
+						else
+						{
+							console.log("Error setting serial device baudrate");
+							Util.addAlert({ type: 'danger', msg: 'Error saving baudrate. Please try again!' });
+						}
+					});
+				}
+				else
+				{
+					console.log("Error setting serial device path");
+					Util.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!' });
+				}
+			});
+		};
 
-	$scope.serialEnabledCheckboxChanged = function()
-	{
-		$scope.setSerialEnabledApi($scope.ui.serialEnabled,function(resp)
+	  // Get the index of a command by name
+		$scope.getSerialCommandIndexByName = function(name,callback)
 		{
-			if ($scope.ui.serialEnabled)
+			$scope.getSerialCommandByName(name, function(cmd)
+		  {
+				callback($scope.serialCommandList.indexOf(cmd));
+			});
+		};
+
+		// Get a serial command by name
+		$scope.getSerialCommandByName = function(name,callback)
+		{
+			var nCommands = $scope.serialCommandList.length;
+			var target = null;
+
+		  for (var i = 0; i < nCommands; i++)
+		  {
+		    var next = $scope.serialCommandList[i];
+
+		    if (next.name == name)
+		    {
+		      target = next;
+					break;
+		    }
+		  }
+
+			callback(target);
+		};
+
+		$scope.addGpioPin = function()
+		{
+			var name = $scope.gpioPinAddName;
+			var num = $scope.gpioPinAddNum;
+			var io = $scope.gpioPinAddIo;
+			var state = $scope.gpioPinAddState;
+			var hidden = $scope.gpioPinAddHidden || false;
+
+			AppApi.addGpioPin(name,num,io,state,hidden,function(res)
 			{
-				$scope.getDeviceSeriaData();
-				$scope.addAlert({ type: 'success', msg: 'Serial has been enabled.' });
-			}
-			else
+				if (res)
+				{
+					Util.addAlert({ type: 'success', msg: 'Pin '+name+' added successfuly.' });
+					$scope.pinList.push({
+						name:name,
+						num:num,
+						io:io,
+						state:state,
+						hidden:hidden
+					});
+				}
+				else
+				{
+					Util.addAlert({ type: 'danger', msg: 'Error adding pin '+name+'. Please try again!.' });
+				}
+			});
+		};
+
+		// Remove GPIO pin
+		$scope.removeGpioPin = function()
+		{
+			var pin = $scope.gpioPinRemove;
+			console.log("Removing gpio pin",pin);
+			AppApi.removeGpioPin(pin,function(res)
 			{
-				$scope.getDeviceSeriaData();
-				$scope.addAlert({ type: 'warning', msg: 'Serial has been disabled.' });
-			}
+				if (res)
+				{
+					Util.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
+					$scope.getPinByName($scope.pinList,pin,function(pinObj)
+					{
+						var index = $scope.pinList.indexOf(pinObj);
+						$scope.pinList.splice(index,1);
+					});
+				}
+				else
+				{
+					Util.addAlert({ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
+				}
+			});
+		};
+
+		$scope.serialEnabledCheckboxChanged = function()
+		{
+			AppApi.setSerialEnabled($scope.ui.serialEnabled,function(resp)
+			{
+				if ($scope.ui.serialEnabled)
+				{
+					$scope.getDeviceSerialData();
+					Util.addAlert({ type: 'success', msg: 'Serial has been enabled.' });
+				}
+				else
+				{
+					$scope.getDeviceSerialData();
+					Util.addAlert({ type: 'warning', msg: 'Serial has been disabled.' });
+				}
+			});
+		};
+
+		// API Calls ---------------------------------------------------------------
+
+
+		AppApi.getSerialEnabled(function(en)
+		{
+			$scope.ui.serialEnabled = en;
 		});
-	};
 
-	// API Calls -----------------------------------------------------------------
+		$scope.getSerialData();
 
+		AppApi.getGpioList(function(list)
+		{
+			$scope.pinList = list;
+		});
 
-	$scope.getSerialEnabledApi(function(en)
-	{
-		$scope.ui.serialEnabled = en;
-	});
-
-	$scope.getSerialData();
-
-	$scope.getGpioListApi(function(list)
-	{
-		$scope.pinList = list;
-	});
-
-	$scope.getGpioScriptsListApi(function(scriptList)
-	{
-		$scope.gpioScriptList = scriptList;
-	});
-}
+		AppApi.getGpioScriptsList(function(scriptList)
+		{
+			$scope.gpioScriptList = scriptList;
+		});
+	}
 ]);

@@ -17,135 +17,78 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 PiApp.controller('Landing',
-	['socket','$state','$stateParams','$controller','$http','$scope','$rootScope' ,
-	function(socket, $state, $stateParams, $controller, $http, $scope, $rootScope)
+	['socket','AppApi','Util','$scope',
+	function(socket, AppApi, Util, $scope)
 	{
-    $controller('PiApp', {$scope: $scope});
-
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
 
-	  socket.on("StateChanged", function(args)
-		{
+	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
-			$scope.getGpioPinByNumber(args.pin,function(pin){
+			Util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {
 				pin.state = args.state;
 			});
 		});
 
-    socket.on("ScriptFinished", function(args)
-		{
+    socket.on("ScriptFinished", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
-			$scope.getGpioScriptByName(args.name,function(script){
+			Util.getGpioScriptByName($scope.gpioScriptList, args.name,function(script) {
 				script.inProgress = false;
-				$scope.addAlert({ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
+				Util.addAlert({ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
 			});
 		});
 
 		// Client Function Definitions ---------------------------------------------
 
-		$scope.gpioSet = function(pinNum, state)
-		{
-			$scope.setGpioPinValueApi(pinNum,state,function(success)
-			{
-				if (success)
-				{
-					$scope.getPinByNumber($scope.pinList,pinNum,function(pin)
-					{
+		$scope.gpioSet = function(pinNum, state) {
+			AppApi.setGpioPinValue(pinNum,state,function(success) {
+				if (success) {
+					Util.getGpioPinByNumber($scope.gpioPinList,pinNum,function(pin) {
 						pin.state = state;
 					});
 				}
 			});
 		};
 
-		$scope.executeSerialCommand = function(command)
-		{
-			$scope.executeSerialCommandApi(command,function(res)
-			{
-				if (res)
-				{
-					$scope.addAlert({ type: 'success', msg: 'Started  '+command+'!' });
-				}
-				else
-				{
-					$scope.addAlert({ type: 'danger', msg: 'Error executing '+command+'. Please try again!' });
+		$scope.executeSerialCommand = function(command) {
+			AppApi.executeSerialCommand(command,function(res) {
+				if (res) {
+					Util.addAlert({ type: 'success', msg: 'Started  '+command+'!' });
+				} else {
+					Util.addAlert({ type: 'danger', msg: 'Error executing '+command+'. Please try again!' });
 				}
 			});
 		};
 
-		$scope.executeGpioScriptButton = function(scriptName)
-		{
+		$scope.executeGpioScriptButton = function(scriptName) {
 			console.log("Executing GPIO Script",scriptName);
-			$scope.executeGpioScriptApi(scriptName,function(resp)
-			{
-				if (resp)
-				{
-					$scope.addAlert({ type: 'success', msg: "Script '"+scriptName+"' has been started!" });
-					$scope.getGpioScriptByName(scriptName,function(script){
+			AppApi.executeGpioScript(scriptName,function(resp) {
+				if (resp) {
+					Util.addAlert({ type: 'success', msg: "Script '"+scriptName+"' has been started!" });
+					Util.getGpioScriptByName($scope.gpioScriptList, scriptName,function(script){
 						script.inProgress = true;
 					});
-				}
-				else
-				{
-					$scope.addAlert({ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!' });
+				} else {
+					Util.addAlert({ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!' });
 				}
 			});
 		};
 
 		// API Calls ---------------------------------------------------------------
 
-		$scope.getSerialEnabledApi(function(en)
-		{
+		AppApi.getSerialEnabled(function(en) {
 			$scope.ui.serialEnabled = en;
-
-			if ($scope.ui.serialEnabled)
-			{
+			if ($scope.ui.serialEnabled){
 				$scope.getSerialData();
 			}
 		});
 
-		$scope.getGpioListApi(function(list)
-		{
-			$scope.pinList = list;
+		AppApi.getGpioList(function(list) {
+			$scope.gpioPinList = list;
 		});
 
-		$scope.getGpioScriptsListApi(function(scriptList)
-		{
-			$scope.gpioScriptList = scriptList;
+		AppApi.getGpioScriptsList(function(list) {
+			$scope.gpioScriptList = list;
 		});
-
-		// Return a pin object based on it's number
-		$scope.getGpioPinByNumber = function(pin,callback){
-		  var i = 0;
-		  var target = null;
-			var next = null;
-
-		  for (i = 0; i < $scope.pinList.length; i++){
-				next = $scope.pinList[i];
-		    if (next.num == pin){
-		      target = next;
-		      break;
-		    }
-		  }
-		  callback(target);
-		};
-
-		$scope.getGpioScriptByName = function(name,callback)
-		{
-		  var i = 0;
-		  var nScripts = $scope.gpioScriptList.length;
-		  var next = null;
-		  var target = null;
-
-		  console.log("Checking",nScripts,"GPIO scripts for",name);
-		  for (i = 0; i < nScripts; i++){
-		    next = $scope.gpioScriptList[i];
-		    if (next.name == name){
-		      target = next;
-		      break;
-		    }
-		  }
-		  callback(target);
-		};
 	}
 ]);

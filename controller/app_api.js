@@ -1,0 +1,507 @@
+PiApp.factory('AppApi',['$http',function($http)
+{
+  return {
+    addSerialCommand : function(name,cmd,callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/serial/command/add",
+				data: {
+					name: name,
+					cmd: cmd
+				}
+			}).then(function successCalback(resp)
+			{
+				callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		removeSerialCommand : function(name,callback)
+		{
+			console.log("Removing command",name);
+			$http({
+				method: "PUT",
+				url: "/api/serial/command/remove",
+				data: {
+					cmdName: name
+				}
+			}).then(function successCalback(resp)
+			{
+				callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		setGpioPinValue : function(pin, value, callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/gpio/pins/"+pin+"/"+value
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		getGpioPin : function(pin, callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/pins/"+pin
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		getGpioList : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/pins/list"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		removeGpioPin : function(pinNum,callback)
+		{
+			$http({
+				method: "put",
+				url: "/api/gpio/pins/remove",
+				data: {
+					pin: pinNum
+				}
+			}).then(function successCallback(res)
+			{
+				callback(true);
+			},function errorCallback(res)
+			{
+				callback(false);
+			});
+		},
+
+		addGpioPin : function(name,num,io,state,hidden,callback)
+		{
+			$http({
+				method: "put",
+				url: "/api/gpio/pins/add",
+				data: {
+					name:name,
+					num:num,
+					io:io,
+					state:state,
+					hidden:hidden
+				}
+			}).then(function successCallback(res)
+			{
+				callback(true);
+			},function errorCallback(res)
+			{
+				callback(false);
+			});
+		},
+
+		getApplicationRestart : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/application/restart"
+			}).then(function successCallback(resp)
+			{
+				callback();
+			},function errorCallback(resp)
+			{
+				callback();
+			});
+		},
+
+		getApplicationUpdate : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/application/update"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).result);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		getDeviceName : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/name"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).name);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		setDeviceName : function(callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/device/name",
+				data: {
+					devName: deviceName
+				}
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		getDeviceUptime : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/uptime"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).uptime);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		getDeviceHostname : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/hostname"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).hostname.replace(" ","\n"));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		getDeviceAddress : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/address"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).address);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		getDeviceReboot : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/device/reboot"
+			}).then(function successCallback(resp)
+			{
+				callback(null);
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		getSerialList : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/serial/list"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		getSerialBaudrateList : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/serial/baudrate/list"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		getSerialPath : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/serial/path",
+			}).then(function successCallback(res)
+			{
+				callback(JSON.parse(res.data).path);
+			},function errorCallback(res)
+			{
+				callback(null);
+			});
+		},
+
+		getSerialBaudrate : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/serial/baudrate",
+			}).then(function successCallback(res)
+			{
+				callback(JSON.parse(res.data).baudrate);
+			},function errorCallback(res)
+			{
+				callback(null);
+			});
+		},
+
+		setSerialPath : function(path,callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/serial/path",
+				data: {path: path}
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		setSerialBaudrate : function(baud,callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/serial/baudrate",
+				data: {baudrate: baud}
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		getSerialCommandList : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/serial/command/list",
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		configSave : function(callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/config/save",
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		serialRestart : function(callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/serial/restart",
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		getGpioPinHistory : function(pin, callback)
+		{
+			$http({
+				method:"GET",
+				url: "/api/gpio/pins/"+pin+"/history"
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},
+			function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		setGpioScript : function(script,callback)
+		{
+			convertSpacesToUnderscores(script.name,function(name)
+			{
+				$http({
+					method: "PUT",
+					url: "/api/gpio/script/"+name,
+				  data: {
+						script: script
+					}
+				}).then(function successCalback(resp)
+				{
+					callback(true);
+				},function errorCallback(resp)
+				{
+					callback(false);
+				});
+			});
+		},
+
+		deleteGpioScript : function(scriptName,callback)
+		{
+			convertSpacesToUnderscores(scriptName, function(name)
+			{
+				$http({
+					method: "PUT",
+					url:"/api/gpio/script/"+name+"/delete"
+				}).then(function successCalback(res)
+				{
+						callback(true);
+				},function errorCallback(res)
+				{
+					callback(false);
+				});
+			});
+		},
+
+		convertSpacesToUnderscores : function(name,callback)
+		{
+			callback((name.indexOf(" ") > 0 ? name.split(" ").join("_") : name));
+		},
+
+		getGpioScript : function(name, callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/script/"+name,
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			}, function errorCallback(resp)
+			{
+				callback(null);
+			});
+		},
+
+		executeGpioScript : function(name, callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/script/"+name+"/execute",
+			}).then(function successCallback(resp)
+			{
+				callback(true);
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		executeSerialCommand : function(cmd, callback)
+		{
+			$http({
+				method:"PUT",
+				url:"/api/serial/command/execute",
+				data: {
+					cmd: cmd
+				}
+			}).then(function successCallback(res)
+			{
+				callback(true);
+			},function errorCallback(res)
+			{
+				callback(false);
+			});
+		},
+
+		getSerialEnabled : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/serial/enabled",
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data).enabled);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		setSerialEnabled : function(enabled,callback)
+		{
+			$http({
+				method: "PUT",
+				url: "/api/serial/enabled/"+enabled,
+			}).then(function successCallback(resp)
+			{
+				callback(resp);
+			},function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+		getGpioScriptsList : function(callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/gpio/scripts/list",
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			},function errorCallback(resp)
+			{
+				callback(null);
+			});
+  	}
+  };
+}]);
