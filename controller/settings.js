@@ -181,7 +181,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		 $scope.serialCommandList = commandList;
     });
 
-    appApi.getSerialDevice(function(path) {
+    appApi.getSerialPath(function(path) {
 			$scope.serialPath = path;
     });
 
