@@ -40,6 +40,47 @@ PiApp.controller('GpioPinEditor', ['appApi','util','$scope', '$state', '$statePa
       console.log("Modifying pin:", $scope.pin);
     }
 
+		$scope.addGpioPin = function()
+		{
+			var name = $scope.gpioPinAddName;
+			var num = $scope.gpioPinAddNum;
+			var io = $scope.gpioPinAddIo;
+			var state = $scope.gpioPinAddState;
+			var hidden = $scope.gpioPinAddHidden || false;
+
+			appApi.addGpioPin(name,num,io,state,hidden,function(res) {
+				if (res) {
+					util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+name+' added successfuly.' });
+					$scope.pinList.push({
+						name:name,
+						num:num,
+						io:io,
+						state:state,
+						hidden:hidden
+					});
+				} else {
+					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error adding pin '+name+'. Please try again!.' });
+				}
+			});
+		};
+
+		// Remove GPIO pin
+		$scope.removeGpioPin = function() {
+			var pin = $scope.gpioPinRemove;
+			console.log("Removing gpio pin",pin);
+			appApi.removeGpioPin(pin,function(res) {
+				if (res) {
+					util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
+					util.getPinByName($scope.pinList,pin,function(pinObj) {
+						var index = $scope.pinList.indexOf(pinObj);
+						$scope.pinList.splice(index,1);
+					});
+				} else {
+					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
+				}
+			});
+		};
+
     $scope.deleteButton = function() {
       appApi.deleteGpioPin($scope.pin.name, function(success) {
         if (success) {

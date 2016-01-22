@@ -24,6 +24,7 @@ PiApp.controller('Landing',
 		console.log("Registering socket.io listener");
     $scope.alerts = {};
 		$scope.ui = {};
+		$scope.serialEnabled = false;
 
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
@@ -42,8 +43,6 @@ PiApp.controller('Landing',
 			});
 		});
 
-		// Client Function Definitions ---------------------------------------------
-
 		$scope.gpioSet = function(pinNum, state) {
 			appApi.setGpioPinValue(pinNum,state,function(success) {
 				if (success) {
@@ -54,7 +53,7 @@ PiApp.controller('Landing',
 			});
 		};
 
-		$scope.executeSerialCommand = function(command) {
+		$scope.executeSerialCommandButton = function(command) {
 			appApi.executeSerialCommand(command,function(res) {
 				if (res) {
 					util.addAlert($scope.alerts,{ type: 'success', msg: 'Started  '+command+'!' });
@@ -81,22 +80,23 @@ PiApp.controller('Landing',
 		// API Calls ---------------------------------------------------------------
 
     appApi.getSerialEnabled(function(en) {
-			$scope.ui.serialEnabled = en;
-			if ($scope.ui.serialEnabled) {
-	      appApi.getSerialDeviceList(function(serialList) {
-					$scope.serialList = serialList;
+			$scope.serialEnabled = en;
+
+			if ($scope.serialEnabled) {
+	      appApi.getSerialDeviceList(function(list) {
+					$scope.serialDeviceList =list;
 		    });
 
-		    appApi.getSerialBaudrateList(function(baudList) {
-					$scope.baudList = baudList;
+		    appApi.getSerialBaudrateList(function(list) {
+					$scope.serialBaudrateList = list;
 		    });
 
-		    appApi.getSerialCommandList(function(commandList) {
-				 $scope.commandList = commandList;
+		    appApi.getSerialCommandList(function(list) {
+				  $scope.serialCommandList = list;
 		    });
 
 		    appApi.getSerialPath(function(path) {
-					$scope.path = path;
+					$scope.serialPath = path;
 		    });
 
 		    appApi.getSerialBaudrate(function(baudrate) {

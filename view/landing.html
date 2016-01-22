@@ -18,7 +18,7 @@
 -->
 <uib-alert class="toast-alert" dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert(alerts,$index)">{{alert.msg}}</uib-alert>
 <!-- GPIO -->
-<div class="panel">
+<div ng-show="gpioPinList.length > 0" class="panel">
   <div class="panel-heading">
     GPIO
   </div>
@@ -70,7 +70,7 @@
   </ul>
 </div>
 <!-- Serial -->
-<div ng-show="ui.serialEnabled" class="panel">
+<div ng-show="serialEnabled && serialCommandList.length > 0" class="panel">
   <div class="panel-heading">
     Serial Commands
   </div>
@@ -80,7 +80,7 @@
         <span class="glyphicon glyphicon glyphicon-list-alt"></span>
         &nbsp;{{cmd.name}}
         <span class="pull-right">
-          <button ng-click="executeSerialCommand(cmd.name)" class="pull-right btn btn-warning ">
+          <button ng-click="executeSerialCommandButton(cmd.name)" class="pull-right btn btn-warning ">
             <span class="glyphicon glyphicon glyphicon-play"></span>
           </button>
         </span>
