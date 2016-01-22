@@ -21,17 +21,17 @@ var PiApp = angular.module('PiApp',
 	'ui.bootstrap',
 	'ui.router',
 	'ngAnimate',
-	'AppApi',
-	'Util'
+	'appApi',
+	'util'
 ]);
 
-PiApp.controller('PiApp',['AppApi','Util','$scope',function(AppApi,Util,$scope) {
+PiApp.controller('PiApp',['appApi','util','$scope',function(appApi,util,$scope) {
 		$scope.alerts = [];
 		$scope.ui = {};
 
-		Util.getSerialData();
+		util.getSerialData();
 
-		AppApi.getDeviceName(function(name) {
+		appApi.getDeviceName(function(name) {
 			$scope.deviceName = name;
 		});
 	}

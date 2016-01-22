@@ -17,33 +17,33 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 PiApp.controller('Landing',
-	['socket','AppApi','Util','$scope',
-	function(socket, AppApi, Util, $scope)
+	['socket','appApi','util','$scope',
+	function(socket, appApi, util, $scope)
 	{
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
 
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
-			Util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {
+			util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {
 				pin.state = args.state;
 			});
 		});
 
     socket.on("ScriptFinished", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
-			Util.getGpioScriptByName($scope.gpioScriptList, args.name,function(script) {
+			util.getGpioScriptByName($scope.gpioScriptList, args.name,function(script) {
 				script.inProgress = false;
-				Util.addAlert({ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
+				util.addAlert({ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
 			});
 		});
 
 		// Client Function Definitions ---------------------------------------------
 
 		$scope.gpioSet = function(pinNum, state) {
-			AppApi.setGpioPinValue(pinNum,state,function(success) {
+			appApi.setGpioPinValue(pinNum,state,function(success) {
 				if (success) {
-					Util.getGpioPinByNumber($scope.gpioPinList,pinNum,function(pin) {
+					util.getGpioPinByNumber($scope.gpioPinList,pinNum,function(pin) {
 						pin.state = state;
 					});
 				}
@@ -51,43 +51,43 @@ PiApp.controller('Landing',
 		};
 
 		$scope.executeSerialCommand = function(command) {
-			AppApi.executeSerialCommand(command,function(res) {
+			appApi.executeSerialCommand(command,function(res) {
 				if (res) {
-					Util.addAlert({ type: 'success', msg: 'Started  '+command+'!' });
+					util.addAlert({ type: 'success', msg: 'Started  '+command+'!' });
 				} else {
-					Util.addAlert({ type: 'danger', msg: 'Error executing '+command+'. Please try again!' });
+					util.addAlert({ type: 'danger', msg: 'Error executing '+command+'. Please try again!' });
 				}
 			});
 		};
 
 		$scope.executeGpioScriptButton = function(scriptName) {
 			console.log("Executing GPIO Script",scriptName);
-			AppApi.executeGpioScript(scriptName,function(resp) {
+			appApi.executeGpioScript(scriptName,function(resp) {
 				if (resp) {
-					Util.addAlert({ type: 'success', msg: "Script '"+scriptName+"' has been started!" });
-					Util.getGpioScriptByName($scope.gpioScriptList, scriptName,function(script){
+					util.addAlert({ type: 'success', msg: "Script '"+scriptName+"' has been started!" });
+					util.getGpioScriptByName($scope.gpioScriptList, scriptName,function(script){
 						script.inProgress = true;
 					});
 				} else {
-					Util.addAlert({ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!' });
+					util.addAlert({ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!' });
 				}
 			});
 		};
 
 		// API Calls ---------------------------------------------------------------
 
-		AppApi.getSerialEnabled(function(en) {
+		appApi.getSerialEnabled(function(en) {
 			$scope.ui.serialEnabled = en;
 			if ($scope.ui.serialEnabled){
 				$scope.getSerialData();
 			}
 		});
 
-		AppApi.getGpioList(function(list) {
+		appApi.getGpioList(function(list) {
 			$scope.gpioPinList = list;
 		});
 
-		AppApi.getGpioScriptsList(function(list) {
+		appApi.getGpioScriptsList(function(list) {
 			$scope.gpioScriptList = list;
 		});
 	}

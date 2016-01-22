@@ -16,42 +16,42 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('System', ['AppApi','Util','$scope' ,
-  function(AppApi,Util, $scope)   {
+PiApp.controller('System', ['appApi','util','$scope' ,
+  function(appApi,util, $scope)   {
     $scope.stats = {};
 
-    AppApi.getDeviceUptime(function(uptime) {
+    appApi.getDeviceUptime(function(uptime) {
       $scope.stats.uptime = uptime;
     });
 
-    AppApi.getDeviceHostname(function(hostname) {
+    appApi.getDeviceHostname(function(hostname) {
       $scope.stats.hostname = hostname;
     });
 
-    AppApi.getDeviceAddress(function(address) {
+    appApi.getDeviceAddress(function(address) {
       $scope.stats.address = address;
     });
 
     $scope.updateButton = function() {
-      Util.addAlert({ type: 'info', msg: 'The application is updating. Please wait...' });
-      AppApi.getApplicationUpdate(function(resp) {
+      util.addAlert({ type: 'info', msg: 'The application is updating. Please wait...' });
+      appApi.getApplicationUpdate(function(resp) {
         if (resp) {
           $scope.stats.updateResult = resp;
-          Util.addAlert({ type: 'success', msg: 'Update successful! Please restart the application.' });
+          util.addAlert({ type: 'success', msg: 'Update successful! Please restart the application.' });
         } else {
-          Util.addAlert({ type: 'danger', msg: 'There was an error updating the application. Please try again' });
+          util.addAlert({ type: 'danger', msg: 'There was an error updating the application. Please try again' });
         }
       });
     };
 
     $scope.restartButton = function() {
-      Util.addAlert({ type: 'info', msg: 'The application is restarting. Please wait...' });
-      AppApi.getApplicationRestart(function(resp){});
+      util.addAlert({ type: 'info', msg: 'The application is restarting. Please wait...' });
+      appApi.getApplicationRestart(function(resp){});
     };
 
     $scope.rebootButton = function() {
-      AppApi.getDeviceReboot(function() {
-        Util.addAlert({ type: 'info', msg: 'The device is rebooting, please wait...' });
+      appApi.getDeviceReboot(function() {
+        util.addAlert({ type: 'info', msg: 'The device is rebooting, please wait...' });
       });
     };
   }

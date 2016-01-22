@@ -1,23 +1,41 @@
-PiApp.factory('Util',['AppApi','$rootScope', function(AppApi,$rootScope){
+/*
+  Ash's RaspberryPI IO Remote.
+  email: ashthompson06@gmail.command
+  repo: https://github.com/BashEdThomps/IoT-RaspberryPI.git
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+PiApp.factory('util',['appApi','$rootScope', function(appApi,$rootScope){
   return {
     getSerialData : function() {
-			AppApi.getSerialList(function(serialList) {
+			appApi.getSerialList(function(serialList) {
 				$rootScope.serialPortList = serialList;
 			});
 
-			AppApi.getSerialBaudrateList(function(baudList) {
+			appApi.getSerialBaudrateList(function(baudList) {
 				$rootScope.baudRateList = baudList;
 			});
 
-			AppApi.getSerialCommandList(function(commandList) {
+			appApi.getSerialCommandList(function(commandList) {
 				$rootScope.serialCommandList = commandList;
 			});
 
-			AppApi.getSerialBaudrate(function(baudrate) {
+			appApi.getSerialBaudrate(function(baudrate) {
 				$rootScope.selectedBaudrate = baudrate;
 			});
 
-			AppApi.getSerialPath(function(path) {
+			appApi.getSerialPath(function(path) {
 				$rootScope.selectedSerialPort = path;
 			});
 		},

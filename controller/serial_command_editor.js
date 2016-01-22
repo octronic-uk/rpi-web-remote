@@ -16,15 +16,15 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('SerialCommandEditor', ['AppApi','Util','$scope',
-function(AppApi,Util, $scope) {
+PiApp.controller('SerialCommandEditor', ['appApi','util','$scope',
+function(appApi,util, $scope) {
     $scope.scriptName = $stateParams.name;
     $scope.ui = {};
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
 
     if ($scope.scriptName != "new") {
-      AppApi.getGpioScript($scope.scriptName, function(script) {
+      appApi.getGpioScript($scope.scriptName, function(script) {
         $scope.script = script;
         console.log("Modifying script:", $scope.script);
       });
@@ -33,7 +33,7 @@ function(AppApi,Util, $scope) {
       console.log("Modifying script:", $scope.script);
     }
 
-    AppApi.getGpioList(function (pinList) {
+    appApi.getGpioList(function (pinList) {
       $scope.gpioPinList = pinList;
       console.log("GPIO Pin list:", $scope.gpioPinList);
     });
@@ -120,33 +120,33 @@ function(AppApi,Util, $scope) {
     };
 
     $scope.deleteButton = function() {
-      AppApi.deleteGpioScript($scope.script.name, function(success) {
+      appApi.deleteGpioScript($scope.script.name, function(success) {
         if (success) {
-          Util.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
+          util.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
           setTimeout(function() {
             $state.go("Settings");
           }, 1500);
         } else {
-          Util.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.script.name });
+          util.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.script.name });
         }
       });
     };
 
     $scope.saveButton = function() {
-      AppApi.setGpioScript($scope.script,function(success1) {
+      appApi.setGpioScript($scope.script,function(success1) {
         if (success1) {
-          AppApi.configSave(function(success2) {
+          appApi.configSave(function(success2) {
             if (success2) {
-              Util.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
+              util.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
               setTimeout(function() {
                 $state.go("Settings");
               }, 1500);
             } else {
-              Util.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
+              util.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
             }
           });
         } else {
-          Util.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
+          util.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
         }
       });
     };

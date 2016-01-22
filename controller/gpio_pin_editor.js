@@ -16,14 +16,14 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('GpioScript', ['AppApi','Util','$scope', function(AppApi, Util, $scope) {
+PiApp.controller('GpioScript', ['appApi','util','$scope', function(appApi, util, $scope) {
     $scope.scriptName = $stateParams.name;
     $scope.ui = {};
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
 
     if ($scope.scriptName != "new") {
-      AppApi.getGpioScript($scope.scriptName, function(script) {
+      appApi.getGpioScript($scope.scriptName, function(script) {
         $scope.script = script;
         console.log("Modifying script:", $scope.script);
       });
@@ -32,7 +32,7 @@ PiApp.controller('GpioScript', ['AppApi','Util','$scope', function(AppApi, Util,
       console.log("Modifying script:", $scope.script);
     }
 
-    AppApi.getGpioList(function (pinList) {
+    appApi.getGpioList(function (pinList) {
       $scope.gpioPinList = pinList;
       console.log("GPIO Pin list:", $scope.gpioPinList);
     });
@@ -119,7 +119,7 @@ PiApp.controller('GpioScript', ['AppApi','Util','$scope', function(AppApi, Util,
     };
 
     $scope.deleteButton = function() {
-      AppApi.deleteGpioScript($scope.script.name, function(success) {
+      appApi.deleteGpioScript($scope.script.name, function(success) {
         if (success) {
           $scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
           setTimeout(function() {
@@ -132,9 +132,9 @@ PiApp.controller('GpioScript', ['AppApi','Util','$scope', function(AppApi, Util,
     };
 
     $scope.saveButton = function() {
-      AppApi.setGpioScript($scope.script,function(success1) {
+      appApi.setGpioScript($scope.script,function(success1) {
         if (success1) {
-          AppApi.configSave(function(success2) {
+          appApi.configSave(function(success2) {
             if (success2) {
               $scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
               setTimeout(function() {
