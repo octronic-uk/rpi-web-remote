@@ -17,135 +17,55 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 PiApp.controller('GpioPinEditor', ['appApi','util','$scope', function(appApi, util, $scope) {
-    $scope.scriptName = $stateParams.name;
+    $scope.pinName = $stateParams.name;
     $scope.ui = {};
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
 
-    if ($scope.scriptName != "new") {
-      appApi.getGpioScript($scope.scriptName, function(script) {
-        $scope.script = script;
-        console.log("Modifying script:", $scope.script);
+    if ($scope.pinName != "new") {
+      appApi.getGpioPin($scope.pinName, function(pin) {
+        $scope.pin = pin;
+        console.log("Modifying pin:", $scope.pin);
       });
     } else {
-      $scope.script = {name:"New Script", do: [], while: [], then: []};
-      console.log("Modifying script:", $scope.script);
+      $scope.pin = {
+        num: 0,
+        name: "GPIO Pin",
+        io: "out",
+        state: 0,
+        hidden: 0
+      };
+      console.log("Modifying pin:", $scope.pin);
     }
 
-    appApi.getGpioList(function (pinList) {
-      $scope.gpioPinList = pinList;
-      console.log("GPIO Pin list:", $scope.gpioPinList);
-    });
-
-    $scope.addDoButton = function() {
-      $scope.script.do.push({pin: $scope.ui.addDoPin, state: $scope.ui.addDoState});
-    };
-
-    $scope.removeDoButton = function() {
-      $scope.getDoByPin($scope.ui.removeDoName,function(obj) {
-        var index = $scope.script.do.indexOf(obj);
-        $scope.script.do.splice(index,1);
-      });
-    };
-
-    $scope.getDoByPin = function(name,callback) {
-      var i = 0;
-      var nDo = $scope.script.do.length;
-      var next = null;
-      var target = null;
-
-      for (i = 0; i < nDo; i++) {
-        next = $scope.script.do[i];
-        if (next.pin == name) {
-          target = next;
-          break;
-        }
-      }
-      callback(target);
-    };
-
-    $scope.addWhileButton = function() {
-      $scope.script.while.push({pin: $scope.ui.addWhilePin, state: $scope.ui.addWhileState});
-    };
-
-    $scope.removeWhileButton = function() {
-      $scope.getWhileByPin($scope.ui.removeWhileName,function(obj) {
-        var index = $scope.script.while.indexOf(obj);
-        $scope.script.while.splice(index,1);
-      });
-    };
-
-    $scope.getWhileByPin = function(name,callback) {
-      var i = 0;
-      var nWhile = $scope.script.while.length;
-      var next = null;
-      var target = null;
-
-      for (i = 0; i < nWhile; i++) {
-        next = $scope.script.while[i];
-        if (next.pin == name) {
-          target = next;
-          break;
-        }
-      }
-      callback(target);
-    };
-
-    $scope.addThenButton = function() {
-      $scope.script.then.push({pin: $scope.ui.addThenPin, state: $scope.ui.addThenState});
-    };
-
-    $scope.removeThenButton = function() {
-      $scope.getThenByPin($scope.ui.removeThenName,function(obj) {
-        var index = $scope.script.then.indexOf(obj);
-        $scope.script.then.splice(index,1);
-      });
-    };
-
-    $scope.getThenByPin = function(name,callback) {
-      var i = 0;
-      var nThen = $scope.script.then.length;
-      var next = null;
-      var target = null;
-
-      for (i = 0; i < nThen; i++) {
-        next = $scope.script.then[i];
-        if (next.pin == name) {
-          target = next;
-          break;
-        }
-      }
-      callback(target);
-    };
-
     $scope.deleteButton = function() {
-      appApi.deleteGpioScript($scope.script.name, function(success) {
+      appApi.deleteGpioPin($scope.pin.name, function(success) {
         if (success) {
-          $scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
+          $scope.addAlert({ type: 'success', msg: 'Pin '+$scope.pin.name+' has been deleted!' });
           setTimeout(function() {
             $state.go("Settings");
           }, 1500);
         } else {
-          $scope.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.script.name });
+          $scope.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.pin.name });
         }
       });
     };
 
     $scope.saveButton = function() {
-      appApi.setGpioScript($scope.script,function(success1) {
+      appApi.addGpioPin($scope.pin,function(success1) {
         if (success1) {
           appApi.configSave(function(success2) {
             if (success2) {
-              $scope.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
+              $scope.addAlert({ type: 'success', msg: 'Pin '+$scope.script.name+' has been saved!' });
               setTimeout(function() {
                 $state.go("Settings");
               }, 1500);
             } else {
-              $scope.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
+              $scope.addAlert({ type: 'danger', msg: 'Error saving '+$scope.pin.name });
             }
           });
         } else {
-          $scope.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
+          $scope.addAlert({ type: 'danger', msg: 'Error saving '+$scope.pin.name });
         }
       });
     };

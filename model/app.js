@@ -281,7 +281,7 @@ var initRoutes = function(callback) {
   });
 
   // Remove a pin from the config
-  app.put("/api/gpio/pins/remove",jsonParser,function(req,res) {
+  app.delete("/api/gpio/pins/:pin",jsonParser,function(req,res) {
     var pin = req.body.pin;
     getGpioPinByName(pin, function(pinObj) {
       if (pinObj !== null) {

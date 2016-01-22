@@ -98,14 +98,11 @@ PiApp.factory('appApi',['$http',function($http)
 			});
 		},
 
-		removeGpioPin : function(pinNum,callback)
+		deleteGpioPin : function(pinNum,callback)
 		{
 			$http({
-				method: "put",
-				url: "/api/gpio/pins/remove",
-				data: {
-					pin: pinNum
-				}
+				method: "DELETE",
+				url: "/api/gpio/pins/:pinNum",
 			}).then(function successCallback(res)
 			{
 				callback(true);
@@ -115,17 +112,17 @@ PiApp.factory('appApi',['$http',function($http)
 			});
 		},
 
-		addGpioPin : function(name,num,io,state,hidden,callback)
+		addGpioPin : function(pin,callback)
 		{
 			$http({
 				method: "put",
 				url: "/api/gpio/pins/add",
 				data: {
-					name:name,
-					num:num,
-					io:io,
-					state:state,
-					hidden:hidden
+					name: pin.name,
+					num: pin.num,
+					io: pin.io,
+					state: pin.state,
+					hidden: pin.hidden
 				}
 			}).then(function successCallback(res)
 			{
