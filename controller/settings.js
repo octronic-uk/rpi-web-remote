@@ -197,8 +197,6 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
 		$scope.serialEnabledCheckboxChanged = function() {
 			appApi.setSerialEnabled($scope.serialEnabled,function(resp) {
-        appApi.getSerialData($scope.serialData);
-
 				if ($scope.serialEnabled) {
 					util.addAlert($scope.alerts,{ type: 'success', msg: 'Serial has been enabled.' });
 				} else {
@@ -231,8 +229,6 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		appApi.getSerialEnabled(function(en) {
 			$scope.serialEnabled = en;
 		});
-
-		appApi.getSerialData($scope.serialData);
 
 		appApi.getGpioPinList(function(list) {
 			$scope.pinList = list;
