@@ -95,7 +95,7 @@ PiApp.controller('Landing',
 		    });
 
 		    appApi.getSerialCommandList(function(commandList) {
-				 $scop.commandList = commandList;
+				 $scope.commandList = commandList;
 		    });
 
 		    appApi.getSerialPath(function(path) {
