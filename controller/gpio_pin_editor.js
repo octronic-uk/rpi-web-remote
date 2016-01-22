@@ -22,6 +22,11 @@ PiApp.controller('GpioPinEditor', ['appApi','util','$scope', '$state', '$statePa
     $scope.ui = {};
     $scope.alerts = [];
 
+    $scope.closeAlert = function(index)
+    {
+      util.closeAlert($scope.alerts,indexl);  
+    };
+
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
 
     if ($scope.pinName != "new") {

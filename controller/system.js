@@ -19,6 +19,12 @@
 PiApp.controller('System', ['appApi','util','$scope' ,
   function(appApi,util, $scope)   {
     $scope.stats = {};
+    $scope.alerts = [];
+
+    $scope.closeAlert = function(index)
+    {
+      util.closeAlert($scope.alerts,indexl);  
+    };
 
     appApi.getDeviceUptime(function(uptime) {
       $scope.stats.uptime = uptime;

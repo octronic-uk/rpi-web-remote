@@ -26,6 +26,11 @@ PiApp.controller('Landing',
 		$scope.ui = {};
 		$scope.serialEnabled = false;
 
+    $scope.closeAlert = function(index)
+    {
+      util.closeAlert($scope.alerts,indexl);  
+    };
+
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
 			util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {

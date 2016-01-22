@@ -21,6 +21,11 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		$scope.alerts = [];
 		$scope.serialEnabled = false;
 
+    $scope.closeAlert = function(index)
+    {
+      util.closeAlert($scope.alerts,indexl);  
+    };
+
 		$scope.getGpioPinEditorUrl = function(name)
 		{
 			util.convertSpacesToUnderscores(name,function(newName){

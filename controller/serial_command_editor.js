@@ -23,6 +23,11 @@ function(appApi,util, $scope, $state, $stateParams) {
     $scope.alerts = [];
     $scope.ui = {};
 
+    $scope.closeAlert = function(index)
+    {
+      util.closeAlert($scope.alerts,indexl);  
+    };
+
     if ($scope.cmdName != "new") {
       appApi.getSerialCommand($scope.cmdName, function(script) {
         $scope.cmd = cmd;
