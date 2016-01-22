@@ -54,7 +54,7 @@ PiApp.factory('util',['appApi','$rootScope', function(appApi,$rootScope){
     // Get the index of a command by name
 		getSerialCommandIndexByName : function(list, name,callback)
 		{
-			this.getSerialCommandByName(list name, function(cmd)
+			this.getSerialCommandByName(list, name, function(cmd)
 		  {
 				callback(list, serialCommandList.indexOf(cmd));
 			});
