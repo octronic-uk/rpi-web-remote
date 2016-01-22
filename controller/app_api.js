@@ -84,7 +84,7 @@ PiApp.factory('appApi',['$http',function($http)
 			});
 		},
 
-		getGpioList : function(callback)
+		getGpioPinList : function(callback)
 		{
 			$http({
 				method: "GET",
