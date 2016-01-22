@@ -25,7 +25,7 @@ function(appApi,util, $scope, $state, $stateParams) {
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,index);  
+      util.closeAlert($scope.alerts,index);
     };
 
     if ($scope.cmdName != "new") {
@@ -73,19 +73,19 @@ function(appApi,util, $scope, $state, $stateParams) {
     // API Calls -----------------------------------------------------------------
 
     appApi.getSerialDeviceList(function(serialList) {
-  		$scope.serialList = serialList;
+  		$scope.serialDeviceList = serialList;
     });
 
     appApi.getSerialBaudrateList(function(baudList) {
-  		$scope.baudList = baudList;
+  		$scope.serialBaudrateList = baudList;
     });
 
     appApi.getSerialCommandList(function(commandList) {
-  	  $scope.commandList = commandList;
+  	  $scope.serialCommandList = commandList;
     });
 
     appApi.getSerialPath(function(path) {
-  	  $scope.path = path;
+  	  $scope.serialDevicePath = path;
     });
 
     appApi.getSerialBaudrate(function(baudrate) {

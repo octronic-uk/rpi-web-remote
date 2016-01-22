@@ -56,7 +56,7 @@
         </div>
       </div>
     </li>
-    <li ng-repeat="pin in pinList" class="list-group-item clearfix">
+    <li ng-repeat="pin in gpioPinList" class="list-group-item clearfix">
       <div class="row">
         <div class="col-sm-2">
           <h5>{{pin.num}}</h5>
@@ -145,14 +145,14 @@
         <label for="select-port">Serial Port</label>
         <select id="select-port" class="form-control" ng-model="selectedSerialPort">
           <option value="">Select Path</option>
-          <option ng-repeat="port in serialPortList" value="{{port}}">{{port}}</option>
+          <option ng-repeat="port in serialDeviceList" value="{{port}}">{{port}}</option>
         </select>
       </div>
       <div ng-show="serialEnabled" class="form-group">
         <label for="select-baud">Baud Rate</label>
         <select id="select-baud" class="form-control" ng-model="selectedBaudrate">
           <option value="">Select Baud Rate</option>
-          <option ng-repeat="baud in baudRateList" value="{{baud}}">{{baud}}</option>
+          <option ng-repeat="baud in serialBaudrateList" value="{{baud}}">{{baud}}</option>
         </select>
       </div>
     </form>

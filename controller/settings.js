@@ -23,7 +23,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,index);  
+      util.closeAlert($scope.alerts,index);
     };
 
 		$scope.getGpioPinEditorUrl = function(name)
@@ -170,19 +170,19 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
 		// API Calls ---------------------------------------------------------------
     appApi.getSerialDeviceList(function(serialList) {
-			$scope.serialList = serialList;
+			$scope.serialDeviceList = serialList;
     });
 
     appApi.getSerialBaudrateList(function(baudList) {
-			$scope.baudList = baudList;
+			$scope.serialBaudrateList = baudList;
     });
 
     appApi.getSerialCommandList(function(commandList) {
-		 $scope.commandList = commandList;
+		 $scope.serialCommandList = commandList;
     });
 
     appApi.getSerialPath(function(path) {
-			$scope.path = path;
+			$scope.serialPath = path;
     });
 
     appApi.getSerialBaudrate(function(baudrate) {
@@ -194,7 +194,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		});
 
 		appApi.getGpioPinList(function(list) {
-			$scope.pinList = list;
+			$scope.gpioPinList = list;
 		});
 
 		appApi.getGpioScriptList(function(list) {
