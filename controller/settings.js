@@ -22,17 +22,23 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
 		$scope.getGpioPinEditorUrl = function(name)
 		{
-			return "#settings/gpio_pin_editor/"+name;
+			util.convertSpacesToUnderscores(name,function(newName){
+			  return "#settings/gpio_pin_editor/"+newName;
+			});
 		};
 
 		$scope.getGpioScriptEditorUrl = function(name)
 		{
-			return "#settings/gpio_script_editor/"+name;
+			util.convertSpacesToUnderscores(name,function(newName){
+			  return "#settings/gpio_script_editor/"+newName;
+			});
 		};
 
 		$scope.getSerialCommandEditorUrl = function(name)
 		{
-			return "#settings/serial_command_editor/"+name;
+			util.convertSpacesToUnderscores(name,function(newName){
+			  return "#settings/serial_command_editor/"+name;
+			});
 		};
 
 		$scope.addSerialCommand = function()

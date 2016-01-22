@@ -16,30 +16,13 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.factory('util',['appApi','$rootScope', function(appApi,$rootScope){
+PiApp.factory('util',['$rootScope', function($rootScope){
   return {
-    getSerialData : function() {
-			appApi.getSerialList(function(serialList) {
-				$rootScope.serialPortList = serialList;
-			});
-
-			appApi.getSerialBaudrateList(function(baudList) {
-				$rootScope.baudRateList = baudList;
-			});
-
-			appApi.getSerialCommandList(function(commandList) {
-				$rootScope.serialCommandList = commandList;
-			});
-
-			appApi.getSerialBaudrate(function(baudrate) {
-				$rootScope.selectedBaudrate = baudrate;
-			});
-
-			appApi.getSerialPath(function(path) {
-				$rootScope.selectedSerialPort = path;
-			});
+    convertSpacesToUnderscores : function(name,callback)
+		{
+			callback((name.indexOf(" ") > 0 ? name.split(" ").join("_") : name));
 		},
-
+    
     getGpioPinByNumber : function(pins,i,callback) {
 			var target = null;
 			for (var j = 0; j < pins.length; j++) {

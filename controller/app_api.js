@@ -17,9 +17,31 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-PiApp.factory('appApi',['$http',function($http)
+PiApp.factory('appApi',['util','$http',function(util, $http)
 {
   return {
+    getSerialData : function() {
+			appApi.getSerialList(function(serialList) {
+				$rootScope.serialPortList = serialList;
+			});
+
+			appApi.getSerialBaudrateList(function(baudList) {
+				$rootScope.baudRateList = baudList;
+			});
+
+			appApi.getSerialCommandList(function(commandList) {
+				$rootScope.serialCommandList = commandList;
+			});
+
+			appApi.getSerialBaudrate(function(baudrate) {
+				$rootScope.selectedBaudrate = baudrate;
+			});
+
+			appApi.getSerialPath(function(path) {
+				$rootScope.selectedSerialPort = path;
+			});
+		},
+
     addSerialCommand : function(name,cmd,callback)
 		{
 			$http({
@@ -421,7 +443,7 @@ PiApp.factory('appApi',['$http',function($http)
 
 		setGpioScript : function(script,callback)
 		{
-			convertSpacesToUnderscores(script.name,function(name)
+			util.convertSpacesToUnderscores(script.name,function(name)
 			{
 				$http({
 					method: "PUT",
@@ -441,7 +463,7 @@ PiApp.factory('appApi',['$http',function($http)
 
 		deleteGpioScript : function(scriptName,callback)
 		{
-			convertSpacesToUnderscores(scriptName, function(name)
+			util.convertSpacesToUnderscores(scriptName, function(name)
 			{
 				$http({
 					method: "PUT",
@@ -454,11 +476,6 @@ PiApp.factory('appApi',['$http',function($http)
 					callback(false);
 				});
 			});
-		},
-
-		convertSpacesToUnderscores : function(name,callback)
-		{
-			callback((name.indexOf(" ") > 0 ? name.split(" ").join("_") : name));
 		},
 
 		getGpioScript : function(name, callback)
