@@ -28,7 +28,7 @@ PiApp.controller('Landing',
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,index);  
+      util.closeAlert($scope.alerts,index);
     };
 
 	  socket.on("StateChanged", function(args) {
@@ -88,25 +88,9 @@ PiApp.controller('Landing',
 			$scope.serialEnabled = en;
 
 			if ($scope.serialEnabled) {
-	      appApi.getSerialDeviceList(function(list) {
-					$scope.serialDeviceList =list;
-		    });
-
-		    appApi.getSerialBaudrateList(function(list) {
-					$scope.serialBaudrateList = list;
-		    });
-
 		    appApi.getSerialCommandList(function(list) {
 				  $scope.serialCommandList = list;
 		    });
-
-		    appApi.getSerialPath(function(path) {
-					$scope.serialPath = path;
-		    });
-
-		    appApi.getSerialBaudrate(function(baudrate) {
-				  $scope.selectedBaudrate = baudrate;
-				});
 			}
 		});
 
