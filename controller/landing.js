@@ -82,7 +82,13 @@ PiApp.controller('Landing',
 		appApi.getSerialEnabled(function(en) {
 			$scope.ui.serialEnabled = en;
 			if ($scope.ui.serialEnabled){
-				appApi.getSerialData();
+				appApi.getSerialData(function(serialData){
+				  $scope.serialPortList = serialData.serialPortList;
+					$scope.baudRateList = serialData.baudRateList;
+					$scope.serialCommandList = serialData.serialCommandList;
+					$scope.selectedBaudrate = serialData.selectedBaudrate;
+					$scope.selectedSerialPort = serialData.selectedSerialPort;
+				});
 			}
 		});
 

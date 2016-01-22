@@ -22,7 +22,7 @@ PiApp.factory('util',['$rootScope', function($rootScope){
 		{
 			callback((name.indexOf(" ") > 0 ? name.split(" ").join("_") : name));
 		},
-    
+
     getGpioPinByNumber : function(pins,i,callback) {
 			var target = null;
 			for (var j = 0; j < pins.length; j++) {
