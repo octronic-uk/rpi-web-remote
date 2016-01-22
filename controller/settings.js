@@ -22,9 +22,19 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
 	  // Client function definitions ---------------------------------------------
 
+		$scope.getGpioPinEditorUrl = function(name)
+		{
+			return "#settings/gpio_pin_editor/"+name;
+		};
+
 		$scope.getGpioScriptEditorUrl = function(name)
 		{
 			return "#settings/gpio_script_editor/"+name;
+		};
+
+		$scope.getSerialCommandEditorUrl = function(name)
+		{
+			return "#settings/serial_command_editor/"+name;
 		};
 
 		$scope.addSerialCommand = function()
@@ -184,10 +194,10 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		$scope.serialEnabledCheckboxChanged = function() {
 			appApi.setSerialEnabled($scope.ui.serialEnabled,function(resp) {
 				if ($scope.ui.serialEnabled) {
-					util.getDeviceSerialData();
+					util.getSerialData();
 					util.addAlert({ type: 'success', msg: 'Serial has been enabled.' });
 				} else {
-					util.getDeviceSerialData();
+					util.geSerialData();
 					util.addAlert({ type: 'warning', msg: 'Serial has been disabled.' });
 				}
 			});
