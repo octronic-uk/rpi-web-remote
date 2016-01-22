@@ -201,12 +201,12 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
 		util.getSerialData();
 
-		appApi.getGpioList(function(list) {
+		appApi.getGpioPinList(function(list) {
 			$scope.pinList = list;
 		});
 
-		appApi.getGpioScriptsList(function(scriptList) {
-			$scope.gpioScriptList = scriptList;
+		appApi.getGpioScriptList(function(list) {
+			$scope.gpioScriptList = list;
 		});
 	}
 ]);

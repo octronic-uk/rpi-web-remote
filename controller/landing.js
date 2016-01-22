@@ -26,15 +26,17 @@ PiApp.controller('Landing',
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
 			util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {
-				pin.state = args.state;
+				if(pin) pin.state = args.state;
 			});
 		});
 
     socket.on("ScriptFinished", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
 			util.getGpioScriptByName($scope.gpioScriptList, args.name,function(script) {
-				script.inProgress = false;
-				util.addAlert({ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
+				if(script) {
+					script.inProgress = false;
+				  util.addAlert({ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
+				}
 			});
 		});
 
