@@ -18,5 +18,8 @@
 */
 var PiApp = angular.module('PiApp',['ui.bootstrap','ui.router','ngAnimate',]);
 
-PiApp.controller('PiApp',['$scope',function($scope) {
+PiApp.controller('PiApp',['appApi','$scope',function(appApi, $scope) {
+  appApi.getDeviceName(function(name) {
+		$scope.deviceName = name;
+	});
 }]);

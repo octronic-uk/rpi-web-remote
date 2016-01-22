@@ -23,6 +23,7 @@ PiApp.controller('Landing',
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
     $scope.alerts = {};
+		$scope.ui = {};
 
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
@@ -79,14 +80,10 @@ PiApp.controller('Landing',
 
 		// API Calls ---------------------------------------------------------------
 
-    appApi.getDeviceName(function(name) {
-			$scope.deviceName = name;
-		});
-
-		appApi.getSerialEnabled(function(en) {
-			$scope.serialEnabled = en;
-			if ($scope.serialEnabled) {
-	      appApi.getSerialList(function(serialList) {
+    appApi.getSerialEnabled(function(en) {
+			$scope.ui.serialEnabled = en;
+			if ($scope.ui.serialEnabled) {
+	      appApi.getSerialDeviceList(function(serialList) {
 					$scope.serialList = serialList;
 		    });
 
@@ -104,10 +101,6 @@ PiApp.controller('Landing',
 
 		    appApi.getSerialBaudrate(function(baudrate) {
 				  $scope.selectedBaudrate = baudrate;
-				});
-
-				appApi.getSerialEnabled(function(en) {
-					$scope.serialEnabled = en;
 				});
 			}
 		});

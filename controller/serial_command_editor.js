@@ -21,6 +21,7 @@ function(appApi,util, $scope, $state, $stateParams) {
     $scope.cmdName = $stateParams.name;
     $scope.REMOVE_CMD_DEFAULT = "Select Command";
     $scope.alerts = {};
+    $scope.ui = {};
 
     if ($scope.cmdName != "new") {
       appApi.getSerialCommand($scope.cmdName, function(script) {
@@ -66,7 +67,7 @@ function(appApi,util, $scope, $state, $stateParams) {
 
     // API Calls -----------------------------------------------------------------
 
-    appApi.getSerialList(function(serialList) {
+    appApi.getSerialDeviceList(function(serialList) {
   		$scope.serialList = serialList;
     });
 

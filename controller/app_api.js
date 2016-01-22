@@ -262,7 +262,7 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		getSerialList : function(callback)
+		getSerialDeviceList : function(callback)
 		{
 			$http({
 				method: "GET",
