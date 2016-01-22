@@ -138,12 +138,12 @@
     <form role="form">
       <div class="form-group">
         <div class="checkbox">
-          <label><input type="checkbox"  ng-change="ui.serialEnabledCheckboxChanged()" ng-model="serialEnabled" value="">Enable Serial</label>
+          <label><input type="checkbox"  ng-change="serialEnabledCheckboxChanged()" ng-model="serialEnabled" value="">Enable Serial</label>
         </div>
       </div>
-      <div ng-show="ui.serialEnabled" class="form-group">
+      <div ng-show="serialEnabled" class="form-group">
         <label for="select-port">Serial Port</label>
-        <select id="select-port" class="form-control" ng-model="selectedSerialPort">
+        <select id="select-port" class="form-control" ng-model="selectedSerialDevice">
           <option value="">Select Path</option>
           <option ng-repeat="port in serialDeviceList" value="{{port}}">{{port}}</option>
         </select>
