@@ -71,7 +71,19 @@
           <h5><small>{{pin.hidden}}</small></h5>
         </div>
         <div class="col-sm-2">
-            <a class="pull-right btn btn-primary" href="{{getGpioScriptPinUrl(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+            <a class="pull-right btn btn-primary" href="{{getGpioPinEditorUrl(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item clearfix">
+      <div class="row">
+        <div class="col-sm-6">
+          <h5>Add Pin</h5>
+        </div>
+        <div class="col-sm-6">
+          <a id="new_script" href="#/settings/gpio_pin_editor/new" class="pull-right btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+          </a>
         </div>
       </div>
     </li>
@@ -106,7 +118,7 @@
     <li class="list-group-item clearfix">
       <div class="row">
         <div class="col-sm-6">
-          <h5>New Script</h5>
+          <h5>Add Script</h5>
         </div>
         <div class="col-sm-6">
           <a id="new_script" href="#/settings/gpio_script_editor/new" class="pull-right btn btn-success">
@@ -169,6 +181,18 @@
         </div>
         <div class="col-sm-4">
           <a class="pull-right btn btn-primary" href="{{getSerialCommandEditorUrl(cmd.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item clearfix">
+      <div class="row">
+        <div class="col-sm-6">
+          <h5>Add Command</h5>
+        </div>
+        <div class="col-sm-6">
+          <a id="new_script" href="#/settings/serial_command_editor/new" class="pull-right btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+          </a>
         </div>
       </div>
     </li>

@@ -19,9 +19,6 @@
 PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $scope) {
 		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
 
-
-	  // Client function definitions ---------------------------------------------
-
 		$scope.getGpioPinEditorUrl = function(name)
 		{
 			return "#settings/gpio_pin_editor/"+name;

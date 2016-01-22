@@ -33,7 +33,7 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
       console.log("Modifying script:", $scope.script);
     }
 
-    appApi.getGpioList(function (pinList) {
+    appApi.getGpioPinList(function (pinList) {
       $scope.gpioPinList = pinList;
       console.log("GPIO Pin list:", $scope.gpioPinList);
     });
