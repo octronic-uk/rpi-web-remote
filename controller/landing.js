@@ -22,7 +22,8 @@ PiApp.controller('Landing',
 	{
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
-
+    $scope.alerts = {};
+		
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
 			util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {

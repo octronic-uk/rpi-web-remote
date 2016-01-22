@@ -21,6 +21,7 @@ function(appApi,util, $scope, $state) {
     $scope.cmdName = $stateParams.name;
     $scope.REMOVE_CMD_DEFAULT = "Select Command";
     $scope.ui = {};
+    $scope.alerts = {};
 
     if ($scope.cmdName != "new") {
       appApi.getSerialCommand($scope.cmdName, function(script) {
