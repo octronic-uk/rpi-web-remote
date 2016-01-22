@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.factory('util',['$rootScope', function($rootScope){
+PiApp.factory('util',function(){
   return {
     convertSpacesToUnderscores : function(name,callback)
 		{
@@ -89,12 +89,12 @@ PiApp.factory('util',['$rootScope', function($rootScope){
 		  callback(target);
 		},
 
-		addAlert : function(alert) {
-			$rootScope.alerts.push(alert);
+		addAlert : function(alertList,alert) {
+			alertList.push(alert);
 		},
 
-		closeAlert : function(index) {
-			$rootScope.alerts.splice(index, 1);
+		closeAlert : function(alertList,index) {
+			alertList.splice(index, 1);
 		},
   };
-}]);
+});

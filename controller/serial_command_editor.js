@@ -36,12 +36,12 @@ function(appApi,util, $scope, $state, $stateParams) {
     $scope.deleteButton = function() {
       appApi.deleteSerialCommand($scope.cmd.name, function(success) {
         if (success) {
-          util.addAlert({ type: 'success', msg: 'Command '+$scope.cmd.name+' has been deleted!' });
+          util.addAlert($scope.alerts,{ type: 'success', msg: 'Command '+$scope.cmd.name+' has been deleted!' });
           setTimeout(function() {
             $state.go("Settings");
           }, 1500);
         } else {
-          util.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.cmd.name });
+          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error deleting '+$scope.cmd.name });
         }
       });
     };
@@ -51,16 +51,16 @@ function(appApi,util, $scope, $state, $stateParams) {
         if (success1) {
           appApi.configSave(function(success2) {
             if (success2) {
-              util.addAlert({ type: 'success', msg: 'Command '+$scope.cmd.name+' has been saved!' });
+              util.addAlert($scope.alerts,{ type: 'success', msg: 'Command '+$scope.cmd.name+' has been saved!' });
               setTimeout(function() {
                 $state.go("Settings");
               }, 1500);
             } else {
-              util.addAlert({ type: 'danger', msg: 'Error saving '+$scope.cmd.name });
+              util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.cmd.name });
             }
           });
         } else {
-          util.addAlert({ type: 'danger', msg: 'Error saving '+$scope.cmd.name });
+          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.cmd.name });
         }
       });
     };

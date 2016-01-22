@@ -123,12 +123,12 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
     $scope.deleteButton = function() {
       appApi.deleteGpioScript($scope.script.name, function(success) {
         if (success) {
-          util.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
+          util.addAlert($scope.alerts,{ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
           setTimeout(function() {
             $state.go("Settings");
           }, 1500);
         } else {
-          util.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.script.name });
+          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error deleting '+$scope.script.name });
         }
       });
     };
@@ -138,16 +138,16 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
         if (success1) {
           appApi.configSave(function(success2) {
             if (success2) {
-              util.addAlert({ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
+              util.addAlert($scope.alerts,{ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
               setTimeout(function() {
                 $state.go("Settings");
               }, 1500);
             } else {
-              util.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
+              util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.script.name });
             }
           });
         } else {
-          util.addAlert({ type: 'danger', msg: 'Error saving '+$scope.script.name });
+          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.script.name });
         }
       });
     };

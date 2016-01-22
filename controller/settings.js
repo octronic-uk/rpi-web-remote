@@ -19,6 +19,7 @@
 PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $scope) {
 		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
 		$scope.alerts = {};
+		$scope.serialData = {};
 
 		$scope.getGpioPinEditorUrl = function(name)
 		{
@@ -51,12 +52,12 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 				if (res)
 				{
 					$scope.serialCommandList.push({name: name, cmd: cmd});
-					util.addAlert( { type: 'success', msg: 'Added command \"' + name + '\"' });
+					util.addAlert($scope.alerts, { type: 'success', msg: 'Added command \"' + name + '\"' });
 				}
 				else
 				{
 					console.log("Error adding serial command",name,cmd);
-				  util.addAlert( { type: 'danger', msg: 'Error adding command \"' + name + '\"' });
+				  util.addAlert($scope.alerts, { type: 'danger', msg: 'Error adding command \"' + name + '\"' });
 				}
 			});
 		};
@@ -80,13 +81,13 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 								console.log("Cannot remove, index of ",name," command not found");
 							}
 						});
-						util.addAlert({ type: 'success', msg: 'Removed command \"' + name + '\"' });
+						util.addAlert($scope.alerts,{ type: 'success', msg: 'Removed command \"' + name + '\"' });
 						$scope.serialCommandRemove = $scope.REMOVE_CMD_DEFAULT;
 					}
 					else
 					{
 						console.log("Error removing serial command",name);
-					  util.addAlert({ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
+					  util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
 					}
 			});
 		};
@@ -114,40 +115,40 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 													if (result)
 													{
 														console.log("Settings saved successfuly");
-														util.addAlert({ type: 'success', msg: 'Settings have been saved!' });
+														util.addAlert($scope.alerts,{ type: 'success', msg: 'Settings have been saved!' });
 													}
 													else
 												  {
 													 console.log("Error restarting serial");
-													 util.addAlert({ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
+													 util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
 													}
 												});
 											}
 											else
 											{
 												console.log("Error saving settings");
-												util.addAlert({ type: 'danger', msg: 'Error saving Settings. Please try again!' });
+												util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving Settings. Please try again!' });
 											}
 									});
 								}
 								else
 								{
 									console.log("Error setting device name");
-									util.addAlert({ type: 'danger', msg: 'Error setting device name. Please try again!' });
+									util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error setting device name. Please try again!' });
 								}
 							});
 						}
 						else
 						{
 							console.log("Error setting serial device baudrate");
-							util.addAlert({ type: 'danger', msg: 'Error saving baudrate. Please try again!' });
+							util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving baudrate. Please try again!' });
 						}
 					});
 				}
 				else
 				{
 					console.log("Error setting serial device path");
-					util.addAlert({ type: 'danger', msg: 'Error saving device path. Please try again!' });
+					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving device path. Please try again!' });
 				}
 			});
 		};
@@ -164,7 +165,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
 			appApi.addGpioPin(name,num,io,state,hidden,function(res) {
 				if (res) {
-					util.addAlert({ type: 'success', msg: 'Pin '+name+' added successfuly.' });
+					util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+name+' added successfuly.' });
 					$scope.pinList.push({
 						name:name,
 						num:num,
@@ -173,7 +174,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 						hidden:hidden
 					});
 				} else {
-					util.addAlert({ type: 'danger', msg: 'Error adding pin '+name+'. Please try again!.' });
+					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error adding pin '+name+'. Please try again!.' });
 				}
 			});
 		};
@@ -184,31 +185,25 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 			console.log("Removing gpio pin",pin);
 			appApi.removeGpioPin(pin,function(res) {
 				if (res) {
-					util.addAlert({ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
+					util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+pin+' removed successfuly.' });
 					util.getPinByName($scope.pinList,pin,function(pinObj) {
 						var index = $scope.pinList.indexOf(pinObj);
 						$scope.pinList.splice(index,1);
 					});
 				} else {
-					util.addAlert({ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
+					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error removing pin '+pin+'. Please try again!.' });
 				}
 			});
 		};
 
 		$scope.serialEnabledCheckboxChanged = function() {
 			appApi.setSerialEnabled($scope.ui.serialEnabled,function(resp) {
-        appApi.getSerialData(function(serialData){
-			    $scope.serialPortList = serialData.serialPortList;
-			    $scope.baudRateList = serialData.baudRateList;
-			    $scope.serialCommandList = serialData.serialCommandList;
-			    $scope.selectedBaudrate = serialData.selectedBaudrate;
-			    $scope.selectedSerialPort = serialData.selectedSerialPort;
-		    });
+        appApi.getSerialData($scope.serialData);
 
 				if ($scope.ui.serialEnabled) {
-					util.addAlert({ type: 'success', msg: 'Serial has been enabled.' });
+					util.addAlert($scope.alerts,{ type: 'success', msg: 'Serial has been enabled.' });
 				} else {
-					util.addAlert({ type: 'warning', msg: 'Serial has been disabled.' });
+					util.addAlert($scope.alerts,{ type: 'warning', msg: 'Serial has been disabled.' });
 				}
 			});
 		};
@@ -219,13 +214,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 			$scope.ui.serialEnabled = en;
 		});
 
-		appApi.getSerialData(function(serialData){
-			$scope.serialPortList = serialData.serialPortList;
-			$scope.baudRateList = serialData.baudRateList;
-			$scope.serialCommandList = serialData.serialCommandList;
-			$scope.selectedBaudrate = serialData.selectedBaudrate;
-			$scope.selectedSerialPort = serialData.selectedSerialPort;
-		});
+		appApi.getSerialData($scope.serialData);
 
 		appApi.getGpioPinList(function(list) {
 			$scope.pinList = list;

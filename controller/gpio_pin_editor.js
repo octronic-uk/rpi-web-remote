@@ -43,12 +43,12 @@ PiApp.controller('GpioPinEditor', ['appApi','util','$scope', '$state', '$statePa
     $scope.deleteButton = function() {
       appApi.deleteGpioPin($scope.pin.name, function(success) {
         if (success) {
-          $scope.addAlert({ type: 'success', msg: 'Pin '+$scope.pin.name+' has been deleted!' });
+          $scope.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+$scope.pin.name+' has been deleted!' });
           setTimeout(function() {
             $state.go("Settings");
           }, 1500);
         } else {
-          $scope.addAlert({ type: 'danger', msg: 'Error deleting '+$scope.pin.name });
+          $scope.addAlert($scope.alerts,{ type: 'danger', msg: 'Error deleting '+$scope.pin.name });
         }
       });
     };
@@ -58,16 +58,16 @@ PiApp.controller('GpioPinEditor', ['appApi','util','$scope', '$state', '$statePa
         if (success1) {
           appApi.configSave(function(success2) {
             if (success2) {
-              $scope.addAlert({ type: 'success', msg: 'Pin '+$scope.script.name+' has been saved!' });
+              $scope.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+$scope.script.name+' has been saved!' });
               setTimeout(function() {
                 $state.go("Settings");
               }, 1500);
             } else {
-              $scope.addAlert({ type: 'danger', msg: 'Error saving '+$scope.pin.name });
+              $scope.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.pin.name });
             }
           });
         } else {
-          $scope.addAlert({ type: 'danger', msg: 'Error saving '+$scope.pin.name });
+          $scope.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.pin.name });
         }
       });
     };

@@ -33,25 +33,25 @@ PiApp.controller('System', ['appApi','util','$scope' ,
     });
 
     $scope.updateButton = function() {
-      util.addAlert({ type: 'info', msg: 'The application is updating. Please wait...' });
+      util.addAlert($scope.alerts,{ type: 'info', msg: 'The application is updating. Please wait...' });
       appApi.getApplicationUpdate(function(resp) {
         if (resp) {
           $scope.stats.updateResult = resp;
-          util.addAlert({ type: 'success', msg: 'Update successful! Please restart the application.' });
+          util.addAlert($scope.alerts,{ type: 'success', msg: 'Update successful! Please restart the application.' });
         } else {
-          util.addAlert({ type: 'danger', msg: 'There was an error updating the application. Please try again' });
+          util.addAlert($scope.alerts,{ type: 'danger', msg: 'There was an error updating the application. Please try again' });
         }
       });
     };
 
     $scope.restartButton = function() {
-      util.addAlert({ type: 'info', msg: 'The application is restarting. Please wait...' });
+      util.addAlert($scope.alerts,{ type: 'info', msg: 'The application is restarting. Please wait...' });
       appApi.getApplicationRestart(function(resp){});
     };
 
     $scope.rebootButton = function() {
       appApi.getDeviceReboot(function() {
-        util.addAlert({ type: 'info', msg: 'The device is rebooting, please wait...' });
+        util.addAlert($scope.alerts,{ type: 'info', msg: 'The device is rebooting, please wait...' });
       });
     };
   }

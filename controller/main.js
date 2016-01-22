@@ -26,14 +26,9 @@ var PiApp = angular.module('PiApp',
 PiApp.controller('PiApp',['appApi','util','$scope',function(appApi,util,$scope) {
 		$scope.alerts = [];
 		$scope.ui = {};
+		$scope.serialData = {};
 
-		appApi.getSerialData(function(serialData){
-			$scope.serialPortList = serialData.serialPortList;
-			$scope.baudRateList = serialData.baudRateList;
-			$scope.serialCommandList = serialData.serialCommandList;
-			$scope.selectedBaudrate = serialData.selectedBaudrate;
-			$scope.selectedSerialPort = serialData.selectedSerialPort;
-		});
+		appApi.getSerialData($scope.serialData);
 
 		appApi.getDeviceName(function(name) {
 			$scope.deviceName = name;

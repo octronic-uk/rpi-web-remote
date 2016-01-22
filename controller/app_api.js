@@ -20,22 +20,25 @@
 PiApp.factory('appApi',['util','$http',function(util, $http)
 {
   return {
-    getSerialData : function(callback) {
+    getSerialData : function(serialData) {
 			this.getSerialList(function(serialList) {
-				var serialData = { list: serialList };
-        this.getSerialBaudrateList(function(baudList) {
-				  serialData.baudList = baudList;
-          this.getSerialCommandList(function(commandList) {
-				    serialData.commandList = commandList;
-            this.getSerialPath(function(path) {
-				      serialData.path = path;
-              this.getSerialBaudrate(function(baudrate) {
-				        serialData.selectedBaudrate = baudrate;
-                callback(serialData);
-			        });
-			      });
-			    });
-			  });
+				serialData.serialList = serialList;
+      });
+
+      this.getSerialBaudrateList(function(baudList) {
+				serialData.baudList = baudList;
+      });
+
+      this.getSerialCommandList(function(commandList) {
+			  serialData.commandList = commandList;
+      });
+
+      this.getSerialPath(function(path) {
+			  serialData.path = path;
+      });
+
+      this.getSerialBaudrate(function(baudrate) {
+		    serialData.selectedBaudrate = baudrate;
 			});
 		},
 

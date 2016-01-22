@@ -23,7 +23,8 @@ PiApp.controller('Landing',
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
     $scope.alerts = {};
-
+		$scope.serialData = {};
+		
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
 			util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {
@@ -36,7 +37,7 @@ PiApp.controller('Landing',
 			util.getGpioScriptByName($scope.gpioScriptList, args.name,function(script) {
 				if(script) {
 					script.inProgress = false;
-				  util.addAlert({ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
+				  util.addAlert($scope.alerts,{ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
 				}
 			});
 		});
@@ -56,9 +57,9 @@ PiApp.controller('Landing',
 		$scope.executeSerialCommand = function(command) {
 			appApi.executeSerialCommand(command,function(res) {
 				if (res) {
-					util.addAlert({ type: 'success', msg: 'Started  '+command+'!' });
+					util.addAlert($scope.alerts,{ type: 'success', msg: 'Started  '+command+'!' });
 				} else {
-					util.addAlert({ type: 'danger', msg: 'Error executing '+command+'. Please try again!' });
+					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error executing '+command+'. Please try again!' });
 				}
 			});
 		};
@@ -67,12 +68,12 @@ PiApp.controller('Landing',
 			console.log("Executing GPIO Script",scriptName);
 			appApi.executeGpioScript(scriptName,function(resp) {
 				if (resp) {
-					util.addAlert({ type: 'success', msg: "Script '"+scriptName+"' has been started!" });
+					util.addAlert($scope.alerts,{ type: 'success', msg: "Script '"+scriptName+"' has been started!" });
 					util.getGpioScriptByName($scope.gpioScriptList, scriptName,function(script){
 						script.inProgress = true;
 					});
 				} else {
-					util.addAlert({ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!' });
+					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!' });
 				}
 			});
 		};
@@ -82,13 +83,7 @@ PiApp.controller('Landing',
 		appApi.getSerialEnabled(function(en) {
 			$scope.ui.serialEnabled = en;
 			if ($scope.ui.serialEnabled){
-				appApi.getSerialData(function(serialData){
-				  $scope.serialPortList = serialData.serialPortList;
-					$scope.baudRateList = serialData.baudRateList;
-					$scope.serialCommandList = serialData.serialCommandList;
-					$scope.selectedBaudrate = serialData.selectedBaudrate;
-					$scope.selectedSerialPort = serialData.selectedSerialPort;
-				});
+				appApi.getSerialData($scope.serialData);
 			}
 		});
 
