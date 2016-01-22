@@ -593,7 +593,7 @@ var initRoutes = function(callback) {
   });
 
   // Get the devce's list of serial ports
-  app.get('/api/serial/list',jsonParser,function(req,res) {
+  app.get('/api/serial/path/list',jsonParser,function(req,res) {
     SerialPortModule.list(function (err, ports){
       if (err || ports === undefined){
         util.sendHttpError(res);

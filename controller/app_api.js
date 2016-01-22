@@ -262,11 +262,11 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		getSerialDeviceList : function(callback)
+		getSerialPathList : function(callback)
 		{
 			$http({
 				method: "GET",
-				url: "/api/serial/list"
+				url: "/api/serial/path/list"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));

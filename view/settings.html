@@ -81,7 +81,7 @@
           <h5>Add Pin</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" href="#/settings/gpio_pin_editor/new" class="pull-right btn btn-success">
+          <a id="new_script" href="{{getGpioPinEditorUrl('new')}}" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </a>
         </div>
@@ -121,7 +121,7 @@
           <h5>Add Script</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" href="#/settings/gpio_script_editor/new" class="pull-right btn btn-success">
+          <a id="new_script" href="{{getGpioScriptEditorUrl('url')}}" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </a>
         </div>
@@ -143,9 +143,9 @@
       </div>
       <div ng-show="serialEnabled" class="form-group">
         <label for="select-port">Serial Port</label>
-        <select id="select-port" class="form-control" ng-model="selectedSerialDevice">
+        <select id="select-port" class="form-control" ng-model="serialPath">
           <option value="">Select Path</option>
-          <option ng-repeat="port in serialDeviceList" value="{{port}}">{{port}}</option>
+          <option ng-repeat="port in serialPathList" value="{{port}}">{{port}}</option>
         </select>
       </div>
       <div ng-show="serialEnabled" class="form-group">
@@ -190,7 +190,7 @@
           <h5>Add Command</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" href="#/settings/serial_command_editor/new" class="pull-right btn btn-success">
+          <a id="new_script" href="{{getSerialCommandEditorUrl('new')}}" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </a>
         </div>

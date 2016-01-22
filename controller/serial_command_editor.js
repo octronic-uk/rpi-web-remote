@@ -72,8 +72,8 @@ function(appApi,util, $scope, $state, $stateParams) {
 
     // API Calls -----------------------------------------------------------------
 
-    appApi.getSerialDeviceList(function(serialList) {
-  		$scope.serialDeviceList = serialList;
+    appApi.getSerialPathList(function(serialList) {
+  		$scope.serialPathList = serialList;
     });
 
     appApi.getSerialBaudrateList(function(baudList) {
@@ -85,7 +85,7 @@ function(appApi,util, $scope, $state, $stateParams) {
     });
 
     appApi.getSerialPath(function(path) {
-  	  $scope.serialDevicePath = path;
+  	  $scope.serialPath = path;
     });
 
     appApi.getSerialBaudrate(function(baudrate) {

@@ -29,21 +29,21 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		$scope.getGpioPinEditorUrl = function(name)
 		{
 			util.convertSpacesToUnderscores(name,function(newName){
-			  return "#settings/gpio_pin_editor/"+newName;
+			  return "#/settings/gpio_pin_editor/"+newName;
 			});
 		};
 
 		$scope.getGpioScriptEditorUrl = function(name)
 		{
 			util.convertSpacesToUnderscores(name,function(newName){
-			  return "#settings/gpio_script_editor/"+newName;
+			  return "#/settings/gpio_script_editor/"+newName;
 			});
 		};
 
 		$scope.getSerialCommandEditorUrl = function(name)
 		{
 			util.convertSpacesToUnderscores(name,function(newName){
-			  return "#settings/serial_command_editor/"+name;
+			  return "#/settings/serial_command_editor/"+name;
 			});
 		};
 
@@ -169,8 +169,8 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		};
 
 		// API Calls ---------------------------------------------------------------
-    appApi.getSerialDeviceList(function(serialList) {
-			$scope.serialDeviceList = serialList;
+    appApi.getSerialPathList(function(serialList) {
+			$scope.serialPathList = serialList;
     });
 
     appApi.getSerialBaudrateList(function(baudList) {
@@ -181,7 +181,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		 $scope.serialCommandList = commandList;
     });
 
-    appApi.getSerialPath(function(path) {
+    appApi.getSerialDevice(function(path) {
 			$scope.serialPath = path;
     });
 
