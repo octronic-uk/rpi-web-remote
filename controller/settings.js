@@ -184,10 +184,10 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		$scope.serialEnabledCheckboxChanged = function() {
 			appApi.setSerialEnabled($scope.ui.serialEnabled,function(resp) {
 				if ($scope.ui.serialEnabled) {
-					$scope.getDeviceSerialData();
+					util.getDeviceSerialData();
 					util.addAlert({ type: 'success', msg: 'Serial has been enabled.' });
 				} else {
-					$scope.getDeviceSerialData();
+					util.getDeviceSerialData();
 					util.addAlert({ type: 'warning', msg: 'Serial has been disabled.' });
 				}
 			});
