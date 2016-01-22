@@ -27,7 +27,7 @@ PiApp.controller('PiApp',['appApi','util','$scope',function(appApi,util,$scope) 
 		$scope.alerts = [];
 		$scope.ui = {};
 
-		util.getSerialData();
+		appApi.getSerialData();
 
 		appApi.getDeviceName(function(name) {
 			$scope.deviceName = name;

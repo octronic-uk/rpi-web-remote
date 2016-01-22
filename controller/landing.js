@@ -82,7 +82,7 @@ PiApp.controller('Landing',
 		appApi.getSerialEnabled(function(en) {
 			$scope.ui.serialEnabled = en;
 			if ($scope.ui.serialEnabled){
-				util.getSerialData();
+				appApi.getSerialData();
 			}
 		});
 
