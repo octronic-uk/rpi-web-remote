@@ -39,10 +39,29 @@
   <ul class="list-group">
     <li ng-repeat="pin in pinList" class="list-group-item clearfix">
       <div class="row">
-        <div class="col=sm-2">
+        <div class="col-sm-2">
+          <h5>Pin</h5>
+        </div>
+        <div class="col-sm-4">
+          <h5>Name</h5>
+        </div>
+        <div class="col-sm-2">
+          <h5>I/O</h5>
+        </div>
+        <div class="col-sm-2">
+          <h5>Hidden</h5>
+        </div>
+        <div class="col-sm-2">
+            <h5>Edit</h5>
+        </div>
+      </div>
+    </li>
+    <li ng-repeat="pin in pinList" class="list-group-item clearfix">
+      <div class="row">
+        <div class="col-sm-2">
           <h5>{{pin.num}}</h5>
         </div>
-        <div class="col-m-4">
+        <div class="col-sm-4">
           <h5><small>{{pin.name}}</small></h5>
         </div>
         <div class="col-sm-2">
@@ -52,7 +71,7 @@
           <h5><small>{{pin.hidden}}</small></h5>
         </div>
         <div class="col-sm-2">
-            <a class="pull-right btn btn-primary" href="{{getSafeScriptName(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+            <a class=" btn btn-primary" href="{{getSafeScriptName(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
@@ -70,7 +89,7 @@
           <h5>{{script.name}}</h5>
         </div>
         <div class="col-sm-6">
-          <a class="pull-right btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+          <a class=" btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
@@ -80,7 +99,7 @@
           <h5>New Script</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" href="#/settings/gpio_script_editor/new" class="pull-right btn btn-success">
+          <a id="new_script" href="#/settings/gpio_script_editor/new" class=" btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </a>
         </div>
@@ -126,7 +145,7 @@
           <h5><small>{{cmd.cmd}}</small></h5>
         </div>
         <div class="col-sm-4">
-          <a class="pull-right btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+          <a class=" btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
@@ -136,7 +155,7 @@
 <div class="clearfix well">
   <h5>
     Save Settings
-    <button ng-click="saveSettings()" class="pull-right  btn btn-primary">
+    <button ng-click="saveSettings()" class="  btn btn-primary">
       <span class="glyphicon glyphicon-floppy-disk"></span>
     </button>
   </h5>
