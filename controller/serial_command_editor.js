@@ -20,7 +20,7 @@ PiApp.controller('SerialCommandEditor', ['appApi','util','$scope','$state','$sta
 function(appApi,util, $scope, $state, $stateParams) {
     $scope.cmdName = $stateParams.name;
     $scope.REMOVE_CMD_DEFAULT = "Select Command";
-    $scope.alerts = {};
+    $scope.alerts = [];
     $scope.ui = {};
 
     if ($scope.cmdName != "new") {

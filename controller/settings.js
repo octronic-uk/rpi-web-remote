@@ -18,7 +18,7 @@
 */
 PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $scope) {
 		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
-		$scope.alerts = {};
+		$scope.alerts = [];
 		$scope.serialEnabled = false;
 
 		$scope.getGpioPinEditorUrl = function(name)

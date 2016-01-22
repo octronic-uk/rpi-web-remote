@@ -20,7 +20,7 @@ PiApp.controller('GpioPinEditor', ['appApi','util','$scope', '$state', '$statePa
   function(appApi, util, $scope, $state, $stateParams) {
     $scope.pinName = $stateParams.name;
     $scope.ui = {};
-    $scope.alerts = {};
+    $scope.alerts = [];
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
 

@@ -19,7 +19,7 @@
 PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$state',
   function(appApi, util, $scope, $stateParams, $state) {
     $scope.scriptName = $stateParams.name;
-    $scope.alerts = {};
+    $scope.alerts = [];
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
 

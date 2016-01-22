@@ -22,7 +22,7 @@ PiApp.controller('Landing',
 	{
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
-    $scope.alerts = {};
+    $scope.alerts = [];
 		$scope.ui = {};
 		$scope.serialEnabled = false;
 
