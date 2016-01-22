@@ -16,7 +16,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('GpioPinEditor', ['appApi','util','$scope', function(appApi, util, $scope) {
+PiApp.controller('GpioPinEditor', ['appApi','util','$scope', '$state', '$stateParams',
+  function(appApi, util, $scope, $state, $stateParams) {
     $scope.pinName = $stateParams.name;
     $scope.ui = {};
 
