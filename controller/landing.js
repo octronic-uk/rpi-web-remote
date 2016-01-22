@@ -23,8 +23,7 @@ PiApp.controller('Landing',
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
     $scope.alerts = {};
-		$scope.serialData = {};
-		
+
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
 			util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {
@@ -80,10 +79,36 @@ PiApp.controller('Landing',
 
 		// API Calls ---------------------------------------------------------------
 
+    appApi.getDeviceName(function(name) {
+			$scope.deviceName = name;
+		});
+
 		appApi.getSerialEnabled(function(en) {
-			$scope.ui.serialEnabled = en;
-			if ($scope.ui.serialEnabled){
-				appApi.getSerialData($scope.serialData);
+			$scope.serialEnabled = en;
+			if ($scope.serialEnabled) {
+	      appApi.getSerialList(function(serialList) {
+					$scope.serialList = serialList;
+		    });
+
+		    appApi.getSerialBaudrateList(function(baudList) {
+					$scope.baudList = baudList;
+		    });
+
+		    appApi.getSerialCommandList(function(commandList) {
+				 $scop.commandList = commandList;
+		    });
+
+		    appApi.getSerialPath(function(path) {
+					$scope.path = path;
+		    });
+
+		    appApi.getSerialBaudrate(function(baudrate) {
+				  $scope.selectedBaudrate = baudrate;
+				});
+
+				appApi.getSerialEnabled(function(en) {
+					$scope.serialEnabled = en;
+				});
 			}
 		});
 

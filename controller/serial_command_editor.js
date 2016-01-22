@@ -20,7 +20,6 @@ PiApp.controller('SerialCommandEditor', ['appApi','util','$scope','$state','$sta
 function(appApi,util, $scope, $state, $stateParams) {
     $scope.cmdName = $stateParams.name;
     $scope.REMOVE_CMD_DEFAULT = "Select Command";
-    $scope.ui = {};
     $scope.alerts = {};
 
     if ($scope.cmdName != "new") {
@@ -64,5 +63,27 @@ function(appApi,util, $scope, $state, $stateParams) {
         }
       });
     };
+
+    // API Calls -----------------------------------------------------------------
+
+    appApi.getSerialList(function(serialList) {
+  		$scope.serialList = serialList;
+    });
+
+    appApi.getSerialBaudrateList(function(baudList) {
+  		$scope.baudList = baudList;
+    });
+
+    appApi.getSerialCommandList(function(commandList) {
+  	  $scope.commandList = commandList;
+    });
+
+    appApi.getSerialPath(function(path) {
+  	  $scope.path = path;
+    });
+
+    appApi.getSerialBaudrate(function(baudrate) {
+  	  $scope.selectedBaudrate = baudrate;
+  	});
   }
 ]);

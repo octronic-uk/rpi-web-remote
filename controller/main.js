@@ -16,22 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-var PiApp = angular.module('PiApp',
-[
-	'ui.bootstrap',
-	'ui.router',
-	'ngAnimate',
-]);
+var PiApp = angular.module('PiApp',['ui.bootstrap','ui.router','ngAnimate',]);
 
-PiApp.controller('PiApp',['appApi','util','$scope',function(appApi,util,$scope) {
-		$scope.alerts = [];
-		$scope.ui = {};
-		$scope.serialData = {};
-
-		appApi.getSerialData($scope.serialData);
-
-		appApi.getDeviceName(function(name) {
-			$scope.deviceName = name;
-		});
-	}
-]);
+PiApp.controller('PiApp',['$scope',function($scope) {
+}]);

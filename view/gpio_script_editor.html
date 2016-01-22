@@ -56,14 +56,14 @@
       </div>
       <div class="form-group">
         <label for="add-do">Add</label>
-        <select id="add-do-pin" class="form-control" ng-model="ui.addDoPin">
+        <select id="add-do-pin" class="form-control" ng-model="addDoPin">
           <option value="">Selct Pin</option>
           <option ng-repeat="pin in gpioPinList" value="{{pin.name}}">{{pin.name}}</option>
         </select>
       </div>
       <div class="form-group">
         <div class="input-group">
-          <select id="add-do-state" class="form-control" ng-model="ui.addDoState">
+          <select id="add-do-state" class="form-control" ng-model="addDoState">
             <option value="">Selct State</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -78,7 +78,7 @@
       <div class="form-group">
         <label for="remove-do">Remove</label>
         <div class="input-group">
-          <select id="remove-do" class="form-control" ng-model="ui.removeDoName">
+          <select id="remove-do" class="form-control" ng-model="removeDoName">
             <option value="">Remove State</option>
             <option ng-repeat="state in script.do" value="{{state.pin}}">{{state.pin}}</option>
           </select>
@@ -117,14 +117,14 @@
       </div>
       <div class="form-group">
         <label for="add-while">Add</label>
-        <select id="add-while-pin" class="form-control" ng-model="ui.addWhilePin">
+        <select id="add-while-pin" class="form-control" ng-model="addWhilePin">
           <option value="">Selct Pin</option>
           <option ng-repeat="pin in gpioPinList" value="{{pin.name}}">{{pin.name}}</option>
         </select>
       </div>
       <div class="form-group">
         <div class="input-group">
-          <select id="add-while-state" class="form-control" ng-model="ui.addWhileState">
+          <select id="add-while-state" class="form-control" ng-model="addWhileState">
             <option value="">Selct State</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -139,7 +139,7 @@
       <div class="form-group">
         <label for="remove-while">Remove</label>
         <div class="input-group">
-          <select id="remove-while" class="form-control" ng-model="ui.removeWhileName">
+          <select id="remove-while" class="form-control" ng-model="removeWhileName">
             <option value="">Remove State</option>
             <option ng-repeat="state in script.while" value="{{state.pin}}">{{state.pin}}</option>
           </select>
@@ -178,14 +178,14 @@
       </div>
       <div class="form-group">
         <label for="add-then">Add</label>
-        <select id="add-then-pin" class="form-control" ng-model="ui.addThenPin">
+        <select id="add-then-pin" class="form-control" ng-model="addThenPin">
           <option value="">Selct Pin</option>
           <option ng-repeat="pin in gpioPinList" value="{{pin.name}}">{{pin.name}}</option>
         </select>
       </div>
       <div class="form-group">
         <div class="input-group">
-          <select id="add-then-state" class="form-control" ng-model="ui.addThenState">
+          <select id="add-then-state" class="form-control" ng-model="addThenState">
             <option value="">Selct State</option>
             <option value="0">0</option>
             <option value="1">1</option>
@@ -200,7 +200,7 @@
       <div class="form-group">
         <label for="remove-then">Remove</label>
         <div class="input-group">
-          <select id="remove-then" class="form-control" ng-model="ui.removeThenName">
+          <select id="remove-then" class="form-control" ng-model="removeThenName">
             <option value="">Remove State</option>
             <option ng-repeat="state in script.then" value="{{state.pin}}">{{state.pin}}</option>
           </select>

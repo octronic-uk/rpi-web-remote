@@ -19,7 +19,6 @@
 PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$state',
   function(appApi, util, $scope, $stateParams, $state) {
     $scope.scriptName = $stateParams.name;
-    $scope.ui = {};
     $scope.alerts = {};
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
@@ -40,11 +39,11 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
     });
 
     $scope.addDoButton = function() {
-      $scope.script.do.push({pin: $scope.ui.addDoPin, state: $scope.ui.addDoState});
+      $scope.script.do.push({pin: $scope.addDoPin, state: $scope.addDoState});
     };
 
     $scope.removeDoButton = function() {
-      $scope.getDoByPin($scope.ui.removeDoName,function(obj) {
+      $scope.getDoByPin($scope.removeDoName,function(obj) {
         var index = $scope.script.do.indexOf(obj);
         $scope.script.do.splice(index,1);
       });
@@ -67,11 +66,11 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
     };
 
     $scope.addWhileButton = function() {
-      $scope.script.while.push({pin: $scope.ui.addWhilePin, state: $scope.ui.addWhileState});
+      $scope.script.while.push({pin: $scope.addWhilePin, state: $scope.addWhileState});
     };
 
     $scope.removeWhileButton = function() {
-      $scope.getWhileByPin($scope.ui.removeWhileName,function(obj) {
+      $scope.getWhileByPin($scope.removeWhileName,function(obj) {
         var index = $scope.script.while.indexOf(obj);
         $scope.script.while.splice(index,1);
       });
@@ -94,11 +93,11 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
     };
 
     $scope.addThenButton = function() {
-      $scope.script.then.push({pin: $scope.ui.addThenPin, state: $scope.ui.addThenState});
+      $scope.script.then.push({pin: $scope.addThenPin, state: $scope.addThenState});
     };
 
     $scope.removeThenButton = function() {
-      $scope.getThenByPin($scope.ui.removeThenName,function(obj) {
+      $scope.getThenByPin($scope.removeThenName,function(obj) {
         var index = $scope.script.then.indexOf(obj);
         $scope.script.then.splice(index,1);
       });

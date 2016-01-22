@@ -19,7 +19,6 @@
 PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $scope) {
 		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
 		$scope.alerts = {};
-		$scope.serialData = {};
 
 		$scope.getGpioPinEditorUrl = function(name)
 		{
@@ -64,7 +63,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
 		$scope.removeSerialCommand = function()
 		{
-			var name = $scope.serialCommandRemove;
+			var name = $scope.seriaData.serialCommandRemove;
 
 			appApi.removeSerialCommand(name,function(resp)
 			{
@@ -197,10 +196,10 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		};
 
 		$scope.serialEnabledCheckboxChanged = function() {
-			appApi.setSerialEnabled($scope.ui.serialEnabled,function(resp) {
+			appApi.setSerialEnabled($scope.serialEnabled,function(resp) {
         appApi.getSerialData($scope.serialData);
 
-				if ($scope.ui.serialEnabled) {
+				if ($scope.serialEnabled) {
 					util.addAlert($scope.alerts,{ type: 'success', msg: 'Serial has been enabled.' });
 				} else {
 					util.addAlert($scope.alerts,{ type: 'warning', msg: 'Serial has been disabled.' });
@@ -209,9 +208,28 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 		};
 
 		// API Calls ---------------------------------------------------------------
+    appApi.getSerialList(function(serialList) {
+			$scope.serialList = serialList;
+    });
+
+    appApi.getSerialBaudrateList(function(baudList) {
+			$scope.baudList = baudList;
+    });
+
+    appApi.getSerialCommandList(function(commandList) {
+		 $scop.commandList = commandList;
+    });
+
+    appApi.getSerialPath(function(path) {
+			$scope.path = path;
+    });
+
+    appApi.getSerialBaudrate(function(baudrate) {
+		  $scope.selectedBaudrate = baudrate;
+		});
 
 		appApi.getSerialEnabled(function(en) {
-			$scope.ui.serialEnabled = en;
+			$scope.serialEnabled = en;
 		});
 
 		appApi.getSerialData($scope.serialData);

@@ -20,28 +20,6 @@
 PiApp.factory('appApi',['util','$http',function(util, $http)
 {
   return {
-    getSerialData : function(serialData) {
-			this.getSerialList(function(serialList) {
-				serialData.serialList = serialList;
-      });
-
-      this.getSerialBaudrateList(function(baudList) {
-				serialData.baudList = baudList;
-      });
-
-      this.getSerialCommandList(function(commandList) {
-			  serialData.commandList = commandList;
-      });
-
-      this.getSerialPath(function(path) {
-			  serialData.path = path;
-      });
-
-      this.getSerialBaudrate(function(baudrate) {
-		    serialData.selectedBaudrate = baudrate;
-			});
-		},
-
     addSerialCommand : function(name,cmd,callback)
 		{
 			$http({
