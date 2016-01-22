@@ -89,7 +89,7 @@ PiApp.controller('Landing',
 			$scope.gpioPinList = list;
 		});
 
-		appApi.getGpioScriptsList(function(list) {
+		appApi.getGpioScriptList(function(list) {
 			$scope.gpioScriptList = list;
 		});
 	}

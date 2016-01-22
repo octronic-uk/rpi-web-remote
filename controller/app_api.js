@@ -509,7 +509,7 @@ PiApp.factory('appApi',['$http',function($http)
 			});
 		},
 
-		getGpioScriptsList : function(callback)
+		getGpioScriptList : function(callback)
 		{
 			$http({
 				method: "GET",
