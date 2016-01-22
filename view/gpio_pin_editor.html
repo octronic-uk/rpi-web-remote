@@ -1,0 +1,76 @@
+<!--
+  Ash's RaspberryPI IO Remote.
+  email: ashthompson06@gmail.command
+  repo: https://github.com/BashEdThomps/IoT-RaspberryPI.git
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<uib-alert class="toast-alert" dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+<div class="panel">
+  <div class="panel-heading">
+    GPIO Pin Editor
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label for="add-command">Add</label>
+      <div class="form-group">
+        <input class="form-control" type="text" placeholder="Name" ng-model="gpioPinAddName">
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="text" placeholder="Pin Number" ng-model="gpioPinAddNum">
+      </div>
+      <div class="form-group">
+        <select id="remove-command" class="form-control" ng-model="gpioPinAddIo">
+          <option value="">Select Pin Mode</option>
+          <option value="in">in</option>
+          <option value="out">out</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="checkbox">
+          <label><input type="checkbox" ng-model="gpioPinAddHidden" value="">Pin Hidden</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <select id="remove-command" class="form-control" ng-model="gpioPinAddState">
+            <option value="">Selct State</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+          </select>
+          <span class="input-group-btn" >
+            <button ng-click="addGpioPin()" type="button" class="pull-right btn btn-success">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="remove-command">Remove</label>
+        <div class="input-group">
+          <select id="remove-command" class="form-control" ng-model="gpioPinRemove">
+            <option value="">{{REMOVE_GPIO_DEFAULT}}</option>
+            <option ng-repeat="pin in pinList" value="{{pin.name}}">{{pin.name}}</option>
+          </select>
+          <span  class="input-group-btn">
+            <button ng-click="removeGpioPin()" type="button" class="btn btn-danger ">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -59,55 +59,6 @@
           </tbody>
         </table>
       </div>
-      <div class="form-group">
-        <label for="add-command">Add</label>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Name" ng-model="gpioPinAddName">
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Pin Number" ng-model="gpioPinAddNum">
-        </div>
-        <div class="form-group">
-          <select id="remove-command" class="form-control" ng-model="gpioPinAddIo">
-            <option value="">Select Pin Mode</option>
-            <option value="in">in</option>
-            <option value="out">out</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <div class="checkbox">
-            <label><input type="checkbox" ng-model="gpioPinAddHidden" value="">Pin Hidden</label>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="input-group">
-            <select id="remove-command" class="form-control" ng-model="gpioPinAddState">
-              <option value="">Selct State</option>
-              <option value="0">0</option>
-              <option value="1">1</option>
-            </select>
-            <span class="input-group-btn" >
-              <button ng-click="addGpioPin()" type="button" class="pull-right btn btn-success">
-                <span class="glyphicon glyphicon-plus"></span>
-              </button>
-            </span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="remove-command">Remove</label>
-          <div class="input-group">
-            <select id="remove-command" class="form-control" ng-model="gpioPinRemove">
-              <option value="">{{REMOVE_GPIO_DEFAULT}}</option>
-              <option ng-repeat="pin in pinList" value="{{pin.name}}">{{pin.name}}</option>
-            </select>
-            <span  class="input-group-btn">
-              <button ng-click="removeGpioPin()" type="button" class="btn btn-danger ">
-                <span class="glyphicon glyphicon-minus"></span>
-              </button>
-            </span>
-          </div>
-        </div>
-      </form>
     </div>
   </div>
 </div>
@@ -116,35 +67,30 @@
   <div class="panel-heading">
     GPIO Scripts
   </div>
-  <div class="panel-body">
-    <form role="form">
-      <div class="form-group">
-        <label for="commands-table">Scripts</label>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th class="text-right">Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="script in gpioScriptList">
-              <td >{{script.name}}</td>
-              <td class="text-right"><a class="btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="form-group">
-          <h5 for="new_script">
-            New Script
-            <a id="new_script" href="#/settings/gpio_script/new" class="pull-right btn btn-success">
-              <span class="glyphicon glyphicon-plus"></span>
-            </a>
-          </h5>
+  <ul class="list-group">
+    <li ng-repeat="script in gpioScriptList">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>{{script.name}}</h5>
+        </div>
+        <div class="col-md-6">
+          <a class="btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
-    </form>
-  </div>
+    </li>
+    <li>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>New Script</h5>
+        </div>
+        <div class="col-md-6">
+          <a id="new_script" href="#/settings/gpio_script_editor/new" class="pull-right btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+          </a>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
 <!-- Serial Settings -->
 <div class="panel">
@@ -172,53 +118,23 @@
           <option ng-repeat="baud in baudRateList" value="{{baud}}">{{baud}}</option>
         </select>
       </div>
-      <div ng-show="ui.serialEnabled" class="form-group">
-        <label for="commands-table">Commands</label>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Command</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="cmd in serialCommandList">
-              <td>{{cmd.name}}</td>
-              <td>{{cmd.cmd}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div ng-show="ui.serialEnabled" class="form-group">
-        <label for="add-command">Add</label>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Name" ng-model="serialCommandNameAdd">
-        </div>
-        <div class="input-group">
-          <input class="form-control" type="text" placeholder="Command" ng-model="serialCommandAdd">
-          <span class="input-group-btn" >
-            <button ng-click="addSerialCommand()" type="button" class="btn btn-success ">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </span>
-        </div>
-      </div>
-      <div ng-show="ui.serialEnabled" class="form-group">
-        <label for="remove-command">Remove</label>
-        <div class="input-group">
-          <select id="remove-command" class="form-control" ng-model="serialCommandRemove">
-            <option value="">{{REMOVE_CMD_DEFAULT}}</option>
-            <option ng-repeat="cmd in serialCommandList" value="{{cmd.name}}">{{cmd.name}}</option>
-          </select>
-          <span class="input-group-btn" >
-            <button ng-click="removeSerialCommand()" type="button" class="btn btn-danger ">
-              <span class="glyphicon glyphicon-minus"></span>
-            </button>
-          </span>
-        </div>
-      </div>
     </form>
   </div>
+  <ul ng-show="ui.serialEnabled" class="list-group">
+    <li ng-repeat="cmd in serialCommandList">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>{{cmd.name}}</h5>
+        </div>
+        <div class="col-md-4">
+          <h5><small>{{cmd.cmd}}</small></h5>
+        </div>
+        <div class="col-md-4">
+          <a class="btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
 <!-- Save -->
 <div class="clearfix well">
