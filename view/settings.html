@@ -71,7 +71,7 @@
           <h5><small>{{pin.hidden}}</small></h5>
         </div>
         <div class="col-sm-2">
-            <a class="pull-right btn btn-primary" href="{{getGpioPinEditorUrl(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+            <a class="pull-right btn btn-primary" ng-href="{{getGpioPinEditorUrl(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
@@ -81,7 +81,7 @@
           <h5>Add Pin</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" href="{{getGpioPinEditorUrl('new')}}" class="pull-right btn btn-success">
+          <a id="new_script" ng-href="{{getGpioPinEditorUrl('new')}}" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </a>
         </div>
@@ -111,7 +111,7 @@
           <h5>{{script.name}}</h5>
         </div>
         <div class="col-sm-6">
-          <a class="pull-right btn btn-primary" href="{{getGpioScriptEditorUrl(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+          <a class="pull-right btn btn-primary" ng-href="{{getGpioScriptEditorUrl(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
@@ -121,7 +121,7 @@
           <h5>Add Script</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" href="{{getGpioScriptEditorUrl('url')}}" class="pull-right btn btn-success">
+          <a id="new_script" ng-href="{{getGpioScriptEditorUrl('url')}}" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </a>
         </div>
@@ -180,7 +180,7 @@
           <h5><small>{{cmd.cmd}}</small></h5>
         </div>
         <div class="col-sm-4">
-          <a class="pull-right btn btn-primary" href="{{getSerialCommandEditorUrl(cmd.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+          <a class="pull-right btn btn-primary" ng-href="{{getSerialCommandEditorUrl(cmd.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
@@ -190,7 +190,7 @@
           <h5>Add Command</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" href="{{getSerialCommandEditorUrl('new')}}" class="pull-right btn btn-success">
+          <a id="new_script" ng-href="{{getSerialCommandEditorUrl('new')}}" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </a>
         </div>
