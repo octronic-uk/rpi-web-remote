@@ -51,6 +51,31 @@ PiApp.factory('util',['appApi','$rootScope', function(appApi,$rootScope){
 			callback(target);
 		},
 
+    // Get the index of a command by name
+		getSerialCommandIndexByName : function(list, name,callback)
+		{
+			this.getSerialCommandByName(list name, function(cmd)
+		  {
+				callback(list, serialCommandList.indexOf(cmd));
+			});
+		},
+
+		// Get a serial command by name
+	  getSerialCommandByName : function(list, name, callback)
+		{
+			var nCommands = list.length;
+			var target = null;
+
+		  for (var i = 0; i < nCommands; i++) {
+		    var next = list[i];
+		    if (next.name == name) {
+		      target = next;
+					break;
+		    }
+		  }
+			callback(target);
+		},
+
 		getGpioPinByName : function(pins,name,callback) {
 			var target = null;
 
