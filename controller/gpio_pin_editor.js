@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('GpioScript', ['appApi','util','$scope', function(appApi, util, $scope) {
+PiApp.controller('GpioPinEditor', ['appApi','util','$scope', function(appApi, util, $scope) {
     $scope.scriptName = $stateParams.name;
     $scope.ui = {};
 

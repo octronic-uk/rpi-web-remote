@@ -586,8 +586,20 @@ var initRoutes = function(callback) {
   });
 
   // Get the list of serial commands
-  app.get('/api/serial/command/list',jsonParser,function(req,res) {
+  app.get('/api/serial/commands/list',jsonParser,function(req,res) {
     util.sendHttpJson(res,config.serial.commands);
+  });
+
+  // Get an individual serial command
+  app.get('/api/serial/command/:name',jsonParser,function(req,res){
+    var name = req.params.name;
+    getSerialCommandByName(name,function(cmd){
+      if (cmd) {
+        util.sendHttpJson(res,cmd);
+      } else {
+        util.sendHttpNotFound(res);
+      }
+    });
   });
 
   // Add a serial command to the configuration

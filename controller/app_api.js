@@ -341,7 +341,21 @@ PiApp.factory('appApi',['$http',function($http)
 		{
 			$http({
 				method: "GET",
-				url: "/api/serial/command/list",
+				url: "/api/serial/commands/list",
+			}).then(function successCallback(resp)
+			{
+				callback(JSON.parse(resp.data));
+			}, function errorCallback(resp)
+			{
+				callback(false);
+			});
+		},
+
+    getSerialCommand : function(cmd,callback)
+		{
+			$http({
+				method: "GET",
+				url: "/api/serial/command/"+cmd,
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));

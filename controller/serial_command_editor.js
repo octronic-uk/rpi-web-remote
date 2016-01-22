@@ -18,15 +18,14 @@
 */
 PiApp.controller('SerialCommandEditor', ['appApi','util','$scope',
 function(appApi,util, $scope) {
-    $scope.scriptName = $stateParams.name;
+    $scope.cmdName = $stateParams.name;
+    $scope.REMOVE_CMD_DEFAULT = "Select Command";
     $scope.ui = {};
 
-    console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
-
-    if ($scope.scriptName != "new") {
-      appApi.getGpioScript($scope.scriptName, function(script) {
-        $scope.script = script;
-        console.log("Modifying script:", $scope.script);
+    if ($scope.cmdName != "new") {
+      appApi.getSrialCommand($scope.cmdName, function(script) {
+        $scope.cmd = cmd;
+        console.log("Modifying script:", $scope.cmd);
       });
     } else {
       $scope.script = {name:"New Script", do: [], while: [], then: []};
