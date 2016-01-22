@@ -42,17 +42,17 @@
         <div class="col=sm-2">
           <h5>{{pin.num}}</h5>
         </div>
-        <div class="col=sm-4">
+        <div class="col-m-4">
           <h5><small>{{pin.name}}</small></h5>
         </div>
-        <div class="col=sm-2">
+        <div class="col-sm-2">
           <h5><small>{{pin.io}}</small></h5>
         </div>
-        <div class="col=sm-2">
+        <div class="col-sm-2">
           <h5><small>{{pin.hidden}}</small></h5>
         </div>
-        <div class="col=sm-2">
-            <a class="btn btn-primary" href="{{getSafeScriptName(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+        <div class="col-sm-2">
+            <a class="pull-right btn btn-primary" href="{{getSafeScriptName(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
@@ -66,20 +66,20 @@
   <ul class="list-group">
     <li ng-repeat="script in gpioScriptList" class="list-group-item clearfix">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <h5>{{script.name}}</h5>
         </div>
-        <div class="col-md-6">
-          <a class="btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+        <div class="col-sm-6">
+          <a class="pull-right btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
     <li class="list-group-item clearfix">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <h5>New Script</h5>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <a id="new_script" href="#/settings/gpio_script_editor/new" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
           </a>
@@ -119,14 +119,14 @@
   <ul ng-show="ui.serialEnabled" class="list-group">
     <li ng-repeat="cmd in serialCommandList" class="list-group-item clearfix">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-sm-4">
           <h5>{{cmd.name}}</h5>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-4">
           <h5><small>{{cmd.cmd}}</small></h5>
         </div>
-        <div class="col-md-4">
-          <a class="btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
+        <div class="col-sm-4">
+          <a class="pull-right btn btn-primary" href="{{getSafeScriptName(script.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>
