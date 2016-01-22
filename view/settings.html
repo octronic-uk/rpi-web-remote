@@ -37,7 +37,7 @@
     GPIO Pins
   </div>
   <ul class="list-group">
-    <li ng-repeat="pin in pinList" class="list-group-item clearfix">
+    <li class="list-group-item clearfix">
       <div class="row">
         <div class="col-sm-2">
           <h5>Pin</h5>
@@ -83,6 +83,16 @@
     GPIO Scripts
   </div>
   <ul class="list-group">
+    <li>
+      <div class="row">
+        <div class="col-sm-6">
+          <h5>Name</h5>
+        </div>
+        <div class="col-sm-6">
+          <h5>Edit</h5>
+        </div>
+      </div>
+    </li>
     <li ng-repeat="script in gpioScriptList" class="list-group-item clearfix">
       <div class="row">
         <div class="col-sm-6">
@@ -136,6 +146,19 @@
     </form>
   </div>
   <ul ng-show="ui.serialEnabled" class="list-group">
+    <li class="list-group-item clearfix">
+      <div class="row">
+        <div class="col-sm-4">
+          <h5>Name</h5>
+        </div>
+        <div class="col-sm-4">
+          <h5>Command</h5>
+        </div>
+        <div class="col-sm-4">
+          <h5>Edit</h5>
+        </div>
+      </div>
+    </li>
     <li ng-repeat="cmd in serialCommandList" class="list-group-item clearfix">
       <div class="row">
         <div class="col-sm-4">
