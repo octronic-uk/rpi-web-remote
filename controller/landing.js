@@ -28,7 +28,7 @@ PiApp.controller('Landing',
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,indexl);  
+      util.closeAlert($scope.alerts,index);  
     };
 
 	  socket.on("StateChanged", function(args) {

@@ -25,7 +25,7 @@ function(appApi,util, $scope, $state, $stateParams) {
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,indexl);  
+      util.closeAlert($scope.alerts,index);  
     };
 
     if ($scope.cmdName != "new") {

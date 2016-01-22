@@ -23,7 +23,7 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,indexl);  
+      util.closeAlert($scope.alerts,index);  
     };
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);

@@ -23,7 +23,7 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,indexl);  
+      util.closeAlert($scope.alerts,index);  
     };
 
 		$scope.getGpioPinEditorUrl = function(name)
