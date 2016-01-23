@@ -71,7 +71,9 @@
           <h5><small>{{pin.hidden}}</small></h5>
         </div>
         <div class="col-sm-2">
-            <button class="pull-right btn btn-primary" ng-click="goToGpioPinEditor(pin.name)"><span class="glyphicon glyphicon-cog"></span></button>
+            <button class="pull-right btn btn-primary" ng-click="goToGpioPinEditor(pin.name)">
+              <span class="glyphicon glyphicon-cog"></span>
+            </button>
         </div>
       </div>
     </li>
@@ -81,9 +83,9 @@
           <h5>Add Pin</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" ng-href="#settings/gpio_pin_editor/new" class="pull-right btn btn-success">
+          <button id="new_script" ng-click="goToGpioPinEditor('new')" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
-          </a>
+          </button>
         </div>
       </div>
     </li>
@@ -111,7 +113,9 @@
           <h5>{{script.name}}</h5>
         </div>
         <div class="col-sm-6">
-          <a class="pull-right btn btn-primary" ng-href="#settings/gpio_script_editor/{{script.name}}"><span class="glyphicon glyphicon-cog"></span></a>
+          <button class="pull-right btn btn-primary" ng-click="goToGpioScriptEditor(script.name)">
+            <span class="glyphicon glyphicon-cog"></span>
+          </button>
         </div>
       </div>
     </li>
@@ -121,9 +125,9 @@
           <h5>Add Script</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" ng-href="#settings/gpio_script_editor/{{new}}" class="pull-right btn btn-success">
+          <button id="new_script" ng-click="goToGpioScriptEditor('new')" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
-          </a>
+          </button>
         </div>
       </div>
     </li>
@@ -180,7 +184,9 @@
           <h5><small>{{cmd.cmd}}</small></h5>
         </div>
         <div class="col-sm-4">
-          <a class="pull-right btn btn-primary" ng-href="#settings/serial_command_editor/{{cmd.name}}"><span class="glyphicon glyphicon-cog"></span></a>
+          <button class="pull-right btn btn-primary" ng-click="goToSerialCommandEditor(cmd.name)">
+            <span class="glyphicon glyphicon-cog"></span>
+          </button>
         </div>
       </div>
     </li>
@@ -190,9 +196,9 @@
           <h5>Add Command</h5>
         </div>
         <div class="col-sm-6">
-          <a id="new_script" ng-href="#settings/serial_command_editor/new" class="pull-right btn btn-success">
+          <button id="new_script" ng-click="goToSerialCommandEditor('new')" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
-          </a>
+          </button>
         </div>
       </div>
     </li>
