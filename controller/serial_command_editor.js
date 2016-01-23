@@ -28,12 +28,12 @@ function(appApi,util, $scope, $state, $stateParams) {
     };
 
     if ($scope.cmdName != "new") {
-      appApi.getSerialCommand($scope.cmdName, function(script) {
+      appApi.getSerialCommand($scope.cmdName, function(cmd) {
         $scope.cmd = cmd;
         console.log("Modifying command:", $scope.cmd);
       });
     } else {
-      $scope.script = {name:"New Script", cmd: "Command"};
+      $scope.cmd = {name:"New Command", cmd: "Command"};
       console.log("Modifying command:", $scope.cmd);
     }
 
