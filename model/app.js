@@ -283,7 +283,8 @@ var initRoutes = function(callback) {
   // Remove a pin from the config
   app.delete("/api/gpio/pins/name/:pin",jsonParser,function(req,res) {
     var pin = req.body.pin;
-    getGpioPinByName(pin, function(pinObj) {
+    convertUnderscoresToSpaces(pin,function(conv) {
+      getGpioPinByName(conv, function(pinObj) {
       if (pinObj !== null) {
         var index = config.gpio.pins.indexOf(pinObj);
         if (index > -1) {
@@ -295,6 +296,7 @@ var initRoutes = function(callback) {
       }  else{
         util.sendHttpError(res);
       }
+    });
     });
   });
 
@@ -378,7 +380,7 @@ var initRoutes = function(callback) {
   // Delete GPIO Script
   app.delete('/api/gpio/script/:name',jsonParser,function(req,res) {
     var nme = req.params.name;
-    filterScriptName(nme,function(name) {
+    convertUnderscoresToSpaces(nme,function(name) {
       getGpioScriptIndexByName(name,function(index) {
         if (index < 0) {
           util.sendHttpNotFound(res);
@@ -394,7 +396,7 @@ var initRoutes = function(callback) {
   app.put('/api/gpio/script/:name',jsonParser,function(req,res){
     var script = req.body.script;
     var pName = req.params.name;
-    filterScriptName(pName, function(name) {
+    convertUnderscoresToSpaces(pName, function(name) {
       script.name = name;
       console.log("Updating GPIO Script",script);
       getGpioScriptIndexByName(name,function(index) {
@@ -815,7 +817,7 @@ var getSerialCommandByName = function(name, callback){
   callback(target);
 };
 
-var filterScriptName = function(name,callback){
+var convertUnderscoresToSpaces = function(name,callback){
   callback((name.indexOf("_") > 0 ? name.split("_").join(" ") : name));
 };
 
