@@ -18,9 +18,9 @@
 */
 PiApp.factory('util',function(){
   return {
-    convertSpacesToUnderscores : function(name,callback)
+    convertSpacesToUnderscores : function(name)
 		{
-			callback((name.indexOf(" ") > 0 ? name.split(" ").join("_") : name));
+			return (name.indexOf(" ") > 0 ? name.split(" ").join("_") : name);
 		},
 
     getGpioPinByNumber : function(pins,i,callback) {
