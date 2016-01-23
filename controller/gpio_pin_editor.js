@@ -24,7 +24,7 @@ PiApp.controller('GpioPinEditor', ['appApi','util','$scope', '$state', '$statePa
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,index);  
+      util.closeAlert($scope.alerts,index);
     };
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);

@@ -34,11 +34,6 @@
         <input class="form-control" type="text" placeholder="Pin Number" ng-model="gpioPinAddNum">
       </div>
       <div class="form-group">
-        <div class="checkbox">
-          <label><input type="checkbox" ng-model="gpioPinAddHidden" value="">Pin Hidden</label>
-        </div>
-      </div>
-      <div class="form-group">
         <div class="input-group">
           <select id="state-command" class="form-control" ng-model="gpioPinAddState">
             <option value="">Selct State</option>
@@ -53,17 +48,8 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="remove-command">Remove</label>
-        <div class="input-group">
-          <select id="remove-command" class="form-control" ng-model="gpioPinRemove">
-            <option value="">{{REMOVE_GPIO_DEFAULT}}</option>
-            <option ng-repeat="pin in pinList" value="{{pin.name}}">{{pin.name}}</option>
-          </select>
-          <span  class="input-group-btn">
-            <button ng-click="removeGpioPin()" type="button" class="btn btn-danger ">
-              <span class="glyphicon glyphicon-minus"></span>
-            </button>
-          </span>
+        <div class="checkbox">
+          <label><input type="checkbox" ng-model="gpioPinAddHidden" value="">Pin Hidden</label>
         </div>
       </div>
     </form>
