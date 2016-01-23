@@ -26,9 +26,9 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
       util.closeAlert($scope.alerts,index);
     };
 
-		$scope.getGpioPinEditorUrl = function(name) {
+		$scope.goToGpioPinEditor = function(name) {
 			util.convertSpacesToUnderscores(name,function(converted) {
-				 return "#settings/gpio_pin_editor/"+converted;
+				 $state.go("GpioPinEditor", {name:converted});
 			});
 		};
 
