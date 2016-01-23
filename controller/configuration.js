@@ -34,13 +34,6 @@ PiApp.config(function($provide, $stateProvider, $urlRouterProvider)
     controller: "Settings"
   });
 
-  $stateProvider.state('System',
-  {
-    url: "/system",
-    templateUrl: "system.html",
-    controller: "System"
-  });
-
   $stateProvider.state('GpioScriptEditor',
   {
     url: "/settings/gpio_script_editor/:name",
@@ -60,5 +53,12 @@ PiApp.config(function($provide, $stateProvider, $urlRouterProvider)
     url: "/settings/serial_command_editor/:name",
     templateUrl: "serial_command_editor.html",
     controller: "SerialCommandEditor"
+  });
+
+  $stateProvider.state('System',
+  {
+    url: "/system",
+    templateUrl: "system.html",
+    controller: "System"
   });
 });

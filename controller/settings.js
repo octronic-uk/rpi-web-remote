@@ -26,23 +26,25 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
       util.closeAlert($scope.alerts,index);
     };
 
-		$scope.getGpioPinEditorUrl = function(name)
-		{
-			return "#/settings/gpio_pin_editor/"+util.convertSpacesToUnderscores(name);
+		$scope.getGpioPinEditorUrl = function(name) {
+			util.convertSpacesToUnderscores(name,function(converted) {
+				 return "#/settings/gpio_pin_editor/"+converted;
+			});
 		};
 
-		$scope.getGpioScriptEditorUrl = function(name)
-		{
-      return "#/settings/gpio_script_editor/"+util.convertSpacesToUnderscores(name);
+		$scope.getGpioScriptEditorUrl = function(name) {
+      util.convertSpacesToUnderscores(name,function(converted) {
+				 return "#/settings/gpio_script_editor/"+converted;
+			});
 		};
 
-		$scope.getSerialCommandEditorUrl = function(name)
-		{
-      return "#/settings/serial_command_editor/"+util.convertSpacesToUnderscores(name);
+		$scope.getSerialCommandEditorUrl = function(name) {
+      util.convertSpacesToUnderscores(name,function(converted) {
+			  return "#/settings/serial_command_editor/"+converted;
+		  });
 		};
 
-		$scope.addSerialCommand = function()
-		{
+		$scope.addSerialCommand = function() {
 			var name = $scope.serialCommandNameAdd;
 			var cmd = $scope.serialCommandAdd;
 

@@ -23,8 +23,7 @@ function(appApi,util, $scope, $state, $stateParams) {
     $scope.alerts = [];
     $scope.ui = {};
 
-    $scope.closeAlert = function(index)
-    {
+    $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };
 
