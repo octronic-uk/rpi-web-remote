@@ -33,15 +33,15 @@ PiApp.controller('Settings', ['appApi','util','$scope','$state',
 			});
 		};
 
-		$scope.getGpioScriptEditorUrl = function(name) {
+		$scope.goToGpioScriptEditor = function(name) {
       util.convertSpacesToUnderscores(name,function(converted) {
-				 return "#settings/gpio_script_editor/"+converted;
+				 $state.go("GpioScriptEditor", {name:converted});
 			});
 		};
 
-		$scope.getSerialCommandEditorUrl = function(name) {
+		$scope.goToSerialCommandEditor = function(name) {
       util.convertSpacesToUnderscores(name,function(converted) {
-			  return "#settings/serial_command_editor/"+converted;
+			  $state.go("SerialCommandEditor", {name:converted});
 		  });
 		};
 

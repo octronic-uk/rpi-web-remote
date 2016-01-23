@@ -437,9 +437,7 @@ var initRoutes = function(callback) {
         console.log("Script",name,"was not found");
         util.sendHttpNotFound(res);
         return;
-      }
-      else
-      {
+      } else {
         util.sendHttpOK(res);
 
         var doStates     = script.do;
@@ -495,7 +493,7 @@ var initRoutes = function(callback) {
               emitSocketIOGpioScriptFinished(name);
             } // if result
           }); // getWhileResult
-        },GPIO_SCRIPT_DELAY);
+        }, GPIO_SCRIPT_DELAY);
       }
     });
   });
