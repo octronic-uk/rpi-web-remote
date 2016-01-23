@@ -397,7 +397,6 @@ var initRoutes = function(callback) {
     var script = req.body.script;
     var pName = req.params.name;
     convertUnderscoresToSpaces(pName, function(name) {
-      script.name = name;
       console.log("Updating GPIO Script",script);
       getGpioScriptIndexByName(name,function(index) {
         if (index > 0) {
