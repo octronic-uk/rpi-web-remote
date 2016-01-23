@@ -28,19 +28,19 @@ PiApp.controller('Settings', ['appApi','util','$scope', function(appApi,util, $s
 
 		$scope.getGpioPinEditorUrl = function(name) {
 			util.convertSpacesToUnderscores(name,function(converted) {
-				 return "#/settings/gpio_pin_editor/"+converted;
+				 return "#settings/gpio_pin_editor/"+converted;
 			});
 		};
 
 		$scope.getGpioScriptEditorUrl = function(name) {
       util.convertSpacesToUnderscores(name,function(converted) {
-				 return "#/settings/gpio_script_editor/"+converted;
+				 return "#settings/gpio_script_editor/"+converted;
 			});
 		};
 
 		$scope.getSerialCommandEditorUrl = function(name) {
       util.convertSpacesToUnderscores(name,function(converted) {
-			  return "#/settings/serial_command_editor/"+converted;
+			  return "#settings/serial_command_editor/"+converted;
 		  });
 		};
 

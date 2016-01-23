@@ -376,7 +376,7 @@ var initRoutes = function(callback) {
   });
 
   // Delete GPIO Script
-  app.put('/api/gpio/script/:name/delete',jsonParser,function(req,res) {
+  app.delete('/api/gpio/script/:name',jsonParser,function(req,res) {
     var nme = req.params.name;
     filterScriptName(nme,function(name) {
       getGpioScriptIndexByName(name,function(index) {

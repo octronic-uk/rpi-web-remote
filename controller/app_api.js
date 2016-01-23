@@ -444,11 +444,11 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			util.convertSpacesToUnderscores(scriptName, function(name)
 			{
 				$http({
-					method: "PUT",
-					url:"/api/gpio/script/"+name+"/delete"
+					method: "DELETE",
+					url:"/api/gpio/script/"+name
 				}).then(function successCalback(res)
 				{
-						callback(true);
+          callback(true);
 				},function errorCallback(res)
 				{
 					callback(false);

@@ -71,7 +71,7 @@
           <h5><small>{{pin.hidden}}</small></h5>
         </div>
         <div class="col-sm-2">
-            <a class="pull-right btn btn-primary" ng-href="#settings/gpio_pin_editor/{{pin.name}}"><span class="glyphicon glyphicon-cog"></span></a>
+            <a class="pull-right btn btn-primary" ng-href="{{getGpioPinEditorUrl(pin.name)}}"><span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </li>

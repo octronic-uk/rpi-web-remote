@@ -23,7 +23,7 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
 
     $scope.closeAlert = function(index)
     {
-      util.closeAlert($scope.alerts,index);  
+      util.closeAlert($scope.alerts,index);
     };
 
     console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
@@ -125,6 +125,8 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
     };
 
     $scope.deleteButton = function() {
+      console.log("Deleting GPIO Script",$scope.script.name);
+
       appApi.deleteGpioScript($scope.script.name, function(success) {
         if (success) {
           util.addAlert($scope.alerts,{ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
@@ -138,6 +140,8 @@ PiApp.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', 
     };
 
     $scope.saveButton = function() {
+      console.log("Saving GPIO Script",$scope.script.name);
+
       appApi.setGpioScript($scope.script,function(success1) {
         if (success1) {
           appApi.configSave(function(success2) {
