@@ -38,15 +38,12 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		removeSerialCommand : function(name,callback)
+		deleteSerialCommand : function(cmd,callback)
 		{
-			console.log("Removing command",name);
+			console.log("Removing command",cmd.name);
 			$http({
-				method: "PUT",
-				url: "/api/serial/command/remove",
-				data: {
-					cmdName: name
-				}
+				method: "DELETE",
+				url: "/api/serial/command/"+cmd.name,
 			}).then(function successCalback(resp)
 			{
 				callback(true);

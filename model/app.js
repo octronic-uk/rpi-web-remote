@@ -627,9 +627,12 @@ var initRoutes = function(callback) {
   });
 
   // Remove a serial command to the configuration
-  app.put('/api/serial/command/remove',jsonParser,function(req,res) {
-    var name = req.body.cmdName;
-    console.log("Reomving command", name, "aka", req.body.cmdName);
+  app.delete('/api/serial/command/:name',jsonParser,function(req,res) {
+    var name = req.params.name;
+    console.log("Reomving command", name, "aka");
+    convertUnderscoresToSpaces(name,function(conv){
+
+    });
     getSerialCommandIndexByName(name,function(index){
       if (index > -1) {
         config.serial.commands.splice(index, 1);

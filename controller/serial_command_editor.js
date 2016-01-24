@@ -40,7 +40,7 @@ function(appApi,util, $scope, $state, $stateParams) {
     }
 
     $scope.deleteButton = function() {
-      appApi.deleteSerialCommand($scope.cmd.name, function(success) {
+      appApi.deleteSerialCommand($scope.cmd, function(success) {
         if (success) {
           util.addAlert($scope.alerts,{ type: 'success', msg: 'Command '+$scope.cmd.name+' has been deleted!' });
           setTimeout(function() {

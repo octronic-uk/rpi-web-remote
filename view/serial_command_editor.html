@@ -23,27 +23,18 @@
   <div class="panel-body">
     <form role="form">
       <div class="form-group">
-        <label for="add-command">Add</label>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Name" ng-model="serialCommandNameAdd">
-        </div>
-        <div class="input-group">
-          <input class="form-control" type="text" placeholder="Command" ng-model="serialCommandAdd">
-          <span class="input-group-btn" >
-            <button ng-click="addSerialCommand()" type="button" class="btn btn-success ">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </span>
-        </div>
+        <label for="add-command">Name</label>
+        <input class="form-control" type="text" placeholder="Name" ng-model="cmd.name">
+      </div>
+      <div class="form-group">
+        <label for="add-command">Command</label>
+        <input class="form-control" type="text" placeholder="Command" ng-model="cmd.cmd">
       </div>
     </form>
   </div>
 </div>
 <!-- Footer -->
 <div class="panel">
-  <div class="panel-heading">
-    Save or Delete
-  </div>
   <ul class="list-group">
     <li class="list-group-item clearfix">
       <h5>
