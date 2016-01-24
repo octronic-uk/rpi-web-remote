@@ -105,7 +105,7 @@ PiApp.controller('Settings', ['appApi','util','$scope','$state',
 					{
 						if (result)
 						{
-							appApi.setDeviceName(function(result)
+							appApi.setDeviceName($scope.deviceName, function(result)
 							{
 								if (result)
 								{

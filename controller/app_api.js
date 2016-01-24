@@ -171,7 +171,7 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		setDeviceName : function(callback)
+		setDeviceName : function(deviceName, callback)
 		{
 			$http({
 				method: "PUT",
