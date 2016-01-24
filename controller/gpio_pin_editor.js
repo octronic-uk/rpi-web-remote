@@ -37,10 +37,10 @@ PiApp.controller('GpioPinEditor', [
     if ($scope.pinName == "new") {
       $scope.pin = {
         num: 0,
-        name: "New Pin",
+        name: "Pin",
         io: "out",
         state: 0,
-        hidden: 0
+        hidden: false,
       };
       console.log("Modifying pin:", $scope.pin);
     } else {

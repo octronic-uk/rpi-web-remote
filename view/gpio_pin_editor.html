@@ -37,17 +37,18 @@
           <option value="in">Input</option>
           <option value="out">Output</option>
         </select>
+      </div>
       <div class="form-group">
         <label>State</label>
         <select id="state-command" class="form-control" ng-model="pin.state">
           <option value="">Selct State</option>
-          <option value="false">0</option>
-          <option value="true">1</option>
+          <option value="0">Low</option>
+          <option value="1">High</option>
         </select>
       </div>
       <div class="form-group">
         <div class="checkbox">
-          <label><input type="checkbox" ng-model="pin.hidden" value="">Pin Hidden</label>
+          <label><input type="checkbox" ng-model="pin.hidden" value="">Pin Hidden fom Home Screen</label>
         </div>
       </div>
     </form>
