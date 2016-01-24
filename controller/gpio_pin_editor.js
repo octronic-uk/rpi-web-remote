@@ -64,7 +64,7 @@ PiApp.controller('GpioPinEditor', [
     };
 
     $scope.saveButton = function() {
-      appApi.addGpioPin($scope.pin,function(success1) {
+      appApi.putGpioPin($scope.pin,function(success1) {
         if (success1) {
           appApi.configSave(function(success2) {
             if (success2) {

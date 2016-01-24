@@ -114,19 +114,13 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		addGpioPin : function(pin,callback)
+		putGpioPin : function(pin,callback)
 		{
 			$http({
 				method: "put",
-				url: "/api/gpio/pins/add",
-				data: {
-					name: pin.name,
-					num: pin.num,
-					io: pin.io,
-					state: pin.state,
-					hidden: pin.hidden
-				}
-			}).then(function successCallback(res)
+				url: "/api/gpio/pins",
+				data: pin
+      }).then(function successCallback(res)
 			{
 				callback(true);
 			},function errorCallback(res)

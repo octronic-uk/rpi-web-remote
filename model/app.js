@@ -301,23 +301,17 @@ var initRoutes = function(callback) {
   });
 
   // Add a pin to the config list
-  app.put("/api/gpio/pins/add",jsonParser,function(req,res) {
-    var num = req.body.num;
-    var name = req.body.name;
-    var io = req.body.io;
-    var state = req.body.state;
-    var hidden = req.body.hidden;
-
-    var pin = {
-      name: name,
-      num: num,
-      io: io,
-      state: state,
-      hidden: hidden,
-    };
-    config.gpio.pins.push(pin);
-    initIndividualGpioPin(pin);
-    util.sendHttpOK(res);
+  app.put("/api/gpio/pins",jsonParser,function(req,res) {
+    var pin = req.body;
+    getGpioPinIndexByNumber(pin.num,function(index){
+      if (index > 0)
+      {
+        config.gpio.pins.splice(index,1);
+      }
+      config.gpio.pins.push(pin);
+      initIndividualGpioPin(pin);
+      til.sendHttpOK(res);
+    });
   });
 
   // Get the state of a pin
@@ -327,7 +321,7 @@ var initRoutes = function(callback) {
       getGpioPinByName(conv, function(pinObj) {
         if (pinObj !== null) {
             util.sendHttpJson(res,pinObj);
-          } else { 
+          } else {
             util.sendHttpJson(res,{value: pinObj.state});
           }
        });
@@ -841,6 +835,12 @@ var addGpioPinEvent = function(pinNum, state){
   console.log("Adding pin event to history  (pin / state)",pinNum,"/",state);
   eventHistory[pinNumString(pinNum)].push({date: new Date(), state: state});
   emitSocketIOGpioStateChange(pinNum,state);
+};
+
+var getGpioPinIndexByNumber = function(pin, callback) {
+  getGpioPinByNumber(pin, function(pinObj) {
+    callback(config.gpio.pins.indexOf(pinObj));
+  });
 };
 
 // Return a pin object based on it's number
