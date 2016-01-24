@@ -27,7 +27,7 @@ PiApp.controller('GpioPinEditor', [
     appApi.getDeviceName(function(name) {
 		  $scope.deviceName = name;
 	  });
-    
+
     $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };

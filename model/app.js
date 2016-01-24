@@ -304,7 +304,7 @@ var initRoutes = function(callback) {
   app.put("/api/gpio/pins",jsonParser,function(req,res) {
     var pin = req.body;
     getGpioPinIndexByNumber(pin.num,function(index){
-      if (index > 0)
+      if (index > -1)
       {
         config.gpio.pins.splice(index,1);
       }
@@ -386,7 +386,7 @@ var initRoutes = function(callback) {
     convertUnderscoresToSpaces(pName, function(name) {
       console.log("Updating GPIO Script",script);
       getGpioScriptIndexByName(name,function(index) {
-        if (index > 0) {
+        if (index > -1) {
           config.gpio.scripts.splice(index,1);
         }
         config.gpio.scripts.push(script);
