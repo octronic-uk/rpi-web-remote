@@ -16,12 +16,14 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('SerialCommandEditor', ['appApi','util','$scope','$state','$stateParams',
-function(appApi,util, $scope, $state, $stateParams) {
+PiApp.controller('SerialCommandEditor', [
+  'appApi','util','$scope','$state','$stateParams','$rootScope',
+function(appApi,util, $scope, $state, $stateParams, $rootScope) {
     $scope.cmdName = $stateParams.name;
     $scope.REMOVE_CMD_DEFAULT = "Select Command";
     $scope.alerts = [];
     $scope.ui = {};
+    $rootScope.pageName = "Serial Command Editor";
 
     $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
