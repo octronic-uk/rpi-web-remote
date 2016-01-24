@@ -346,23 +346,25 @@ var initRoutes = function(callback) {
   // Get the state of a pin
   app.get("/api/gpio/pins/name/:pin", jsonParser, function(req,res) {
     var pin = req.params.pin;
-    getGpioPinByName(pin, function(pinObj) {
-      if (pinObj !== null) {
-        // Read state for input
-        if (pinObj.io == "in") {
-          gpio.read(pin, function(err, value) {
-            if (err) {
-              util.sendHttpError(res,"error reading pin "+pin);
-            } else {
-              util.sendHttpJson(res,{value: value});
-            }
-          });
-        } else { // Get state from memory for output
-          util.sendHttpJson(res,{value: pinObj.state});
+    convertUnderscoresToSpaces(pin,function(conv) {
+      getGpioPinByName(pin, function(pinObj) {
+        if (pinObj !== null) {
+          // Read state for input
+          if (pinObj.io == "in") {
+            gpio.read(pin, function(err, value) {
+              if (err) {
+                util.sendHttpError(res,"error reading pin "+pin);
+              } else {
+                util.sendHttpJson(res,{value: value});
+              }
+            });
+          } else { // Get state from memory for output
+            util.sendHttpJson(res,{value: pinObj.state});
+          }
+        } else {
+          util.sendHttpNotFound(res);
         }
-      } else {
-        util.sendHttpNotFound(res);
-      }
+      });
     });
   });
 
@@ -411,14 +413,16 @@ var initRoutes = function(callback) {
   // Get a GPIO script
   app.get('/api/gpio/script/:name',jsonParser,function(req,res) {
     var name = req.params.name;
-    getGpioScriptByName(name,function (script) {
-      if (script) {
-        console.log("Sending script for",name,script);
-        util.sendHttpJson(res,script);
-      } else {
-        console.log("Script not found",name);
-        util.sendHttpError(res);
-      }
+    convertUnderscoresToSpaces(name,function(conv){
+      getGpioScriptByName(conv,function (script) {
+        if (script) {
+          console.log("Sending script for",name,script);
+          util.sendHttpJson(res,script);
+        } else {
+          console.log("Script not found",name);
+          util.sendHttpError(res);
+        }
+      });
     });
   });
 

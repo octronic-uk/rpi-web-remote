@@ -72,16 +72,18 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 
 		getGpioPinByName : function(pin, callback)
 		{
-			$http({
-				method: "GET",
-				url: "/api/gpio/pins/name/"+pin
-			}).then(function successCallback(resp)
-			{
-				callback(JSON.parse(resp.data));
-			},function errorCallback(resp)
-			{
-				callback(null);
-			});
+      util.convertSpacesToUnderscores(pin, function(conv) {
+        $http({
+  				method: "GET",
+  				url: "/api/gpio/pins/name/"+pin
+  			}).then(function successCallback(resp)
+  			{
+  				callback(JSON.parse(resp.data));
+  			},function errorCallback(resp)
+  			{
+  				callback(null);
+  			});
+      });
 		},
 
     getGpioPinByNumber : function(pin, callback)
