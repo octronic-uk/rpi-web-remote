@@ -310,7 +310,7 @@ var initRoutes = function(callback) {
       }
       config.gpio.pins.push(pin);
       initIndividualGpioPin(pin);
-      til.sendHttpOK(res);
+      util.sendHttpOK(res);
     });
   });
 

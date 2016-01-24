@@ -104,7 +104,7 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 		{
 			$http({
 				method: "DELETE",
-				url: "/api/gpio/pins/:"+pin.name,
+				url: "/api/gpio/pins/"+pin.name,
 			}).then(function successCallback(res)
 			{
 				callback(true);
