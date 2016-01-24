@@ -20,6 +20,7 @@ PiApp.controller('System', ['appApi','util','$scope' ,
   function(appApi,util, $scope)   {
     $scope.stats = {};
     $scope.alerts = [];
+    $scope.pageName = "System";
 
     $scope.closeAlert = function(index)
     {

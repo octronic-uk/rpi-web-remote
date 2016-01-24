@@ -25,7 +25,7 @@ PiApp.controller('Landing',
     $scope.alerts = [];
 		$scope.ui = {};
 		$scope.serialEnabled = false;
-		$rootScope.pageName = "Landing";
+		$scope.pageName = "Home";
 
     $scope.closeAlert = function(index)
     {

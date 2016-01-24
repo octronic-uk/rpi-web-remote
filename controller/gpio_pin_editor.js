@@ -22,7 +22,7 @@ PiApp.controller('GpioPinEditor', [
     $scope.pinName = $stateParams.name;
     $scope.alerts = [];
     $scope.pin = {};
-    $rootScope.pageName = "GPIO Pin Editor";
+    $scope.pageName = "GPIO Pin Editor";
 
     $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);

@@ -21,6 +21,7 @@ PiApp.controller('Settings', ['appApi','util','$scope','$state',
 		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
 		$scope.alerts = [];
 		$scope.serialEnabled = false;
+    $scope.pageName = "Settings";
 
     $scope.closeAlert = function(index)
     {

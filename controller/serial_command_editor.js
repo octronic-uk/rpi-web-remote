@@ -23,7 +23,7 @@ function(appApi,util, $scope, $state, $stateParams) {
     $scope.REMOVE_CMD_DEFAULT = "Select Command";
     $scope.alerts = [];
     $scope.ui = {};
-    $rootScope.pageName = "Serial Command Editor";
+    $scope.pageName = "Serial Command Editor";
 
     $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
