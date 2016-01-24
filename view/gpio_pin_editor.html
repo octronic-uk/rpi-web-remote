@@ -18,6 +18,7 @@
 -->
 
 <uib-alert class="toast-alert" dismiss-on-timeout="3000" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+<div ng-include="'header.html'"></div>
 <div class="panel">
   <div class="panel-body">
     <form role="form">
