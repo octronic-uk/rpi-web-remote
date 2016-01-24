@@ -18,8 +18,8 @@
 */
 
 [ui-view].ng-enter, [ui-view].ng-leave {
-  -webkit-transition:all .75s ease-in-out;
-  transition:all .75s ease-in-out;
+  -webkit-transition:all .2s ease-in-out;
+  transition:all .2s ease-in-out;
 }
 
 [ui-view].ng-enter {

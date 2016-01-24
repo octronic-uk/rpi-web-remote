@@ -53,18 +53,12 @@ function(appApi,util, $scope, $state, $stateParams) {
     };
 
     $scope.saveButton = function() {
-      appApi.addSerialCommand($scope.cmd,function(success1) {
-        if (success1) {
-          appApi.configSave(function(success2) {
-            if (success2) {
-              util.addAlert($scope.alerts,{ type: 'success', msg: 'Command '+$scope.cmd.name+' has been saved!' });
-              setTimeout(function() {
-                $state.go("Settings");
-              }, 1500);
-            } else {
-              util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.cmd.name });
-            }
-          });
+      appApi.putSerialCommand($scope.cmd,function(success) {
+        if (success) {
+          util.addAlert($scope.alerts,{ type: 'success', msg: 'Command '+$scope.cmd.name+' has been saved!' });
+          setTimeout(function() {
+            $state.go("Settings");
+          }, 1500);
         } else {
           util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.cmd.name });
         }

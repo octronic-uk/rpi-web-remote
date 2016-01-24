@@ -613,13 +613,12 @@ var initRoutes = function(callback) {
   });
 
   // Add a serial command to the configuration
-  app.put('/api/serial/command/add',jsonParser,function(req,res){
-    var name = req.body.name;
-    var command = req.body.cmd;
-    console.log("Adding command",name,"/",command);
+  app.put('/api/serial/command',jsonParser,function(req,res){
+    var cmd = req.body;
+    console.log("Adding command",com);
 
-    if (name !== undefined && command !== undefined){
-      config.serial.commands.push({name: name, cmd: command});
+    if (cmd !== undefined){
+      config.serial.commands.push(cmd);
       util.sendHttpOK(res);
     } else {
       util.sendHttpError(res);

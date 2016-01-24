@@ -20,15 +20,12 @@
 PiApp.factory('appApi',['util','$http',function(util, $http)
 {
   return {
-    addSerialCommand : function(name,cmd,callback)
+    putSerialCommand : function(cmd,callback)
 		{
 			$http({
 				method: "PUT",
-				url: "/api/serial/command/add",
-				data: {
-					name: name,
-					cmd: cmd
-				}
+				url: "/api/serial/command",
+				data: cmd
 			}).then(function successCalback(resp)
 			{
 				callback(true);
@@ -297,7 +294,7 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		setSerialPath : function(path,callback)
+		putSerialPath : function(path,callback)
 		{
 			$http({
 				method: "PUT",
@@ -312,7 +309,7 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		setSerialBaudrate : function(baud,callback)
+		putSerialBaudrate : function(baud,callback)
 		{
 			$http({
 				method: "PUT",
@@ -494,7 +491,7 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		setSerialEnabled : function(enabled,callback)
+		putSerialEnabled : function(enabled,callback)
 		{
 			$http({
 				method: "PUT",

@@ -97,11 +97,11 @@ PiApp.controller('Settings', ['appApi','util','$scope','$state',
 
 		$scope.saveSettings = function()
 		{
-			appApi.setSerialPath($scope.selectedSerialPort,function(result)
+			appApi.putSerialPath($scope.selectedSerialPort,function(result)
 			{
 				if (result)
 				{
-					appApi.setSerialBaudrate($scope.selectedBaudrate,function(result)
+					appApi.putSerialBaudrate($scope.selectedBaudrate,function(result)
 					{
 						if (result)
 						{
@@ -157,7 +157,7 @@ PiApp.controller('Settings', ['appApi','util','$scope','$state',
 		};
 
 		$scope.serialEnabledCheckboxChanged = function() {
-			appApi.setSerialEnabled($scope.serialEnabled,function(resp) {
+			appApi.putSerialEnabled($scope.serialEnabled,function(resp) {
 				if ($scope.serialEnabled) {
 					util.addAlert($scope.alerts,{ type: 'success', msg: 'Serial has been enabled.' });
 				} else {
