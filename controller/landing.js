@@ -17,8 +17,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 PiApp.controller('Landing',
-	['socket','appApi','util','$scope','$rootScope',
-	function(socket, appApi, util, $scope,rootScope)
+	['socket','appApi','util','$scope',
+	function(socket, appApi, util, $scope)
 	{
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
