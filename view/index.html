@@ -48,14 +48,21 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="apple-touch-icon" href="/favicon.png">
-  <title>{{deviceName}}</title>
+  <title>{{deviceName}} :: {{pageName}}</title>
 </head>
 <body>
   <div class="container-fluid">
     <br>
     <!-- Header -->
     <div class="well">
-      <a href="#"><h4><span class="glyphicon glyphicon-home"></span>&nbsp;{{deviceName}}</h4></a>
+      <h4>
+        <a href="#">
+          <span class="glyphicon glyphicon-home"></span>&nbsp;{{deviceName}}
+        </a>
+        <div class="pull-right">
+          {{pageName}}
+        </div>
+      </h4>
     </div>
     <!-- Page Content -->
     <div ui-view></div>
