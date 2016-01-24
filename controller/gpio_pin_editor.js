@@ -17,8 +17,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 PiApp.controller('GpioPinEditor', [
-  'appApi','util','$scope', '$state', '$stateParams', '$rootScope',
-  function(appApi, util, $scope, $state, $stateParams, $rootScope) {
+  'appApi','util','$scope', '$state', '$stateParams',
+  function(appApi, util, $scope, $state, $stateParams) {
     $scope.pinName = $stateParams.name;
     $scope.alerts = [];
     $scope.pin = {};
@@ -38,13 +38,17 @@ PiApp.controller('GpioPinEditor', [
         state: 0,
         hidden: 0
       };
+      console.log("Modifying pin:", $scope.pin);
     } else {
       appApi.getGpioPinByName($scope.pinName, function(pin) {
-        $scope.pin = pin;
+        if (pin) {
+          $scope.pin = pin;
+          console.log("Modifying pin:", $scope.pin);
+        } else {
+          console.log("The server returned an empty pin object");
+        }
       });
     }
-
-    console.log("Modifying pin:", $scope.pin);
 
     $scope.deleteButton = function() {
       appApi.deleteGpioPin($scope.pin.name, function(success) {

@@ -281,7 +281,7 @@ var initRoutes = function(callback) {
   });
 
   // Remove a pin from the config
-  app.delete("/api/gpio/pins/name/:pin",jsonParser,function(req,res) {
+  app.delete("/api/gpio/pins/:pin",jsonParser,function(req,res) {
     var pin = req.body.pin;
     convertUnderscoresToSpaces(pin,function(conv) {
       getGpioPinByName(conv, function(pinObj) {
@@ -321,32 +321,23 @@ var initRoutes = function(callback) {
   });
 
   // Get the state of a pin
-  app.get("/api/gpio/pins/number/:pin", jsonParser, function(req,res) {
+  app.get("/api/gpio/pins/:pin", jsonParser, function(req,res) {
     var pin = req.params.pin;
-    getGpioPinByNumber(pin, function(pinObj) {
-      if (pinObj !== null) {
-        // Read state for input
-        if (pinObj.io == "in") {
-          gpio.read(pin, function(err, value) {
-            if (err) {
-              util.sendHttpError(res,"error reading pin "+pin);
-            } else {
-              util.sendHttpJson(res,{value: value});
-            }
-          });
-        } else { // Get state from memory for output
-          util.sendHttpJson(res,{value: pinObj.state});
-        }
-      } else {
-        util.sendHttpNotFound(res);
-      }
+    convertUnderscoresToSpaces(pin,function(conv) {
+      getGpioPinByName(conv, function(pinObj) {
+        if (pinObj !== null) {
+            util.sendHttpJson(res,pinObj);
+          } else { 
+            util.sendHttpJson(res,{value: pinObj.state});
+          }
+       });
     });
   });
 
   // Get the state of a pin
-  app.get("/api/gpio/pins/name/:pin", jsonParser, function(req,res) {
+  app.get("/api/gpio/pins/:pin/read", jsonParser, function(req,res) {
     var pin = req.params.pin;
-    convertUnderscoresToSpaces(pin,function(conv) {
+    convertUnderscoresToSpaces(pin, function(conv) {
       getGpioPinByName(pin, function(pinObj) {
         if (pinObj !== null) {
           // Read state for input

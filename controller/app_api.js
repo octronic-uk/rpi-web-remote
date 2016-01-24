@@ -75,7 +75,7 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
       util.convertSpacesToUnderscores(pin, function(conv) {
         $http({
   				method: "GET",
-  				url: "/api/gpio/pins/name/"+pin
+  				url: "/api/gpio/pins/"+pin
   			}).then(function successCallback(resp)
   			{
   				callback(JSON.parse(resp.data));
@@ -84,20 +84,6 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
   				callback(null);
   			});
       });
-		},
-
-    getGpioPinByNumber : function(pin, callback)
-		{
-			$http({
-				method: "GET",
-				url: "/api/gpio/pins/number/"+pin
-			}).then(function successCallback(resp)
-			{
-				callback(JSON.parse(resp.data));
-			},function errorCallback(resp)
-			{
-				callback(null);
-			});
 		},
 
 		getGpioPinList : function(callback)
