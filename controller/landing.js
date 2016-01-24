@@ -17,15 +17,15 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 PiApp.controller('Landing',
-	['socket','appApi','util','$scope',
-	function(socket, appApi, util, $scope)
+	['socket','appApi','util','$scope','$rootScope',
+	function(socket, appApi, util, $scope,rootScope)
 	{
 		// Socket IO Listener ------------------------------------------------------
 		console.log("Registering socket.io listener");
     $scope.alerts = [];
 		$scope.ui = {};
 		$scope.serialEnabled = false;
-		$scope.pageName = "Landing";
+		$rootScope.pageName = "Landing";
 
     $scope.closeAlert = function(index)
     {
