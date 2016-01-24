@@ -27,7 +27,6 @@ PiApp.controller('Landing',
 		$scope.serialEnabled = false;
 		$scope.pageName = "Home";
 
-
     appApi.getDeviceName(function(name) {
 		  $scope.deviceName = name;
 	  });
@@ -39,7 +38,7 @@ PiApp.controller('Landing',
 
 	  socket.on("StateChanged", function(args) {
 			console.log("Got StateChanged from Socket.IO with args",args);
-			util.getGpioPinByNumber($scope.gpioScriptList, args.pin,function(pin) {
+			util.getGpioPinByNumber($scope.gpioPinList, args.pin,function(pin) {
 				if(pin) pin.state = args.state;
 			});
 		});
