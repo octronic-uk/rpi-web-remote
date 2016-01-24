@@ -282,7 +282,7 @@ var initRoutes = function(callback) {
 
   // Remove a pin from the config
   app.delete("/api/gpio/pins/:pin",jsonParser,function(req,res) {
-    var pin = req.body.pin;
+    var pin = req.params.pin;
     convertUnderscoresToSpaces(pin,function(conv) {
       getGpioPinByName(conv, function(pinObj) {
       if (pinObj !== null) {
@@ -291,10 +291,10 @@ var initRoutes = function(callback) {
           config.gpio.pins.splice(index,1);
           util.sendHttpOK(res);
         } else {
-          util.sendHttpError(res);
+          util.sendHttpNotFound(res);
         }
       }  else{
-        util.sendHttpError(res);
+        util.sendHttpNotFound(res);
       }
     });
     });
