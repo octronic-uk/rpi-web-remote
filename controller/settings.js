@@ -119,6 +119,9 @@ PiApp.controller('Settings', ['appApi','util','$scope','$state',
 													{
 														console.log("Settings saved successfuly");
 														util.addAlert($scope.alerts,{ type: 'success', msg: 'Settings have been saved!' });
+                            setTimeout(function() {
+                              $state.go("Landing");
+                            }, 1500);
 													}
 													else
 												  {

@@ -615,7 +615,7 @@ var initRoutes = function(callback) {
   // Add a serial command to the configuration
   app.put('/api/serial/command',jsonParser,function(req,res){
     var cmd = req.body;
-    console.log("Adding command",com);
+    console.log("Adding command",cmd);
 
     if (cmd !== undefined){
       config.serial.commands.push(cmd);

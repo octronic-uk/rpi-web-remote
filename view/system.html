@@ -18,73 +18,43 @@
 -->
 <uib-alert class="toast-alert" dismiss-on-timeout="1500" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 <div ng-include="'header.html'"></div>
-<div class="panel">
-  <div class="panel-heading">
-    Uptime
-  </div>
-  <ul class="list-group">
-    <li class="list-group-item clearfix">
-      <h5>{{stats.uptime}}</h5>
-    </li>
-  </ul>
-</div>
-<div class="panel">
-  <div class="panel-heading">
-    Network
-  </div>
-  <ul class="list-group">
-    <li class="list-group-item clearfix">
-      <h5>
-        Hostname
-        <br>
-        <small>{{stats.hostname}}</small>
-      </h5>
-    </li>
-    <li class="list-group-item clearfix">
-      <h5>
-        Address
-        <br>
-        <small>{{stats.address}}</small>
-      </h5>
-    </li>
-  </ul>
-</div>
-<div class="panel">
-  <div class="panel-heading">
-    Update Application
-  </div>
-  <ul class="list-group">
-    <li class="list-group-item clearfix">
-      <h5>
-        Update
-        <button ng-click="updateButton()" class="pull-right btn btn-success"><span class="glyphicon glyphicon-save"></span></button>
-      </h5>
-    </li>
-    <li ng-show="stats.updateResult" class="list-group-item clearfix">
-      <h5>
-        Result
-        <br>
-        <small>{{stats.updateResult}}</small>
-      </h5>
-    </li>
-  </ul>
-</div>
-<div class="panel">
-  <div class="panel-heading">
-    Restart
-  </div>
-  <ul class="list-group">
-    <li class="list-group-item clearfix">
-      <h5>
-        Restart Application
-        <button ng-click="restartButton()" class="pull-right btn btn-primary"><span class="glyphicon glyphicon-refresh"></span></button>
-      </h5>
-    </li>
-    <li class="list-group-item clearfix">
-      <h5>
-        Reboot RaspberryPI
-        <button ng-click="rebootButton()" class="pull-right btn btn-danger"><span class="glyphicon glyphicon-repeat"></span></button>
-      </h5>
+<ul class="list-group">
+  <li class="list-group-item clearfix">
+    <h5>Uptime<small>{{stats.uptime}}</small></h5>
+  </li>
+  <li class="list-group-item clearfix">
+    <h5>Hostname<small class="pull-right">{{stats.hostname}}</small></h5>
+  </li>
+  <li class="list-group-item clearfix">
+    <h5>Address<small>{{stats.address}}</small></h5>
+  </li>
+  <li class="list-group-item clearfix">
+    <h5>{{stats.uptime}}</h5>
+  </li>
+  <li class="list-group-item clearfix">
+    <h5>
+      Update
+      <button ng-click="updateButton()" class="pull-right btn btn-success"><span class="glyphicon glyphicon-save"></span></button>
+    </h5>
+  </li>
+  <li ng-show="stats.updateResult" class="list-group-item clearfix">
+    <h5>
+      Result
+      <br>
+      <small>{{stats.updateResult}}</small>
+    </h5>
+  </li>
+  <li class="list-group-item clearfix">
+    <h5>
+      Restart Application
+      <button ng-click="restartButton()" class="pull-right btn btn-primary"><span class="glyphicon glyphicon-refresh"></span></button>
+    </h5>
+  </li>
+  <li class="list-group-item clearfix">
+    <h5>
+      Reboot RaspberryPI
+      <button ng-click="rebootButton()" class="pull-right btn btn-danger"><span class="glyphicon glyphicon-repeat"></span></button>
+    </h5>
     </li>
   </ul>
 </div>
