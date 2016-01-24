@@ -100,11 +100,11 @@ PiApp.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 
-		deleteGpioPin : function(pinNum,callback)
+		deleteGpioPin : function(pin,callback)
 		{
 			$http({
 				method: "DELETE",
-				url: "/api/gpio/pins/:pinNum",
+				url: "/api/gpio/pins/:"+pin.name,
 			}).then(function successCallback(res)
 			{
 				callback(true);

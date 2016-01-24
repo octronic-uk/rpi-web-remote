@@ -51,7 +51,7 @@ PiApp.controller('GpioPinEditor', [
     }
 
     $scope.deleteButton = function() {
-      appApi.deleteGpioPin($scope.pin.name, function(success) {
+      appApi.deleteGpioPin($scope.pin, function(success) {
         if (success) {
           util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+$scope.pin.name+' has been deleted!' });
           setTimeout(function() {
@@ -64,18 +64,12 @@ PiApp.controller('GpioPinEditor', [
     };
 
     $scope.saveButton = function() {
-      appApi.putGpioPin($scope.pin,function(success1) {
-        if (success1) {
-          appApi.configSave(function(success2) {
-            if (success2) {
-              util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+$scope.pin.name+' has been saved!' });
-              setTimeout(function() {
-                $state.go("Settings");
-              }, 1500);
-            } else {
-              util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.pin.name });
-            }
-          });
+      appApi.putGpioPin($scope.pin,function(success) {
+        if (success) {
+          util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+$scope.pin.name+' has been saved!' });
+          setTimeout(function() {
+            $state.go("Settings");
+          }, 1500);
         } else {
           util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.pin.name });
         }
