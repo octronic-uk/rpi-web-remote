@@ -24,6 +24,10 @@ PiApp.controller('GpioPinEditor', [
     $scope.pin = {};
     $scope.pageName = "GPIO Pin Editor";
 
+    appApi.getDeviceName(function(name) {
+		  $scope.deviceName = name;
+	  });
+    
     $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };

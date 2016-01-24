@@ -22,6 +22,10 @@ PiApp.controller('System', ['appApi','util','$scope' ,
     $scope.alerts = [];
     $scope.pageName = "System";
 
+    appApi.getDeviceName(function(name) {
+		  $scope.deviceName = name;
+	  });
+    
     $scope.closeAlert = function(index)
     {
       util.closeAlert($scope.alerts,index);

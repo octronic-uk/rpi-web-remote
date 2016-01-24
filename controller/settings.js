@@ -22,7 +22,10 @@ PiApp.controller('Settings', ['appApi','util','$scope','$state',
 		$scope.alerts = [];
 		$scope.serialEnabled = false;
     $scope.pageName = "Settings";
-
+    
+    appApi.getDeviceName(function(name) {
+		  $scope.deviceName = name;
+	  });
     $scope.closeAlert = function(index)
     {
       util.closeAlert($scope.alerts,index);
@@ -44,55 +47,6 @@ PiApp.controller('Settings', ['appApi','util','$scope','$state',
       util.convertSpacesToUnderscores(name,function(converted) {
 			  $state.go("SerialCommandEditor", {name:converted});
 		  });
-		};
-
-		$scope.addSerialCommand = function() {
-			var name = $scope.serialCommandNameAdd;
-			var cmd = $scope.serialCommandAdd;
-
-			appApi.addSerialCommand(name,cmd,function(res)
-			{
-				if (res)
-				{
-					$scope.serialCommandList.push({name: name, cmd: cmd});
-					util.addAlert($scope.alerts, { type: 'success', msg: 'Added command \"' + name + '\"' });
-				}
-				else
-				{
-					console.log("Error adding serial command",name,cmd);
-				  util.addAlert($scope.alerts, { type: 'danger', msg: 'Error adding command \"' + name + '\"' });
-				}
-			});
-		};
-
-		$scope.removeSerialCommand = function()
-		{
-			var name = $scope.seriaData.serialCommandRemove;
-
-			appApi.removeSerialCommand(name,function(resp)
-			{
-					if (resp)
-					{
-						util.getSerialCommandIndexByName($scope.serialCommandList, name, function (index)
-						{
-							if (index > -1)
-							{
-								$scope.serialCommandList.splice(index,1);
-							}
-							else
-						  {
-								console.log("Cannot remove, index of ",name," command not found");
-							}
-						});
-						util.addAlert($scope.alerts,{ type: 'success', msg: 'Removed command \"' + name + '\"' });
-						$scope.serialCommandRemove = $scope.REMOVE_CMD_DEFAULT;
-					}
-					else
-					{
-						console.log("Error removing serial command",name);
-					  util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error removing command \"' + name + '\"' });
-					}
-			});
 		};
 
 		$scope.saveSettings = function()

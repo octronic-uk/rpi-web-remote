@@ -27,6 +27,11 @@ PiApp.controller('Landing',
 		$scope.serialEnabled = false;
 		$scope.pageName = "Home";
 
+
+    appApi.getDeviceName(function(name) {
+		  $scope.deviceName = name;
+	  });
+
     $scope.closeAlert = function(index)
     {
       util.closeAlert($scope.alerts,index);

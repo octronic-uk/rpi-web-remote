@@ -25,6 +25,10 @@ function(appApi,util, $scope, $state, $stateParams) {
     $scope.ui = {};
     $scope.pageName = "Serial Command Editor";
 
+    appApi.getDeviceName(function(name) {
+		  $scope.deviceName = name;
+	  });
+
     $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };

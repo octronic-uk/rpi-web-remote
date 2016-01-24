@@ -616,13 +616,13 @@ var initRoutes = function(callback) {
   app.put('/api/serial/command',jsonParser,function(req,res){
     var cmd = req.body;
     console.log("Adding command",cmd);
-
-    if (cmd !== undefined){
+    getSerialCommandIndexByName(cmd.name, function(index) {
+      if (index > -1) {
+        config.serial.commands.splice(index,1);
+      }
       config.serial.commands.push(cmd);
       util.sendHttpOK(res);
-    } else {
-      util.sendHttpError(res);
-    }
+    });
   });
 
   // Remove a serial command to the configuration
