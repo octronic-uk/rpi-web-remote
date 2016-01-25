@@ -1,78 +1,15 @@
 
 {
-  "device_name":"Bedroom",
+  "device_name":"RaspberryPI",
   "http_port": 80,
   "serial": {
     "enable": false,
     "path": "/dev/ttyUSB0",
     "baudrate": 9600,
-    "commands": [
-      {
-        "name":"Rainbow",
-        "cmd":"1"
-      },
-      {
-        "name":"Flash",
-        "cmd":"2"
-      },
-      {
-        "name":"Off",
-        "cmd":"0"
-      }
-    ]
+    "commands": []
   },
   "gpio": {
-    "pins": [
-      {
-        "name": "Lamp",
-        "num": 7,
-        "io": "out",
-        "state": 0,
-        "hidden": false
-      },
-      {
-        "name": "Fan",
-        "num": 11,
-        "io": "out",
-        "state": 0,
-        "hidden": false
-      },
-      {
-        "name": "door_out",
-        "num": 12,
-        "io": "out",
-        "state": 0,
-        "hidden": true
-      },
-      {
-        "name": "door_in",
-        "num": 14,
-        "io": "in",
-        "hidden": true
-      }
-    ],
-    "scripts": [
-      {
-        "name": "Open South Garage",
-        "do": [
-          {
-            "pin": "door_out",
-            "state": 1
-          }
-        ],
-        "while": [
-          {
-            "pin": "door_in",
-            "state": 0
-          }
-        ],
-        "then": [
-          {
-            "pin": "door_out",
-            "state": 0
-          }
-        ]
-      }
-    ]
+    "pins": [],
+    "scripts": []
   }
 }

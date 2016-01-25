@@ -92,10 +92,10 @@ This guide starts from scratch. Please begin where appropriate for you!
 
     ```
     $ sudo npm install -g pm2
-    $ sudo pm2 startup ubuntu
+    $ sudo pm2 startup debian
     ```
 
-13. Clone this repo to your device.
+13. Clone this repository to your device.
 
     ```
     $ git clone https://github.com/BashEdThomps/IoT-RaspberryPI.git

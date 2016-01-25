@@ -18,5 +18,4 @@
 */
 var PiApp = angular.module('PiApp',['ui.bootstrap','ui.router','ngAnimate',]);
 
-PiApp.controller('PiApp',['appApi','$scope',function(appApi, $scope) {
-  }]);
+PiApp.controller('PiApp',['appApi','$scope',function(appApi, $scope) {}]);

@@ -322,7 +322,7 @@ var initRoutes = function(callback) {
         if (pinObj !== null) {
             util.sendHttpJson(res,pinObj);
           } else {
-            util.sendHttpJson(res,{value: pinObj.state});
+            util.sendHttpNotFound(res);
           }
        });
     });
