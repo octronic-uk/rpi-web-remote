@@ -17,27 +17,27 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Requires
-var SerialPortModule = require("serialport");
+// Requiresponse
+var SerialPortModule = requestuire("serialport");
 var SerialPort = SerialPortModule.SerialPort;
-var gpio       = require("rpi-gpio");
-var fs         = require('fs');
-var path       = require('path');
-var bodyParser = require('body-parser');
-var express    = require('express');
-var http       = require('http');
-var logger     = require('morgan');
-var util       = require('./util');
-var constants  = require('./constants');
+var gpio       = requestuire("rpi-gpio");
+var fs         = requestuire('fs');
+var path       = requestuire('path');
+var bodyParser = requestuire('body-parser');
+var expresponses    = requestuire('expresponses');
+var http       = requestuire('http');
+var logger     = requestuire('morgan');
+var util       = requestuire('./util');
+var constants  = requestuire('./constants');
 var configPath = path.join(__dirname, "../"+constants.CONFIG);
-var config     = require(configPath);
-var exec = require('child_process').exec;
-var execFile = require('child_process').execFile;
-var ioModule = require('socket.io');
+var config     = requestuire(configPath);
+var exec = requestuire('child_process').exec;
+var execFile = requestuire('child_process').execFile;
+var ioModule = requestuire('socket.io');
 
 // Variables
 var port       = config.http_port;
-var app        = express();
+var app        = expresponses();
 var jsonParser = bodyParser.json();
 var rawParser    = bodyParser.raw();
 var httpServer   = http.createServer(app);
@@ -54,7 +54,7 @@ var ADDR_CMD          = 'hostname -I';
 var HOSTNAME_CMD      = 'hostname';
 var REBOOT_CMD        = "reboot";
 var GPIO_SCRIPT_DELAY =  100;
-var RESTART_CMD       =  path.join(__dirname, "../restart");
+var RESTART_CMD       =  path.join(__dirname, "../responsetart");
 var UPDATE_CMD        =  path.join(__dirname, "../update_internal");
 var BAUDRATE_LIST = [
   115200, 57600, 38400, 19200,
@@ -62,14 +62,13 @@ var BAUDRATE_LIST = [
   1200,   600,   300,   200,
   150,    134,   110,   75, 50
 ];
-
 // Print Mini License
 console.log(
   "\nAsh's RaspberryPI IO Remote! ---------------------------------------------------",
-  "\nCopyright (C) 2016, Ashley Thompson.",
+  "\nCopyright (C) 2016, Ash Thompson.",
   "\nThis program comes with ABSOLUTELY NO WARRANTY.",
   "\nThis is free software, and you are welcome to redistribute an or modify it under the terms of the GPLv3.",
-  "\n\nHappy Hacking :)\n\n");
+  "\nHappy Hacking :)\n\n");
 
 var closeSerial = function(callback) {
   if (serialPort && serialPort.isOpen()) {
@@ -94,13 +93,12 @@ var initSerial = function() {
     if (serialPort === null && config.serial.path !== undefined && config.serial.baudrate !== undefined) {
       serialPort = new SerialPort(config.serial.path, {baudrate: config.serial.baudrate});
     }
-
+    // SerialPort Event Handlers
     if (serialPort !== null) {
       serialPort.on('error', function(err)  {
         config.serial.enable = false;
         console.log(err);
       });
-
       serialPort.open(function (err) {
         if (err) {
           config.serial.enable = false;
@@ -110,33 +108,29 @@ var initSerial = function() {
         }
       });
     }
-  }
-  else
-  {
+  } else {
     console.log("Serial port support is not enabled");
   }
 };
-
-var restartSerial = function() {
+// Restart the SerialPort Module
+var responsetartSerial = function() {
   closeSerial(initSerial);
 };
-
-// Configure express
-var initExpress = function() {
+// Init Expresponses Module
+var initExpresponses = function() {
   app.use(logger('dev'));
-  app.use(express.static(path.join(__dirname, '../view')));
-  app.use(express.static(path.join(__dirname, '../controller')));
-  app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-bootstrap')));
-  app.use(express.static(path.join(__dirname, '../node_modules/angular')));
-  app.use(express.static(path.join(__dirname, '../node_modules/angular-cookies')));
-  app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
-  app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
-  app.use(express.static(path.join(__dirname, '../node_modules/angular-animate')));
-  app.use(express.static(path.join(__dirname, '../node_modules/socket.io-client')));
+  app.use(expresponses.static(path.join(__dirname, '../view')));
+  app.use(expresponses.static(path.join(__dirname, '../controller')));
+  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular-ui-bootstrap')));
+  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular')));
+  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular-cookies')));
+  app.use(expresponses.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
+  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
+  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular-animate')));
+  app.use(expresponses.static(path.join(__dirname, '../node_modules/socket.io-client')));
 };
-
-var initSocketIO = function()
-{
+// Init Socket.IO Module
+var initSocketIO = function() {
   io.on('connection', function(socket) {
     console.log("Socket IO connection detected");
     socket.on('event', function(data) {
@@ -147,23 +141,20 @@ var initSocketIO = function()
     });
   });
 };
-
+// Initialise http module
 var initHttpServer = function() {
   // HTTP Listen
   httpServer.listen(port);
-
   // HTTP Error handler
   httpServer.on('error', function(error) {
     if (error.syscall != 'listen') {
       throw error;
     }
-
     var bind = typeof port == 'string' ? 'Pipe ' + port : 'Port ' + port;
-
     // handle specific listen errors with friThenly messages
     switch (error.code) {
       case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(bind + ' requestuiresponse elevated privileges');
       process.exit(constants.APP_EXIT_ERROR);
       break;
       case 'EADDRINUSE':
@@ -174,23 +165,20 @@ var initHttpServer = function() {
       throw error;
     }
   });
-
   // HTTP Listen
   httpServer.on('listening', function() {
-    var addr = httpServer.address();
+    var addr = httpServer.addresponses();
     var bind = typeof addr == 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Listening on ' + bind);
   });
 };
-
 // Close the GPIO pins in use
 var closeGpio = function(callback) {
   gpio.destroy();
-  if (callback){
+  if (callback) {
     callback();
   }
 };
-
 // Initialise an individual GPIO pin
 var initIndividualGpioPin = function(pin) {
   if (pin.io == "out") {
@@ -199,7 +187,7 @@ var initIndividualGpioPin = function(pin) {
         if (err) {
           console.log("Error writing to pin",pin.num);
         } else  {
-          console.log("set pin",pin.num,"to",pin.state);
+          console.log("Initial set-up pin",pin.num,"to",pin.state);
           addGpioPinEvent(pin.num, pin.state);
         }
       });
@@ -211,7 +199,7 @@ var initIndividualGpioPin = function(pin) {
     config.log("Error, pin",pin.num,"should be 'in' or 'out'");
   }
 };
-
+// Init GPIO Module
 var initGpio = function(callback) {
   var i = 0;
   var nPins = config.gpio.pins.length;
@@ -219,217 +207,197 @@ var initGpio = function(callback) {
     var pin = config.gpio.pins[i];
     initIndividualGpioPin(pin);
   }
-
   // Listen for state change on input pins
   gpio.on('change', function(channel, value) {
     // Emmit to listeners here
     console.log('Channel ' + channel + ' value is now ' + value);
     addGpioPinEvent(channel, value);
   });
-
+  // Callback if presponseent
   if (callback) {
     callback();
   }
 };
-
 // Notify connected socket io clients of state change
 var emitSocketIOGpioStateChange = function(pinNum,state) {
   console.log("Emitting state change to SocketIO");
   io.emit(SIO_STATE_CHANGED, {pin: pinNum, state: state});
 };
-
 // Notify connected socket io clients of script finish
 var emitSocketIOGpioScriptFinished = function(name) {
   console.log("Emititng script finished to SocketIO",name);
   io.emit(SIO_SCRIPT_FINISHED, {name: name});
 };
-
-// Initialise express routes
+// Initialise expresponses routes
 var initRoutes = function(callback) {
   // Set the value of an output pin
-  app.put("/api/gpio/pins/:pin/:value", jsonParser, function(req,res) {
-    var pin = req.params.pin;
-    var val = req.params.value;
+  app.put("/api/gpio/pins/:pin/:value", jsonParser, function(request,response) {
+    var pin = request.params.pin;
+    var val = request.params.value;
     console.log("Setting output",pin,"to value",val);
     gpio.write(pin, val, function(err) {
       if (err) {
-        util.sendHttpError(res,"Unable to set output of pin (gpio.write error) "+pin+" "+err);
+        util.sendHttpError(response,"Unable to set output of pin (gpio.write error) "+pin+" "+err);
       } else {
         addGpioPinEvent(pin,val);
         getGpioPinByNumber(pin,function(pinObj) {
           if (pinObj) {
             pinObj.state = val;
-            util.sendHttpOK(res);
+            util.sendHttpOK(response);
           } else {
-            util.sendHttpError(res,"Unable to set output of pin (could not get pin by number)"+pin+" "+err);
+            util.sendHttpError(response,"Unable to set output of pin (could not get pin by number)"+pin+" "+err);
           }
         });
       }
     });
   });
-
   // Get the list of pins configured
-  app.get("/api/gpio/pins/list",jsonParser,function(req,res) {
-    util.sendHttpJson(res,config.gpio.pins);
+  app.get("/api/gpio/pins/list",jsonParser,function(request,response) {
+    util.sendHttpJson(response,config.gpio.pins);
   });
-
   // Get the list of pins configured
-  app.put("/api/gpio/pins/list",jsonParser,function(req,res) {
-    var pinList = req.body.list;
+  app.put("/api/gpio/pins/list",jsonParser,function(request,response) {
+    var pinList = request.body.list;
     config.gpio.pins = pinList;
-    util.sendHttpOK(res);
+    util.sendHttpOK(response);
   });
-
   // Remove a pin from the config
-  app.delete("/api/gpio/pins/:pin",jsonParser,function(req,res) {
-    var pin = req.params.pin;
-    convertUnderscoresToSpaces(pin,function(conv) {
+  app.delete("/api/gpio/pins/:pin",jsonParser,function(request,response) {
+    var pin = request.params.pin;
+    convertUnderscoresponseToSpaces(pin,function(conv) {
       getGpioPinByName(conv, function(pinObj) {
       if (pinObj !== null) {
         var index = config.gpio.pins.indexOf(pinObj);
         if (index > -1) {
           config.gpio.pins.splice(index,1);
-          util.sendHttpOK(res);
+          util.sendHttpOK(response);
         } else {
-          util.sendHttpNotFound(res);
+          util.sendHttpNotFound(response);
         }
       }  else{
-        util.sendHttpNotFound(res);
+        util.sendHttpNotFound(response);
       }
     });
     });
   });
-
   // Add a pin to the config list
-  app.put("/api/gpio/pins",jsonParser,function(req,res) {
-    var pin = req.body;
-    getGpioPinIndexByNumber(pin.num,function(index){
-      if (index > -1)
-      {
+  app.put("/api/gpio/pins",jsonParser,function(request,response) {
+    var pin = request.body;
+    getGpioPinIndexByNumber(pin.num,function(index) {
+      if (index > -1) {
         config.gpio.pins.splice(index,1);
       }
       config.gpio.pins.push(pin);
       initIndividualGpioPin(pin);
-      util.sendHttpOK(res);
+      util.sendHttpOK(response);
     });
   });
-
   // Get the state of a pin
-  app.get("/api/gpio/pins/:pin", jsonParser, function(req,res) {
-    var pin = req.params.pin;
-    convertUnderscoresToSpaces(pin,function(conv) {
+  app.get("/api/gpio/pins/:pin", jsonParser, function(request,response) {
+    var pin = request.params.pin;
+    convertUnderscoresponseToSpaces(pin,function(conv) {
       getGpioPinByName(conv, function(pinObj) {
         if (pinObj !== null) {
-            util.sendHttpJson(res,pinObj);
+            util.sendHttpJson(response,pinObj);
           } else {
-            util.sendHttpNotFound(res);
+            util.sendHttpNotFound(response);
           }
        });
     });
   });
-
   // Get the state of a pin
-  app.get("/api/gpio/pins/:pin/read", jsonParser, function(req,res) {
-    var pin = req.params.pin;
-    convertUnderscoresToSpaces(pin, function(conv) {
+  app.get("/api/gpio/pins/:pin/read", jsonParser, function(request,response) {
+    var pin = request.params.pin;
+    convertUnderscoresponseToSpaces(pin, function(conv) {
       getGpioPinByName(pin, function(pinObj) {
         if (pinObj !== null) {
           // Read state for input
           if (pinObj.io == "in") {
             gpio.read(pin, function(err, value) {
               if (err) {
-                util.sendHttpError(res,"error reading pin "+pin);
+                util.sendHttpError(response,"error reading pin "+pin);
               } else {
-                util.sendHttpJson(res,{value: value});
+                util.sendHttpJson(response,{value: value});
               }
             });
           } else { // Get state from memory for output
-            util.sendHttpJson(res,{value: pinObj.state});
+            util.sendHttpJson(response,{value: pinObj.state});
           }
         } else {
-          util.sendHttpNotFound(res);
+          util.sendHttpNotFound(response);
         }
       });
     });
   });
-
   // Get the state history for a pin
-  app.get('/api/gpio/pins/:pin/history', function(req,res) {
-    var pin = req.params.pin;
+  app.get('/api/gpio/pins/:pin/history', function(request,response) {
+    var pin = request.params.pin;
     var data = eventHistory[pinNumString(pin)];
     if (data) {
-      util.sendHttpJson(res,data);
+      util.sendHttpJson(response,data);
     } else {
-      util.sendHttpNotFound(res);
+      util.sendHttpNotFound(response);
     }
   });
-
   // Delete GPIO Script
-  app.delete('/api/gpio/script/:name',jsonParser,function(req,res) {
-    var nme = req.params.name;
-    convertUnderscoresToSpaces(nme,function(name) {
+  app.delete('/api/gpio/script/:name',jsonParser,function(request,response) {
+    var nme = request.params.name;
+    convertUnderscoresponseToSpaces(nme,function(name) {
       getGpioScriptIndexByName(name,function(index) {
         if (index < 0) {
-          util.sendHttpNotFound(res);
+          util.sendHttpNotFound(response);
         } else {
           config.gpio.scripts.splice(index,1);
-          util.sendHttpOK(res);
+          util.sendHttpOK(response);
         }
       });
     });
   });
-
   // Update GPIO Script
-  app.put('/api/gpio/script/:name',jsonParser,function(req,res){
-    var script = req.body.script;
-    var pName = req.params.name;
-    convertUnderscoresToSpaces(pName, function(name) {
+  app.put('/api/gpio/script/:name',jsonParser,function(request,response) {
+    var script = request.body.script;
+    var pName = request.params.name;
+    convertUnderscoresponseToSpaces(pName, function(name) {
       console.log("Updating GPIO Script",script);
       getGpioScriptIndexByName(name,function(index) {
         if (index > -1) {
           config.gpio.scripts.splice(index,1);
         }
         config.gpio.scripts.push(script);
-        util.sendHttpOK(res);
+        util.sendHttpOK(response);
       });
     });
   });
-
   // Get a GPIO script
-  app.get('/api/gpio/script/:name',jsonParser,function(req,res) {
-    var name = req.params.name;
-    convertUnderscoresToSpaces(name,function(conv){
+  app.get('/api/gpio/script/:name',jsonParser,function(request,response) {
+    var name = request.params.name;
+    convertUnderscoresponseToSpaces(name,function(conv) {
       getGpioScriptByName(conv,function (script) {
         if (script) {
           console.log("Sending script for",name,script);
-          util.sendHttpJson(res,script);
+          util.sendHttpJson(response,script);
         } else {
           console.log("Script not found",name);
-          util.sendHttpError(res);
+          util.sendHttpError(response);
         }
       });
     });
   });
-
   // Get GPIO script list
-  app.get('/api/gpio/scripts/list',jsonParser,function(req,res) {
-    util.sendHttpJson(res,config.gpio.scripts);
+  app.get('/api/gpio/scripts/list',jsonParser,function(request,response) {
+    util.sendHttpJson(response,config.gpio.scripts);
   });
-
   // Execute a GPIO script
-  app.get('/api/gpio/script/:name/execute',jsonParser,function(req,res) {
-    var name = req.params.name;
+  app.get('/api/gpio/script/:name/execute',jsonParser,function(request,response) {
+    var name = request.params.name;
     console.log("GPIO Script",name);
-
     getGpioScriptByName(name,function(script) {
-
       if (script === null) {
         console.log("Script",name,"was not found");
-        util.sendHttpNotFound(res);
+        util.sendHttpNotFound(response);
         return;
       } else {
-        util.sendHttpOK(res);
-
+        util.sendHttpOK(response);
         var doStates     = script.do;
         var whileStates  = script.while;
         var thenStates   = script.then;
@@ -438,11 +406,11 @@ var initRoutes = function(callback) {
         var iThen  = 0;
         console.log("Starting GPIO Script:",script);
         // Do States
-        for (iDo = 0; iDo < doStates.length; iDo++){
+        for (iDo = 0; iDo < doStates.length; iDo++) {
           var dState = doStates[iDo];
-          getGpioPinByName(dState.pin, function(pin){
-            gpio.write(pin.num, dState.state, function(err){
-              if (err){
+          getGpioPinByName(dState.pin, function(pin) {
+            gpio.write(pin.num, dState.state, function(err) {
+              if (err) {
                 console.log("Script:", script.name, "Error writing begin state", dState.pin, pin.num, dState.state);
               } else {
                 addGpioPinEvent(pin.num,dState.state);
@@ -451,14 +419,13 @@ var initRoutes = function(callback) {
             });
           });
         }
-
         // While States and loop
         var done = false;
-        var scriptInterval = setInterval(function(){
+        var scriptInterval = setInterval(function() {
           //console.log("Inside interval of script:",script.name);
-          getWhileResult(whileStates, function(whileRes){
-            //console.log("while result:", whileRes);
-            if (!whileRes && !done){
+          getWhileResult(whileStates, function(whileRes) {
+            //console.log("while responseult:", whileRes);
+            if (!whileRes && !done) {
               done = true;
               // Stop checking while condiion
               //console.log("Clearing interval for script",script.name);
@@ -467,11 +434,11 @@ var initRoutes = function(callback) {
               var iThen   = 0;
               var tState  = null;
               var nStates = thenStates.length;
-              for (iThen = 0; iThen < nStates; iThen++){
+              for (iThen = 0; iThen < nStates; iThen++) {
                 tState = thenStates[iThen];
-                getGpioPinByName(tState.pin, function(pin){
-                  gpio.write(pin.num, tState.state, function(err){
-                    if (err){
+                getGpioPinByName(tState.pin, function(pin) {
+                  gpio.write(pin.num, tState.state, function(err) {
+                    if (err) {
                       console.log("Script:", script.name, "Error writing end state", tState.pin, pin.num, tState.state);
                     } else {
                       addGpioPinEvent(pin.num, tState.state);
@@ -481,258 +448,234 @@ var initRoutes = function(callback) {
                 }); //getGpioPinByName
               } // For
               emitSocketIOGpioScriptFinished(name);
-            } // if result
+            } // if responseult
           }); // getWhileResult
         }, GPIO_SCRIPT_DELAY);
       }
     });
   });
-
   // Update the application from github
-  app.get('/api/application/update', jsonParser, function(req,res) {
+  app.get('/api/application/update', jsonParser, function(request,response) {
     var child = execFile(UPDATE_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {
       if (error !== null) {
-        util.sendHttpError(res,"Error updating app: "+error);
+        util.sendHttpError(response,"Error updating app: "+error);
       } else {
-        util.sendHttpJson(res,{result: stdout});
+        util.sendHttpJson(response,{responseult: stdout});
       }
     });
   });
-
   // Reload the application through PM2
-  app.get('/api/application/restart', jsonParser, function(req,res) {
+  app.get('/api/application/responsetart', jsonParser, function(request,response) {
     var child = execFile(RESTART_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {
-      util.sendHttpOK(res);
+      util.sendHttpOK(response);
     });
   });
-
   // Get the name of the device
-  app.get('/api/device/name', jsonParser, function(req,res) {
-    util.sendHttpJson(res, {name: config.device_name});
+  app.get('/api/device/name', jsonParser, function(request,response) {
+    util.sendHttpJson(response, {name: config.device_name});
   });
-
   // Set the name of the device
-  app.put('/api/device/name', jsonParser, function(req,res) {
-    var name = req.body.devName;
+  app.put('/api/device/name', jsonParser, function(request,response) {
+    var name = request.body.devName;
     config.device_name = name;
-    util.sendHttpOK(res);
+    util.sendHttpOK(response);
   });
-
   // Get the device's uptime
-  app.get('/api/device/uptime', jsonParser, function(req,res){
-    var child = exec(UPTIME_CMD, function (error, stdout, stderr){
-      if (error !== null){
-        util.sendHttpError(res,"Error getting uptime: "+error);
-      }else{
-        util.sendHttpJson(res,{uptime: stdout});
+  app.get('/api/device/uptime', jsonParser, function(request,response) {
+    var child = exec(UPTIME_CMD, function (error, stdout, stderr) {
+      if (error !== null) {
+        util.sendHttpError(response,"Error getting uptime: "+error);
+      } else {
+        util.sendHttpJson(response,{uptime: stdout});
       }
     });
   });
-
   // Get the device's hostname
-  app.get('/api/device/hostname', jsonParser, function(req,res) {
+  app.get('/api/device/hostname', jsonParser, function(request,response) {
     var child = exec(HOSTNAME_CMD, function (error, stdout, stderr) {
       if (error !== null) {
-        util.sendHttpError(res,"Error getting hostname: "+error);
+        util.sendHttpError(response,"Error getting hostname: "+error);
       } else {
-        util.sendHttpJson(res,{hostname: stdout});
+        util.sendHttpJson(response,{hostname: stdout});
       }
     });
   });
-
   // Reboot the device
-  app.get('/api/device/reboot', jsonParser, function(req,res){
-    util.sendHttpOK(res);
+  app.get('/api/device/reboot', jsonParser, function(request,response) {
+    util.sendHttpOK(response);
     var child = exec(REBOOT_CMD, function (error, stdout, stderr) {
       if (error === null) {
         console.log("Rebooting the device...");
       }
     });
   });
-
-  // Get the device's address'
-  app.get('/api/device/address', jsonParser, function(req,res){
-    var child = exec(ADDR_CMD, function (error, stdout, stderr){
-      if (error !== null){
-        util.sendHttpError(res,"Error getting address: "+error);
+  // Get the device's addresponses'
+  app.get('/api/device/addresponses', jsonParser, function(request,response) {
+    var child = exec(ADDR_CMD, function (error, stdout, stderr) {
+      if (error !== null) {
+        util.sendHttpError(response,"Error getting addresponses: "+error);
       } else{
-        util.sendHttpJson(res,{address: stdout});
+        util.sendHttpJson(response,{addresponses: stdout});
       }
     });
   });
-
   // Get serial enabled state
-  app.get('/api/serial/enabled', jsonParser, function(req,res){
-    util.sendHttpJson(res,{enabled: config.serial.enable});
+  app.get('/api/serial/enabled', jsonParser, function(request,response) {
+    util.sendHttpJson(response,{enabled: config.serial.enable});
   });
-
   // Set serial enabled state
-  app.put('/api/serial/enabled/:en', jsonParser, function(req,res){
-    var enParam = req.params.en;
+  app.put('/api/serial/enabled/:en', jsonParser, function(request,response) {
+    var enParam = request.params.en;
     console.log("Enable param: ",enParam);
     var enabled = (enParam  == "true" ? true : false);
     config.serial.enable = enabled;
     if (enabled) {
-      restartSerial();
+      responsetartSerial();
     } else {
       closeSerial();
     }
-    util.sendHttpOK(res);
+    util.sendHttpOK(response);
   });
-
   // Get the devce's list of serial ports
-  app.get('/api/serial/path/list',jsonParser,function(req,res) {
-    SerialPortModule.list(function (err, ports){
-      if (err || ports === undefined){
-        util.sendHttpError(res);
+  app.get('/api/serial/path/list',jsonParser,function(request,response) {
+    SerialPortModule.list(function (err, ports) {
+      if (err || ports === undefined) {
+        util.sendHttpError(response);
       } else {
         var data = [];
         ports.forEach(function(port) {
           data.push(port.comName);
         });
-        util.sendHttpJson(res,data);
+        util.sendHttpJson(response,data);
       }
     });
   });
-
   // Get the list of serial commands
-  app.get('/api/serial/commands/list',jsonParser,function(req,res) {
-    util.sendHttpJson(res,config.serial.commands);
+  app.get('/api/serial/commands/list',jsonParser,function(request,response) {
+    util.sendHttpJson(response,config.serial.commands);
   });
-
   // Get an individual serial command
-  app.get('/api/serial/command/:name',jsonParser,function(req,res){
-    var name = req.params.name;
-    getSerialCommandByName(name,function(cmd){
+  app.get('/api/serial/command/:name',jsonParser,function(request,response) {
+    var name = request.params.name;
+    getSerialCommandByName(name,function(cmd) {
       if (cmd) {
-        util.sendHttpJson(res,cmd);
+        util.sendHttpJson(response,cmd);
       } else {
-        util.sendHttpNotFound(res);
+        util.sendHttpNotFound(response);
       }
     });
   });
-
   // Add a serial command to the configuration
-  app.put('/api/serial/command',jsonParser,function(req,res){
-    var cmd = req.body;
+  app.put('/api/serial/command',jsonParser,function(request,response) {
+    var cmd = request.body;
     console.log("Adding command",cmd);
     getSerialCommandIndexByName(cmd.name, function(index) {
       if (index > -1) {
         config.serial.commands.splice(index,1);
       }
       config.serial.commands.push(cmd);
-      util.sendHttpOK(res);
+      util.sendHttpOK(response);
     });
   });
-
   // Remove a serial command to the configuration
-  app.delete('/api/serial/command/:name',jsonParser,function(req,res) {
-    var name = req.params.name;
+  app.delete('/api/serial/command/:name',jsonParser,function(request,response) {
+    var name = request.params.name;
     console.log("Reomving command", name, "aka");
-    convertUnderscoresToSpaces(name,function(conv){
-
-    });
-    getSerialCommandIndexByName(name,function(index){
-      if (index > -1) {
-        config.serial.commands.splice(index, 1);
-        util.sendHttpOK(res);
-      } else {
-        util.sendHttpNotFound(res);
-      }
+    convertUnderscoresponseToSpaces(name,function(conv) {
+      getSerialCommandIndexByName(name,function(index) {
+        if (index > -1) {
+          config.serial.commands.splice(index, 1);
+          util.sendHttpOK(response);
+        } else {
+          util.sendHttpNotFound(response);
+        }
+      });
     });
   });
-
-  app.put('/api/serial/command/execute', jsonParser, function(req,res) {
-    var cmd = req.body.cmd;
+  // Execute the given serial command
+  app.put('/api/serial/command/execute', jsonParser, function(request,response) {
+    var cmd = request.body.cmd;
     console.log("Executing command",cmd);
-    if (serialPort !== null && serialPort.isOpen()){
-      getSerialCommandByName(cmd,function(commandObject){
-        if (commandObject){
-          serialPort.write(commandObject.cmd, function(err){
-            if (err){
+    if (serialPort !== null && serialPort.isOpen()) {
+      getSerialCommandByName(cmd,function(commandObject) {
+        if (commandObject) {
+          serialPort.write(commandObject.cmd, function(err) {
+            if (err) {
               console.log("Serial execute error",err);
-              util.sendHttpError(res);
+              util.sendHttpError(response);
             } else {
-              util.sendHttpOK(res);
+              util.sendHttpOK(response);
             }
           });
         } else {
           console.log("Serial execute error: no command obj");
-          util.sendHttpError(res);
+          util.sendHttpError(response);
         }
       });
     } else {
       console.log("Serial execute error, no serial port or not isOpen()");
-      util.sendHttpError(res);
+      util.sendHttpError(response);
     }
   });
-
   // Get list of supported baud rates
-  app.get('/api/serial/baudrate/list',jsonParser,function(req,res) {
-    util.sendHttpJson(res,BAUDRATE_LIST);
+  app.get('/api/serial/baudrate/list',jsonParser,function(request,response) {
+    util.sendHttpJson(response,BAUDRATE_LIST);
   });
-
   // Get the serial path
-  app.get('/api/serial/path', jsonParser, function(req,res) {
-    util.sendHttpJson(res,{path: config.serial.path});
+  app.get('/api/serial/path', jsonParser, function(request,response) {
+    util.sendHttpJson(response,{path: config.serial.path});
   });
-
   // get the serial baud rate
-  app.get('/api/serial/baudrate', jsonParser, function(req,res) {
-    util.sendHttpJson(res,{baudrate: config.serial.baudrate});
+  app.get('/api/serial/baudrate', jsonParser, function(request,response) {
+    util.sendHttpJson(response,{baudrate: config.serial.baudrate});
   });
-
   // Set the serial device path
-  app.put('/api/serial/path', jsonParser, function(req,res) {
-    var path = req.body.path;
+  app.put('/api/serial/path', jsonParser, function(request,response) {
+    var path = request.body.path;
     if (path !== null) {
       config.serial.path = path;
-      util.sendHttpOK(res);
+      util.sendHttpOK(response);
     } else {
-      util.sendHttpError(res);
+      util.sendHttpError(response);
     }
   });
-
   // Set the serial baud rate
-  app.put('/api/serial/baudrate', jsonParser, function(req,res) {
-    var baudrate = req.body.baudrate;
+  app.put('/api/serial/baudrate', jsonParser, function(request,response) {
+    var baudrate = request.body.baudrate;
     if (baudrate !== null) {
       config.serial.baudrate = baudrate;
-      util.sendHttpOK(res);
+      util.sendHttpOK(response);
     } else {
-      util.sendHttpError(res);
+      util.sendHttpError(response);
     }
   });
-
   // Restart the serial device
-  app.put('/api/serial/restart',function (req,res) {
-    restartSerial();
-    util.sendHttpOK(res);
+  app.put('/api/serial/responsetart',function (request,response) {
+    responsetartSerial();
+    util.sendHttpOK(response);
   });
-
   // Save the current configuration
-  app.put('/api/config/save',function(req,res) {
+  app.put('/api/config/save',function(request,response) {
     saveConfigFile(function(err) {
       if (err) {
-        util.sendHttpError(res);
+        util.sendHttpError(response);
       }
       else {
-        util.sendHttpOK(res);
+        util.sendHttpOK(response);
       }
     });
   });
-
   if (callback) callback();
 };
 
-// Get result for GPIO script while
+// Get responseult for GPIO script while
 var getWhileResult = function(whileObjects, callback) {
   var i = 0;
   var nWhiles = whileObjects.length;
   //console.log("Checking",nWhiles,"while conditions");
   var next = null;
   var numVal = null;
-  var result = null;
+  var responseult = null;
 
   for (i = 0; i < nWhiles; i++)
   {
@@ -749,9 +692,9 @@ var getWhileResult = function(whileObjects, callback) {
         else
         {
           numVal = (value ? 1 : 0);
-          result = (numVal == pin.state);
+          responseult = (numVal == pin.state);
           //console.log(i,": While",pin.state,"on",pin.num,". Got:",numVal);
-          callback(result);
+          callback(responseult);
         }
       });
     });
@@ -760,15 +703,15 @@ var getWhileResult = function(whileObjects, callback) {
 
 
 // Get a GPIO script by name
-var getGpioScriptByName = function(name,callback){
+var getGpioScriptByName = function(name,callback) {
   var i = 0;
   var nScripts = config.gpio.scripts.length;
   var next = null;
   var target = null;
   console.log("Checking",nScripts,"GPIO scripts for",name);
-  for (i = 0; i < nScripts; i++){
+  for (i = 0; i < nScripts; i++) {
     next = config.gpio.scripts[i];
-    if (next.name == name){
+    if (next.name == name) {
       target = next;
       break;
     }
@@ -784,22 +727,22 @@ var getGpioScriptIndexByName = function(name,callback)  {
 };
 
 // Get a serial command's index by name
-var getSerialCommandIndexByName = function(name,callback){
+var getSerialCommandIndexByName = function(name,callback) {
   getSerialCommandByName(name, function(cmd)  {
     callback(config.serial.commands.indexOf(cmd));
   });
 };
 
 // Get a serial command by name
-var getSerialCommandByName = function(name, callback){
+var getSerialCommandByName = function(name, callback) {
   var i = 0;
   var nCommands = config.serial.commands.length;
   var next = null;
   var target = null;
   console.log("Checking",nCommands,"commands for",name);
-  for (i = 0; i < nCommands; i++){
+  for (i = 0; i < nCommands; i++) {
     next = config.serial.commands[i];
-    if (next.name == name){
+    if (next.name == name) {
       target = next;
       break;
     }
@@ -807,14 +750,14 @@ var getSerialCommandByName = function(name, callback){
   callback(target);
 };
 
-var convertUnderscoresToSpaces = function(name,callback){
+var convertUnderscoresponseToSpaces = function(name,callback) {
   callback((name.indexOf("_") > 0 ? name.split("_").join(" ") : name));
 };
 
 // Save the configuration object to disk
-var saveConfigFile = function(callback){
-  fs.writeFile(configPath, JSON.stringify(config, null, 2) , 'utf-8', function(err){
-    if(err){
+var saveConfigFile = function(callback) {
+  fs.writeFile(configPath, JSON.stringify(config, null, 2) , 'utf-8', function(err) {
+    if(err) {
       console.log(err);
       callback(err);
     } else {
@@ -830,8 +773,8 @@ var pinNumString = function(pin) {
 };
 
 // Add an event to the pin history
-var addGpioPinEvent = function(pinNum, state){
-  if (eventHistory[pinNumString(pinNum)] === undefined){
+var addGpioPinEvent = function(pinNum, state) {
+  if (eventHistory[pinNumString(pinNum)] === undefined) {
     eventHistory[pinNumString(pinNum)] = [];
   }
   console.log("Adding pin event to history  (pin / state)",pinNum,"/",state);
@@ -846,11 +789,11 @@ var getGpioPinIndexByNumber = function(pin, callback) {
 };
 
 // Return a pin object based on it's number
-var getGpioPinByNumber = function(pin,callback){
+var getGpioPinByNumber = function(pin,callback) {
   var i = 0;
   var target = null;
-  for (i = 0; i < config.gpio.pins.length; i++){
-    if (config.gpio.pins[i].num == pin){
+  for (i = 0; i < config.gpio.pins.length; i++) {
+    if (config.gpio.pins[i].num == pin) {
       target = config.gpio.pins[i];
       break;
     }
@@ -859,11 +802,11 @@ var getGpioPinByNumber = function(pin,callback){
 };
 
 // Return a pin object based on it's number
-var getGpioPinByName = function(pin,callback){
+var getGpioPinByName = function(pin,callback) {
   var i = 0;
   var target = null;
-  for (i = 0; i < config.gpio.pins.length; i++){
-    if (config.gpio.pins[i].name == pin){
+  for (i = 0; i < config.gpio.pins.length; i++) {
+    if (config.gpio.pins[i].name == pin) {
       target = config.gpio.pins[i];
       break;
     }
@@ -871,9 +814,9 @@ var getGpioPinByName = function(pin,callback){
   callback(target);
 };
 
-  initSerial();
-  initGpio();
-  initExpress();
-  initSocketIO();
-  initHttpServer();
-  initRoutes();
+initSerial();
+initGpio();
+initExpresponses();
+initSocketIO();
+initHttpServer();
+initRoutes();
