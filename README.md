@@ -1,4 +1,4 @@
-# IoT RaspberryPI GPIO
+# IoT RaspberryPI
 
 ## Introduction
 This project implements a simple remote control web application that allows users to monitor and modify the states of the RaspberryPI's GPIO pins.
