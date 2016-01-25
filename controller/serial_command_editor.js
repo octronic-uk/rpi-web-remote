@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('SerialCommandEditor', [
+App.controller('SerialCommandEditor', [
   'appApi','util','$scope','$state','$stateParams',
 function(appApi,util, $scope, $state, $stateParams) {
     $scope.cmdName = $stateParams.name;

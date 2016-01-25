@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('Settings', ['appApi','util','$scope','$state',
+App.controller('Settings', ['appApi','util','$scope','$state',
   function(appApi,util, $scope, $state) {
 		$scope.REMOVE_GPIO_DEFAULT = "Select Pin";
 		$scope.alerts = [];

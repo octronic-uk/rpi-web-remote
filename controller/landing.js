@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-PiApp.controller('Landing',
+App.controller('Landing',
 	['socket','appApi','util','$scope',
 	function(socket, appApi, util, $scope)
 	{

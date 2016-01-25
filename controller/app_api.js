@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-PiApp.factory('appApi',['util','$http',function(util, $http)
+App.factory('appApi',['util','$http',function(util, $http)
 {
   return {
     putSerialCommand : function(cmd,callback)

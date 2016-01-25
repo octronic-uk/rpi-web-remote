@@ -16,6 +16,4 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-var PiApp = angular.module('PiApp',['ui.bootstrap','ui.router','ngAnimate',]);
-
-PiApp.controller('PiApp',['appApi','$scope',function(appApi, $scope) {}]);
+var App = angular.module('App',['ui.bootstrap','ui.router','ngAnimate',]);
