@@ -5,7 +5,7 @@
   "main": "model/app.js",
   "scripts": {
     "start": "echo \"Please start using pm2\" && exit 0",
-    "test": "echo \"Error: No test specified (I know... I'm bad.))\" && exit 1"
+    "test": "echo \"Error: No tests here. I know... I'm bad.\" && exit 0"
   },
   "author": "Ash Thompson",
   "license": "GPL-3.0",
