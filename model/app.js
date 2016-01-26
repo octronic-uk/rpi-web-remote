@@ -480,6 +480,15 @@ var initRoutes = function(callback) {
     config.device_name = name;
     util.sendHttpOK(response);
   });
+  // Get the application listening port
+  api.get('/api/device/port',jsonParser,function(request,response) {
+    util.sendHttpJson(response, {port: config.http_port});
+  });
+  // Set the application listening port
+  api.put('/api/device/port',jsonParser,function(request,response) {
+    config.http_port = req.body.port;
+    util.sendHttpOK(response);
+  });
   // Get the device's uptime
   app.get('/api/device/uptime', jsonParser, function(request,response) {
     var child = exec(UPTIME_CMD, function (error, stdout, stderr) {

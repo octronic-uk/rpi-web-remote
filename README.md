@@ -51,18 +51,20 @@ This guide starts from scratch. Please begin where appropriate for you!
     $ sudo apt-get ugrade
     ```
 
-4. Download the latest (or your preferred) version of linux-armv6l node-js from https://nodejs.org/dist/
+4. Download the latest (or preferred) version of node-js from https://nodejs.org/dist/
+  * For RaspberryPI A/B use linux-armv6l
+  * For RaspberryPI 2 use linux-armv7l
 
 5. Unpack node by running
 
     ```
-    $ tar xvf node-vX.X.X-linux-armv6l.tar.gz
+    $ tar xvf node-vX.X.X-linux-armvXl.tar.gz
     ```
 
-6. Add the extracted `node-vX.X.X-linux-armv61/bin` directory to your `PATH` environment variable by modifying `/etc/profile` and adding the following line to the end.
+6. Add the extracted `node-vX.X.X-linux-armvXl/bin` directory to your `PATH` environment variable by modifying `/etc/profile` and adding the following line to the end.
 
     ```
-    export PATH=${PATH}:/path/to/node-vX.X.X-linux-armv61/bin
+    export PATH=${PATH}:/path/to/node-vX.X.X-linux-armvXl/bin
     ```
 7. Save `/etc/profile` and quit your editor.
 
@@ -72,7 +74,7 @@ This guide starts from scratch. Please begin where appropriate for you!
     $ sudo visudo
     ```
 
-    Add `:/path/to/node-vX.X.X-linux-armv61/bin` to the secure path, save and exit.
+    Add `:/path/to/node-vX.X.X-linux-armvXl/bin` to the secure path, save and exit.
 
 9. Reboot to reload your environment
 
@@ -118,9 +120,8 @@ This guide starts from scratch. Please begin where appropriate for you!
 16. Restart your RaspberryPI. PM2 will automatically start the application.
 
 17. Use a browser to navigate to your RaspberryPI on the port specified in your configuration.
-
     ```
-    http://192.168.0.31:80
+    http://my-pi
     ```
 
 18. Control your device :)

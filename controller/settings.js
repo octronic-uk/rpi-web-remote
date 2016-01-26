@@ -23,9 +23,7 @@ App.controller('Settings', ['appApi','util','$scope','$state',
 		$scope.serialEnabled = false;
     $scope.pageName = "Settings";
 
-    appApi.getDeviceName(function(name) {
-		  $scope.deviceName = name;
-	  });
+
 
     $scope.closeAlert = function(index)
     {
@@ -44,64 +42,50 @@ App.controller('Settings', ['appApi','util','$scope','$state',
 		  $state.go("SerialCommandEditor", {name:name});
 		};
 
-		$scope.saveSettings = function()
-		{
-			appApi.putSerialPath($scope.serialPath,function(result)
-			{
-				if (result)
-				{
-					appApi.putSerialBaudrate($scope.serialBaudrate,function(result)
-					{
-						if (result)
-						{
-							appApi.setDeviceName($scope.deviceName, function(result)
-							{
-								if (result)
-								{
-									appApi.configSave(function(result)
-									{
-											if (result)
-											{
-												appApi.serialRestart(function(result)
-												{
-													if (result)
-													{
-														console.log("Settings saved successfuly");
-														util.addAlert($scope.alerts,{ type: 'success', msg: 'Settings have been saved!' });
-                            setTimeout(function() {
-                              $state.go("Landing");
-                            }, 1500);
-													}
-													else
-												  {
-													 console.log("Error restarting serial");
-													 util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
-													}
-												});
-											}
-											else
-											{
-												console.log("Error saving settings");
-												util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving Settings. Please try again!' });
-											}
-									});
-								}
-								else
-								{
+		$scope.saveSettings = function() {
+			appApi.putSerialPath($scope.serialPath,function(result) {
+				if (result) {
+					appApi.putSerialBaudrate($scope.serialBaudrate,function(result) {
+						if (result) {
+							appApi.setDeviceName($scope.deviceName, function(result) {
+								if (result) {
+                  appApi.putDevicePort($scope.devicePort, function(result) {
+                    if (result) {
+                      appApi.configSave(function(result) {
+    											if (result) {
+    												appApi.serialRestart(function(result) {
+    													if (result) {
+    														console.log("Settings saved successfuly");
+    														util.addAlert($scope.alerts,{ type: 'success', msg: 'Settings have been saved!' });
+                                setTimeout(function() {
+                                  $state.go("Landing");
+                                }, 1500);
+    													} else {
+    													 console.log("Error restarting serial");
+    													 util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
+    													}
+    												});
+    											} else {
+    												console.log("Error saving settings");
+    												util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving Settings. Please try again!' });
+    											}
+    									});
+                    } else {
+                      console.log("Error setting device port");
+									    util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error setting device name. Please try again!' });
+                    }
+                  });
+								} else {
 									console.log("Error setting device name");
 									util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error setting device name. Please try again!' });
 								}
 							});
-						}
-						else
-						{
+						} else {
 							console.log("Error setting serial device baudrate");
 							util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving baudrate. Please try again!' });
 						}
 					});
-				}
-				else
-				{
+				} else {
 					console.log("Error setting serial device path");
 					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving device path. Please try again!' });
 				}
@@ -119,6 +103,14 @@ App.controller('Settings', ['appApi','util','$scope','$state',
 		};
 
 		// API Calls ---------------------------------------------------------------
+    appApi.getDevicePort(function(port) {
+		  $scope.devicePort = port;
+	  });
+
+    appApi.getDeviceName(function(name) {
+		  $scope.deviceName = name;
+	  });
+
     appApi.getSerialPathList(function(serialList) {
 			$scope.serialPathList = serialList;
     });

@@ -19,6 +19,27 @@
 App.factory('appApi',['util','$http',function(util, $http)
 {
   return {
+    putDevicePort : function(port, callback) {
+      $http({
+        method: "PUT",
+        url: "/api/device/port",
+        data: { port: port }
+      }).then(function successCalback(resp){
+        callback(true);
+      },function errorCallback(resp){
+        callback(false);
+      });
+    },
+    getDevicePort : function(callback) {
+      $http({
+        method: "GET",
+        url: "/api/device/port"
+      }).then(function successCalback(resp){
+        callback(JSON.parse(resp.data).port);
+      },function errorCallback(resp){
+        callback(null);  
+      });
+    },
     putSerialCommand : function(cmd,callback) {
 			$http({
 				method: "PUT",
