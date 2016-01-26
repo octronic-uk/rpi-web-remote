@@ -17,14 +17,14 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Requiresponse
+// Requires
 var SerialPortModule = requestuire("serialport");
 var SerialPort = SerialPortModule.SerialPort;
 var gpio       = requestuire("rpi-gpio");
 var fs         = requestuire('fs');
 var path       = requestuire('path');
 var bodyParser = requestuire('body-parser');
-var expresponses    = requestuire('expresponses');
+var express    = requestuire('express');
 var http       = requestuire('http');
 var logger     = requestuire('morgan');
 var util       = requestuire('./util');
@@ -37,7 +37,7 @@ var ioModule = requestuire('socket.io');
 
 // Variables
 var port       = config.http_port;
-var app        = expresponses();
+var app        = express();
 var jsonParser = bodyParser.json();
 var rawParser    = bodyParser.raw();
 var httpServer   = http.createServer(app);
@@ -54,7 +54,7 @@ var ADDR_CMD          = 'hostname -I';
 var HOSTNAME_CMD      = 'hostname';
 var REBOOT_CMD        = "reboot";
 var GPIO_SCRIPT_DELAY =  100;
-var RESTART_CMD       =  path.join(__dirname, "../responsetart");
+var RESTART_CMD       =  path.join(__dirname, "../restart");
 var UPDATE_CMD        =  path.join(__dirname, "../update_internal");
 var BAUDRATE_LIST = [
   115200, 57600, 38400, 19200,
@@ -113,21 +113,21 @@ var initSerial = function() {
   }
 };
 // Restart the SerialPort Module
-var responsetartSerial = function() {
+var restartSerial = function() {
   closeSerial(initSerial);
 };
-// Init Expresponses Module
-var initExpresponses = function() {
+// Init Express Module
+var initExpress = function() {
   app.use(logger('dev'));
-  app.use(expresponses.static(path.join(__dirname, '../view')));
-  app.use(expresponses.static(path.join(__dirname, '../controller')));
-  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular-ui-bootstrap')));
-  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular')));
-  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular-cookies')));
-  app.use(expresponses.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
-  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
-  app.use(expresponses.static(path.join(__dirname, '../node_modules/angular-animate')));
-  app.use(expresponses.static(path.join(__dirname, '../node_modules/socket.io-client')));
+  app.use(express.static(path.join(__dirname, '../view')));
+  app.use(express.static(path.join(__dirname, '../controller')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-bootstrap')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-cookies')));
+  app.use(express.static(path.join(__dirname, '../node_modules/bootstrap/dist')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-animate')));
+  app.use(express.static(path.join(__dirname, '../node_modules/socket.io-client')));
 };
 // Init Socket.IO Module
 var initSocketIO = function() {
@@ -154,7 +154,7 @@ var initHttpServer = function() {
     // handle specific listen errors with friThenly messages
     switch (error.code) {
       case 'EACCES':
-      console.error(bind + ' requestuiresponse elevated privileges');
+      console.error(bind + ' requestuires elevated privileges');
       process.exit(constants.APP_EXIT_ERROR);
       break;
       case 'EADDRINUSE':
@@ -167,7 +167,7 @@ var initHttpServer = function() {
   });
   // HTTP Listen
   httpServer.on('listening', function() {
-    var addr = httpServer.addresponses();
+    var addr = httpServer.address();
     var bind = typeof addr == 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Listening on ' + bind);
   });
@@ -213,7 +213,7 @@ var initGpio = function(callback) {
     console.log('Channel ' + channel + ' value is now ' + value);
     addGpioPinEvent(channel, value);
   });
-  // Callback if presponseent
+  // Callback if present
   if (callback) {
     callback();
   }
@@ -228,7 +228,7 @@ var emitSocketIOGpioScriptFinished = function(name) {
   console.log("Emititng script finished to SocketIO",name);
   io.emit(SIO_SCRIPT_FINISHED, {name: name});
 };
-// Initialise expresponses routes
+// Initialise exprses routes
 var initRoutes = function(callback) {
   // Set the value of an output pin
   app.put("/api/gpio/pins/:pin/:value", jsonParser, function(request,response) {
@@ -264,7 +264,7 @@ var initRoutes = function(callback) {
   // Remove a pin from the config
   app.delete("/api/gpio/pins/:pin",jsonParser,function(request,response) {
     var pin = request.params.pin;
-    convertUnderscoresponseToSpaces(pin,function(conv) {
+    convertUrlSpaces(pin,function(conv) {
       getGpioPinByName(conv, function(pinObj) {
       if (pinObj !== null) {
         var index = config.gpio.pins.indexOf(pinObj);
@@ -295,7 +295,7 @@ var initRoutes = function(callback) {
   // Get the state of a pin
   app.get("/api/gpio/pins/:pin", jsonParser, function(request,response) {
     var pin = request.params.pin;
-    convertUnderscoresponseToSpaces(pin,function(conv) {
+    convertUrlSpaces(pin,function(conv) {
       getGpioPinByName(conv, function(pinObj) {
         if (pinObj !== null) {
             util.sendHttpJson(response,pinObj);
@@ -308,7 +308,7 @@ var initRoutes = function(callback) {
   // Get the state of a pin
   app.get("/api/gpio/pins/:pin/read", jsonParser, function(request,response) {
     var pin = request.params.pin;
-    convertUnderscoresponseToSpaces(pin, function(conv) {
+    convertUrlSpaces(pin, function(conv) {
       getGpioPinByName(pin, function(pinObj) {
         if (pinObj !== null) {
           // Read state for input
@@ -342,7 +342,7 @@ var initRoutes = function(callback) {
   // Delete GPIO Script
   app.delete('/api/gpio/script/:name',jsonParser,function(request,response) {
     var nme = request.params.name;
-    convertUnderscoresponseToSpaces(nme,function(name) {
+    convertUrlSpaces(nme,function(name) {
       getGpioScriptIndexByName(name,function(index) {
         if (index < 0) {
           util.sendHttpNotFound(response);
@@ -357,7 +357,7 @@ var initRoutes = function(callback) {
   app.put('/api/gpio/script/:name',jsonParser,function(request,response) {
     var script = request.body.script;
     var pName = request.params.name;
-    convertUnderscoresponseToSpaces(pName, function(name) {
+    convertUrlSpaces(pName, function(name) {
       console.log("Updating GPIO Script",script);
       getGpioScriptIndexByName(name,function(index) {
         if (index > -1) {
@@ -371,7 +371,7 @@ var initRoutes = function(callback) {
   // Get a GPIO script
   app.get('/api/gpio/script/:name',jsonParser,function(request,response) {
     var name = request.params.name;
-    convertUnderscoresponseToSpaces(name,function(conv) {
+    convertUrlSpaces(name,function(conv) {
       getGpioScriptByName(conv,function (script) {
         if (script) {
           console.log("Sending script for",name,script);
@@ -424,7 +424,7 @@ var initRoutes = function(callback) {
         var scriptInterval = setInterval(function() {
           //console.log("Inside interval of script:",script.name);
           getWhileResult(whileStates, function(whileRes) {
-            //console.log("while responseult:", whileRes);
+            //console.log("while res:", whileRes);
             if (!whileRes && !done) {
               done = true;
               // Stop checking while condiion
@@ -448,7 +448,7 @@ var initRoutes = function(callback) {
                 }); //getGpioPinByName
               } // For
               emitSocketIOGpioScriptFinished(name);
-            } // if responseult
+            } // if result
           }); // getWhileResult
         }, GPIO_SCRIPT_DELAY);
       }
@@ -460,12 +460,12 @@ var initRoutes = function(callback) {
       if (error !== null) {
         util.sendHttpError(response,"Error updating app: "+error);
       } else {
-        util.sendHttpJson(response,{responseult: stdout});
+        util.sendHttpJson(response,{result: stdout});
       }
     });
   });
   // Reload the application through PM2
-  app.get('/api/application/responsetart', jsonParser, function(request,response) {
+  app.get('/api/application/restart', jsonParser, function(request,response) {
     var child = execFile(RESTART_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {
       util.sendHttpOK(response);
     });
@@ -509,13 +509,13 @@ var initRoutes = function(callback) {
       }
     });
   });
-  // Get the device's addresponses'
-  app.get('/api/device/addresponses', jsonParser, function(request,response) {
+  // Get the device's address'
+  app.get('/api/device/address', jsonParser, function(request,response) {
     var child = exec(ADDR_CMD, function (error, stdout, stderr) {
       if (error !== null) {
-        util.sendHttpError(response,"Error getting addresponses: "+error);
+        util.sendHttpError(response,"Error getting address: "+error);
       } else{
-        util.sendHttpJson(response,{addresponses: stdout});
+        util.sendHttpJson(response,{address: stdout});
       }
     });
   });
@@ -530,7 +530,7 @@ var initRoutes = function(callback) {
     var enabled = (enParam  == "true" ? true : false);
     config.serial.enable = enabled;
     if (enabled) {
-      responsetartSerial();
+      restartSerial();
     } else {
       closeSerial();
     }
@@ -581,7 +581,7 @@ var initRoutes = function(callback) {
   app.delete('/api/serial/command/:name',jsonParser,function(request,response) {
     var name = request.params.name;
     console.log("Reomving command", name, "aka");
-    convertUnderscoresponseToSpaces(name,function(conv) {
+    convertUrlSpaces(name,function(conv) {
       getSerialCommandIndexByName(name,function(index) {
         if (index > -1) {
           config.serial.commands.splice(index, 1);
@@ -650,8 +650,8 @@ var initRoutes = function(callback) {
     }
   });
   // Restart the serial device
-  app.put('/api/serial/responsetart',function (request,response) {
-    responsetartSerial();
+  app.put('/api/serial/restart',function (request,response) {
+    restartSerial();
     util.sendHttpOK(response);
   });
   // Save the current configuration
@@ -668,14 +668,14 @@ var initRoutes = function(callback) {
   if (callback) callback();
 };
 
-// Get responseult for GPIO script while
+// Get result for GPIO script while
 var getWhileResult = function(whileObjects, callback) {
   var i = 0;
   var nWhiles = whileObjects.length;
   //console.log("Checking",nWhiles,"while conditions");
   var next = null;
   var numVal = null;
-  var responseult = null;
+  var result = null;
 
   for (i = 0; i < nWhiles; i++)
   {
@@ -692,9 +692,9 @@ var getWhileResult = function(whileObjects, callback) {
         else
         {
           numVal = (value ? 1 : 0);
-          responseult = (numVal == pin.state);
+          result = (numVal == pin.state);
           //console.log(i,": While",pin.state,"on",pin.num,". Got:",numVal);
-          callback(responseult);
+          callback(result);
         }
       });
     });
@@ -750,8 +750,8 @@ var getSerialCommandByName = function(name, callback) {
   callback(target);
 };
 
-var convertUnderscoresponseToSpaces = function(name,callback) {
-  callback((name.indexOf("_") > 0 ? name.split("_").join(" ") : name));
+var convertUrlSpaces = function(name,callback) {
+  callback((name.indexOf("%20") > 0 ? name.split("%20").join(" ") : name));
 };
 
 // Save the configuration object to disk
@@ -816,7 +816,7 @@ var getGpioPinByName = function(pin,callback) {
 
 initSerial();
 initGpio();
-initExpresponses();
+initExpress();
 initSocketIO();
 initHttpServer();
 initRoutes();

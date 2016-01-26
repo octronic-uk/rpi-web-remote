@@ -18,11 +18,6 @@
 */
 App.factory('util',function(){
   return {
-    convertSpacesToUnderscores : function(name,callback)
-		{
-			callback(name.indexOf(" ") > 0 ? name.split(" ").join("_") : name);
-		},
-
     getGpioPinByNumber : function(pins,i,callback) {
 			var target = null;
 			for (var j = 0; j < pins.length; j++) {

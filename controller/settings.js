@@ -22,7 +22,7 @@ App.controller('Settings', ['appApi','util','$scope','$state',
 		$scope.alerts = [];
 		$scope.serialEnabled = false;
     $scope.pageName = "Settings";
-    
+
     appApi.getDeviceName(function(name) {
 		  $scope.deviceName = name;
 	  });
@@ -32,21 +32,15 @@ App.controller('Settings', ['appApi','util','$scope','$state',
     };
 
 		$scope.goToGpioPinEditor = function(name) {
-			util.convertSpacesToUnderscores(name,function(converted) {
-				 $state.go("GpioPinEditor", {name:converted});
-			});
+		  $state.go("GpioPinEditor", {name:name});
 		};
 
 		$scope.goToGpioScriptEditor = function(name) {
-      util.convertSpacesToUnderscores(name,function(converted) {
-				 $state.go("GpioScriptEditor", {name:converted});
-			});
+		  $state.go("GpioScriptEditor", {name:name});
 		};
 
 		$scope.goToSerialCommandEditor = function(name) {
-      util.convertSpacesToUnderscores(name,function(converted) {
-			  $state.go("SerialCommandEditor", {name:converted});
-		  });
+		  $state.go("SerialCommandEditor", {name:name});
 		};
 
 		$scope.saveSettings = function()
