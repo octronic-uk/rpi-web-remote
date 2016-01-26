@@ -26,6 +26,7 @@ App.controller('Settings', ['appApi','util','$scope','$state',
     appApi.getDeviceName(function(name) {
 		  $scope.deviceName = name;
 	  });
+
     $scope.closeAlert = function(index)
     {
       util.closeAlert($scope.alerts,index);

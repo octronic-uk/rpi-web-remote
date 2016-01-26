@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-App.controller('System', ['appApi','util','$scope' ,
+App.controller('System', ['appApi','util','$scope',
   function(appApi,util, $scope)   {
     $scope.stats = {};
     $scope.alerts = [];
@@ -25,9 +25,8 @@ App.controller('System', ['appApi','util','$scope' ,
     appApi.getDeviceName(function(name) {
 		  $scope.deviceName = name;
 	  });
-    
-    $scope.closeAlert = function(index)
-    {
+
+    $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };
 
@@ -57,7 +56,13 @@ App.controller('System', ['appApi','util','$scope' ,
 
     $scope.restartButton = function() {
       util.addAlert($scope.alerts,{ type: 'info', msg: 'The application is restarting. Please wait...' });
-      appApi.getApplicationRestart(function(resp){});
+      appApi.getApplicationRestart(function(resp){
+        if (resp) {
+          setTimeout(function(){
+            $state.go("Landing");
+          },10000);
+        }
+      });
     };
 
     $scope.rebootButton = function() {

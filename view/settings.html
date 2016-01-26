@@ -146,10 +146,10 @@
         </div>
       </div>
       <div ng-show="serialEnabled" class="form-group">
-        <label for="select-port">Serial Port</label>
+        <label for="select-port">Path</label>
         <select id="select-port" class="form-control" ng-model="serialPath">
           <option value="">Select Path</option>
-          <option ng-repeat="port in serialPathList" value="{{port}}">{{port}}</option>
+          <option ng-repeat="path in serialPathList" value="{{path}}">{{path}}</option>
         </select>
       </div>
       <div ng-show="serialEnabled" class="form-group">
