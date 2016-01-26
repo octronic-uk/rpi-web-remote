@@ -54,7 +54,7 @@ App.controller('Landing',
 		});
 
 		$scope.gpioSet = function(pinNum, state) {
-			appApi.setGpioPinValue(pinNum,state,function(success) {
+			appApi.putGpioPinValue(pinNum,state,function(success) {
 				if (success) {
 					util.getGpioPinByNumber($scope.gpioPinList,pinNum,function(pin) {
 						pin.state = state;

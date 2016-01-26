@@ -37,7 +37,7 @@ App.factory('appApi',['util','$http',function(util, $http)
       }).then(function successCalback(resp){
         callback(JSON.parse(resp.data).port);
       },function errorCallback(resp){
-        callback(null);  
+        callback(null);
       });
     },
     putSerialCommand : function(cmd,callback) {
@@ -62,7 +62,7 @@ App.factory('appApi',['util','$http',function(util, $http)
 				callback(false);
 			});
 		},
-		setGpioPinValue : function(pin, value, callback) {
+		putGpioPinValue : function(pin, value, callback) {
 			$http({
 				method: "PUT",
 				url: "/api/gpio/pins/"+pin+"/"+value
@@ -143,7 +143,7 @@ App.factory('appApi',['util','$http',function(util, $http)
 				callback(null);
 			});
 		},
-		setDeviceName : function(deviceName, callback) {
+		putDeviceName : function(deviceName, callback) {
 			$http({
 				method: "PUT",
 				url: "/api/device/name",
@@ -337,7 +337,7 @@ App.factory('appApi',['util','$http',function(util, $http)
 				callback(null);
 			});
 		},
-		setGpioScript : function(script,callback)
+		putGpioScript : function(script,callback)
 		{
 			$http({
 				method: "PUT",

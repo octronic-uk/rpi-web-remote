@@ -486,7 +486,7 @@ var initRoutes = function(callback) {
   });
   // Set the application listening port
   app.put('/api/device/port',jsonParser,function(request,response) {
-    config.http_port = req.body.port;
+    config.http_port = request.body.port;
     util.sendHttpOK(response);
   });
   // Get the device's uptime

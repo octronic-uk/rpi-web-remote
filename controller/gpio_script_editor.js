@@ -138,7 +138,7 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
           util.addAlert($scope.alerts,{ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
           setTimeout(function() {
             $state.go("Settings");
-          }, 1500);
+          }, 3000);
         } else {
           util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error deleting '+$scope.script.name });
         }
@@ -148,14 +148,14 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
     $scope.saveButton = function() {
       console.log("Saving GPIO Script",$scope.script.name);
 
-      appApi.setGpioScript($scope.script,function(success1) {
+      appApi.puttGpioScript($scope.script,function(success1) {
         if (success1) {
           appApi.configSave(function(success2) {
             if (success2) {
               util.addAlert($scope.alerts,{ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
               setTimeout(function() {
                 $state.go("Settings");
-              }, 1500);
+              }, 3000);
             } else {
               util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.script.name });
             }

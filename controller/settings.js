@@ -47,7 +47,7 @@ App.controller('Settings', ['appApi','util','$scope','$state',
 				if (result) {
 					appApi.putSerialBaudrate($scope.serialBaudrate,function(result) {
 						if (result) {
-							appApi.setDeviceName($scope.deviceName, function(result) {
+							appApi.putDeviceName($scope.deviceName, function(result) {
 								if (result) {
                   appApi.putDevicePort($scope.devicePort, function(result) {
                     if (result) {
@@ -59,7 +59,7 @@ App.controller('Settings', ['appApi','util','$scope','$state',
     														util.addAlert($scope.alerts,{ type: 'success', msg: 'Settings have been saved!' });
                                 setTimeout(function() {
                                   $state.go("Landing");
-                                }, 1500);
+                                }, 3000);
     													} else {
     													 console.log("Error restarting serial");
     													 util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
