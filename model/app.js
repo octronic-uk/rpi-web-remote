@@ -485,7 +485,7 @@ var initRoutes = function(callback) {
     util.sendHttpJson(response, {port: config.http_port});
   });
   // Set the application listening port
-  api.put('/api/device/port',jsonParser,function(request,response) {
+  app.put('/api/device/port',jsonParser,function(request,response) {
     config.http_port = req.body.port;
     util.sendHttpOK(response);
   });
