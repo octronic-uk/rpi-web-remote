@@ -45,11 +45,11 @@ App.controller('Settings', ['appApi','util','$scope','$state',
 
 		$scope.saveSettings = function()
 		{
-			appApi.putSerialPath($scope.selectedSerialPort,function(result)
+			appApi.putSerialPath($scope.serialPath,function(result)
 			{
 				if (result)
 				{
-					appApi.putSerialBaudrate($scope.selectedBaudrate,function(result)
+					appApi.putSerialBaudrate($scope.serialBaudrate,function(result)
 					{
 						if (result)
 						{
@@ -135,7 +135,7 @@ App.controller('Settings', ['appApi','util','$scope','$state',
     });
 
     appApi.getSerialBaudrate(function(baudrate) {
-		  $scope.selectedBaudrate = baudrate;
+		  $scope.serialBaudrate = baudrate;
 		});
 
 		appApi.getSerialEnabled(function(en) {

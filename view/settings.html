@@ -154,7 +154,7 @@
       </div>
       <div ng-show="serialEnabled" class="form-group">
         <label for="select-baud">Baud Rate</label>
-        <select id="select-baud" class="form-control" ng-model="selectedBaudrate">
+        <select id="select-baud" class="form-control" ng-model="serialBaudrate">
           <option value="">Select Baud Rate</option>
           <option ng-repeat="baud in serialBaudrateList" value="{{baud}}">{{baud}}</option>
         </select>
