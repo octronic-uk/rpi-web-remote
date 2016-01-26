@@ -18,22 +18,22 @@
 */
 
 // Requires
-var SerialPortModule = requestuire("serialport");
+var SerialPortModule = require("serialport");
 var SerialPort = SerialPortModule.SerialPort;
-var gpio       = requestuire("rpi-gpio");
-var fs         = requestuire('fs');
-var path       = requestuire('path');
-var bodyParser = requestuire('body-parser');
-var express    = requestuire('express');
-var http       = requestuire('http');
-var logger     = requestuire('morgan');
-var util       = requestuire('./util');
-var constants  = requestuire('./constants');
+var gpio       = require("rpi-gpio");
+var fs         = require('fs');
+var path       = require('path');
+var bodyParser = require('body-parser');
+var express    = require('express');
+var http       = require('http');
+var logger     = require('morgan');
+var util       = require('./util');
+var constants  = require('./constants');
 var configPath = path.join(__dirname, "../"+constants.CONFIG);
-var config     = requestuire(configPath);
-var exec = requestuire('child_process').exec;
-var execFile = requestuire('child_process').execFile;
-var ioModule = requestuire('socket.io');
+var config     = require(configPath);
+var exec = require('child_process').exec;
+var execFile = require('child_process').execFile;
+var ioModule = require('socket.io');
 
 // Variables
 var port       = config.http_port;
@@ -154,7 +154,7 @@ var initHttpServer = function() {
     // handle specific listen errors with friThenly messages
     switch (error.code) {
       case 'EACCES':
-      console.error(bind + ' requestuires elevated privileges');
+      console.error(bind + ' requires elevated privileges');
       process.exit(constants.APP_EXIT_ERROR);
       break;
       case 'EADDRINUSE':
