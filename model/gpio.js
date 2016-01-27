@@ -92,7 +92,7 @@ var _initIndividualPin = function(pin) {
           console.log("Error writing to pin",pin.num);
         } else  {
           console.log("Initial set-up pin",pin.num,"to",pin.state);
-          _addGpioPinEvent(pin.num, pin.state);
+          _addPinEvent(pin.num, pin.state);
         }
       });
     });
@@ -171,7 +171,7 @@ var init = function(_io,callback) {
   gpio.on('change', function(channel, value) {
     // Emmit to listeners here
     console.log('Channel ' + channel + ' value is now ' + value);
-    _addGpioPinEvent(channel, value);
+    _addPinEvent(channel, value);
   });
   // Callback if present
   if (callback) {
@@ -195,7 +195,7 @@ var putPinValue = function(request,response) {
     if (err) {
       util.sendHttpError(response,"Unable to set output of pin (gpio.write error) "+pin+" "+err);
     } else {
-      _addGpioPinEvent(pin,val);
+      _addPinEvent(pin,val);
       _getGpioPinByNumber(pin,function(pinObj) {
         if (pinObj) {
           pinObj.state = val;
@@ -369,7 +369,7 @@ var executeScript = function(request,response) {
             if (err) {
               console.log("Script:", script.name, "Error writing begin state", dState.pin, pin.num, dState.state);
             } else {
-              addGpioPinEvent(pin.num,dState.state);
+              _addPinEvent(pin.num,dState.state);
               console.log("Script:", script.name, "Written begin state", dState.pin, pin.num, dState.state);
             }
           });
@@ -397,7 +397,7 @@ var executeScript = function(request,response) {
                   if (err) {
                     console.log("Script:", script.name, "Error writing end state", tState.pin, pin.num, tState.state);
                   } else {
-                    _addGpioPinEvent(pin.num, tState.state);
+                    _addPinEvent(pin.num, tState.state);
                     console.log("Script:", script.name, "Written end state", tState.pin, pin.num, tState.state);
                   }
                 }); // gpio.write
