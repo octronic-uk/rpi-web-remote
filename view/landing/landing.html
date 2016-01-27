@@ -30,10 +30,10 @@
         &nbsp;{{pin.name}}
         <!-- Output -->
         <span ng-show="pin.io == 'out'" class="pull-right">
-          <button ng-show="pin.state == 0" ng-click="gpioStateButton(pin,1)" class="pull-right btn btn-danger">
+          <button ng-show="pin.state == 0" ng-click="gpioStateButton(pin.id,1)" class="pull-right btn btn-danger">
             <span class="glyphicon glyphicon-off"></span>
           </button>
-          <button ng-show="pin.state == 1" ng-click="gpioStateButton(pin,0)" class="pull-right btn btn-success">
+          <button ng-show="pin.state == 1" ng-click="gpioStateButton(pin.id,0)" class="pull-right btn btn-success">
             <span class="glyphicon glyphicon-off"></span>
           </button>
         </span>

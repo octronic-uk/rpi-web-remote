@@ -57,15 +57,18 @@ App.controller('Landing',
 			});
 		});
 
-		$scope.gpioStateButton = function(pin, state) {
-			pin.state = state;
-			appApi.putGpioPinState(pin, function(success) {
-				if (!success) {
-					util.addAlert($scope.alerts, {
-						type: 'danger',
-						msg: "Unable to change state of pin "+pin.name
-					});
-				}
+		$scope.gpioStateButton = function(id, state) {
+			util.getGpioPinById($scope.gpioPinList, id, function(pin) {
+        appApi.putGpioPinState(pin, function(success) {
+				  if (success) {
+			      pin.state = state;
+				  } else {
+				  	util.addAlert($scope.alerts, {
+				  		type: 'danger',
+				  		msg: "Unable to change state of pin "+pin.name
+					  });
+				  }
+			  });
 			});
 		};
 

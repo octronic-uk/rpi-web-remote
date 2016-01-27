@@ -55,7 +55,7 @@ App.controller('GpioPinEditor', [
         console.log("Modifying pin:", $scope.pin);
       });
     } else {
-      appApi.getGpioPin($scope.pin, function(pin) {
+      appApi.getGpioPinById($scope.id, function(pin) {
         if (pin) {
           $scope.pin = pin;
           console.log("Modifying pin:", $scope.pin);
