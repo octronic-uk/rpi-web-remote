@@ -126,7 +126,7 @@ var initRoutes = function(callback) {
   // Get GPIO script list
   app.get('/api/gpio/scripts/list',jsonParser,gpio.getScriptsList);
   // Execute a GPIO script
-  app.get('/api/gpio/script/:name/execute',jsonParser,gpio.execute);
+  app.get('/api/gpio/script/:name/execute',jsonParser,gpio.executeScript);
   // System --------------------------------------------------------------------
   // Update the application from github
   app.get('/api/application/update', jsonParser, system.update);
