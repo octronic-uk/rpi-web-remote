@@ -50,24 +50,36 @@ App.controller('Settings', ['appApi','util','$scope','$state',
                     if (result) {
                       appApi.configSave(function(result) {
     											if (result) {
-    												appApi.serialRestart(function(result) {
-    													if (result) {
-    														console.log("Settings saved successfuly");
-    														util.addAlert($scope.alerts, {
-                                  type: 'success',
-                                  msg: 'Settings have been saved!'
-                                });
-                                setTimeout(function() {
-                                  $state.go("Landing");
-                                }, 3000);
-    													} else {
-    													 console.log("Error restarting serial");
-    													 util.addAlert($scope.alerts, {
-                                 type: 'danger',
-                                 msg: 'Error restarting Serial. Please try again!'
-                               });
-    													}
-    												});
+                            if ($scope.serialEnabled)
+                            {
+                              appApi.serialRestart(function(result) {
+      													if (result) {
+      														console.log("Settings saved successfuly");
+      														util.addAlert($scope.alerts, {
+                                    type: 'success',
+                                    msg: 'Settings have been saved!'
+                                  });
+                                  setTimeout(function() {
+                                    $state.go("Landing");
+                                  }, 3000);
+      													} else {
+      													 console.log("Error restarting serial");
+      													 util.addAlert($scope.alerts, {
+                                   type: 'danger',
+                                   msg: 'Error restarting Serial. Please try again!'
+                                 });
+      													}
+      												});
+                            } else {
+                              console.log("Settings saved successfuly");
+    													util.addAlert($scope.alerts, {
+                                type: 'success',
+                                msg: 'Settings have been saved!'
+                              });
+                              setTimeout(function() {
+                                $state.go("Landing");
+                              }, 3000);
+                            }
     											} else {
     												console.log("Error saving settings");
     												util.addAlert($scope.alerts, {
