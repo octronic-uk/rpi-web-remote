@@ -33,11 +33,11 @@
       <button ng-click="updateButton()" class="pull-right btn btn-success"><span class="glyphicon glyphicon-save"></span></button>
     </h5>
   </li>
-  <li ng-show="'<p>'+stats.updateResult+'</p>'" class="list-group-item clearfix">
+  <li ng-show="stats.updateResult" class="list-group-item clearfix">
     <h5>
       Result
       <br>
-      <small ng-bind="stats.updateResult"></small>
+      <small ng-bind="'<p>'+stats.updateResult+'</p>'"></small>
     </h5>
   </li>
   <li class="list-group-item clearfix">
