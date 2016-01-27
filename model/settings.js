@@ -1,4 +1,5 @@
 // Requires
+var path       = require('path');
 var util       = require('./util');
 var configPath = path.join(__dirname, "../"+constants.CONFIG);
 var config     = require(configPath);
