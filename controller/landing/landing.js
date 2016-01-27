@@ -57,7 +57,7 @@ App.controller('Landing',
 			});
 		});
 
-		$scope.gpioSet = function(id, state) {
+		$scope.gpioStateButton = function(id, state) {
 			util.getGpioPinById($scope.gpioPinList, id, function(pin) {
 				pin.state = state;
 			  appApi.putGpioPinValue(pin, function(success) {

@@ -18,7 +18,8 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 echo "Installing NPM Dependencies"
-npm install -d --unsafe-perm
+npm set progress=false
+npm install --unsafe-perm
 
 echo "Starting Applicaiton"
 sudo pm2 start model/app.js
