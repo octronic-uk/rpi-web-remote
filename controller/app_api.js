@@ -62,7 +62,7 @@ App.factory('appApi',['util','$http',function(util, $http)
 				callback(false);
 			});
 		},
-		putGpioPinValue : function(pin, callback) {
+		putGpioPinState : function(pin, callback) {
 			$http({
 				method: "PUT",
 				url: "/api/gpio/pins/"+pin.id+"/state/"+pin.value

@@ -16,8 +16,8 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-App.controller('System', ['appApi','util','$scope',
-  function(appApi,util, $scope)   {
+App.controller('System', ['appApi','util','$scope','$state',
+  function(appApi,util, $scope, $state)   {
     $scope.stats = {};
     $scope.alerts = [];
     $scope.pageName = "System";
