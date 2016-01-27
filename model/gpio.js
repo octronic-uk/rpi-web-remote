@@ -165,7 +165,7 @@ var init = function(_io,callback) {
   var nPins = config.gpio.pins.length;
   for (i = 0; i < nPins; i++) {
     var pin = config.gpio.pins[i];
-    _initIndividualGpioPin(pin);
+    _initIndividualPin(pin);
   }
   // Listen for state change on input pins
   gpio.on('change', function(channel, value) {
@@ -244,7 +244,7 @@ var putPinToList = function(request,response) {
       config.gpio.pins.splice(index,1);
     }
     config.gpio.pins.push(pin);
-    _initIndividualGpioPin(pin);
+    _initIndividualPin(pin);
     util.sendHttpOK(response);
   });
 };
