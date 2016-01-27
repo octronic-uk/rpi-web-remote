@@ -51,6 +51,7 @@ var initExpress = function(callback) {
   app.use(express.static(path.join(__dirname, '../node_modules/angular-ui-router/release')));
   app.use(express.static(path.join(__dirname, '../node_modules/angular-animate')));
   app.use(express.static(path.join(__dirname, '../node_modules/socket.io-client')));
+  app.use(express.static(path.join(__dirname, '../node_modules/angular-sanitize')));
   if(callback) callback();
 };
 // Init Socket.IO Module
