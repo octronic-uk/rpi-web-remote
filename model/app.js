@@ -102,7 +102,7 @@ var initHttpServer = function(callback) {
 var initRoutes = function(callback) {
   // GPIO ----------------------------------------------------------------------
   // Set the value of an output pin
-  app.put("/api/gpio/pins/:pin/:value",jsonParser,gpio.putPinValue);
+  app.put("/api/gpio/pins/:pin/state/:value",jsonParser,gpio.putPinValue);
   // Get the list of pins configured
   app.get("/api/gpio/pins/list",jsonParser,gpio.getPinList);
   // Get the list of pins configured
@@ -114,7 +114,7 @@ var initRoutes = function(callback) {
   // Get the definition of a pin
   app.get("/api/gpio/pins/:pin",jsonParser,gpio.getPinDefinition);
   // Get the state of a pin
-  app.get("/api/gpio/pins/:pin/read", jsonParser, gpio.getPinState);
+  app.get("/api/gpio/pins/:pin/state", jsonParser, gpio.getPinState);
   // Get the state history for a pin
   app.get('/api/gpio/pins/:pin/history', gpio.getPinHistory);
   // Delete GPIO Script

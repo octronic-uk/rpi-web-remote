@@ -28,69 +28,76 @@ App.factory('util',function(){
              this.s4();
     },
     // Get a pin by number
-    getGpioPinByNumber : function(pins,i,callback) {
+    getGpioPinById : function(pins, id, callback) {
 			var target = null;
-			for (var j = 0; j < pins.length; j++) {
-				if (pins[j].num == i) {
-					target = pins[j];
+      var next = null;
+      var nPins = pins.length;
+			for (var j = 0; j < nPins; j++) {
+        next = pins[j];
+				if (next.id == id) {
+					target = next;
 					break;
 				}
 			}
 			callback(target);
 		},
+    getGpioPinIndexById : function(pins, id, callback) {
+      this.getGpioPinById(pins, id, function(pin){
+        if (pin) {
+          callback(pins.indexOf(pin));
+        } else {
+          callback(-1);
+        }
+      });
+    },
     // Get the index of a command by name
-		getSerialCommandIndexByName : function(list, name,callback)
+		getSerialCommandIndexById : function(list, id, callback)
 		{
-			this.getSerialCommandByName(list, name, function(cmd)
+			this.getSerialCommandById(list, id, function(cmd)
 		  {
-				callback(list, serialCommandList.indexOf(cmd));
+				callback(list.indexOf(cmd));
 			});
 		},
 		// Get a serial command by name
-	  getSerialCommandByName : function(list, name, callback)
+	  getSerialCommandById : function(list, id, callback)
 		{
 			var nCommands = list.length;
 			var target = null;
-
 		  for (var i = 0; i < nCommands; i++) {
 		    var next = list[i];
-		    if (next.name == name) {
+		    if (next.id == id) {
 		      target = next;
 					break;
 		    }
 		  }
 			callback(target);
 		},
-    // Get pin by name
-		getGpioPinByName : function(pins,name,callback) {
-			var target = null;
-
-			for (var j = 0; j < pins.length; j++) {
-				if (pins[j].name == name) {
-					target = pins[j];
-					break;
-				}
-			}
-			callback(target);
-		},
     // get gpio script by name
-    getGpioScriptByName : function(scriptList, name, callback)
+    getGpioScriptById : function(scriptList, id, callback)
 		{
 		  var i = 0;
 		  var nScripts = scriptList.length;
 		  var next = null;
 		  var target = null;
-
 		  console.log("Checking",nScripts,"GPIO scripts for",name);
-		  for (i = 0; i < nScripts; i++){
+		  for (i = 0; i < nScripts; i++) {
 		    next = scriptList[i];
-		    if (next.name == name){
+		    if (next.id == id) {
 		      target = next;
 		      break;
 		    }
 		  }
 		  callback(target);
 		},
+    getGpioScriptIndexById : function(list, id, callback) {
+      this.getGpioScriptById(list,id,function(script) {
+        if (script) {
+          callback(list.indexOf(script));
+        } else {
+          callback(-1);
+        }
+      });
+    },
     // Add an alert to the page
 		addAlert : function(alertList,alert) {
 			alertList.push(alert);

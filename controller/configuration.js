@@ -36,21 +36,21 @@ App.config(function($provide, $stateProvider, $urlRouterProvider)
 
   $stateProvider.state('GpioScriptEditor',
   {
-    url: "/settings/gpio/script_editor/:name",
+    url: "/settings/gpio/script_editor/:id",
     templateUrl: "settings/gpio/script_editor.html",
     controller: "GpioScriptEditor"
   });
 
   $stateProvider.state('GpioPinEditor',
   {
-    url: "/settings/gpio/pin_editor/:name",
+    url: "/settings/gpio/pin_editor/:id",
     templateUrl: "settings/gpio/pin_editor.html",
     controller: "GpioPinEditor"
   });
 
   $stateProvider.state('SerialCommandEditor',
   {
-    url: "/settings/serial/command_editor/:name",
+    url: "/settings/serial/command_editor/:id",
     templateUrl: "settings/serial/command_editor.html",
     controller: "SerialCommandEditor"
   });

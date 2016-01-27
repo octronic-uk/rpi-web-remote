@@ -19,7 +19,7 @@
 App.controller('SerialCommandEditor', [
   'appApi','util','$scope','$state','$stateParams',
 function(appApi,util, $scope, $state, $stateParams) {
-    $scope.cmdName = $stateParams.name;
+    $scope.id = $stateParams.id;
     $scope.REMOVE_CMD_DEFAULT = "Select Command";
     $scope.alerts = [];
     $scope.ui = {};
@@ -33,25 +33,36 @@ function(appApi,util, $scope, $state, $stateParams) {
       util.closeAlert($scope.alerts,index);
     };
 
-    if ($scope.cmdName != "new") {
-      appApi.getSerialCommand($scope.cmdName, function(cmd) {
+    if ($scope.id != "new") {
+      appApi.getSerialCommand($scope.id, function(cmd) {
         $scope.cmd = cmd;
         console.log("Modifying command:", $scope.cmd);
       });
     } else {
-      $scope.cmd = {name:"New Command", cmd: "Command"};
-      console.log("Modifying command:", $scope.cmd);
+      util.generateId(function(id){
+        $scope.cmd = {
+          name:"New Command",
+          cmd: "Command"
+        };
+        console.log("Modifying command:", $scope.cmd);
+      });
     }
 
     $scope.deleteButton = function() {
       appApi.deleteSerialCommand($scope.cmd, function(success) {
         if (success) {
-          util.addAlert($scope.alerts,{ type: 'success', msg: 'Command '+$scope.cmd.name+' has been deleted!' });
+          util.addAlert($scope.alerts, {
+            type: 'success',
+            msg: 'Command '+$scope.cmd.name+' has been deleted!'
+          });
           setTimeout(function() {
             $state.go("Settings");
-          }, 1500);
+          }, 3000);
         } else {
-          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error deleting '+$scope.cmd.name });
+          util.addAlert($scope.alerts, {
+            type: 'danger',
+            msg: 'Error deleting '+$scope.cmd.name
+          });
         }
       });
     };
@@ -59,12 +70,18 @@ function(appApi,util, $scope, $state, $stateParams) {
     $scope.saveButton = function() {
       appApi.putSerialCommand($scope.cmd,function(success) {
         if (success) {
-          util.addAlert($scope.alerts,{ type: 'success', msg: 'Command '+$scope.cmd.name+' has been saved!' });
+          util.addAlert($scope.alerts, {
+            type: 'success',
+            msg: 'Command '+$scope.cmd.name+' has been saved!'
+          });
           setTimeout(function() {
             $state.go("Settings");
-          }, 1500);
+          }, 3000);
         } else {
-          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.cmd.name });
+          util.addAlert($scope.alerts, {
+            type: 'danger',
+            msg: 'Error saving '+$scope.cmd.name
+          });
         }
       });
     };

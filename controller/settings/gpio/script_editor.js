@@ -18,10 +18,9 @@
 */
 App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$state',
   function(appApi, util, $scope, $stateParams, $state) {
-    $scope.scriptName = $stateParams.name;
+    $scope.scriptId = $stateParams.id;
     $scope.alerts = [];
     $scope.pageName = "GPIO Script Editor";
-
 
     appApi.getDeviceName(function(name) {
 		  $scope.deviceName = name;
@@ -32,15 +31,22 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
       util.closeAlert($scope.alerts,index);
     };
 
-    console.log("Scope name:",$scope.scriptName,"sp name:",$stateParams.name);
+    console.log("Scope name:",$scope.scriptId);
 
-    if ($scope.scriptName != "new") {
-      appApi.getGpioScript($scope.scriptName, function(script) {
+    if ($scope.scriptId != "new") {
+      appApi.getGpioScript($scope.scriptId, function(script) {
         $scope.script = script;
         console.log("Modifying script:", $scope.script);
       });
     } else {
-      $scope.script = {name:"New Script", do: [], while: [], then: []};
+      util.generateId(function(id) {
+        $scope.script = {
+          name:"New Script",
+          do: [],
+          while: [],
+          then: []
+        };
+      });
       console.log("Modifying script:", $scope.script);
     }
 
@@ -50,7 +56,10 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
     });
 
     $scope.addDoButton = function() {
-      $scope.script.do.push({pin: $scope.addDoPin, state: $scope.addDoState});
+      $scope.script.do.push({
+        pin: $scope.addDoPin,
+        state: $scope.addDoState
+      });
     };
 
     $scope.removeDoButton = function() {
@@ -65,7 +74,6 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
       var nDo = $scope.script.do.length;
       var next = null;
       var target = null;
-
       for (i = 0; i < nDo; i++) {
         next = $scope.script.do[i];
         if (next.pin == name) {
@@ -77,7 +85,10 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
     };
 
     $scope.addWhileButton = function() {
-      $scope.script.while.push({pin: $scope.addWhilePin, state: $scope.addWhileState});
+      $scope.script.while.push({
+        pin: $scope.addWhilePin,
+        state: $scope.addWhileState
+      });
     };
 
     $scope.removeWhileButton = function() {
@@ -92,7 +103,6 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
       var nWhile = $scope.script.while.length;
       var next = null;
       var target = null;
-
       for (i = 0; i < nWhile; i++) {
         next = $scope.script.while[i];
         if (next.pin == name) {
@@ -104,7 +114,10 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
     };
 
     $scope.addThenButton = function() {
-      $scope.script.then.push({pin: $scope.addThenPin, state: $scope.addThenState});
+      $scope.script.then.push({
+        pin: $scope.addThenPin,
+        state: $scope.addThenState
+      });
     };
 
     $scope.removeThenButton = function() {
@@ -119,7 +132,6 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
       var nThen = $scope.script.then.length;
       var next = null;
       var target = null;
-
       for (i = 0; i < nThen; i++) {
         next = $scope.script.then[i];
         if (next.pin == name) {
@@ -131,37 +143,50 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
     };
 
     $scope.deleteButton = function() {
-      console.log("Deleting GPIO Script",$scope.script.name);
-
-      appApi.deleteGpioScript($scope.script.name, function(success) {
+      console.log("Deleting GPIO Script",$scope.script);
+      appApi.deleteGpioScript($scope.script, function(success) {
         if (success) {
-          util.addAlert($scope.alerts,{ type: 'success', msg: 'Script '+$scope.script.name+' has been deleted!' });
+          util.addAlert($scope.alerts, {
+            type: 'success',
+            msg: 'Script '+$scope.script.name+' has been deleted!'
+          });
           setTimeout(function() {
             $state.go("Settings");
           }, 3000);
         } else {
-          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error deleting '+$scope.script.name });
+          util.addAlert($scope.alerts, {
+            type: 'danger',
+            msg: 'Error deleting '+$scope.script.name
+          });
         }
       });
     };
 
     $scope.saveButton = function() {
-      console.log("Saving GPIO Script",$scope.script.name);
-
-      appApi.puttGpioScript($scope.script,function(success1) {
+      console.log("Saving GPIO Script",$scope.script);
+      appApi.putGpioScript($scope,function(success1) {
         if (success1) {
           appApi.configSave(function(success2) {
             if (success2) {
-              util.addAlert($scope.alerts,{ type: 'success', msg: 'Script '+$scope.script.name+' has been saved!' });
+              util.addAlert($scope.alerts,{
+                type: 'success',
+                msg: 'Script '+$scope.script.name+' has been saved!'
+              });
               setTimeout(function() {
                 $state.go("Settings");
               }, 3000);
             } else {
-              util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.script.name });
+              util.addAlert($scope.alerts,{
+                type: 'danger',
+                msg: 'Error saving '+$scope.script.name
+              });
             }
           });
         } else {
-          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.script.name });
+          util.addAlert($scope.alerts,{
+            type: 'danger',
+            msg: 'Error saving '+$scope.script.name
+          });
         }
       });
     };

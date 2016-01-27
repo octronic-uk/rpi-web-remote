@@ -23,23 +23,20 @@ App.controller('Settings', ['appApi','util','$scope','$state',
 		$scope.serialEnabled = false;
     $scope.pageName = "Settings";
 
-
-
-    $scope.closeAlert = function(index)
-    {
+    $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };
 
-		$scope.goToGpioPinEditor = function(name) {
-		  $state.go("GpioPinEditor", {name:name});
+		$scope.goToGpioPinEditor = function(id) {
+		  $state.go("GpioPinEditor", {id: id});
 		};
 
-		$scope.goToGpioScriptEditor = function(name) {
-		  $state.go("GpioScriptEditor", {name:name});
+		$scope.goToGpioScriptEditor = function(id) {
+		  $state.go("GpioScriptEditor", {id: id});
 		};
 
-		$scope.goToSerialCommandEditor = function(name) {
-		  $state.go("SerialCommandEditor", {name:name});
+		$scope.goToSerialCommandEditor = function(id) {
+		  $state.go("SerialCommandEditor", {id: id});
 		};
 
 		$scope.saveSettings = function() {
@@ -56,38 +53,59 @@ App.controller('Settings', ['appApi','util','$scope','$state',
     												appApi.serialRestart(function(result) {
     													if (result) {
     														console.log("Settings saved successfuly");
-    														util.addAlert($scope.alerts,{ type: 'success', msg: 'Settings have been saved!' });
+    														util.addAlert($scope.alerts, {
+                                  type: 'success',
+                                  msg: 'Settings have been saved!'
+                                });
                                 setTimeout(function() {
                                   $state.go("Landing");
                                 }, 3000);
     													} else {
     													 console.log("Error restarting serial");
-    													 util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error restarting Serial. Please try again!' });
+    													 util.addAlert($scope.alerts, {
+                                 type: 'danger',
+                                 msg: 'Error restarting Serial. Please try again!'
+                               });
     													}
     												});
     											} else {
     												console.log("Error saving settings");
-    												util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving Settings. Please try again!' });
+    												util.addAlert($scope.alerts, {
+                              type: 'danger',
+                              msg: 'Error saving Settings. Please try again!'
+                            });
     											}
     									});
                     } else {
                       console.log("Error setting device port");
-									    util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error setting device name. Please try again!' });
+									    util.addAlert($scope.alerts, {
+                        type: 'danger',
+                        msg: 'Error setting device name. Please try again!'
+                      });
                     }
                   });
 								} else {
 									console.log("Error setting device name");
-									util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error setting device name. Please try again!' });
+									util.addAlert($scope.alerts, {
+                    type: 'danger',
+                    msg: 'Error setting device name. Please try again!'
+                  });
 								}
 							});
 						} else {
 							console.log("Error setting serial device baudrate");
-							util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving baudrate. Please try again!' });
+							util.addAlert($scope.alerts, {
+                type: 'danger',
+                msg: 'Error saving baudrate. Please try again!'
+              });
 						}
 					});
 				} else {
 					console.log("Error setting serial device path");
-					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving device path. Please try again!' });
+					util.addAlert($scope.alerts, {
+            type: 'danger',
+            msg: 'Error saving device path. Please try again!'
+          });
 				}
 			});
 		};
@@ -95,9 +113,15 @@ App.controller('Settings', ['appApi','util','$scope','$state',
 		$scope.serialEnabledCheckboxChanged = function() {
 			appApi.putSerialEnabled($scope.serialEnabled,function(resp) {
 				if ($scope.serialEnabled) {
-					util.addAlert($scope.alerts,{ type: 'success', msg: 'Serial has been enabled.' });
+					util.addAlert($scope.alerts, {
+            type: 'success',
+            msg: 'Serial has been enabled.'
+          });
 				} else {
-					util.addAlert($scope.alerts,{ type: 'warning', msg: 'Serial has been disabled.' });
+					util.addAlert($scope.alerts, {
+            type: 'warning',
+            msg: 'Serial has been disabled.'
+          });
 				}
 			});
 		};

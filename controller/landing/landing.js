@@ -31,58 +31,78 @@ App.controller('Landing',
 		  $scope.deviceName = name;
 	  });
 
-    $scope.closeAlert = function(index)
-    {
+    $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };
 
 	  socket.on("StateChanged", function(args) {
-			console.log("Got StateChanged from Socket.IO with args",args);
-			util.getGpioPinByNumber($scope.gpioPinList, args.pin,function(pin) {
-				if(pin) pin.state = args.state;
+			console.log("Got StateChanged from Socket.IO with args", args);
+			util.getGpioPinById($scope.gpioPinList, args.id, function(pin) {
+				if(pin) {
+					pin.state = args.state;
+				}
 			});
 		});
 
     socket.on("ScriptFinished", function(args) {
-			console.log("Got StateChanged from Socket.IO with args",args);
-			util.getGpioScriptByName($scope.gpioScriptList, args.name,function(script) {
+			console.log("Got StateChanged from Socket.IO with args", args);
+			util.getGpioScriptById($scope.gpioScriptList, args.id, function(script) {
 				if(script) {
 					script.inProgress = false;
-				  util.addAlert($scope.alerts,{ type: 'success', msg: "Script  '"+script.name+"'has finished!" });
+				  util.addAlert($scope.alerts,{
+						type: 'success',
+						msg: "Script  '"+script.name+"'has finished!"
+					});
 				}
 			});
 		});
 
-		$scope.gpioSet = function(pinNum, state) {
-			appApi.putGpioPinValue(pinNum,state,function(success) {
-				if (success) {
-					util.getGpioPinByNumber($scope.gpioPinList,pinNum,function(pin) {
-						pin.state = state;
-					});
-				}
+		$scope.gpioSet = function(id, state) {
+			util.getGpioPinById($scope.gpioPinList, id, function(pin) {
+				pin.state = state;
+			  appApi.putGpioPinValue(pin, function(success) {
+					if (!success) {
+						util.addAlert($scope.alertts, {
+							type: 'danger',
+							msg: "Unable to change state of pin "+pin.name
+						});
+					}
+				});
 			});
 		};
 
 		$scope.executeSerialCommandButton = function(command) {
 			appApi.executeSerialCommand(command,function(res) {
 				if (res) {
-					util.addAlert($scope.alerts,{ type: 'success', msg: 'Started  '+command+'!' });
+					util.addAlert($scope.alerts,{
+						type: 'success',
+						msg: 'Started  '+command.name+'!'
+					});
 				} else {
-					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error executing '+command+'. Please try again!' });
+					util.addAlert($scope.alerts,{
+						type: 'danger',
+						msg: 'Error executing '+command.name+'. Please try again!'
+					});
 				}
 			});
 		};
 
-		$scope.executeGpioScriptButton = function(scriptName) {
-			console.log("Executing GPIO Script",scriptName);
-			appApi.executeGpioScript(scriptName,function(resp) {
+		$scope.executeGpioScriptButton = function(script) {
+			console.log("Executing GPIO Script",script.name);
+			appApi.executeGpioScript(script,function(resp) {
 				if (resp) {
-					util.addAlert($scope.alerts,{ type: 'success', msg: "Script '"+scriptName+"' has been started!" });
-					util.getGpioScriptByName($scope.gpioScriptList, scriptName,function(script){
+					util.addAlert($scope.alerts,{
+						type: 'success',
+						msg: "Script '"+script.name+"' has been started!"
+					});
+					util.getGpioScriptById($scope.gpioScriptList, script.name,function(script){
 						script.inProgress = true;
 					});
 				} else {
-					util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error executing '+scriptName+'. Please try again!' });
+					util.addAlert($scope.alerts,{
+						type: 'danger',
+						msg: 'Error executing '+script.name+'. Please try again!'
+					});
 				}
 			});
 		};
@@ -91,7 +111,6 @@ App.controller('Landing',
 
     appApi.getSerialEnabled(function(en) {
 			$scope.serialEnabled = en;
-
 			if ($scope.serialEnabled) {
 		    appApi.getSerialCommandList(function(list) {
 				  $scope.serialCommandList = list;

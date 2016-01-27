@@ -19,7 +19,7 @@
 App.controller('GpioPinEditor', [
   'appApi','util','$scope', '$state', '$stateParams',
   function(appApi, util, $scope, $state, $stateParams) {
-    $scope.pinName = $stateParams.name;
+    $scope.id = $stateParams.id;
     $scope.alerts = [];
     $scope.pin = {};
     $scope.pageName = "GPIO Pin Editor";
@@ -32,19 +32,20 @@ App.controller('GpioPinEditor', [
       util.closeAlert($scope.alerts,index);
     };
 
-    console.log("Scope name:",$scope.pinName,"sp name:",$stateParams.name);
-
-    if ($scope.pinName == "new") {
-      $scope.pin = {
-        num: 0,
-        name: "Pin",
-        io: "out",
-        state: 0,
-        hidden: false,
-      };
-      console.log("Modifying pin:", $scope.pin);
+    if ($scope.id == "new") {
+      util.generateId(function(id){
+        $scope.pin = {
+          id: id,
+          num: 0,
+          name: "",
+          io: "out",
+          state: 0,
+          hidden: false,
+        };
+        console.log("Modifying pin:", $scope.pin);
+      });
     } else {
-      appApi.getGpioPinByName($scope.pinName, function(pin) {
+      appApi.getGpioPin($scope.pin, function(pin) {
         if (pin) {
           $scope.pin = pin;
           console.log("Modifying pin:", $scope.pin);
@@ -57,12 +58,18 @@ App.controller('GpioPinEditor', [
     $scope.deleteButton = function() {
       appApi.deleteGpioPin($scope.pin, function(success) {
         if (success) {
-          util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+$scope.pin.name+' has been deleted!' });
+          util.addAlert($scope.alerts,{
+            type: 'success',
+            msg: 'Pin '+$scope.pin.name+' has been deleted!'
+          });
           setTimeout(function() {
             $state.go("Settings");
-          }, 1500);
+          }, 3000);
         } else {
-          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error deleting '+$scope.pin.name });
+          util.addAlert($scope.alerts,{
+            type: 'danger',
+            msg: 'Error deleting '+$scope.pin.name
+          });
         }
       });
     };
@@ -70,12 +77,18 @@ App.controller('GpioPinEditor', [
     $scope.saveButton = function() {
       appApi.putGpioPin($scope.pin,function(success) {
         if (success) {
-          util.addAlert($scope.alerts,{ type: 'success', msg: 'Pin '+$scope.pin.name+' has been saved!' });
+          util.addAlert($scope.alerts,{
+            type: 'success',
+            msg: 'Pin '+$scope.pin.name+' has been saved!'
+          });
           setTimeout(function() {
             $state.go("Settings");
-          }, 1500);
+          }, 3000);
         } else {
-          util.addAlert($scope.alerts,{ type: 'danger', msg: 'Error saving '+$scope.pin.name });
+          util.addAlert($scope.alerts,{
+            type: 'danger',
+            msg: 'Error saving '+$scope.pin.name
+          });
         }
       });
     };

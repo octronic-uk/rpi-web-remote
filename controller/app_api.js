@@ -52,30 +52,30 @@ App.factory('appApi',['util','$http',function(util, $http)
 			});
 		},
 		deleteSerialCommand : function(cmd,callback) {
-			console.log("Removing command",cmd.name);
+			console.log("Removing command",cmd.id);
 			$http({
 				method: "DELETE",
-				url: "/api/serial/command/"+cmd.name,
+				url: "/api/serial/command/"+cmd.id,
 			}).then(function successCalback(resp) {
 				callback(true);
 			}, function errorCallback(resp) {
 				callback(false);
 			});
 		},
-		putGpioPinValue : function(pin, value, callback) {
+		putGpioPinValue : function(pin, callback) {
 			$http({
 				method: "PUT",
-				url: "/api/gpio/pins/"+pin+"/"+value
+				url: "/api/gpio/pins/"+pin.id+"/state/"+pin.value
 			}).then(function successCallback(resp) {
 				callback(true);
 			},function errorCallback(resp) {
 				callback(false);
 			});
 		},
-		getGpioPinByName : function(pin, callback) {
+		getGpioPinById : function(id, callback) {
       $http({
 				method: "GET",
-				url: "/api/gpio/pins/"+pin
+				url: "/api/gpio/pins/"+id
 			}).then(function successCallback(resp) {
 				callback(JSON.parse(resp.data));
 			},function errorCallback(resp) {
@@ -95,7 +95,7 @@ App.factory('appApi',['util','$http',function(util, $http)
 		deleteGpioPin : function(pin,callback) {
 			$http({
 				method: "DELETE",
-				url: "/api/gpio/pins/"+pin.name,
+				url: "/api/gpio/pins/"+pin.id,
 			}).then(function successCallback(res) {
 				callback(true);
 			},function errorCallback(res) {
@@ -327,7 +327,7 @@ App.factory('appApi',['util','$http',function(util, $http)
 		getGpioPinHistory : function(pin, callback) {
 			$http({
 				method:"GET",
-				url: "/api/gpio/pins/"+pin+"/history"
+				url: "/api/gpio/pins/"+pin.id+"/history"
 			}).then(function successCallback(resp)
 			{
 				callback(JSON.parse(resp.data));
@@ -341,7 +341,7 @@ App.factory('appApi',['util','$http',function(util, $http)
 		{
 			$http({
 				method: "PUT",
-				url: "/api/gpio/script/"+script.name,
+				url: "/api/gpio/script/"+script.id,
 			  data: {
 					script: script
 				}
@@ -351,30 +351,30 @@ App.factory('appApi',['util','$http',function(util, $http)
 				callback(false);
 			});
 		},
-		deleteGpioScript : function(scriptName,callback) {
+		deleteGpioScript : function(script,callback) {
 			$http({
 				method: "DELETE",
-				url:"/api/gpio/script/"+scriptName
+				url:"/api/gpio/script/"+script.id
 			}).then(function successCalback(res) {
         callback(true);
 			},function errorCallback(res) {
 				callback(false);
 			});
 		},
-		getGpioScript : function(name, callback) {
+		getGpioScript : function(script, callback) {
 			$http({
 				method: "GET",
-				url: "/api/gpio/script/"+name,
+				url: "/api/gpio/script/"+script.id,
 			}).then(function successCallback(resp) {
 				callback(JSON.parse(resp.data));
 			}, function errorCallback(resp) {
 				callback(null);
 			});
 		},
-		executeGpioScript : function(name, callback) {
+		executeGpioScript : function(script, callback) {
 			$http({
 				method: "GET",
-				url: "/api/gpio/script/"+name+"/execute",
+				url: "/api/gpio/script/"+script.id+"/execute",
 			}).then(function successCallback(resp) {
 				callback(true);
 			}, function errorCallback(resp) {
@@ -383,11 +383,8 @@ App.factory('appApi',['util','$http',function(util, $http)
 		},
 		executeSerialCommand : function(cmd, callback) {
 			$http({
-				method:"PUT",
-				url:"/api/serial/command/execute",
-				data: {
-					cmd: cmd
-				}
+				method:"GET",
+				url:"/api/serial/command/"+cmd.id+"execute",
 			}).then(function successCallback(res) {
 				callback(true);
 			},function errorCallback(res) {

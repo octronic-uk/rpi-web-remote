@@ -23,7 +23,7 @@ var eventHistory = {};
 var io = null;
 var util = require('./util');
 var configPath = path.join(__dirname, "../"+constants.CONFIG);
-var config     = require(configPath);
+var config = require(configPath);
 // Constants
 var SIO_STATE_CHANGED = "StateChanged";
 var SIO_SCRIPT_FINISHED = "ScriptFinished";
@@ -31,15 +31,15 @@ var PIN = 'pin';
 var GPIO_SCRIPT_DELAY =  100;
 // Functions -------------------------------------------------------------------
 // Get a GPIO script by name
-var _getGpioScriptByName = function(name,callback) {
+var _getScriptById = function(id,callback) {
   var i = 0;
   var nScripts = config.gpio.scripts.length;
   var next = null;
   var target = null;
-  console.log("Checking",nScripts,"GPIO scripts for",name);
+  console.log("Checking",nScripts,"scripts for",id);
   for (i = 0; i < nScripts; i++) {
     next = config.gpio.scripts[i];
-    if (next.name == name) {
+    if (next.id == id) {
       target = next;
       break;
     }
@@ -47,42 +47,32 @@ var _getGpioScriptByName = function(name,callback) {
   callback(target);
 };
 // Get a GPIO script by name
-var _getGpioScriptIndexByName = function(name,callback)  {
-  _getGpioScriptByName(name,function(script)  {
+var _getScriptIndexById = function(id,callback)  {
+  _getScriptById(id,function(script)  {
     callback(config.gpio.scripts.indexOf(script));
   });
 };
 // Get a pin object index from it's name
-var _getGpioPinIndexByNumber = function(pin, callback) {
-  _getGpioPinByNumber(pin, function(pinObj) {
+var _getPinIndexById = function(id, callback) {
+  _getPinById(id, function(pinObj) {
     callback(config.gpio.pins.indexOf(pinObj));
   });
 };
-// Return a pin object based on it's number
-var _getGpioPinByNumber = function(pin,callback) {
+// Return a pin object based on id
+var _getPinById = function(id,callback) {
   var i = 0;
   var target = null;
-  for (i = 0; i < config.gpio.pins.length; i++) {
-    if (config.gpio.pins[i].num == pin) {
-      target = config.gpio.pins[i];
+  var next = null;
+  var nPins = config.gpio.pins.length;
+  for (i = 0; i < nPins; i++) {
+    next = config.gpio.pins[i];
+    if (next.id == id) {
+      target = next;
       break;
     }
   }
   callback(target);
 };
-// Return a pin object based on it's number
-var _getGpioPinByName = function(pin,callback) {
-  var i = 0;
-  var target = null;
-  for (i = 0; i < config.gpio.pins.length; i++) {
-    if (config.gpio.pins[i].name == pin) {
-      target = config.gpio.pins[i];
-      break;
-    }
-  }
-  callback(target);
-};
-
 // Initialise an individual GPIO pin
 var _initIndividualPin = function(pin) {
   if (pin.io == "out") {
@@ -108,9 +98,9 @@ var _pinNumString = function(pin) {
   return PIN+pin;
 };
 // Notify connected socket io clients of state change
-var _emitSocketIOGpioStateChange = function(pinNum,state) {
+var _emitSocketIOGpioStateChange = function(pin) {
   console.log("Emitting state change to SocketIO");
-  io.emit(SIO_STATE_CHANGED, {pin: pinNum, state: state});
+  io.emit(SIO_STATE_CHANGED, {pin: pin.id, state: pin.state});
 };
 // Notify connected socket io clients of script finish
 var _emitSocketIOGpioScriptFinished = function(name) {
@@ -118,13 +108,10 @@ var _emitSocketIOGpioScriptFinished = function(name) {
   io.emit(SIO_SCRIPT_FINISHED, {name: name});
 };
 // Add an event to the pin history
-var _addPinEvent = function(pinNum, state) {
-  if (eventHistory[_pinNumString(pinNum)] === undefined) {
-    eventHistory[_pinNumString(pinNum)] = [];
-  }
-  console.log("Adding pin event to history  (pin / state)",pinNum,"/",state);
-  eventHistory[_pinNumString(pinNum)].push({date: new Date(), state: state});
-  _emitSocketIOGpioStateChange(pinNum,state);
+var _addPinEvent = function(pin, state) {
+  pin.state = val;
+  pin.history.push({date: new Date(), state: state});
+  _emitSocketIOGpioStateChange(pin);
 };
 // Get result for GPIO script while
 var _getWhileResult = function(whileObjects, callback) {
@@ -135,20 +122,14 @@ var _getWhileResult = function(whileObjects, callback) {
   var numVal = null;
   var result = null;
   // Iterate through while state
-  for (i = 0; i < nWhiles; i++)
-  {
+  for (i = 0; i < nWhiles; i++) {
     next = whileObjects[i];
-    _getGpioPinByName(next.pin, function(pin)
-    {
-      gpio.read(pin.num, function(err, value)
-      {
-        if (err)
-        {
+    _getPinById(next.pin, function(pin) {
+      gpio.read(pin.num, function(err, value) {
+        if (err) {
           console.log("Error reading pin",pin.num);
           callback(true);
-        }
-        else
-        {
+        } else {
           numVal = (value ? 1 : 0);
           result = (numVal == pin.state);
           //console.log(i,": While",pin.state,"on",pin.num,". Got:",numVal);
@@ -188,22 +169,22 @@ var close = function(callback) {
 // Route Handlers --------------------------------------------------------------
 // Set the value of an output pin
 var putPinValue = function(request,response) {
-  var pin = request.params.pin;
+  var pinId = request.params.pinId;
   var val = request.params.value;
-  console.log("Setting output",pin,"to value",val);
-  gpio.write(pin, val, function(err) {
-    if (err) {
-      util.sendHttpError(response,"Unable to set output of pin (gpio.write error) "+pin+" "+err);
-    } else {
-      _addPinEvent(pin,val);
-      _getGpioPinByNumber(pin,function(pinObj) {
-        if (pinObj) {
-          pinObj.state = val;
-          util.sendHttpOK(response);
+  _getPinById(pinId, function(pin) {
+    if (pin) {
+      console.log("Setting output",pinId," (",pin.num,") to value",val);
+      gpio.write(pin.num, val, function(err) {
+        if (err) {
+          util.sendHttpError(response,"Unable to set output of pin (gpio.write error) "+pinId+" "+err);
         } else {
-          util.sendHttpError(response,"Unable to set output of pin (could not get pin by number)"+pin+" "+err);
+          _addPinEvent(pin);
+          util.sendHttpOK(response);
         }
       });
+    }
+    else {
+      util.sendHttpNotFound(response);
     }
   });
 };
@@ -219,27 +200,20 @@ var putPinList = function(request,response) {
 };
 // Remove a pin from the config
 var deletePin = function(request,response) {
-  var pin = request.params.pin;
-  convertUrlSpaces(pin,function(conv) {
-    _getGpioPinByName(conv, function(pinObj) {
-      if (pinObj !== null) {
-        var index = config.gpio.pins.indexOf(pinObj);
-        if (index > -1) {
-          config.gpio.pins.splice(index,1);
-          util.sendHttpOK(response);
-        } else {
-          util.sendHttpNotFound(response);
-        }
-      }  else{
-        util.sendHttpNotFound(response);
-      }
-    });
+  var id = request.params.id;
+  _getPinIndexById(id, function(index) {
+    if (index > -1) {
+      config.gpio.pins.splice(index,1);
+      util.sendHttpOK(response);
+    } else {
+      util.sendHttpNotFound(response);
+    }
   });
 };
 // Add a pin to the config list
 var putPinToList = function(request,response) {
   var pin = request.body;
-  _getGpioPinIndexByNumber(pin.num,function(index) {
+  _getPinIndexById(pin.id,function(index) {
     if (index > -1) {
       config.gpio.pins.splice(index,1);
     }
@@ -250,93 +224,85 @@ var putPinToList = function(request,response) {
 };
 // Get the state of a pin
 var getPinDefinition = function(request,response) {
-  var pin = request.params.pin;
-  convertUrlSpaces(pin,function(conv) {
-    _getGpioPinByName(conv, function(pinObj) {
-      if (pinObj !== null) {
-          util.sendHttpJson(response,pinObj);
-        } else {
-          util.sendHttpNotFound(response);
-        }
-     });
+  var id = request.params.id;
+  _getGpioPinById(id, function(pin) {
+    if (pin) {
+      util.sendHttpJson(response,pin);
+    } else {
+      util.sendHttpNotFound(response);
+    }
   });
 };
 // Get the state of a pin
 var getPinState = function(request,response) {
-  var pin = request.params.pin;
-  convertUrlSpaces(pin, function(conv) {
-    _getGpioPinByName(pin, function(pinObj) {
-      if (pinObj !== null) {
-        // Read state for input
-        if (pinObj.io == "in") {
-          gpio.read(pin, function(err, value) {
-            if (err) {
-              util.sendHttpError(response,"error reading pin "+pin);
-            } else {
-              util.sendHttpJson(response,{value: value});
-            }
-          });
-        } else { // Get state from memory for output
-          util.sendHttpJson(response,{value: pinObj.state});
-        }
-      } else {
-        util.sendHttpNotFound(response);
+  var id = request.params.id;
+  _getGpioPinById(id, function(pin) {
+    if (pin) {
+      // Read state for input
+      if (pin.io == "in") {
+        gpio.read(pin.num, function(err, value) {
+          if (err) {
+            util.sendHttpError(response,"error reading pin "+pin.num);
+          } else {
+            util.sendHttpJson(response,{value: value});
+          }
+        });
+      } else { // Get state from memory for output
+        util.sendHttpJson(response,{value: pin.state});
       }
-    });
+    } else {
+      util.sendHttpNotFound(response);
+    }
   });
 };
 // Get the state history for a pin
 var getPinHistory = function(request,response) {
-  var pin = request.params.pin;
-  var data = eventHistory[_pinNumString(pin)];
-  if (data) {
-    util.sendHttpJson(response,data);
-  } else {
-    util.sendHttpNotFound(response);
-  }
+  var id = request.params.id;
+  _getPinById(id,function(pin){
+    if(pin)
+    {
+      util.sendHttpJson(response,pin.history);
+    } else {
+      util.sendHttpNotFound(response);
+    }
+  });
 };
 // Delete GPIO Script
 var deleteScript = function(request,response) {
-  var nme = request.params.name;
-  convertUrlSpaces(nme,function(name) {
-    _getGpioScriptIndexByName(name,function(index) {
-      if (index < 0) {
-        util.sendHttpNotFound(response);
-      } else {
-        config.gpio.scripts.splice(index,1);
-        util.sendHttpOK(response);
-      }
-    });
+  var id = request.params.id;
+    _getScriptIndexById(id,function(index) {
+    if (index > -1) {
+      config.gpio.scripts.splice(index,1);
+      util.sendHttpOK(response);
+    } else {
+      util.sendHttpNotFound(response);
+    }
   });
 };
 // Update GPIO Script
 var putScript = function(request,response) {
   var script = request.body.script;
-  var pName = request.params.name;
-  convertUrlSpaces(pName, function(name) {
-    console.log("Updating GPIO Script",script);
-    _getGpioScriptIndexByName(name,function(index) {
-      if (index > -1) {
-        config.gpio.scripts.splice(index,1);
-      }
-      config.gpio.scripts.push(script);
-      util.sendHttpOK(response);
-    });
+  var id = request.params.id;
+  console.log("Updating GPIO Script",script);
+  _getScriptIndexById(id,function(index) {
+    if (index > -1) {
+      config.gpio.scripts.splice(index,1);
+    }
+    config.gpio.scripts.push(script);
+    util.sendHttpOK(response);
   });
 };
 // Get a GPIO script
 var getScript = function(request,response) {
-  var name = request.params.name;
-  convertUrlSpaces(name,function(conv) {
-    _getGpioScriptByName(conv,function (script) {
-      if (script) {
-        console.log("Sending script for",name,script);
-        util.sendHttpJson(response,script);
-      } else {
-        console.log("Script not found",name);
-        util.sendHttpError(response);
-      }
-    });
+  var id = request.params.id;
+  _getGpioScriptById(id,function (script) {
+    if (script) {
+      console.log("Sending script for",name,script);
+      util.sendHttpJson(response,script);
+    } else {
+      console.log("Script not found",name);
+      util.sendHttpError(response);
+    }
   });
 };
 // Get GPIO script list
@@ -345,14 +311,10 @@ var getScriptsList = function(request,response) {
 };
 // Execute a GPIO script
 var executeScript = function(request,response) {
-  var name = request.params.name;
-  console.log("GPIO Script",name);
-  _getGpioScriptByName(name,function(script) {
-    if (script === null) {
-      console.log("Script",name,"was not found");
-      util.sendHttpNotFound(response);
-      return;
-    } else {
+  var id = request.params.id;
+  _getGpioScriptById(id,function(script) {
+    if (script) {
+      console.log("GPIO Script",script.name);
       util.sendHttpOK(response);
       var doStates     = script.do;
       var whileStates  = script.while;
@@ -407,6 +369,10 @@ var executeScript = function(request,response) {
           } // if result
         }); // getWhileResult
       }, GPIO_SCRIPT_DELAY);
+    } else {
+      console.log("Script",id,"was not found");
+      util.sendHttpNotFound(response);
+      return;
     }
   });
 };
