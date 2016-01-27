@@ -46,7 +46,7 @@ App.controller('System', ['appApi','util','$scope',
       util.addAlert($scope.alerts,{ type: 'info', msg: 'The application is updating. Please wait...' });
       appApi.getApplicationUpdate(function(resp) {
         if (resp) {
-          $scope.stats.updateResult = (resp.indexOf(" | ") > 0 ? resp.split(" | ").join("\n | ") : resp);
+          $scope.stats.updateResult = (resp.indexOf("\n") > 0 ? resp.split("\n").join("<br>") : resp);
           util.addAlert($scope.alerts,{ type: 'success', msg: 'Update successful! Please restart the application.' });
         } else {
           util.addAlert($scope.alerts,{ type: 'danger', msg: 'There was an error updating the application. Please try again' });
