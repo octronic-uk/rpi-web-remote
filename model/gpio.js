@@ -169,7 +169,7 @@ var close = function(callback) {
 };
 // Route Handlers --------------------------------------------------------------
 // Set the value of an output pin
-var putPinValue = function(request,response) {
+var putPinState = function(request,response) {
   var pinId = request.params.pinId;
   var val = request.params.value;
   _getPinById(pinId, function(pin) {
@@ -381,7 +381,7 @@ var executeScript = function(request,response) {
 module.exports = {
   init : init,
   close : close,
-  putPinValue: putPinValue,
+  putPinState: putPinState,
   getPinList:  getPinList,
   putPinList:  putPinList,
   deletePin:   deletePin,

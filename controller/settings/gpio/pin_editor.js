@@ -36,13 +36,14 @@ App.controller('GpioPinEditor', [
       }
       return input;
     };
-    
+
     $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };
 
     if ($scope.id == "new") {
       util.generateId(function(id){
+        console.log("New pin with id",id);
         $scope.pin = {
           id: id,
           num: 0,
