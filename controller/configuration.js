@@ -23,7 +23,7 @@ App.config(function($provide, $stateProvider, $urlRouterProvider)
   $stateProvider.state('Landing',
   {
   	url: "/",
-  	templateUrl: "landing.html",
+  	templateUrl: "landing/landing.html",
     controller: "Landing"
   });
 
