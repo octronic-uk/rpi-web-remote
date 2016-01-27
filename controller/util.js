@@ -18,10 +18,14 @@
 */
 App.factory('util',function(){
   return {
-    generateGuid : function(callback)
-    {
-      var guid = null;
-      callback(guid);
+    s4 : function() {
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    },
+    generateId : function()  {
+      return this.s4() + '-' +
+             this.s4() + '-' +
+             this.s4() + '-' +
+             this.s4();
     },
     // Get a pin by number
     getGpioPinByNumber : function(pins,i,callback) {
