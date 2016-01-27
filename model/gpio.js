@@ -408,6 +408,8 @@ var executeScript = function(request,response) {
 };
 // Exports ---------------------------------------------------------------------
 module.exports = {
+  init : init,
+  close : close,
   putPinValue: putPinValue,
   getPinList:  getPinList,
   putPinList:  putPinList,
