@@ -18,6 +18,12 @@
 */
 App.factory('util',function(){
   return {
+    generateGuid : function(callback)
+    {
+      var guid = null;
+      callback(guid);
+    },
+    // Get a pin by number
     getGpioPinByNumber : function(pins,i,callback) {
 			var target = null;
 			for (var j = 0; j < pins.length; j++) {
@@ -28,7 +34,6 @@ App.factory('util',function(){
 			}
 			callback(target);
 		},
-
     // Get the index of a command by name
 		getSerialCommandIndexByName : function(list, name,callback)
 		{
@@ -37,7 +42,6 @@ App.factory('util',function(){
 				callback(list, serialCommandList.indexOf(cmd));
 			});
 		},
-
 		// Get a serial command by name
 	  getSerialCommandByName : function(list, name, callback)
 		{
@@ -53,7 +57,7 @@ App.factory('util',function(){
 		  }
 			callback(target);
 		},
-
+    // Get pin by name
 		getGpioPinByName : function(pins,name,callback) {
 			var target = null;
 
@@ -65,7 +69,7 @@ App.factory('util',function(){
 			}
 			callback(target);
 		},
-
+    // get gpio script by name
     getGpioScriptByName : function(scriptList, name, callback)
 		{
 		  var i = 0;
@@ -83,11 +87,11 @@ App.factory('util',function(){
 		  }
 		  callback(target);
 		},
-
+    // Add an alert to the page
 		addAlert : function(alertList,alert) {
 			alertList.push(alert);
 		},
-
+    // Close an alert from the page
 		closeAlert : function(alertList,index) {
 			alertList.splice(index, 1);
 		},

@@ -19,13 +19,17 @@
 
 constants =
 {
+	ISSUE :
+  "\nAsh's RaspberryPI IO Remote!" +
+  "\nCopyright (C) 2016, Ash Thompson." +
+  "\nThis program comes with ABSOLUTELY NO WARRANTY." +
+  "\nThis is free software, and you are welcome to redistribute an or modify it"+
+	"under the terms of the GPLv3." +
+  "\nHappy Hacking :)" +
+  "\n\n",
 	CONFIG: "config.json",
 	APP_NAME: "GPIO Remote",
 	VERSION: "1.0.0",
-	HTTP_OK: 200,
-	HTTP_NOT_FOUND:  404,
-	HTTP_ERROR: 500,
-	HTTP_UNAUTHORISED: 401,
 	APP_EXIT_ERROR: 1,
 };
 

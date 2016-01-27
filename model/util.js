@@ -17,41 +17,51 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var Constants = require('./constants');
 
-// HTTP Helpers
+var HTTP_OK = 200;
+var	HTTP_NOT_FOUND =  404;
+var	HTTP_ERROR = 500;
+var	HTTP_UNAUTHORISED = 401;
 
-module.exports.sendHttpError = function (res, msg)
+var sendHttpError = function (res, msg)
 {
   if (msg) console.log(msg);
   res.status(Constants.HTTP_ERROR);
   res.send();
 };
 
-module.exports.sendHttpOK = function(res, msg)
+var sendHttpOK = function(res, msg)
 {
   if (msg) console.log(msg);
   res.status(Constants.HTTP_OK);
   res.send();
 };
 
-module.exports.sendHttpNotFound = function(res, msg)
+var sendHttpNotFound = function(res, msg)
 {
   if (msg) console.log(msg);
   res.status(Constants.HTTP_NOT_FOUND);
   res.send();
 };
 
-module.exports.sendHttpJson = function(res,json,msg)
+var sendHttpJson = function(res,json,msg)
 {
   if (msg) console.log(msg);
   res.status(Constants.HTTP_OK);
   res.json(JSON.stringify(json));
 };
 
-module.exports.sendHttpUnauthorised = function(res, msg)
+var sendHttpUnauthorised = function(res, msg)
 {
   if (msg) console.log(msg);
   res.status(Constants.HTTP_UNAUTHORISED);
   res.send();
+};
+
+module.exports = {
+  sendHttpOK : sendHttpOK,
+  sendHttpJson : sendHttpJson,
+  sendHttpUnauthorised: sendHttpUnauthorised,
+  sendHttpError: sendHttpError,
+  sendHttpNotFound: sendHttpNotFound,
 };
