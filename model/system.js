@@ -5,6 +5,7 @@ var exec = require('child_process').exec;
 var execFile = require('child_process').execFile;
 var configPath = path.join(__dirname, "../"+constants.CONFIG);
 var config     = require(configPath);
+var util = require('./util');
 // Constant
 var UPTIME_CMD   = 'uptime -p';
 var ADDR_CMD     = 'hostname -I';
