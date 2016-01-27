@@ -170,8 +170,8 @@ var close = function(callback) {
 // Route Handlers --------------------------------------------------------------
 // Set the value of an output pin
 var putPinState = function(request,response) {
-  var pinId = request.params.pinId;
-  var val = request.params.value;
+  var pinId = request.params.pin;
+  var val = request.params.state;
   _getPinById(pinId, function(pin) {
     if (pin) {
       console.log("Setting output",pinId," (",pin.num,") to value",val);
