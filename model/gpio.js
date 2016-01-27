@@ -419,6 +419,7 @@ module.exports = {
   putPinList:  putPinList,
   deletePin:   deletePin,
   putPinToList: putPinToList,
+  getPinDefinition: getPinDefinition,
   getPinState:  getPinState,
   getPinHistory: getPinHistory,
   deleteScript:  deleteScript,
