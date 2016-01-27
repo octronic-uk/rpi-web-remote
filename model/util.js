@@ -16,8 +16,6 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-
 var HTTP_OK = 200;
 var	HTTP_NOT_FOUND =  404;
 var	HTTP_ERROR = 500;
@@ -26,35 +24,35 @@ var	HTTP_UNAUTHORISED = 401;
 var sendHttpError = function (res, msg)
 {
   if (msg) console.log(msg);
-  res.status(Constants.HTTP_ERROR);
+  res.status(HTTP_ERROR);
   res.send();
 };
 
 var sendHttpOK = function(res, msg)
 {
   if (msg) console.log(msg);
-  res.status(Constants.HTTP_OK);
+  res.status(HTTP_OK);
   res.send();
 };
 
 var sendHttpNotFound = function(res, msg)
 {
   if (msg) console.log(msg);
-  res.status(Constants.HTTP_NOT_FOUND);
+  res.status(HTTP_NOT_FOUND);
   res.send();
 };
 
 var sendHttpJson = function(res,json,msg)
 {
   if (msg) console.log(msg);
-  res.status(Constants.HTTP_OK);
+  res.status(HTTP_OK);
   res.json(JSON.stringify(json));
 };
 
 var sendHttpUnauthorised = function(res, msg)
 {
   if (msg) console.log(msg);
-  res.status(Constants.HTTP_UNAUTHORISED);
+  res.status(HTTP_UNAUTHORISED);
   res.send();
 };
 

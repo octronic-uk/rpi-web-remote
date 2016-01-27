@@ -1,5 +1,8 @@
 // Requires
-var util = require('./util');
+var util       = require('./util');
+var configPath = path.join(__dirname, "../"+constants.CONFIG);
+var config     = require(configPath);
+var fs         = require('fs');
 // Constants
 // Variables
 // Functions ------------------------------------------------------------------

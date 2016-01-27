@@ -30,9 +30,9 @@ var config     = require(configPath);
 var ioModule = require('socket.io');
 // App Modules
 var settings = require('./settings');
-var serial = require('./serial');
-var system = require('./system');
-var gpio = require('./gpio');
+var serial   = require('./serial');
+var system   = require('./system');
+var gpio     = require('./gpio');
 // Variables
 var app = express();
 var jsonParser = bodyParser.json();
