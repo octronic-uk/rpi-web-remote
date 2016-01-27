@@ -17,6 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 // Requires
+var path = require('path');
 var gpio = require("rpi-gpio");
 var eventHistory = {};
 var io = null;
