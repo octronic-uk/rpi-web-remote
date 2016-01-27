@@ -63,14 +63,14 @@ App.controller('Landing',
 					pin.state = state;
 				  appApi.putGpioPinValue(pin, function(success) {
 						if (!success) {
-							util.addAlert($scope.alertts, {
+							util.addAlert($scope.alerts, {
 								type: 'danger',
 								msg: "Unable to change state of pin "+pin.name
 							});
 						}
 					});
 				} else {
-					util.addAlert($scope.alertts, {
+					util.addAlert($scope.alerts, {
 						type: 'danger',
 						msg: "Unable to change state of pin "+pin.name
 					});
