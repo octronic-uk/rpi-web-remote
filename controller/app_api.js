@@ -118,9 +118,9 @@ App.factory('appApi',['util','$http',function(util, $http)
 				method: "GET",
 				url: "/api/application/restart"
 			}).then(function successCallback(resp) {
-				callback();
+				callback(true);
 			},function errorCallback(resp) {
-				callback();
+				callback(false);
 			});
 		},
 		getApplicationUpdate : function(callback) {
