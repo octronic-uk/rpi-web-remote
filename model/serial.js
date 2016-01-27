@@ -251,6 +251,8 @@ module.exports = {
   getEnabled  : getEnabled,
   putEnabled  : putEnabled,
   getPathList : getPathList,
+  getPath: getPath,
+  putPath: putPath,
   getCommandsList : getCommandsList,
   getCommand  : getCommand,
   putCommand  : putCommand,
