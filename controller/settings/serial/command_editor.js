@@ -41,6 +41,7 @@ function(appApi,util, $scope, $state, $stateParams) {
     } else {
       util.generateId(function(id){
         $scope.cmd = {
+          id: id,
           name:"New Command",
           cmd: "Command"
         };

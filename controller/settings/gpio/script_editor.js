@@ -41,6 +41,7 @@ App.controller('GpioScriptEditor', ['appApi','util','$scope', '$stateParams', '$
     } else {
       util.generateId(function(id) {
         $scope.script = {
+          id : id,
           name:"New Script",
           do: [],
           while: [],
