@@ -27,7 +27,10 @@
       </div>
       <div class="form-group">
         <label>Number</label>
-        <input class="form-control" type="text" placeholder="Pin Number" ng-model="pin.num">
+        <select id="pin-number" class="form-control" ng-model="pin.num">
+          <option value="">Selct Pin</option>
+          <option ng-repeat="val in range(1,40)" value="{{val}}">{{val}}</option>
+        </select>
       </div>
       <div class="form-group">
         <label>Direction</label>

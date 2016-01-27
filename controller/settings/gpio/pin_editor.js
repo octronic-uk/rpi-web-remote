@@ -28,6 +28,15 @@ App.controller('GpioPinEditor', [
 		  $scope.deviceName = name;
 	  });
 
+    $scope.range = function(min, max, step) {
+      step = step || 1;
+      var input = [];
+      for (var i = min; i <= max; i += step) {
+          input.push(i);
+      }
+      return input;
+    };
+    
     $scope.closeAlert = function(index) {
       util.closeAlert($scope.alerts,index);
     };
