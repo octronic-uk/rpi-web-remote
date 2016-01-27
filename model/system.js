@@ -12,7 +12,6 @@ var HOSTNAME_CMD = 'hostname';
 var REBOOT_CMD   = "reboot";
 var RESTART_CMD  =  path.join(__dirname, "../restart");
 var UPDATE_CMD   =  path.join(__dirname, "../update_internal");
-// Functions -------------------------------------------------------------------
 // Route Handlers --------------------------------------------------------------
 // Update the application from github
 var update = function(request,response) {
@@ -77,5 +76,4 @@ module.exports = {
   reboot : reboot,
   getHostname: getHostname,
   getAddress: getAddress,
-  save : save,
 };

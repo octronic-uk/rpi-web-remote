@@ -33,6 +33,34 @@ var BAUDRATE_LIST = [
 // Variables
 var serialPort   = null;
 // Functions -------------------------------------------------------------------
+
+// Restart the SerialPort Module
+var _restart = function() {
+  close(init);
+};
+// Get a serial command's index by name
+var _getSerialCommandIndexByName = function(name,callback) {
+  _getSerialCommandByName(name, function(cmd)  {
+    callback(config.serial.commands.indexOf(cmd));
+  });
+};
+// Get a serial command by name
+var _getSerialCommandByName = function(name, callback) {
+  var i = 0;
+  var nCommands = config.serial.commands.length;
+  var next = null;
+  var target = null;
+  console.log("Checking",nCommands,"commands for",name);
+  for (i = 0; i < nCommands; i++) {
+    next = config.serial.commands[i];
+    if (next.name == name) {
+      target = next;
+      break;
+    }
+  }
+  callback(target);
+};
+// Route Handlers --------------------------------------------------------------
 // Initislias Serial Module
 var init = function(callback) {
   if (config.serial.enable) {
@@ -62,9 +90,10 @@ var init = function(callback) {
     callback();
   }
 };
-// Restart the SerialPort Module
-var _restart = function() {
-  close(init);
+// Restart serial
+var restart = function (request, response) {
+  _restart();
+  util.sendHttpOK(response);
 };
 // Close the Serial Module
 var close = function(callback) {
@@ -83,29 +112,6 @@ var close = function(callback) {
     callback();
   }
 };
-// Get a serial command's index by name
-var getSerialCommandIndexByName = function(name,callback) {
-  getSerialCommandByName(name, function(cmd)  {
-    callback(config.serial.commands.indexOf(cmd));
-  });
-};
-// Get a serial command by name
-var getSerialCommandByName = function(name, callback) {
-  var i = 0;
-  var nCommands = config.serial.commands.length;
-  var next = null;
-  var target = null;
-  console.log("Checking",nCommands,"commands for",name);
-  for (i = 0; i < nCommands; i++) {
-    next = config.serial.commands[i];
-    if (next.name == name) {
-      target = next;
-      break;
-    }
-  }
-  callback(target);
-};
-// Route Handlers --------------------------------------------------------------
 // Is serial module enabled
 var getEnabled = function(request,response) {
   util.sendHttpJson(response,{enabled: config.serial.enable});
@@ -158,7 +164,7 @@ var getCommandsList = function(request,response) {
 // Get individual serial command
 var getCommand = function(request,response) {
   var name = request.params.name;
-  getSerialCommandByName(name,function(cmd) {
+  _getSerialCommandByName(name,function(cmd) {
     if (cmd) {
       util.sendHttpJson(response,cmd);
     } else {
@@ -170,7 +176,7 @@ var getCommand = function(request,response) {
 var putCommand = function(request,response) {
   var cmd = request.body;
   console.log("Adding command",cmd);
-  getSerialCommandIndexByName(cmd.name, function(index) {
+  _getSerialCommandIndexByName(cmd.name, function(index) {
     if (index > -1) {
       config.serial.commands.splice(index,1);
     }
@@ -183,7 +189,7 @@ var deleteCommand = function(request,response) {
   var name = request.params.name;
   console.log("Reomving command", name, "aka");
   convertUrlSpaces(name,function(conv) {
-    getSerialCommandIndexByName(name,function(index) {
+    _getSerialCommandIndexByName(name,function(index) {
       if (index > -1) {
         config.serial.commands.splice(index, 1);
         util.sendHttpOK(response);
@@ -198,7 +204,7 @@ var executeCommand = function(request,response) {
   var cmd = request.body.cmd;
   console.log("Executing command",cmd);
   if (serialPort !== null && serialPort.isOpen()) {
-    getSerialCommandByName(cmd,function(commandObject) {
+    _getSerialCommandByName(cmd,function(commandObject) {
       if (commandObject) {
         serialPort.write(commandObject.cmd, function(err) {
           if (err) {
@@ -236,11 +242,7 @@ var putBaudrate = function(request,response) {
 var getBaudrateList = function(request,response) {
   util.sendHttpJson(response,BAUDRATE_LIST);
 };
-// Restart serial
-var restart = function (request, response) {
-  _restart();
-  util.sendHttpOK(response);
-};
+
 // Module Exports --------------------------------------------------------------
 module.exports = {
   init    : init,
@@ -253,4 +255,8 @@ module.exports = {
   getCommand  : getCommand,
   putCommand  : putCommand,
   deleteCommand : deleteCommand,
+  executeCommand : executeCommand,
+  getBaudrate : getBaudrate,
+  putBaudrate : putBaudrate,
+  getBaudrateList : getBaudrateList,
 };

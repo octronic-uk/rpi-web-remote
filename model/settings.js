@@ -52,4 +52,5 @@ module.exports = {
   putDeviceName : putDeviceName,
   getPort : getPort,
   putPort : putPort,
+  save: save,
 };
