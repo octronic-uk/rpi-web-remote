@@ -59,15 +59,22 @@ App.controller('Landing',
 
 		$scope.gpioStateButton = function(id, state) {
 			util.getGpioPinById($scope.gpioPinList, id, function(pin) {
-				pin.state = state;
-			  appApi.putGpioPinValue(pin, function(success) {
-					if (!success) {
-						util.addAlert($scope.alertts, {
-							type: 'danger',
-							msg: "Unable to change state of pin "+pin.name
-						});
-					}
-				});
+				if (pin) {
+					pin.state = state;
+				  appApi.putGpioPinValue(pin, function(success) {
+						if (!success) {
+							util.addAlert($scope.alertts, {
+								type: 'danger',
+								msg: "Unable to change state of pin "+pin.name
+							});
+						}
+					});
+				} else {
+					util.addAlert($scope.alertts, {
+						type: 'danger',
+						msg: "Unable to change state of pin "+pin.name
+					});
+				}
 			});
 		};
 

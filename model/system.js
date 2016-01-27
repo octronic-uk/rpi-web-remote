@@ -3,8 +3,6 @@ var path = require('path');
 var fs = require('fs');
 var exec = require('child_process').exec;
 var execFile = require('child_process').execFile;
-var configPath = path.join(__dirname, "../"+constants.CONFIG);
-var config     = require(configPath);
 var util = require('./util');
 // Constant
 var UPTIME_CMD   = 'uptime -p';
@@ -13,6 +11,16 @@ var HOSTNAME_CMD = 'hostname';
 var REBOOT_CMD   = "reboot";
 var RESTART_CMD  =  path.join(__dirname, "../restart");
 var UPDATE_CMD   =  path.join(__dirname, "../update_internal");
+// Variables
+var config = null;
+// Functions -------------------------------------------------------------------
+var init = function(conf,callback)
+{
+  config = conf;
+  if (callback) {
+    callback();
+  }
+};
 // Route Handlers --------------------------------------------------------------
 // Update the application from github
 var update = function(request,response) {
@@ -71,6 +79,7 @@ var getAddress =  function(request,response) {
 };
 // Module Exports --------------------------------------------------------------
 module.exports = {
+  init : init,
   update : update,
   restart : restart,
   uptime : uptime,

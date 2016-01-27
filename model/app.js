@@ -187,8 +187,14 @@ console.log(constants.ISSUE);
 initExpress(
   initSocketIO(
     initHttpServer(
-      serial.init(
-        gpio.init(io,initRoutes)
+      settings.init(config,
+        serial.init(config,
+          system.init(config,
+            gpio.init(io,config,
+              initRoutes
+            )
+          )
+        )
       )
     )
   )

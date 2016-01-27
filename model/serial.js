@@ -20,8 +20,6 @@
 var path = require('path');
 var SerialPortModule = require("serialport");
 var SerialPort = SerialPortModule.SerialPort;
-var configPath = path.join(__dirname, "../"+constants.CONFIG);
-var config = require(configPath);
 var util = require('./util');
 // Constants
 var BAUDRATE_LIST = [
@@ -32,11 +30,10 @@ var BAUDRATE_LIST = [
 ];
 // Variables
 var serialPort   = null;
-// Functions -------------------------------------------------------------------
-
+var config = null;
 // Restart the SerialPort Module
 var _restart = function() {
-  close(init);
+  close(init(config));
 };
 // Get a serial command's index by name
 var _getSerialCommandIndexByName = function(name,callback) {
@@ -62,7 +59,8 @@ var _getSerialCommandByName = function(name, callback) {
 };
 // Route Handlers --------------------------------------------------------------
 // Initislias Serial Module
-var init = function(callback) {
+var init = function(conf, callback) {
+  config = conf;
   if (config.serial.enable) {
     console.log("Enabling serial port:", config.serial.path,  "at", config.serial.baudrate);
     if (serialPort === null && config.serial.path !== undefined && config.serial.baudrate !== undefined) {

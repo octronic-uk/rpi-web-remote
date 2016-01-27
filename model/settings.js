@@ -2,11 +2,18 @@
 var path       = require('path');
 var util       = require('./util');
 var configPath = path.join(__dirname, "../"+constants.CONFIG);
-var config     = require(configPath);
+var config     = null;
 var fs         = require('fs');
 // Constants
 // Variables
 // Functions ------------------------------------------------------------------
+var init = function(conf,callback)
+{
+  config = conf;
+  if (callback) {
+    callback();
+  }
+};
 // Save the configuration object to disk
 var _saveConfigFile = function(callback) {
   fs.writeFile(configPath, JSON.stringify(config, null, 2) , 'utf-8', function(err) {
@@ -52,6 +59,7 @@ var save = function(request,response) {
 };
 // Exports --------------------------------------------------------------------
 module.exports = {
+  init : init,
   getDeviceName : getDeviceName,
   putDeviceName : putDeviceName,
   getPort : getPort,

@@ -22,13 +22,13 @@ var gpio = require("rpi-gpio");
 var eventHistory = {};
 var io = null;
 var util = require('./util');
-var configPath = path.join(__dirname, "../"+constants.CONFIG);
-var config = require(configPath);
 // Constants
 var SIO_STATE_CHANGED = "StateChanged";
 var SIO_SCRIPT_FINISHED = "ScriptFinished";
 var PIN = 'pin';
 var GPIO_SCRIPT_DELAY =  100;
+// Variables
+var config = null;
 // Functions -------------------------------------------------------------------
 // Get a GPIO script by name
 var _getScriptById = function(id,callback) {
@@ -140,7 +140,8 @@ var _getWhileResult = function(whileObjects, callback) {
   }
 };
 // Init GPIO Module
-var init = function(_io,callback) {
+var init = function(_io,conf,callback) {
+  config = conf;
   io = _io;
   var i = 0;
   var nPins = config.gpio.pins.length;
