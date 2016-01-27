@@ -26,9 +26,9 @@ var update = function(request,response) {
 };
 // Reload the application through PM2
 var restart =  function(request,response) {
-  var child = execFile(RESTART_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {
-    util.sendHttpOK(response);
-  });
+  util.sendHttpOK(response);
+  console.log("Restarting application");
+  var child = execFile(RESTART_CMD, [] ,{cwd: __dirname},function (error, stdout, stderr) {});
 };
 // Uptime
 var uptime = function(request,response) {
