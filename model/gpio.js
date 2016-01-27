@@ -20,6 +20,9 @@
 var gpio = require("rpi-gpio");
 var eventHistory = {};
 var io = null;
+var util = require('./util');
+var configPath = path.join(__dirname, "../"+constants.CONFIG);
+var config     = require(configPath);
 // Constants
 var SIO_STATE_CHANGED = "StateChanged";
 var SIO_SCRIPT_FINISHED = "ScriptFinished";
