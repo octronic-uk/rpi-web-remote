@@ -30,35 +30,35 @@ App.config(function($provide, $stateProvider, $urlRouterProvider)
   $stateProvider.state('Settings',
   {
     url: "/settings",
-    templateUrl: "settings.html",
+    templateUrl: "settings/settings.html",
     controller: "Settings"
   });
 
   $stateProvider.state('GpioScriptEditor',
   {
-    url: "/settings/gpio_script_editor/:name",
-    templateUrl: "gpio_script_editor.html",
+    url: "/settings/gpio/script_editor/:name",
+    templateUrl: "settings/gpio/script_editor.html",
     controller: "GpioScriptEditor"
   });
 
   $stateProvider.state('GpioPinEditor',
   {
-    url: "/settings/gpio_pin_editor/:name",
-    templateUrl: "gpio_pin_editor.html",
+    url: "/settings/gpio/pin_editor/:name",
+    templateUrl: "settings/gpio/pin_editor.html",
     controller: "GpioPinEditor"
   });
 
   $stateProvider.state('SerialCommandEditor',
   {
-    url: "/settings/serial_command_editor/:name",
-    templateUrl: "serial_command_editor.html",
+    url: "/settings/serial/command_editor/:name",
+    templateUrl: "settings/serial/command_editor.html",
     controller: "SerialCommandEditor"
   });
 
   $stateProvider.state('System',
   {
     url: "/system",
-    templateUrl: "system.html",
+    templateUrl: "system/system.html",
     controller: "System"
   });
 });
