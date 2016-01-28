@@ -73,7 +73,7 @@ App.controller('Landing',
 		};
 
 		$scope.executeSerialCommandButton = function(command) {
-			util.getSerialCommandById(command,function(obj){
+			util.getSerialCommandById($scope.serialCommandList, command, function(obj){
 				appApi.executeSerialCommand(obj,function(res) {
 					if (res) {
 						util.addAlert($scope.alerts,{
