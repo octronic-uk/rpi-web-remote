@@ -36,13 +36,13 @@ var _restart = function() {
   close(init);
 };
 // Get a serial command's index by name
-var _getSerialCommandIndexByName = function(name,callback) {
-  _getSerialCommandByName(name, function(cmd)  {
+var _getSerialCommandIndexById = function(id, callback) {
+  _getSerialCommandById(id, function(cmd)  {
     callback(config.serial.commands.indexOf(cmd));
   });
 };
 // Get a serial command by name
-var _getSerialCommandByName = function(name, callback) {
+var _getSerialCommandById = function(id, callback) {
   var i = 0;
   var nCommands = config.serial.commands.length;
   var next = null;
@@ -50,7 +50,7 @@ var _getSerialCommandByName = function(name, callback) {
   console.log("Checking",nCommands,"commands for",name);
   for (i = 0; i < nCommands; i++) {
     next = config.serial.commands[i];
-    if (next.name == name) {
+    if (next.id == id) {
       target = next;
       break;
     }
@@ -163,8 +163,8 @@ var getCommandsList = function(request,response) {
 };
 // Get individual serial command
 var getCommand = function(request,response) {
-  var name = request.params.name;
-  _getSerialCommandByName(name,function(cmd) {
+  var id = request.params.id;
+  _getSerialCommandById(id,function(cmd) {
     if (cmd) {
       util.sendHttpJson(response,cmd);
     } else {
@@ -176,7 +176,7 @@ var getCommand = function(request,response) {
 var putCommand = function(request,response) {
   var cmd = request.body;
   console.log("Adding command",cmd);
-  _getSerialCommandIndexByName(cmd.name, function(index) {
+  _getSerialCommandIndexById(cmd.id, function(index) {
     if (index > -1) {
       config.serial.commands.splice(index,1);
     }
@@ -186,25 +186,23 @@ var putCommand = function(request,response) {
 };
 // Delete serial commands
 var deleteCommand = function(request,response) {
-  var name = request.params.name;
-  console.log("Reomving command", name, "aka");
-  convertUrlSpaces(name,function(conv) {
-    _getSerialCommandIndexByName(name,function(index) {
-      if (index > -1) {
-        config.serial.commands.splice(index, 1);
-        util.sendHttpOK(response);
-      } else {
-        util.sendHttpNotFound(response);
-      }
-    });
+  var id = request.params.id;
+  console.log("Reomving command",id);
+  _getSerialCommandIndexById(id,function(index) {
+    if (index > -1) {
+      config.serial.commands.splice(index, 1);
+      util.sendHttpOK(response);
+    } else {
+      util.sendHttpNotFound(response);
+    }
   });
 };
 // Execute command
 var executeCommand = function(request,response) {
-  var cmd = request.body.cmd;
-  console.log("Executing command",cmd);
+  var id = request.params.id;
+  console.log("Executing command",id);
   if (serialPort !== null && serialPort.isOpen()) {
-    _getSerialCommandByName(cmd,function(commandObject) {
+    _getSerialCommandById(id,function(commandObject) {
       if (commandObject) {
         serialPort.write(commandObject.cmd, function(err) {
           if (err) {

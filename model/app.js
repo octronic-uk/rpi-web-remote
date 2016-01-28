@@ -162,13 +162,13 @@ var initRoutes = function(callback) {
   // Get the list of serial commands
   app.get('/api/serial/commands/list', jsonParser, serial.getCommandsList);
   // Get an individual serial command
-  app.get('/api/serial/command/:name', jsonParser, serial.getCommand);
+  app.get('/api/serial/command/:id', jsonParser, serial.getCommand);
   // Add a serial command to the configuration
   app.put('/api/serial/command', jsonParser, serial.putCommand);
   // Remove a serial command to the configuration
-  app.delete('/api/serial/command/:name', jsonParser, serial.deleteCommand);
+  app.delete('/api/serial/command/:id', jsonParser, serial.deleteCommand);
   // Execute the given serial command
-  app.put('/api/serial/command/execute', jsonParser, serial.executeCommand);
+  app.get('/api/serial/command/:id/execute', jsonParser, serial.executeCommand);
   // Get list of supported baud rates
   app.get('/api/serial/baudrate/list', jsonParser, serial.getBaudrateList);
   // Get the serial path
