@@ -203,6 +203,8 @@ var putPinState = function(request,response) {
         if (err) {
           util.sendHttpError(response,"Unable to set output of pin (gpio.write error) "+pinId+" "+err);
         } else {
+          pin.state = val;
+          _addPinEvent(pin);
           util.sendHttpOK(response);
         }
       });
