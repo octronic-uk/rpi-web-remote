@@ -103,31 +103,31 @@ var initHttpServer = function(callback) {
 var initRoutes = function(callback) {
   // GPIO ----------------------------------------------------------------------
   // Set the value of an output pin
-  app.put("/api/gpio/pins/:pin/state/:state",jsonParser,gpio.putPinState);
+  app.put("/api/gpio/pins/:id/state/:state",jsonParser,gpio.putPinState);
   // Get the list of pins configured
   app.get("/api/gpio/pins/list",jsonParser,gpio.getPinList);
   // Get the list of pins configured
   app.put("/api/gpio/pins/list",jsonParser,gpio.putPinList);
   // Remove a pin from the config
-  app.delete("/api/gpio/pins/:pin",jsonParser,gpio.deletePin);
+  app.delete("/api/gpio/pins/:id",jsonParser,gpio.deletePin);
   // Add a pin to the config list
   app.put("/api/gpio/pins",jsonParser,gpio.putPinToList);
   // Get the definition of a pin
-  app.get("/api/gpio/pins/:pin",jsonParser,gpio.getPinDefinition);
+  app.get("/api/gpio/pins/:id",jsonParser,gpio.getPinDefinition);
   // Get the state of a pin
-  app.get("/api/gpio/pins/:pin/state", jsonParser, gpio.getPinState);
+  app.get("/api/gpio/pins/:id/state", jsonParser, gpio.getPinState);
   // Get the state history for a pin
-  app.get('/api/gpio/pins/:pin/history', gpio.getPinHistory);
+  app.get('/api/gpio/pins/:id/history', gpio.getPinHistory);
   // Delete GPIO Script
-  app.delete('/api/gpio/script/:name',jsonParser,gpio.deleteScript);
+  app.delete('/api/gpio/script/:id',jsonParser,gpio.deleteScript);
   // Update GPIO Script
-  app.put('/api/gpio/script/:name',jsonParser,gpio.putScript);
+  app.put('/api/gpio/script/:id',jsonParser,gpio.putScript);
   // Get a GPIO script
-  app.get('/api/gpio/script/:name',jsonParser,gpio.getScript);
+  app.get('/api/gpio/script/:id',jsonParser,gpio.getScript);
   // Get GPIO script list
   app.get('/api/gpio/scripts/list',jsonParser,gpio.getScriptsList);
   // Execute a GPIO script
-  app.get('/api/gpio/script/:name/execute',jsonParser,gpio.executeScript);
+  app.get('/api/gpio/script/:id/execute',jsonParser,gpio.executeScript);
   // System --------------------------------------------------------------------
   // Update the application from github
   app.get('/api/application/update', jsonParser, system.update);

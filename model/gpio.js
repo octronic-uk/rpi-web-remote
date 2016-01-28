@@ -195,7 +195,7 @@ var close = function(callback) {
 // Route Handlers --------------------------------------------------------------
 // Set the value of an output pin
 var putPinState = function(request,response) {
-  var pinId = request.params.pin;
+  var pinId = request.params.id;
   var val = request.params.state;
   _getPinById(pinId, function(pin) {
     if (pin) {
@@ -252,6 +252,7 @@ var putPinToList = function(request,response) {
 // Get the state of a pin
 var getPinDefinition = function(request,response) {
   var id = request.params.id;
+  console.log("get pin definition for ",id);
   _getPinById(id, function(pin) {
     if (pin) {
       util.sendHttpJson(response,pin);
