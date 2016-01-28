@@ -110,6 +110,9 @@ var _emitSocketIOGpioScriptFinished = function(name) {
 };
 // Add an event to the pin history
 var _addPinEvent = function(pin) {
+  if (pin.history === undefined) {
+    pin.history = [];
+  }
   pin.history.push({date: new Date(), state: pin.state});
   _emitSocketIOGpioStateChange(pin);
 };
