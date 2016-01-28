@@ -59,9 +59,9 @@ App.controller('Landing',
 
 		$scope.gpioStateButton = function(id, state) {
 			util.getGpioPinById($scope.gpioPinList, id, function(pin) {
+				pin.state = state;
         appApi.putGpioPinState(pin, function(success) {
 				  if (success) {
-			      pin.state = state;
 				  } else {
 				  	util.addAlert($scope.alerts, {
 				  		type: 'danger',
