@@ -45,6 +45,7 @@ App.controller('GpioPinEditor', [
       util.generateId(function(id){
         console.log("New pin with id",id);
         $scope.pin = {
+          history: [],
           id: id,
           num: 0,
           name: "",
@@ -85,6 +86,10 @@ App.controller('GpioPinEditor', [
     };
 
     $scope.saveButton = function() {
+      $scope.pin.history.push({
+        date: new Date(),
+        state: $scope.pin.state
+      });
       appApi.putGpioPin($scope.pin,function(success) {
         if (success) {
           util.addAlert($scope.alerts,{
