@@ -47,7 +47,7 @@ var _getSerialCommandById = function(id, callback) {
   var nCommands = config.serial.commands.length;
   var next = null;
   var target = null;
-  console.log("Checking",nCommands,"commands for",name);
+  console.log("Checking",nCommands,"commands for",id);
   for (i = 0; i < nCommands; i++) {
     next = config.serial.commands[i];
     if (next.id == id) {
