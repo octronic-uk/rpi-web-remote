@@ -19,7 +19,6 @@
 // Requires
 var path = require('path');
 var gpio = require("rpi-gpio");
-var eventHistory = {};
 var io = null;
 var util = require('./util');
 // Constants
