@@ -75,9 +75,10 @@ var _getPinById = function(id,callback) {
 };
 // Initialise an individual GPIO pin
 var _initIndividualPin = function(pin) {
+  console.log("Init pin",pin.num,"state",pin.state);
   if (pin.io == "out") {
     gpio.setup(pin.num, gpio.DIR_OUT,function() {
-      gpio.write(pin, pin.state, function(err) {
+      gpio.write(pin.num, pin.state, function(err) {
         if (err) {
           console.log("Error writing to pin",pin.num);
         } else  {
@@ -108,9 +109,8 @@ var _emitSocketIOGpioScriptFinished = function(name) {
   io.emit(SIO_SCRIPT_FINISHED, {name: name});
 };
 // Add an event to the pin history
-var _addPinEvent = function(pin, state) {
-  pin.state = val;
-  pin.history.push({date: new Date(), state: state});
+var _addPinEvent = function(pin) {
+  pin.history.push({date: new Date(), state: pin.state});
   _emitSocketIOGpioStateChange(pin);
 };
 // Get result for GPIO script while
