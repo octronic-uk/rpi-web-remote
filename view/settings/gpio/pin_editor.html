@@ -28,14 +28,12 @@
       <div class="form-group">
         <label>Number</label>
         <select id="pin-number" class="form-control" ng-model="pin.num">
-          <option value="">Selct Pin</option>
           <option ng-repeat="val in range(1,40)" value="{{val}}">{{val}}</option>
         </select>
       </div>
       <div class="form-group">
         <label>Direction</label>
         <select id="state-command" class="form-control" ng-model="pin.io">
-          <option value="">Selct Direction</option>
           <option value="in">Input</option>
           <option value="out">Output</option>
         </select>
@@ -43,7 +41,6 @@
       <div class="form-group">
         <label>State</label>
         <select id="state-command" class="form-control" ng-model="pin.state">
-          <option value="">Selct State</option>
           <option value="0">Low</option>
           <option value="1">High</option>
         </select>
