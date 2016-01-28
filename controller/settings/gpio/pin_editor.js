@@ -47,10 +47,10 @@ App.controller('GpioPinEditor', [
         $scope.pin = {
           history: [],
           id: id,
-          num: Number(1),
+          num: "1",
           name: "",
           io: "out",
-          state: Number(0),
+          state: "0",
           hidden: false,
         };
         console.log("Modifying pin:", $scope.pin);
