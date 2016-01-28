@@ -23,9 +23,9 @@ App.factory('util',function(){
     },
     generateId : function(callback)  {
       callback(
-        this.s4() + '-' +
-        this.s4() + '-' +
-        this.s4() + '-' +
+        this.s4() +
+        this.s4() +
+        this.s4() +
         this.s4()
       );
     },
