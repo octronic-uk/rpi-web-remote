@@ -115,6 +115,7 @@ var _pinNumString = function(pin) {
 var _emitSocketIOGpioStateChange = function(pin) {
   console.log("Emitting state change to SocketIO");
   io.emit(SIO_STATE_CHANGED, {id: pin.id, state: pin.state});
+  util.stackTrace();
 };
 // Notify connected socket io clients of script finish
 var _emitSocketIOGpioScriptFinished = function(name) {

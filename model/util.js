@@ -56,7 +56,13 @@ var sendHttpUnauthorised = function(res, msg)
   res.send();
 };
 
+var stackTrace = function() {
+  var err = new Error();
+  return err.stack;
+};
+
 module.exports = {
+  stackTrace: stackTrace,
   sendHttpOK : sendHttpOK,
   sendHttpJson : sendHttpJson,
   sendHttpUnauthorised: sendHttpUnauthorised,
