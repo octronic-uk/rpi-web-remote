@@ -112,8 +112,10 @@ var _emitSocketIOGpioScriptFinished = function(name) {
 var _addPinEvent = function(pin) {
   if (pin.history === undefined) {
     pin.history = [];
+    pin.history.push({date: new Date(), state: pin.state});
+  } else {
+    pin.history.push({date: new Date(), state: pin.state});
   }
-  pin.history.push({date: new Date(), state: pin.state});
   _emitSocketIOGpioStateChange(pin);
 };
 // Get result for GPIO script while
