@@ -33,7 +33,7 @@ var serialPort   = null;
 var config = null;
 // Restart the SerialPort Module
 var _restart = function() {
-  close(init(config));
+  close(init);
 };
 // Get a serial command's index by name
 var _getSerialCommandIndexByName = function(name,callback) {
@@ -60,7 +60,9 @@ var _getSerialCommandByName = function(name, callback) {
 // Route Handlers --------------------------------------------------------------
 // Initislias Serial Module
 var init = function(conf, callback) {
-  config = conf;
+  if (conf) {
+    config = conf;
+  }
   if (config.serial.enable) {
     console.log("Enabling serial port:", config.serial.path,  "at", config.serial.baudrate);
     if (serialPort === null && config.serial.path !== undefined && config.serial.baudrate !== undefined) {
@@ -107,7 +109,7 @@ var close = function(callback) {
     });
   }
   else {
-    callback();
+    if (callback) callback();
   }
 };
 // Is serial module enabled
