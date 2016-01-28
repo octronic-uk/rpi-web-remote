@@ -73,18 +73,20 @@ App.controller('Landing',
 		};
 
 		$scope.executeSerialCommandButton = function(command) {
-			appApi.executeSerialCommand(command,function(res) {
-				if (res) {
-					util.addAlert($scope.alerts,{
-						type: 'success',
-						msg: 'Started  '+command.name+'!'
-					});
-				} else {
-					util.addAlert($scope.alerts,{
-						type: 'danger',
-						msg: 'Error executing '+command.name+'. Please try again!'
-					});
-				}
+			util.getSerialCommandById(command,function(obj){
+				appApi.executeSerialCommand(obj,function(res) {
+					if (res) {
+						util.addAlert($scope.alerts,{
+							type: 'success',
+							msg: 'Started  '+obj.name+'!'
+						});
+					} else {
+						util.addAlert($scope.alerts,{
+							type: 'danger',
+							msg: 'Error executing '+obj.name+'. Please try again!'
+						});
+					}
+				});
 			});
 		};
 

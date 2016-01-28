@@ -384,7 +384,7 @@ App.factory('appApi',['util','$http',function(util, $http)
 		executeSerialCommand : function(cmd, callback) {
 			$http({
 				method:"GET",
-				url:"/api/serial/command/"+cmd.id+"execute",
+				url:"/api/serial/command/"+cmd.id+"/execute",
 			}).then(function successCallback(res) {
 				callback(true);
 			},function errorCallback(res) {

@@ -42,8 +42,8 @@ function(appApi,util, $scope, $state, $stateParams) {
       util.generateId(function(id){
         $scope.cmd = {
           id: id,
-          name:"New Command",
-          cmd: "Command"
+          name:"",
+          cmd: ""
         };
         console.log("Modifying command:", $scope.cmd);
       });
