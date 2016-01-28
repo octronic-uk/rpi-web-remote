@@ -252,7 +252,7 @@ var putPinToList = function(request,response) {
 // Get the state of a pin
 var getPinDefinition = function(request,response) {
   var id = request.params.id;
-  _getGpioPinById(id, function(pin) {
+  _getPinById(id, function(pin) {
     if (pin) {
       util.sendHttpJson(response,pin);
     } else {
@@ -263,7 +263,7 @@ var getPinDefinition = function(request,response) {
 // Get the state of a pin
 var getPinState = function(request,response) {
   var id = request.params.id;
-  _getGpioPinById(id, function(pin) {
+  _getPinById(id, function(pin) {
     if (pin) {
       // Read state for input
       if (pin.io == "in") {
@@ -322,7 +322,7 @@ var putScript = function(request,response) {
 // Get a GPIO script
 var getScript = function(request,response) {
   var id = request.params.id;
-  _getGpioScriptById(id,function (script) {
+  _getScriptById(id,function (script) {
     if (script) {
       console.log("Sending script for",name,script);
       util.sendHttpJson(response,script);
@@ -339,7 +339,7 @@ var getScriptsList = function(request,response) {
 // Execute a GPIO script
 var executeScript = function(request,response) {
   var id = request.params.id;
-  _getGpioScriptById(id,function(script) {
+  _getScriptById(id,function(script) {
     if (script) {
       console.log("GPIO Script",script.name);
       util.sendHttpOK(response);
@@ -353,7 +353,7 @@ var executeScript = function(request,response) {
       // Do States
       for (iDo = 0; iDo < doStates.length; iDo++) {
         var dState = doStates[iDo];
-        _getGpioPinByName(dState.pin, function(pin) {
+        _getPinByName(dState.pin, function(pin) {
           gpio.write(pin.num, dState.state, function(err) {
             if (err) {
               console.log("Script:", script.name, "Error writing begin state", dState.pin, pin.num, dState.state);
@@ -380,7 +380,7 @@ var executeScript = function(request,response) {
             var nStates = thenStates.length;
             for (iThen = 0; iThen < nStates; iThen++) {
               tState = thenStates[iThen];
-              _getGpioPinByName(tState.pin, function(pin) {
+              _getPinByName(tState.pin, function(pin) {
                 gpio.write(pin.num, tState.state, function(err) {
                   if (err) {
                     console.log("Script:", script.name, "Error writing end state", tState.pin, pin.num, tState.state);
@@ -388,7 +388,7 @@ var executeScript = function(request,response) {
                     console.log("Script:", script.name, "Written end state", tState.pin, pin.num, tState.state);
                   }
                 }); // gpio.write
-              }); //getGpioPinByName
+              }); //getPinByName
             } // For
             _emitSocketIOGpioScriptFinished(name);
           } // if result
