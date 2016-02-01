@@ -22,9 +22,9 @@ npm set progress=false
 npm install --unsafe-perm
 
 echo "Starting Applicaiton"
-sudo pm2 start model/app.js
+pm2 start model/app.js
 
 echo "Saving pm2 state"
-sudo pm2 save
+pm2 save
 
 echo "Done"
